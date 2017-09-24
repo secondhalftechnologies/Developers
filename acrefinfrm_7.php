@@ -316,7 +316,13 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 
 	                                        <!-- Current Address -->
 	                                        <div class="span5" style="padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
-												<h3>Current Residence Address <small><a id="btnsame" class="btn btn-warning btn-sm">Same as Permanent</a></small></h3>
+												<h3>Current Residence Address 
+                                                <small>
+                                                <a id="btnsame" class="btn btn-warning btn-sm">
+                                                	Same as Permanent
+                                                </a>
+                                                </small>
+                                                </h3>
 	                                            
 	                                            <div class="control-group">
 													<label for="text" class="control-label" style="margin-top:10px">House No.</label>

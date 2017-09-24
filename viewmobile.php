@@ -1,5 +1,5 @@
 <?php
-include('connection.php');
+include('include/connection.php');
 $comp2=strtolower($_REQUEST['comp2']);
 if($comp2!="")
 {

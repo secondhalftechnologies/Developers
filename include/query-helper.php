@@ -86,6 +86,7 @@
 			return false;
 		}
 	}
+	
 	// For Compile
 	function quit($msg,$Success="")
 	{
@@ -100,6 +101,7 @@
 		echo json_encode(array("Success"=>$Success,"resp"=>$msg));
 		exit();
 	}
+	
 	// Select Query For getting the Record count
 	function isExist($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
 	{
@@ -145,6 +147,7 @@
 			return false;
 		}
 	}
+	
 	function checkExist($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
 	{
 		global $db_con;
@@ -189,6 +192,7 @@
 			return false;
 		}
 	}
+	
 	function getRecord($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
 	{
 		global $db_con;
@@ -233,6 +237,7 @@
 			return false;
 		}
 	}
+	
 	function lookup_value($table,$col_array,$where,$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
 	{
 		global $db_con;

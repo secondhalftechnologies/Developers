@@ -80,10 +80,10 @@
 				if(strcmp($password, $tbl_pssword) === 0)
 				{
 					session_start();
-					$_SESSION['acrefin_user'] = $reg_name;
-					$_SESSION['userType']     =  'changeagent';
-					$_SESSION['ca_id']			  =	$reg_caid;
-					$_SESSION['fm_caid']	  =	$reg_caid;
+					$_SESSION['acrefin_user'] 	= $reg_name;
+					$_SESSION['userType']     	=  'changeagent';
+					$_SESSION['ca_id']			=	$reg_caid;
+					$_SESSION['fm_caid']	  	=	$reg_caid;
 					
 					$response_array	= array("Success"=>"Success", "resp"=>"home.php");
 				}
@@ -440,6 +440,9 @@ EOF;
         <!-- Color CSS -->
         <link rel="stylesheet" href="css/themes.css">
     
+    	<link rel="stylesheet" href="css/plugins/datepicker/datepicker.css">
+        
+    
         <!-- jQuery -->
         <script src="js/jquery.min.js"></script>
         <!-- Nice Scroll -->
@@ -493,8 +496,16 @@ EOF;
         <script src="js/plugins/validation/jquery.validate.min.js"></script>
         <script src="js/plugins/validation/additional-methods.min.js"></script>
         <script src="js/plugins/wizard/jquery.form.wizard.min.js"></script>
+        <script src="js/plugins/datepicker/bootstrap-datepicker.js"></script>
         <script src="js/js_validator.js"></script>
-		<!-- Favicon -->
+		
+		<script type="text/javascript">
+        	$(document).ready(function(){
+				$('.datepicker').datepicker({format:'yyyy-mm-dd'});	
+			});
+        </script>
+                
+        <!-- Favicon -->
         <link rel="shortcut icon" href="img/favicon.ico" />
         <!-- Apple devices Homescreen icon -->
         <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />

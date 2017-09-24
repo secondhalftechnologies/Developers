@@ -34,8 +34,6 @@
 		
 	if($tot_adhnocheck == 0) 
 	{
-		
-		
 		//$code				= generateRandomString(10);	
 		$fname				= mysqli_real_escape_string($db_con,$_POST['f1_fname']);
 		$mname				= mysqli_real_escape_string($db_con,$_POST['f1_mname']);

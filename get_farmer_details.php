@@ -11,8 +11,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Farmer Details</title>
+    	<?php
+        	headerdata($feature_name);
+		?>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- <title>Farmer Details</title> -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <!-- Apple devices fullscreen -->
@@ -30,7 +33,6 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Color CSS -->
         <link rel="stylesheet" href="css/themes.css">
-        
         
         <!-- jQuery -->
         <script src="js/jquery.min.js"></script>
@@ -60,7 +62,8 @@
         <script src="js/application.min.js"></script>
         <!-- Just for demonstration -->
         <script src="js/demonstration.min.js"></script>
-    
+    	
+        
         <!-- Favicon -->
         <link rel="shortcut icon" href="img/favicon.ico" />
         <!-- Apple devices Homescreen icon -->
@@ -327,6 +330,68 @@
                                                            	Applicant's Knowledge
                                                           	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="div_appli_knowledge" name="div_appli_knowledge">
                                                             	
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Educational Qualification Details <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_edudetails" name="ddl_edudetails" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="illiterate" point="2">Illiterate</option>
+                                                                            <option value="primary_education" point="4">Primary Education</option>
+                                                                            <option value="matriculate" point="6">Matriculate</option>
+                                                                            <option value="graduate" point="8">Graduate</option>
+                                                                            <option value="post_graduate" point="10">Post Graduate</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Educational Qualification Details [DDL] -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Regional Language Knowledge <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_regional_lang" name="ddl_regional_lang" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="read_write" point="10">Read and Write</option>
+                                                                            <option value="read_only" point="5">Read Only</option>
+                                                                            <option value="understand_only" point="0">Understand Only</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Regional Language Knowledge [DDL] -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_participation" name="ddl_participation" data-rule-required="true" class="select2-me input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes" point="10"> Yes</option>
+                                                                            <option value="no" point="0"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Participation in any Farming Program / Trainings [DDL] -->
+                                                                
+                                                                <div id="program_detail" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
+                                                                
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Type of the training Programs<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_typeprog" name="ddl_typeprog" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="organic_farming_training"> Organic Farming Training</option>
+                                                                                <option value="equipment_training"> Equipment Training</option>
+                                                                                <option value="technology_training"> Technology Training</option>
+                                                                                <option value="pesticide_fertilizer_training"> Pesticide/Fertilizer Training</option>
+                                                                                <option value="other_farming_training"> Other Farming Training</option>
+                                                                                <option value="others"> Others</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Type of Training Programs [If Yes] -->
+                                                                    
+                                                                    <!-- What was the duration of the program [If Yes] -->
+                                                                    
+                                                                    <!-- Who conducted the Program [If Yes] -->
+                                                                    
+                                                                    <!-- For which crop was the program held [If Yes] -->
+                                                                
+                                                                </div>
+                                                                
                                                             </form>
                                                         </div>	<!-- Applicant's Knowledge -->
                                                         <div class="tab-pane" id="frm_phone_details">

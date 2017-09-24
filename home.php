@@ -2,6 +2,10 @@
 	include('access1.php'); 
 	include('include/connection.php');
 	
+	echo $_SESSION['acrefin_user'];
+	echo '<br>';
+	echo $_SESSION['ca_id'];
+	
 	$feature_name 	= 'Dashboard';
 	$home_name    	= "Home";
 	$title			= 'SqoreYard | Home';

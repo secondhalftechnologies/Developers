@@ -59,89 +59,84 @@
                                     </h3>
                                 </div>
                                 <div class="box-content nopadding">
-                                <div style="padding:20px"><a href="add_farmers.php?pag=farmers" class="btn btn-primary">Add Farmer</a></div>
-                                <form id="mainform" action="deletefarmers.php" method="post">
-                                    <div id="comp_1">
-                                    <table class="table table-bordered dataTable dataTable-scroll-x">
-                                        <thead>
-                                            <tr>
-                                                
-                                                <th>Sr no.</th>
-                                                <th>Forms</th>
-                                                <th>Farmer ID</th>
-                                                <th>Farmer Name</th>
-                                                <th>Aadhaar No</th>
-                                                <th>Mobile No</th>
-                                                <th>Loan Require ( Rs.)</th>
-                                                <th>Status</th>
-                                                <th class='hidden-350'>Created Date</th>
-                                                
-                                                <?php /*?><th class='hidden-1024'>Edit</th>
-                                                <th class='hidden-480'><a href="#"><input type="checkbox" id="selectall" /></a>
-                            <input type="submit" name="main" value="Delete" style="margin-left:10px; width:80px;height:30px;font-size:16px" /></th><?php */?>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php
-          while($row=mysqli_fetch_array($res))
-          {
-    
-          ?>
-                                            <tr>
-                        <td><?php echo $r; ?></td>
-                        <td style="text-align:center;"><a href="acrefinfrm_1.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">Click Here</a></td>
-                        <td><?php echo $row['fm_id']; ?></td>
-                        <td><?php echo ucwords($row['fm_name']); ?>
-                        <?php
-                        $sql_check_point  =" SELECT * FROM tbl_points WHERE pt_frm1 !='' AND pt_frm2 !='' AND pt_frm3 !='' AND pt_frm4 !='' AND pt_frm6 !='' ";
-                        $sql_check_point .=" AND pt_frm7 !='' AND pt_frm8 !='' AND pt_frm9 !='' AND pt_frm10 !='' AND pt_frm5 !='' AND pt_frm12 !='' AND pt_frm13 !=''  AND pt_frm11 !='' AND fm_id='".$row['fm_id']."'";
-                        $res_check_point  = mysqli_query($db_con,$sql_check_point) or die(mysqli_error($db_con));
-                        $num_check_point  = mysqli_num_rows($res_check_point);
-                        if($num_check_point==0)
-                        {
-                            echo '<small style="color:red">Incomplete</small>';
-                        }
-                        else
-                        {
-                            echo '<small style="color:green">Complete</small>';
-                        }
-                        ?>
-                        
-                        </td>
-                        <td><?php echo $row['fm_aadhar']; ?></td>
-                        <td><?php echo $row['fm_mobileno']; ?></td>
-                        <td><?php echo $row['fm_amount']; ?></td>
-                        <td><?php echo $row['fm_status']; ?></td>
-                        <td><?php echo $row['fm_createddt']; ?></td>
-                        
-                       
-    
-            <?php /*?><td><div align="center"><a href="edit_banners.php?id=<?php echo $row['ban_id'] ?>"><img src="images/edit.png" width="16" height="16" border="0" /></a></div></td>
-            <td><div align="center"><input type="checkbox" class="case" name="banners[]" value="<?php echo $row['ban_id']?>" /></div></td><?php */?>
-                                            </tr>
-                                            
-                                            
-                                             <?php
-            $r++;
-          }
-          ?>
-                                        </tbody>
-                                    </table>
+                                    <div style="padding:20px">
+                                        <a href="add_farmers.php?pag=farmers" class="btn btn-primary">
+                                            Add Farmer
+                                        </a>
                                     </div>
-                                     </form>
+                                    <form id="mainform" action="deletefarmers.php" method="post">
+                                        <div id="comp_1">
+                                            <table class="table table-bordered dataTable dataTable-scroll-x">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr no.</th>
+                                                        <th>Forms</th>
+                                                        <th>Farmer ID</th>
+                                                        <th>Farmer Name</th>
+                                                        <th>Aadhaar No</th>
+                                                        <th>Mobile No</th>
+                                                        <th>Loan Require ( Rs.)</th>
+                                                        <th>Status</th>
+                                                        <th class='hidden-350'>Created Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    while($row = mysqli_fetch_array($res))
+                                                    {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php echo $r; ?></td>	<!-- Sr. No. -->
+                                                            <td style="text-align:center;">
+                                                            	<a href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">Click Here</a>
+                                                            </td>	<!-- Forms -->
+                                                            <td><?php echo $row['fm_id']; ?></td>	<!-- Farmer ID -->
+                                                            <td><?php echo ucwords($row['fm_name']); ?>
+                                                            <?php
+                                                            $sql_check_point  	= " SELECT * FROM tbl_points ";
+															$sql_check_point  	.= " WHERE pt_frm1 !='' AND pt_frm2 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm3 !='' AND pt_frm4 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm6 !='' AND pt_frm7 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm8 !='' AND pt_frm9 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm10 !='' AND pt_frm5 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm12 !='' AND pt_frm13 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm11 !='' ";
+															$sql_check_point  	.= " 	AND fm_id='".$row['fm_id']."' ";
+                                                            $res_check_point  = mysqli_query($db_con,$sql_check_point) or die(mysqli_error($db_con));
+                                                            $num_check_point  = mysqli_num_rows($res_check_point);
+                                                            if($num_check_point==0)
+                                                            {
+                                                                echo '<small style="color:red">Incomplete</small>';
+                                                            }
+                                                            else
+                                                            {
+                                                                echo '<small style="color:green">Complete</small>';
+                                                            }
+                                                            ?>
+                                                            
+                                                            </td>	<!-- Farmer Name -->
+                                                            <td><?php echo $row['fm_aadhar']; ?></td>	<!-- Aadhaar Number -->
+                                                            <td><?php echo $row['fm_mobileno']; ?></td>	<!-- Mobile Number -->
+                                                            <td><?php echo $row['fm_amount']; ?></td>	<!-- Loan Required (Rs.) -->
+                                                            <td><?php echo $row['fm_status']; ?></td>	<!-- Status -->
+                                                            <td><?php echo $row['fm_createddt']; ?></td>	<!-- Created Date -->
+                                                        </tr>
+                                                        <?php
+                                                        $r++;
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-        <!-- Main content end -->
-                    
-                    
                 </div>
-            </div></div>
-    
-        <script>
+            </div>
+       	</div>
+    	<script>
         $(document).ready(function(e) {
             
             $("#selectall").click(function(){

@@ -41,7 +41,8 @@
 	
 	if(isset($_REQUEST['fm_id']) && $_REQUEST['fm_id']!=  "")
 	{
-	  $check_exist = check_exist('tbl_farmers',array('fm_id'=>$_REQUEST['fm_id']),array(),array(),array());
+		include('include/query-helper.php');	
+	  	$check_exist = checkExist('tbl_farmers',array('fm_id'=>$_REQUEST['fm_id']),array(),array(),array());
 			
 			if(!$check_exist)
 			{ ?>

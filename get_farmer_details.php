@@ -69,11 +69,12 @@
         <!-- Apple devices Homescreen icon -->
         <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
         <style type="text/css">
-        .tabs.tabs-inline.tabs-left {
-        background: #eee none repeat scroll 0 0;
-        position: absolute;
-        width: 150px;
-    }
+        .tabs.tabs-inline.tabs-left 
+        {
+            background: #eee none repeat scroll 0 0;
+            position: absolute;
+            width: 150px;
+        }
         </style>
     </head>
     
@@ -216,9 +217,14 @@
                                                                         Part of any SHG? <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <input type="radio" name="rad_part_of_shg" id="rad_part_of_shg" autocomplete="off" data-rule-required="true" value="yes"> Yes
+                                                                        <select id="ddl_part_of_shg" name="ddl_part_of_shg" class="select2-me input-xlarge">
+                                                                            <option value="">Select here</option>
+                                                                            <option value="yes">Yes</option>
+                                                                            <option value="no">No</option>
+                                                                        </select>
+                                                                        <!-- <input type="radio" name="rad_part_of_shg" id="rad_part_of_shg" autocomplete="off" data-rule-required="true" value="yes"> Yes
                                                                         &nbsp;&nbsp;
-                                                                        <input type="radio" name="rad_part_of_shg" id="rad_part_of_shg" autocomplete="off" data-rule-required="true" value="no"> No
+                                                                        <input type="radio" name="rad_part_of_shg" id="rad_part_of_shg" autocomplete="off" data-rule-required="true" value="no"> No -->
                                                                     </div>
                                                                 </div>	<!-- Part of any SHG [Radio] -->
                                                                 
@@ -261,9 +267,14 @@
                                                                         Mony Taken From Microfinance? <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <input type="radio" name="rad_mony_isTaken" id="rad_mony_isTaken" autocomplete="off" data-rule-required="true" value="yes"> Yes
+                                                                        <select id="ddl_mony_isTaken" name="ddl_mony_isTaken" class="select2-me input-xlarge">
+                                                                            <option value="">Select here</option>
+                                                                            <option value="yes">Yes</option>
+                                                                            <option value="no">No</option>
+                                                                        </select>
+                                                                        <!-- <input type="radio" name="rad_mony_isTaken" id="rad_mony_isTaken" autocomplete="off" data-rule-required="true" value="yes"> Yes
                                                                         &nbsp;&nbsp;
-                                                                        <input type="radio" name="rad_mony_isTaken" id="rad_mony_isTaken" autocomplete="off" data-rule-required="true" value="no"> No
+                                                                        <input type="radio" name="rad_mony_isTaken" id="rad_mony_isTaken" autocomplete="off" data-rule-required="true" value="no"> No -->
                                                                     </div>
                                                                 </div>	<!-- Microfinance help taken [Radio] -->
                                                                 
@@ -295,9 +306,15 @@
                                                                         Affliation to any association? <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <input type="radio" name="rad_affliation" id="rad_affliation" autocomplete="off" data-rule-required="true" value="yes"> Yes
+                                                                        <select id="ddl_affliation" name="ddl_affliation" class="select2-me input-xlarge">
+                                                                            <option value="">Select here</option>
+                                                                            <option value="yes">Yes</option>
+                                                                            <option value="no">No</option>
+                                                                        </select>
+
+                                                                        <!-- <input type="radio" name="rad_affliation" id="rad_affliation" autocomplete="off" data-rule-required="true" value="yes"> Yes
                                                                         &nbsp;&nbsp;
-                                                                        <input type="radio" name="rad_affliation" id="rad_affliation" autocomplete="off" data-rule-required="true" value="no"> No
+                                                                        <input type="radio" name="rad_affliation" id="rad_affliation" autocomplete="off" data-rule-required="true" value="no"> No -->
                                                                     </div>
                                                                 </div>	<!-- Affliation to any association [Radio] -->
                                                                 
@@ -359,7 +376,7 @@
                                                                 <div class="control-group">
                                                                     <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_participation" name="ddl_participation" data-rule-required="true" class="select2-me input-xlarge">
+                                                                        <select id="ddl_participation" name="ddl_participation" data-rule-required="true" class="select2-me input-xlarge" onchange="getDisplayProgramDetail(this.value);">
                                                                             <option value="" disabled selected> Select here</option>
                                                                             <option value="yes" point="10"> Yes</option>
                                                                             <option value="no" point="0"> No</option>
@@ -384,13 +401,34 @@
                                                                         </div>
                                                                     </div>	<!-- Type of Training Programs [If Yes] -->
                                                                     
-                                                                    <!-- What was the duration of the program [If Yes] -->
+                                                                    <div class="control-group">
+                                                                        <label for="numberfield" class="control-label">
+                                                                            What was the duration of the program?<span style="color:#F00">*</span>
+                                                                        </label>
                                                                     
-                                                                    <!-- Who conducted the Program [If Yes] -->
+                                                                        <div class="controls">
+                                                                            <input type="text" placeholder="What was the duration of the program?" name="txt_farm_prog_duration" id="txt_farm_prog_duration" data-rule-number="true" maxlength="2" autocomplete="off" data-rule-maxlength="2" class="input-xlarge v_number">
+                                                                        </div>
+                                                                    </div>  <!-- What was the duration of the program [If Yes] -->
                                                                     
-                                                                    <!-- For which crop was the program held [If Yes] -->
-                                                                
-                                                                </div>
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            Who conducted the Program? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_farm_prog_conducted_by" name="txt_farm_prog_conducted_by" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Who conducted the Program?">
+                                                                        </div>
+                                                                    </div>  <!-- Who conducted the Program [If Yes] -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            For which crop was the program held? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_farm_prog_crop" name="txt_farm_prog_crop" class="input-xlarge v_name" data-rule-required="true" placeholder="For which crop was the program held?">
+                                                                        </div>
+                                                                    </div>  <!-- For which crop was the program held [If Yes] -->
+                                                                </div> 
                                                                 
                                                             </form>
                                                         </div>	<!-- Applicant's Knowledge -->
@@ -566,5 +604,19 @@
                	</div>
            	</div>
         </div>
+        <script type="text/javascript">
+            function getDisplayProgramDetail(boolVal)
+            {
+                //alert(boolVal);
+                if(boolVal == 'yes')
+                {
+                    $('#program_detail').slideDown();
+                }
+                else
+                {
+                    $('#program_detail').slideUp();
+                }
+            }
+        </script>
     </body>
 </html>

@@ -2,11 +2,37 @@
 	include('access1.php');
 	include('include/connection.php');
 	
-	$feature_name 	= 'Farmer Details';
-	$home_name    	= "Home";
-	$title			= 'Farmer Details';
-	$home_url 	  	= "home.php";
-	$filename		= 'view_farmers.php';
+	$feature_name  = 'Farmer Details';
+	$home_name     = "Home";
+	$title		   = 'Farmer Details';
+	$home_url      = "home.php";
+	$filename      = 'view_farmers.php';
+	$fm_id         = (isset($_REQUEST['fm_id'])?$_REQUEST['fm_id']:"");
+	
+	if($fm_id == "" && (!isset($_SESSION['acrefin_user'])) && $_SESSION['acrefin_user']=="")
+    {
+        ?>
+        <script type="text/javascript">
+            history.go(-1);
+        </script>
+        <?php
+    }
+	
+    $no_of_land = 1;
+    $land_arr   = array();
+    $result     = lookup_value('tbl_land_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+    if($result)
+    {
+        $num    = mysqli_num_rows($result);
+        if($num != 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                array_push($land_arr ,$row);
+            }
+            $no_of_land = sizeof($land_arr);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -430,6 +456,11 @@
                                                                     </div>  <!-- For which crop was the program held [If Yes] -->
                                                                 </div> 	<!-- [If Yes wala div] -->
                                                                 
+                                                                <div class="form-actions" style="clear:both;">
+                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                </div> <!-- Submit -->
+                                                                
                                                             </form>
                                                         </div>	<!-- Applicant's Knowledge -->
                                                         <div class="tab-pane" id="frm_phone_details">
@@ -540,6 +571,11 @@
                                                                     </div>
                                                                 </div><!-- Subscription to Farming Advisory Apps? -->
                                                                 
+                                                                <div class="form-actions" style="clear:both;">
+                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                </div> <!-- Submit -->
+                                                                
                                                             </form>
                                                         </div>	<!-- Applicant's Phone Details -->
                                                         <div class="tab-pane" id="frm_family_details">
@@ -602,81 +638,94 @@
                                                                     </div>
                                                                 </div>	<!-- Any of your children use Smart Phone? -->
                                                                 
+                                                                <div class="form-actions" style="clear:both;">
+                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                </div> <!-- Submit -->
+                                                                
                                                             </form>
                                                         </div>	<!-- Family Details -->
                                                         <div class="tab-pane" id="frm_appliances_motors">
                                                             <div class="span10" style="padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
                                                                 <h3>What appliances are there in your house? Also mention their count.</h3>
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Television<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_television" id="txt_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Television -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_refrigerator" id="txt_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Refrigerator -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_wmachine" id="txt_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Washing Machine -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_mixer" id="txt_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Mixer -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_stove" id="txt_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Gas Stove -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_bicycle" id="txt_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Bicycle -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_ccylinder" id="txt_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Cooking Cylinder -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_fans" id="txt_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Lights & Fans -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                    	<input type="number" name="txt_motorcycle" id="txt_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Motorcycle -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                        <input type="number" name="txt_car" id="txt_car" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
-                                                                    </div>
-                                                                </div>	<!-- Car -->
+                                                            	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_appliances_details" name="frm_appliances_details">
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Television<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_television" id="txt_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Television -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_refrigerator" id="txt_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Refrigerator -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_wmachine" id="txt_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Washing Machine -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_mixer" id="txt_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Mixer -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_stove" id="txt_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Gas Stove -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_bicycle" id="txt_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Bicycle -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_ccylinder" id="txt_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Cooking Cylinder -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_fans" id="txt_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Lights & Fans -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_motorcycle" id="txt_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Motorcycle -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="txt_car" id="txt_car" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!-- Car -->
+                                                                    
+                                                                    <div class="form-actions" style="clear:both;">
+                                                                        <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                        <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                    </div> <!-- Submit -->
+                                                                    
+                                                                </form>
                                                             </div>
                                                         </div>	<!-- Appliances / Motors -->
                                                     </div>	<!-- Main Forms -->
@@ -696,15 +745,215 @@
                                                     <div class="tas-container">
                                                         <ul class="tabs tabs-inline tabs-left">
                                                             <li class='active'>
-                                                                <a href="#frm_farm_land_details" data-toggle='tab'>
+                                                                <a href="#div_farm_land_details" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Farm Land Details
                                                                	</a>
                                                             </li>	<!-- Farm Land Details -->
                                                         </ul>
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
-                                                        <div class="tab-pane active" id="frm_farm_land_details">
-                                                    		Farm Land Details
+                                                        <div class="tab-pane active" id="div_farm_land_details">
+                                                    		<form enctype="multipart/form-data" method="POST" class='form-horizontal form-wizard wizard-vertical' id="frm_farm_land_details" name="frm_farm_land_details">
+																
+                                                        		<!-- <div class="form-content"> -->
+                                                                    <div id="lands">
+                                                                    	<?php
+                                                                        for($i=0; $i<$no_of_land; $i++)
+																		{
+																	       $id =$i+1;
+
+                                                                           ?>
+                                                                           <div id="land<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                                <div id="loan_detail" style=" padding: 10px; margin: 5px;">
+                                                                                    
+                                                                                    <input type="hidden" name="id[]" id="id" value="<?php echo @$land_arr[$i]['id']; ?>">
+
+                                                                                    <h2>Farm Land <?php echo $id; ?> Details</h2>
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_size<?php echo $id; ?>" name="txt_land_size<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        </div>
+                                                                                    </div>  <!-- Size in Acres -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Ownership
+                                                                                        <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_owner<?php echo $id; ?>" name="ddl_owner<?php echo $id; ?>" onChange="ownership(<?php echo $id; ?>,this.value)" class="input-xlarge" data-rule-required="true">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option value="Owned">Owned</option>
+                                                                                                <option value="Ancestral">Ancestral</option>
+                                                                                                <option value="Leased">Leased</option>
+                                                                                                <option value="Contracted">Contracted</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Ownership -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_rent_per_month<?php echo $id; ?>" name="txt_land_rent_per_month<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        </div>
+                                                                                    </div>  <!-- [If On Rent, Mention tha amount per month on rent] -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Number of years under leasing<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_lease_year<?php echo $id; ?>" name="txt_land_lease_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        </div>
+                                                                                    </div>  <!-- [If on lease, Number of years under leasing] -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Number of years under contract<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_contract_year<?php echo $id; ?>" name="txt_land_contract_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        </div>
+                                                                                    </div>  <!-- [If On Contract, Number of years under contract] -->
+
+                                                                                    <!-- START : Land Address -->
+
+                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                        <label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_p_state<?php echo $id; ?>" name="ddl_p_state<?php echo $id; ?>" onChange="getDist('p', this.value, <?php echo $id; ?>);" class="select2-me input-large" >
+                                                                                                <option value="" disabled selected>Select State</option>
+                                                                                                <?php
+                                                                                                $res_get_state  = lookup_value('tbl_state',array(),array(),array(),array(),array());
+                                                                                                
+                                                                                                if($res_get_state)
+                                                                                                {
+                                                                                                    while ($row = mysqli_fetch_array($res_get_state) ) 
+                                                                                                    {
+                                                                                                        echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
+                                                                                                    }
+                                                                                                }
+                                                                                                ?>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- State -->
+
+                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                        <label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls" id="div_p_dist">
+                                                                                            <select id="ddl_p_dist<?php echo $id; ?>" name="ddl_p_dist<?php echo $id; ?>" class="select2-me input-large" >
+                                                                                                <option value="" disabled selected>Select District</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- District -->
+
+                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                        <label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls" id="div_p_tal">
+                                                                                            <select id="ddl_p_tal<?php echo $id; ?>" name="ddl_p_tal<?php echo $id; ?>" class="select2-me input-large" >
+                                                                                                <option value="" disabled selected>Select Taluka</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Taluka -->
+
+                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                        <label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls" id="div_p_village<?php echo $id; ?>">
+                                                                                            <select id="ddl_p_village<?php echo $id; ?>" name="ddl_p_village<?php echo $id; ?>" class="select2-me input-large" >
+                                                                                                <option value="" disabled selected>Select Village</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Village -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Survey Number<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input placeholder="Size in Acres" type="text" id="txt_survey_no<?php echo $id; ?>" name="txt_survey_no<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        </div>
+                                                                                    </div>  <!-- Survey Number -->
+
+                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                        <label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="txt_p_pincode<?php echo $id; ?>" name="txt_p_pincode<?php echo $id; ?>" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
+                                                                                        </div>
+                                                                                    </div>  <!-- Pincode -->
+
+                                                                                    <!-- END : Land Address -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Type of Soil
+                                                                                        <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_soil_type<?php echo $id; ?>" name="ddl_soil_type<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option value="Alluvial Soil">Alluvial Soil</option>
+                                                                                                <option value="Black Soil">Black Soil</option>
+                                                                                                <option value="Red Soil">Red Soil</option>
+                                                                                                <option value="Mountain Soil">Mountain Soil</option>
+                                                                                                <option value="Peat">Peat</option>
+                                                                                                <option value="Laterite Soil">Laterite Soil</option>
+                                                                                                <option value="Desert Soil">Desert Soil</option>
+                                                                                             </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Type of soil -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input placeholder="Size in Acres" type="text" id="txt_soil_depth<?php echo $id; ?>" name="txt_soil_depth<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        </div>
+                                                                                    </div>  <!-- Soil Depth -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?
+                                                                                        <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_soil_tested<?php echo $id; ?>" name="ddl_soil_tested<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option value="yes">Yes</option>
+                                                                                                <option value="no">no</option>
+                                                                                             </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Have you Tested the Soil -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Source Of Water
+                                                                                        <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_water_source<?php echo $id; ?>" name="ddl_water_source<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option value="well_water">Well Water</option>
+                                                                                                <option value="tube_water">Tube Water</option>
+                                                                                                <option value="tank_water">Tank Water</option>
+                                                                                                <option value="canals">Canals</option>
+                                                                                                <option value="perennial_water">Perennial Water</option>
+                                                                                                <option value="multipurpose_river_valley">Multipurpose River Valley</option>
+                                                                                                <option value="rain_fed">Rain Fed</option>
+                                                                                                <option value="drip_irrigation">Drip Irrigation</option>
+                                                                                                <option value="sprinkler">Sprinkler</option>
+                                                                                                <option value="furrow">Furrow</option>
+                                                                                                <option value="ditch">Ditch</option>
+                                                                                                <option value="surge">Surge</option>
+                                                                                                <option value="seepage">Seepage</option>
+                                                                                             </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Source of water -->
+                                                                                </div>
+                                                                           </div> 
+                                                                           <?php			
+																		}
+																		?>
+                                                                    </div>	<!-- Input Fields for getting the land details -->
+                                                                    
+                                                                    <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
+	                                                                    <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand();" id="addLoanType"/>
+    	                                                                <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box" data-backdrop="static" id="removeLoanType"/>
+                                                                    </div>	<!-- Submit -->
+                                                                    
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Reset" id="Reset">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>	<!-- Rest or add more -->
+                                                                <!-- </div> -->
+                                                                
+                                                            </form>
                                                         </div>	<!-- Farm Land Details -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>

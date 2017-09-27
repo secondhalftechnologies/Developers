@@ -428,18 +428,256 @@
                                                                             <input type="text" id="txt_farm_prog_crop" name="txt_farm_prog_crop" class="input-xlarge v_name" data-rule-required="true" placeholder="For which crop was the program held?">
                                                                         </div>
                                                                     </div>  <!-- For which crop was the program held [If Yes] -->
-                                                                </div> 
+                                                                </div> 	<!-- [If Yes wala div] -->
                                                                 
                                                             </form>
                                                         </div>	<!-- Applicant's Knowledge -->
                                                         <div class="tab-pane" id="frm_phone_details">
-                                                           Applicant's Phone Details
+                                                           	Applicant's Phone Details
+                                                        	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_appli_phone_details" name="frm_appli_phone_details">
+																
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Type of phone ownership <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_phonetype" name="ddl_phonetype" class="select2-me input-xlarge" data-rule-required="true">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="smartphone" >Smartphone</option>
+                                                                            <option value="featurephone" >Featurephone</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Type of phone ownership -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Does any of your family member own a Smart Phone? <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_own_sp" name="ddl_own_sp" class="select2-me input-xlarge" data-rule-required="true">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes" >Yes</option>
+                                                                            <option value="no" >No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Does any of your family member own a Smart Phone?  -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Who is the Service Provider?</label>
+                                                                    <div class="controls">
+                                                                        <select data-rule-required="true" id="ddl_servpro" name="ddl_servpro" class="input-xlarge" >
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="aircel">Aircel</option>
+                                                                            <option value="airtel">Airtel</option>
+                                                                            <option value="jio">Jio</option>
+                                                                            <option value="relience">Relience</option>
+                                                                            <option value="tata docomo">Tata Docomo</option>
+                                                                            <option value="tata">Tata</option>
+                                                                            <option value="uninor">Uninor</option>
+                                                                            <option value="vodafone">Vodafone</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Who is the Service Provider -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you receive sufficeint network Coverage?</label>
+                                                                    <div class="controls">
+                                                                        <select data-rule-required="true" id="ddl_network" name="ddl_network" class="input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes"> Yes</option>
+                                                                            <option value="no"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Do you receive sufficeint network coverage? -->
+                                                                
+                                                                <div class="control-group" style="display: none" id="datapackInput">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_datapack" name="ddl_datapack" class="input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes"> Yes</option>
+                                                                            <option value="no"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Do you have data pack on your phone? -->
+                                                                
+                                                                <div class="control-group" style="display: none" id="datapacknameInput">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
+                                                                    <div class="controls">
+                                                                        <select id="f5_datapackname" name="f5_datapackname" class="input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="2g"> 2G</option>
+                                                                            <option value="3g"> 3G</option>
+                                                                            <option value="4g"> 4G</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Specify if it is [2G / 3G / 4G] -->
+                                                                
+                                                                <div class="control-group" style="display: none" id="appuseInput">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
+                                                                    <div class="controls">
+                                                                        <select id="f5_appuse" name="f5_appuse" class="input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes"> Yes</option>
+                                                                            <option value="no"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Do you use apps regularly? -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">
+                                                                        Specify name of the App <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <input type="text" id="txt_app_name" name="txt_app_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Specify name of the App">
+                                                                    </div>
+                                                                </div>	<!-- Specify name of the App [If Yes] -->
+                                                                
+                                                                <div class="control-group" id="farmappInput">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_farmapp" name="ddl_farmapp" class="input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes"> Yes</option>
+                                                                            <option value="no"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div><!-- Subscription to Farming Advisory Apps? -->
+                                                                
+                                                            </form>
                                                         </div>	<!-- Applicant's Phone Details -->
                                                         <div class="tab-pane" id="frm_family_details">
                                                             Family Details
+                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_family_details" name="frm_family_details">
+                                                            	
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you live in a Joint Family?<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_jointfamily" name="ddl_jointfamily" class="input-xlarge" data-rule-required="true" >
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes" point="10"> Yes</option>
+                                                                            <option value="no" point="4"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Do you live in joint Family? -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">How many members are there in your family?<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_members" name="ddl_members" class="input-xlarge" data-rule-required="true">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <?php 
+                                                                                for($i=1; $i<21; $i++)
+																				{
+                                                                                    ?>
+																					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+																					<?php
+                                                                                }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- How many members are there in your family -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Number of Children<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_children" name="ddl_children" class="input-xlarge" data-rule-required="true">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <?php 
+                                                                                for($i=0; $i<16; $i++)
+																				{
+                                                                                    ?>
+																					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+																					<?php
+																				}
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div><!-- Number of Children the farmer has -->
+                                                                
+                                                                <div class="control-group" id="use_smartphone">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Any of children use Smart Phones?<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_smartuse" name="ddl_smartuse" class="input-xlarge" data-rule-required="true">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes" point="10"> Yes</option>
+                                                                            <option value="no" point="1"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Any of your children use Smart Phone? -->
+                                                                
+                                                            </form>
                                                         </div>	<!-- Family Details -->
                                                         <div class="tab-pane" id="frm_appliances_motors">
-                                                           Appliances / Motors
+                                                            <div class="span10" style="padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                <h3>What appliances are there in your house? Also mention their count.</h3>
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Television<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_television" id="txt_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Television -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_refrigerator" id="txt_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Refrigerator -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_wmachine" id="txt_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Washing Machine -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_mixer" id="txt_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Mixer -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_stove" id="txt_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Gas Stove -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_bicycle" id="txt_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Bicycle -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_ccylinder" id="txt_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Cooking Cylinder -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_fans" id="txt_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Lights & Fans -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                    	<input type="number" name="txt_motorcycle" id="txt_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Motorcycle -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <input type="number" name="txt_car" id="txt_car" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                    </div>
+                                                                </div>	<!-- Car -->
+                                                            </div>
                                                         </div>	<!-- Appliances / Motors -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>

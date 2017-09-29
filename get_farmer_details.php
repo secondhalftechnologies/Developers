@@ -178,17 +178,17 @@
                                                                 </a>
                                                             </li>	<!-- Applicant's Knowledge -->
                                                             <li>
-                                                                <a href="#frm_phone_details" data-toggle='tab'>
+                                                                <a href="#div_phone_details" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Phone Details
                                                                 </a>
                                                             </li>	<!-- Applicant's Phone Details -->
                                                             <li>
-                                                                <a href="#frm_family_details" data-toggle='tab'>
+                                                                <a href="#div_family_details" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Family Details
                                                                 </a>
                                                             </li>	<!-- Family Details -->
                                                             <li>
-                                                                <a href="#frm_appliances_motors" data-toggle='tab'>
+                                                                <a href="#div_appliances_motors" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Appliances / Motors 
                                                                 </a>
                                                             </li>	<!-- Appliances / Motors -->
@@ -243,30 +243,29 @@
                                                                         Part of any SHG? <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_part_of_shg" name="ddl_part_of_shg" class="select2-me input-xlarge">
+                                                                        <select id="ddl_part_of_shg" name="ddl_part_of_shg" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'div_shg_name');">
                                                                             <option value="">Select here</option>
                                                                             <option value="yes">Yes</option>
                                                                             <option value="no">No</option>
                                                                         </select>
-                                                                        <!-- <input type="radio" name="rad_part_of_shg" id="rad_part_of_shg" autocomplete="off" data-rule-required="true" value="yes"> Yes
-                                                                        &nbsp;&nbsp;
-                                                                        <input type="radio" name="rad_part_of_shg" id="rad_part_of_shg" autocomplete="off" data-rule-required="true" value="no"> No -->
                                                                     </div>
                                                                 </div>	<!-- Part of any SHG [Radio] -->
                                                                 
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">
-                                                                        SHG Name <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_shg_name" name="txt_shg_name" class="input-xlarge v_name" placeholder="Entre Your SHG Name">
-                                                                    </div>
-                                                                </div>	<!-- SHG Name [If Yes] -->
+                                                                <div id="div_shg_name" style="display: none;">
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            SHG Name <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_shg_name" name="txt_shg_name" class="input-xlarge v_name" placeholder="Entre Your SHG Name">
+                                                                        </div>
+                                                                    </div>    
+                                                                </div>  <!-- SHG Name [If Yes] -->
                                                                 
                                                                 <div class="control-group">
                                                                     <label for="tasktitel" class="control-label">Spouse Occupation</label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_spouse_occupation" name="ddl_spouse_occupation" class="select2-me input-large">
+                                                                        <select id="ddl_spouse_occupation" name="ddl_spouse_occupation" class="select2-me input-large" onchange="changeDivDisplay(this.value, 'div_spouse_income');">
                                                                             <option value="">Select Spouse Occupation</option>
                                                                             <option value="Housewife">Housewife</option>
                                                                             <option value="Farmer">Farmer</option>
@@ -275,84 +274,70 @@
                                                                     </div>
                                                                 </div>	<!-- Spouse Occupation [DDL] -->
                                                                 
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Spouse Income</label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_spouse_income" name="ddl_spouse_income" class="select2-me input-large">
-                                                                            <option value="">Select Spouse Income</option>
-                                                                            <option value="500_2500">500-2500</option>
-                                                                            <option value="2501_5000">2501-5000</option>
-                                                                            <option value="5001_7500">5001-7500</option>
-                                                                            <option value="7501_Above">7501 Above</option>
-                                                                        </select>
+                                                                <div id="div_spouse_income" style="display: none;">
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Spouse Income</label>
+                                                                        <div class="controls">
+                                                                            <input type="text" placeholder="Spouse Income" name="txt_spouse_incode" id="txt_spouse_incode" data-rule-number="true" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-maxlength="10" class="input-xlarge v_number">
+                                                                        </div>
                                                                     </div>
-                                                                </div>	<!-- Spouse Income [DDL] -->
+                                                                </div>  <!-- Spouse Income [If not Housewife] -->
                                                                 
                                                                 <div class="control-group">
                                                                     <label for="tasktitel" class="control-label">
                                                                         Mony Taken From Microfinance? <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_mony_isTaken" name="ddl_mony_isTaken" class="select2-me input-xlarge">
+                                                                        <select id="ddl_mony_isTaken" name="ddl_mony_isTaken" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'div_microfinance_display');">
                                                                             <option value="">Select here</option>
                                                                             <option value="yes">Yes</option>
                                                                             <option value="no">No</option>
                                                                         </select>
-                                                                        <!-- <input type="radio" name="rad_mony_isTaken" id="rad_mony_isTaken" autocomplete="off" data-rule-required="true" value="yes"> Yes
-                                                                        &nbsp;&nbsp;
-                                                                        <input type="radio" name="rad_mony_isTaken" id="rad_mony_isTaken" autocomplete="off" data-rule-required="true" value="no"> No -->
                                                                     </div>
-                                                                </div>	<!-- Microfinance help taken [Radio] -->
+                                                                </div>	<!-- Microfinance help taken [DDL] -->
                                                                 
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">
-                                                                        Microfinance Name <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_microfinance_name" name="txt_microfinance_name" class="input-xlarge v_name" placeholder="Entre Your Microfinance Name">
-                                                                    </div>
-                                                                </div>	<!-- Name of the Microfinance [If Yes] -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Mony Taken From Microfinance</label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_mony_from_mf" name="ddl_mony_from_mf" class="select2-me input-large">
-                                                                            <option value="">Select Mony Range</option>
-                                                                            <option value="100_2500">100-2500</option>
-                                                                            <option value="2501_5000">2501-5000</option>
-                                                                            <option value="5001_7500">5001-7500</option>
-                                                                            <option value="7501_10000">7501-10000</option>
-                                                                            <option value="10000_Above">10000 Above</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>	<!-- How much mony taken from Microfinance [DDL] [If yes] -->
+                                                                <div id="div_microfinance_display" style="display: none;">
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            Microfinance Name <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_microfinance_name" name="txt_microfinance_name" class="input-xlarge v_name" placeholder="Entre Your Microfinance Name">
+                                                                        </div>
+                                                                    </div>	<!-- Name of the Microfinance [If Yes] -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Mony Taken From Microfinance</label>
+                                                                        <div class="controls">
+                                                                            <input type="text" placeholder="Mony Taken From Microfinance" name="txt_mony_taken_from_mf" id="txt_mony_taken_from_mf" data-rule-number="true" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-maxlength="10" class="input-xlarge v_number">
+                                                                        </div>
+                                                                    </div>	<!-- How much mony taken from Microfinance [DDL] [If yes] -->
+                                                                </div>  <!-- If Micro-Finance DDL Yes -->
                                                                 
                                                                 <div class="control-group">
                                                                     <label for="tasktitel" class="control-label">
                                                                         Affliation to any association? <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_affliation" name="ddl_affliation" class="select2-me input-xlarge">
+                                                                        <select id="ddl_affliation" name="ddl_affliation" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'div_affliation_display');">
                                                                             <option value="">Select here</option>
                                                                             <option value="yes">Yes</option>
                                                                             <option value="no">No</option>
                                                                         </select>
+                                                                    </div>
+                                                                </div>	<!-- Affliation to any association [DDL] -->
+                                                                
+                                                                <div id="div_affliation_display" style="display: none;">
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            FPO/FPC Name <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_fpo_name" name="txt_fpo_name" class="input-xlarge v_name" data-rule-lettersonly="true" placeholder="Entre FPO/FPC Name">
+                                                                        </div>
+                                                                    </div>	<!-- Name Of FPO / FPC [If Yes] -->
+                                                                </div>  <!-- If affliation DDL Yes -->
 
-                                                                        <!-- <input type="radio" name="rad_affliation" id="rad_affliation" autocomplete="off" data-rule-required="true" value="yes"> Yes
-                                                                        &nbsp;&nbsp;
-                                                                        <input type="radio" name="rad_affliation" id="rad_affliation" autocomplete="off" data-rule-required="true" value="no"> No -->
-                                                                    </div>
-                                                                </div>	<!-- Affliation to any association [Radio] -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">
-                                                                        FPO/FPC Name <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_fpo_name" name="txt_fpo_name" class="input-xlarge v_name" data-rule-lettersonly="true" placeholder="Entre FPO/FPC Name">
-                                                                    </div>
-                                                                </div>	<!-- Name Of FPO / FPC [If Yes] -->
-                                                                
                                                                 <div class="control-group">
                                                                     <label for="text" class="control-label" style="margin-top:10px">
                                                                         Co-operative society / Bank Name <span style="color:#F00">*</span>
@@ -402,7 +387,7 @@
                                                                 <div class="control-group">
                                                                     <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_participation" name="ddl_participation" data-rule-required="true" class="select2-me input-xlarge" onchange="getDisplayProgramDetail(this.value);">
+                                                                        <select id="ddl_participation" name="ddl_participation" data-rule-required="true" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'program_detail');">
                                                                             <option value="" disabled selected> Select here</option>
                                                                             <option value="yes" point="10"> Yes</option>
                                                                             <option value="no" point="0"> No</option>
@@ -463,9 +448,9 @@
                                                                 
                                                             </form>
                                                         </div>	<!-- Applicant's Knowledge -->
-                                                        <div class="tab-pane" id="frm_phone_details">
+                                                        <div class="tab-pane" id="div_phone_details">
                                                            	Applicant's Phone Details
-                                                        	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_appli_phone_details" name="frm_appli_phone_details">
+                                                        	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_phone_details" name="frm_phone_details">
 																
                                                                 <div class="control-group">
                                                                     <label for="text" class="control-label" style="margin-top:10px">Type of phone ownership <span style="color:#F00">*</span></label>
@@ -578,7 +563,7 @@
                                                                 
                                                             </form>
                                                         </div>	<!-- Applicant's Phone Details -->
-                                                        <div class="tab-pane" id="frm_family_details">
+                                                        <div class="tab-pane" id="div_family_details">
                                                             Family Details
                                                             <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_family_details" name="frm_family_details">
                                                             	
@@ -645,10 +630,10 @@
                                                                 
                                                             </form>
                                                         </div>	<!-- Family Details -->
-                                                        <div class="tab-pane" id="frm_appliances_motors">
+                                                        <div class="tab-pane" id="div_appliances_motors">
                                                             <div class="span10" style="padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
                                                                 <h3>What appliances are there in your house? Also mention their count.</h3>
-                                                            	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_appliances_details" name="frm_appliances_details">
+                                                            	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_appliances_motors" name="frm_appliances_motors">
                                                                     
                                                                     <div class="control-group">
                                                                         <label for="text" class="control-label" style="margin-top:10px">Television<span style="color:#F00">*</span></label>
@@ -972,30 +957,30 @@
                                                     <div class="tas-container">
                                                         <ul class="tabs tabs-inline tabs-left">
                                                             <li class='active'>
-                                                                <a href="#frm_crop_cultivation" data-toggle='tab'>
+                                                                <a href="#div_crop_cultivation" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Crop And Cultivation Details
                                                                	</a>
                                                             </li>	<!-- Crop And Cultivation Details -->
                                                             <li>
-                                                                <a href="#frm_prev_crop_cycle" data-toggle='tab'>
+                                                                <a href="#div_prev_crop_cycle" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Previous Crop Cycle Details
                                                                 </a>
                                                             </li>	<!-- Applicant's Knowledge -->
                                                             <li>
-                                                                <a href="#frm_cur_crop_cycle" data-toggle='tab'>
+                                                                <a href="#div_cur_crop_cycle" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Current Crop Cycle Details
                                                                 </a>
                                                             </li>	<!-- Applicant's Phone Details -->
                                                         </ul>
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
-                                                        <div class="tab-pane active" id="frm_crop_cultivation">
+                                                        <div class="tab-pane active" id="div_crop_cultivation">
                                                     		Crop And Cultivation Details
                                                         </div>	<!-- Crop And Cultivation Details -->
-                                                        <div class="tab-pane" id="frm_prev_crop_cycle">
+                                                        <div class="tab-pane" id="div_prev_crop_cycle">
                                                            Previous Crop Cycle Details
                                                         </div>	<!-- Previous Crop Cycle Details -->
-                                                        <div class="tab-pane" id="frm_cur_crop_cycle">
+                                                        <div class="tab-pane" id="div_cur_crop_cycle">
                                                            Current Crop Cycle Details
                                                         </div>	<!-- Current Crop Cycle Details -->
                                                     </div>	<!-- Main Forms -->
@@ -1015,22 +1000,22 @@
                                                     <div class="tas-container">
                                                         <ul class="tabs tabs-inline tabs-left">
                                                             <li class='active'>
-                                                                <a href="#frm_asset_details" data-toggle='tab'>
+                                                                <a href="#div_asset_details" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Assets Details
                                                                	</a>
                                                             </li>	<!-- Assets Details -->
                                                             <li>
-                                                                <a href="#frm_live_stock" data-toggle='tab'>
+                                                                <a href="#div_live_stock" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Live Stock
                                                                 </a>
                                                             </li>	<!-- Live Stock -->
                                                         </ul>
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
-                                                        <div class="tab-pane active" id="frm_asset_details">
+                                                        <div class="tab-pane active" id="div_asset_details">
                                                     		Assets Details
                                                         </div>	<!-- Assets Details -->
-                                                        <div class="tab-pane" id="frm_live_stock">
+                                                        <div class="tab-pane" id="div_live_stock">
                                                            Live Stock
                                                         </div>	<!-- Live Stock -->
                                                     </div>	<!-- Main Forms -->
@@ -1050,30 +1035,30 @@
                                                     <div class="tas-container">
                                                         <ul class="tabs tabs-inline tabs-left">
                                                             <li class='active'>
-                                                                <a href="#frm_home_loan_details" data-toggle='tab'>
+                                                                <a href="#div_home_loan_details" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Home Loan Details
                                                                	</a>
                                                             </li>	<!-- Home Loan Details -->
                                                             <li>
-                                                                <a href="#frm_financial_details" data-toggle='tab'>
+                                                                <a href="#div_financial_details" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Financial Details
                                                                 </a>
                                                             </li>	<!-- Financial Details -->
                                                             <li>
-                                                                <a href="#frm_financial_history" data-toggle='tab'>
+                                                                <a href="#div_financial_history" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Financial History
                                                                 </a>
                                                             </li>	<!-- Financial History -->
                                                         </ul>
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
-                                                        <div class="tab-pane active" id="frm_home_loan_details">
+                                                        <div class="tab-pane active" id="div_home_loan_details">
                                                     		Home Loan Details
                                                         </div>	<!-- Home Loan Details -->
-                                                        <div class="tab-pane" id="frm_financial_details">
+                                                        <div class="tab-pane" id="div_financial_details">
                                                            Financial Details
                                                         </div>	<!-- Financial Details -->
-                                                        <div class="tab-pane" id="frm_financial_history">
+                                                        <div class="tab-pane" id="div_financial_history">
                                                            Financial History
                                                         </div>	<!-- Financial History -->
                                                     </div>	<!-- Main Forms -->
@@ -1092,16 +1077,25 @@
            	</div>
         </div>
         <script type="text/javascript">
-            function getDisplayProgramDetail(boolVal)
+
+            function changeDivDisplay(boolVal, divId)
             {
                 //alert(boolVal);
                 if(boolVal == 'yes')
                 {
-                    $('#program_detail').slideDown();
+                    $('#'+divId).slideDown();
+                }
+                else if (boolVal == 'no')
+                {
+                    $('#'+divId).slideUp();
+                }
+                else if(boolVal == 'Housewife')
+                {
+                    $('#'+divId).slideUp();   
                 }
                 else
                 {
-                    $('#program_detail').slideUp();
+                    $('#'+divId).slideDown();  
                 }
             }
         </script>

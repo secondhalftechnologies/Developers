@@ -455,7 +455,7 @@
                                                                 <div class="control-group">
                                                                     <label for="text" class="control-label" style="margin-top:10px">Type of phone ownership <span style="color:#F00">*</span></label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_phonetype" name="ddl_phonetype" class="select2-me input-xlarge" data-rule-required="true">
+                                                                        <select id="ddl_phonetype" name="ddl_phonetype" class="select2-me input-xlarge" data-rule-required="true" onchange="changeDivDisplay(this.value, 'div_smartphone_display')">
                                                                             <option value="" disabled selected> Select here</option>
                                                                             <option value="smartphone" >Smartphone</option>
                                                                             <option value="featurephone" >Featurephone</option>
@@ -502,60 +502,68 @@
                                                                     </div>
                                                                 </div>	<!-- Do you receive sufficeint network coverage? -->
                                                                 
-                                                                <div class="control-group" style="display: none" id="datapackInput">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_datapack" name="ddl_datapack" class="input-xlarge">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <option value="yes"> Yes</option>
-                                                                            <option value="no"> No</option>
-                                                                        </select>
+                                                                <div id="div_smartphone_display" style="display: none;">
+
+                                                                    <div class="control-group" >
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_datapack" name="ddl_datapack" class="input-xlarge" onchange="changeDivDisplay(this.value, 'div_datapack_display');">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes"> Yes</option>
+                                                                                <option value="no"> No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Do you have data pack on your phone? -->
+                                                                    
+                                                                    <div id="div_datapack_display" style="display: none;">
+                                                                        <div class="control-group" >
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
+                                                                            <div class="controls">
+                                                                                <select id="f5_datapackname" name="f5_datapackname" class="input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="2g"> 2G</option>
+                                                                                    <option value="3g"> 3G</option>
+                                                                                    <option value="4g"> 4G</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!-- Specify if it is [2G / 3G / 4G] -->
+                                                                        
+                                                                        <div class="control-group" id="farmappInput">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
+                                                                            <div class="controls">
+                                                                                <select id="ddl_farmapp" name="ddl_farmapp" class="input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="yes"> Yes</option>
+                                                                                    <option value="no"> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div><!-- Subscription to Farming Advisory Apps? -->
                                                                     </div>
-                                                                </div>	<!-- Do you have data pack on your phone? -->
-                                                                
-                                                                <div class="control-group" style="display: none" id="datapacknameInput">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
-                                                                    <div class="controls">
-                                                                        <select id="f5_datapackname" name="f5_datapackname" class="input-xlarge">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <option value="2g"> 2G</option>
-                                                                            <option value="3g"> 3G</option>
-                                                                            <option value="4g"> 4G</option>
-                                                                        </select>
+                                                                   
+                                                                    <div class="control-group" >
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
+                                                                        <div class="controls">
+                                                                            <select id="f5_appuse" name="f5_appuse" class="input-xlarge" onchange="changeDivDisplay(this.value, 'div_used_app_name_display');">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes"> Yes</option>
+                                                                                <option value="no"> No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Do you use apps regularly? -->
+                                                                    
+                                                                    <div id="div_used_app_name_display" style="display: none;">
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">
+                                                                                Specify name of the App <span style="color:#F00">*</span>
+                                                                            </label>
+                                                                            <div class="controls">
+                                                                                <input type="text" id="txt_app_name" name="txt_app_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Specify name of the App">
+                                                                            </div>
+                                                                        </div>  <!-- Specify name of the App [If Yes] -->
                                                                     </div>
-                                                                </div>	<!-- Specify if it is [2G / 3G / 4G] -->
                                                                 
-                                                                <div class="control-group" style="display: none" id="appuseInput">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
-                                                                    <div class="controls">
-                                                                        <select id="f5_appuse" name="f5_appuse" class="input-xlarge">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <option value="yes"> Yes</option>
-                                                                            <option value="no"> No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>	<!-- Do you use apps regularly? -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">
-                                                                        Specify name of the App <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_app_name" name="txt_app_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Specify name of the App">
-                                                                    </div>
-                                                                </div>	<!-- Specify name of the App [If Yes] -->
-                                                                
-                                                                <div class="control-group" id="farmappInput">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_farmapp" name="ddl_farmapp" class="input-xlarge">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <option value="yes"> Yes</option>
-                                                                            <option value="no"> No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div><!-- Subscription to Farming Advisory Apps? -->
-                                                                
+                                                                </div>  <!-- If phone type will be smartphone only -->
+
                                                                 <div class="form-actions" style="clear:both;">
                                                                     <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
                                                                     <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
@@ -598,7 +606,7 @@
                                                                 <div class="control-group">
                                                                     <label for="text" class="control-label" style="margin-top:10px">Number of Children<span style="color:#F00">*</span></label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_children" name="ddl_children" class="input-xlarge" data-rule-required="true">
+                                                                        <select id="ddl_children" name="ddl_children" class="input-xlarge" data-rule-required="true" onchange="changeDivDisplay(this.value, 'div_IsChild_use_smartphone')">
                                                                             <option value="" disabled selected> Select here</option>
                                                                             <?php 
                                                                                 for($i=0; $i<16; $i++)
@@ -610,19 +618,21 @@
                                                                             ?>
                                                                         </select>
                                                                     </div>
-                                                                </div><!-- Number of Children the farmer has -->
+                                                                </div>  <!-- Number of Children the farmer has -->
                                                                 
-                                                                <div class="control-group" id="use_smartphone">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Any of children use Smart Phones?<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_smartuse" name="ddl_smartuse" class="input-xlarge" data-rule-required="true">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <option value="yes" point="10"> Yes</option>
-                                                                            <option value="no" point="1"> No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>	<!-- Any of your children use Smart Phone? -->
-                                                                
+                                                                <div id="div_IsChild_use_smartphone" style="display: none;">
+                                                                    <div class="control-group" id="use_smartphone">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Any of children use Smart Phones?<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_smartuse" name="ddl_smartuse" class="input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes" point="10"> Yes</option>
+                                                                                <option value="no" point="1"> No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Any of your children use Smart Phone? -->
+                                                                </div>  <!-- IF child will be more than Zero -->
+
                                                                 <div class="form-actions" style="clear:both;">
                                                                     <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
                                                                     <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
@@ -1092,6 +1102,14 @@
                 else if(boolVal == 'Housewife')
                 {
                     $('#'+divId).slideUp();   
+                }
+                else if(boolVal == 'smartphone')
+                {
+                    $('#'+divId).slideDown();
+                }
+                else if(boolVal == '0')
+                {
+                    $('#'+divId).slideUp();
                 }
                 else
                 {

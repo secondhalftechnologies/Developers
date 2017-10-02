@@ -776,43 +776,49 @@
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Ownership
                                                                                         <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_owner<?php echo $id; ?>" name="ddl_owner<?php echo $id; ?>" onChange="ownership(<?php echo $id; ?>,this.value)" class="input-xlarge" data-rule-required="true">
+                                                                                            <select id="ddl_owner<?php echo $id; ?>" name="ddl_owner<?php echo $id; ?>" onChange="changeDivDisplay(this.value, '');" class="input-xlarge" data-rule-required="true">
                                                                                                 <option value="" disabled selected> Select here</option>
                                                                                                 <option value="Owned">Owned</option>
-                                                                                                <option value="Ancestral">Ancestral</option>
+                                                                                                <option value="Rental">Rental</option>
                                                                                                 <option value="Leased">Leased</option>
                                                                                                 <option value="Contracted">Contracted</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Ownership -->
 
-                                                                                    <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>
-                                                                                        <div class="controls">
-                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_rent_per_month<?php echo $id; ?>" name="txt_land_rent_per_month<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                    <div id="div_rental_display" style="display: none;">
+                                                                                        <div class="control-group">
+                                                                                            <label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <input placeholder="Size in Acres" type="text" id="txt_land_rent_per_month<?php echo $id; ?>" name="txt_land_rent_per_month<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>  <!-- [If On Rent, Mention tha amount per month on rent] -->
 
-                                                                                    <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Number of years under leasing<span style="color:#F00">*</span></label>
-                                                                                        <div class="controls">
-                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_lease_year<?php echo $id; ?>" name="txt_land_lease_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                    <div id="div_leas_display" style="display: none;">
+                                                                                        <div class="control-group">
+                                                                                            <label for="text" class="control-label" style="margin-top:10px">Number of years under leasing<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <input placeholder="Size in Acres" type="text" id="txt_land_lease_year<?php echo $id; ?>" name="txt_land_lease_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>  <!-- [If on lease, Number of years under leasing] -->
 
-                                                                                    <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Number of years under contract<span style="color:#F00">*</span></label>
-                                                                                        <div class="controls">
-                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_contract_year<?php echo $id; ?>" name="txt_land_contract_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                    <div id="div_contract_display" style="display: none;">
+                                                                                        <div class="control-group">
+                                                                                            <label for="text" class="control-label" style="margin-top:10px">Number of years under contract<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <input placeholder="Size in Acres" type="text" id="txt_land_contract_year<?php echo $id; ?>" name="txt_land_contract_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>  <!-- [If On Contract, Number of years under contract] -->
 
                                                                                     <!-- START : Land Address -->
 
-                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                    <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_p_state<?php echo $id; ?>" name="ddl_p_state<?php echo $id; ?>" onChange="getDist('p', this.value, <?php echo $id; ?>);" class="select2-me input-large" >
+                                                                                            <select id="ddl_p_state<?php echo $id; ?>" name="ddl_p_state<?php echo $id; ?>" onChange="getDist('p', this.value, 'ddl_p_dist<?php echo $id; ?>', 'ddl_p_tal<?php echo $id; ?>', 'ddl_p_village<?php echo $id; ?>', 'div_p_dist<?php echo $id; ?>', 'div_p_tal<?php echo $id; ?>', 'div_p_village<?php echo $id; ?>');" class="select2-me input-large" >
                                                                                                 <option value="" disabled selected>Select State</option>
                                                                                                 <?php
                                                                                                 $res_get_state  = lookup_value('tbl_state',array(),array(),array(),array(),array());
@@ -829,25 +835,25 @@
                                                                                         </div>
                                                                                     </div>  <!-- State -->
 
-                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                    <div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>
-                                                                                        <div class="controls" id="div_p_dist">
+                                                                                        <div class="controls" id="div_p_dist<?php echo $id; ?>">
                                                                                             <select id="ddl_p_dist<?php echo $id; ?>" name="ddl_p_dist<?php echo $id; ?>" class="select2-me input-large" >
                                                                                                 <option value="" disabled selected>Select District</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- District -->
 
-                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                    <div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>
-                                                                                        <div class="controls" id="div_p_tal">
+                                                                                        <div class="controls" id="div_p_tal<?php echo $id; ?>">
                                                                                             <select id="ddl_p_tal<?php echo $id; ?>" name="ddl_p_tal<?php echo $id; ?>" class="select2-me input-large" >
                                                                                                 <option value="" disabled selected>Select Taluka</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Taluka -->
 
-                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                    <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>
                                                                                         <div class="controls" id="div_p_village<?php echo $id; ?>">
                                                                                             <select id="ddl_p_village<?php echo $id; ?>" name="ddl_p_village<?php echo $id; ?>" class="select2-me input-large" >
@@ -863,7 +869,7 @@
                                                                                         </div>
                                                                                     </div>  <!-- Survey Number -->
 
-                                                                                    <div class="control-group span6" style="clear:both;">
+                                                                                    <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
                                                                                             <input type="text" id="txt_p_pincode<?php echo $id; ?>" name="txt_p_pincode<?php echo $id; ?>" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
@@ -940,12 +946,12 @@
                                                                     <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
 	                                                                    <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand();" id="addLoanType"/>
     	                                                                <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box" data-backdrop="static" id="removeLoanType"/>
-                                                                    </div>	<!-- Submit -->
+                                                                    </div>	<!-- Add More -->
                                                                     
                                                                     <div class="form-actions">
-                                                                        <input type="reset" class="btn" value="Reset" id="Reset">
                                                                         <input type="submit" class="btn btn-primary" value="Save" id="save">
-                                                                    </div>	<!-- Rest or add more -->
+                                                                        <input type="reset" class="btn" value="Reset" id="Reset">
+                                                                    </div>	<!-- Rest or Submit -->
                                                                 <!-- </div> -->
                                                                 
                                                             </form>
@@ -1111,9 +1117,333 @@
                 {
                     $('#'+divId).slideUp();
                 }
+                else if(boolVal == 'Rental')
+                {
+                    $('#div_leas_display').slideUp();
+                    $('#div_contract_display').slideUp();
+                    $('#div_rental_display').slideDown();
+                }
+                else if (boolVal == 'Leased') 
+                {
+                    $('#div_rental_display').slideUp();
+                    $('#div_contract_display').slideUp();
+                    $('#div_leas_display').slideDown();
+                }
+                else if (boolVal == 'Contracted')
+                {
+                    $('#div_leas_display').slideUp();
+                    $('#div_rental_display').slideUp();
+                    $('#div_contract_display').slideDown();
+                }
                 else
                 {
                     $('#'+divId).slideDown();  
+                }
+            }
+
+            function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
+            {
+                var sendInfo    = {"stateVal":stateVal, "stateParameter":stateParameter, "distId":distId, "talId":talId, "villageId":villageId, "distDivId":distDivId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_dist":1};
+                var dist_load   = JSON.stringify(sendInfo);
+                
+                $.ajax({
+                    url: "load_farmer.php?",
+                    type: "POST",
+                    data: dist_load,
+                    contentType: "application/json; charset=utf-8",                     
+                    success: function(response) 
+                    {
+                        data = JSON.parse(response);
+                        
+                        if(data.Success == "Success") 
+                        {
+                            $('#'+distDivId).html(data.resp);
+                            $('#'+distId).select2();
+                        } 
+                        else if(data.Success == "fail") 
+                        {
+                            //alert(data.resp);
+                            console.log(data.resp);
+                        }
+                    },
+                    error: function (request, status, error) 
+                    {
+                        $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                        $('#error_model').modal('toggle');                      
+                    },
+                    complete: function()
+                    {
+                        //loading_hide();
+                        //alert("complete");
+                    }
+                }); 
+            }
+            
+            function getTal(distParameter, distVal, talId, villageId, talDivId, VillageDivId)
+            {
+                var sendInfo    = {"distVal":distVal, "distParameter":distParameter, "talId":talId, "villageId":villageId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_tal":1};
+                var tal_load    = JSON.stringify(sendInfo);
+                
+                $.ajax({
+                    url: "load_farmer.php?",
+                    type: "POST",
+                    data: tal_load,
+                    contentType: "application/json; charset=utf-8",                     
+                    success: function(response) 
+                    {
+                        data = JSON.parse(response);
+                        
+                        if(data.Success == "Success") 
+                        {
+                            $('#'+talDivId).html(data.resp);
+                            $('#'+talId).select2();
+                        } 
+                        else if(data.Success == "fail") 
+                        {
+                            //alert(data.resp);
+                            console.log(data.resp);
+                        }
+                    },
+                    error: function (request, status, error) 
+                    {
+                        $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                        $('#error_model').modal('toggle');                      
+                    },
+                    complete: function()
+                    {
+                        //loading_hide();
+                        //alert("complete");
+                    }
+                }); 
+            }
+            
+            function getVillage(talParameter, talVal, villageId, VillageDivId)
+            {
+                var sendInfo        = {"talVal":talVal, "talParameter":talParameter, "villageId":villageId, "VillageDivId":VillageDivId, "load_village":1};
+                var village_load    = JSON.stringify(sendInfo);
+                
+                $.ajax({
+                    url: "load_farmer.php?",
+                    type: "POST",
+                    data: village_load,
+                    contentType: "application/json; charset=utf-8",                     
+                    success: function(response) 
+                    {
+                        data = JSON.parse(response);
+                        
+                        if(data.Success == "Success") 
+                        {
+                            $('#'+VillageDivId).html(data.resp);
+                            $('#'+villageId).select2();
+                        } 
+                        else if(data.Success == "fail") 
+                        {
+                            //alert(data.resp);
+                            console.log(data.resp);
+                        }
+                    },
+                    error: function (request, status, error) 
+                    {
+                        $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                        $('#error_model').modal('toggle');                      
+                    },
+                    complete: function()
+                    {
+                        //loading_hide();
+                        //alert("complete");
+                    }
+                }); 
+            }
+
+            function addMoreLand(remove)
+            {
+            
+                if(remove==1)
+                {
+                    //$('#land'+contentCount).remove();
+                     $('#lands').find('#land'+contentCount).slideUp("slow");
+                    contentCount    = contentCount - 1
+                    if(contentCount==1)
+                    {
+                        $('#removeLoanType').hide('swing');
+                    }
+                    //calTotal();
+                    return false;
+                    
+                }
+                
+                contentCount    = contentCount + 1
+                landData        = '<div id="land'+contentCount+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">';
+                    landData        += '<div id="loan_detail" style=" padding: 10px; margin: 5px;">';
+                            landData    +=  '<input type="hidden" name="id[]" id="id" value="">';
+                            landData    +=  '<h2>Farm Land '+contentCount+' Details</h2>';
+
+                            landData    +=  '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_size'+contentCount+'" name="txt_land_size'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Size in Acres -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Ownership<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_owner'+contentCount+'" name="ddl_owner'+contentCount+'" onChange="changeDivDisplay(this.value, '');" class="input-xlarge" data-rule-required="true">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="Owned">Owned</option>';
+                                        landData    += '<option value="Rental">Rental</option>';
+                                        landData    += '<option value="Leased">Leased</option>';
+                                        landData    += '<option value="Contracted">Contracted</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- Ownership -->
+
+                            landData    += '<div id="div_rental_display" style="display: none;">';
+                                landData    += '<div class="control-group">';
+                                    landData    += '<label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>';
+                                    landData    += '<div class="controls">';
+                                        landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_rent_per_month'+contentCount+'" name="txt_land_rent_per_month'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                    landData    += '</div>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- [If On Rent, Mention tha amount per month on rent] -->
+                                                                                        
+                            landData    += '<div id="div_leas_display" style="display: none;">';
+                                landData    += '<div class="control-group">';
+                                    landData    += '<label for="text" class="control-label" style="margin-top:10px">Number of years under leasing<span style="color:#F00">*</span></label>';
+                                    landData    += '<div class="controls">';
+                                        landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_lease_year'+contentCount+'" name="txt_land_lease_year'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                    landData    += '</div>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- [If on lease, Number of years under leasing] -->
+
+                            landData    += '<div id="div_contract_display" style="display: none;">';
+                                landData    += '<div class="control-group">';
+                                    landData    += '<label for="text" class="control-label" style="margin-top:10px">Number of years under contract<span style="color:#F00">*</span></label>';
+                                    landData    += '<div class="controls">';
+                                        landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_contract_year'+contentCount+'" name="txt_land_contract_year'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                    landData    += '</div>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- [If On Contract, Number of years under contract] -->
+                                                                                        
+                            //  <!-- START : Land Address -->                                                           
+                            landData    += '<div class="control-group" >';
+                                landData    += '<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_p_state'+contentCount+'" name="ddl_p_state'+contentCount+'" onChange="getDist("p", this.value, "ddl_p_dist'+contentCount+'", "ddl_p_tal'+contentCount+'", "ddl_p_village'+contentCount+'", "div_p_dist'+contentCount+'", "div_p_tal'+contentCount+'", "div_p_village'+contentCount+'");" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select State</option>';
+                                        landData    += '<option value="1">TELANGANA</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- State -->
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls" id="div_p_dist'+contentCount+'">';
+                                    landData    += '<select id="ddl_p_dist'+contentCount+'" name="ddl_p_dist'+contentCount+'" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select District</option>'
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- District -->                  
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls" id="div_p_tal'+contentCount+'">';
+                                    landData    += '<select id="ddl_p_tal'+contentCount+'" name="ddl_p_tal'+contentCount+'" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select Taluka</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Taluka -->
+                            
+                            landData    += '<div class="control-group" >';
+                                landData    += '<label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls" id="div_p_village'+contentCount+'">';
+                                    landData    += '<select id="ddl_p_village'+contentCount+'" name="ddl_p_village'+contentCount+'" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select Village</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Village -->
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Survey Number<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input placeholder="Size in Acres" type="text" id="txt_survey_no'+contentCount+'" name="txt_survey_no'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Survey Number -->
+
+                            landData    += '<div class="control-group" >';
+                                landData    += '<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input type="text" id="txt_p_pincode'+contentCount+'" name="txt_p_pincode'+contentCount+'" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Pincode -->
+                            
+                            // <!-- END : Land Address -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Type of Soil<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_soil_type'+contentCount+'" name="ddl_soil_type'+contentCount+'" class="input-xlarge" data-rule-required="true" onChange="calTotal()">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="Alluvial Soil">Alluvial Soil</option>';
+                                        landData    += '<option value="Black Soil">Black Soil</option>';
+                                        landData    += '<option value="Red Soil">Red Soil</option>';
+                                        landData    += '<option value="Mountain Soil">Mountain Soil</option>';
+                                        landData    += '<option value="Peat">Peat</option>';
+                                        landData    += '<option value="Laterite Soil">Laterite Soil</option>';
+                                        landData    += '<option value="Desert Soil">Desert Soil</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Type of soil -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input placeholder="Size in Acres" type="text" id="txt_soil_depth'+contentCount+'" name="txt_soil_depth'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Soil Depth -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_soil_tested'+contentCount+'" name="ddl_soil_tested'+contentCount+'" class="input-xlarge" data-rule-required="true" onChange="calTotal()">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="yes">Yes</option>';
+                                        landData    += '<option value="no">no</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Have you Tested the Soil -->
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Source Of Water<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_water_source'+contentCount+'" name="ddl_water_source'+contentCount+'" class="input-xlarge" data-rule-required="true" onChange="calTotal()">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="well_water">Well Water</option>';
+                                        landData    += '<option value="tube_water">Tube Water</option>';
+                                        landData    += '<option value="tank_water">Tank Water</option>';
+                                        landData    += '<option value="canals">Canals</option>';
+                                        landData    += '<option value="perennial_water">Perennial Water</option>';
+                                        landData    += '<option value="multipurpose_river_valley">Multipurpose River Valley</option>';
+                                        landData    += '<option value="rain_fed">Rain Fed</option>';
+                                        landData    += '<option value="drip_irrigation">Drip Irrigation</option>';
+                                        landData    += '<option value="sprinkler">Sprinkler</option>';
+                                        landData    += '<option value="furrow">Furrow</option>';
+                                        landData    += '<option value="ditch">Ditch</option>';
+                                        landData    += '<option value="surge">Surge</option>';
+                                        landData    += '<option value="seepage">Seepage</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Source of water -->
+
+                    landData    += '</div>';        
+                landData    += '</div>';                                          
+                
+                // $("#lands").append(loan).slideDown('slow');
+                $('#lands').append(landData).find('#land'+contentCount).slideDown("slow");
+                 
+                if(contentCount>=2)
+                {
+                    $('#removeLoanType').show('swing');
                 }
             }
         </script>

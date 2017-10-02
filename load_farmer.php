@@ -6,9 +6,15 @@
 	{
 		$stateId		= $obj->stateVal;
 		$stateParameter	= $obj->stateParameter;
-		$data			= '';
+		$distId			= $obj->distId;
+		$talId   		= $obj->talId;
+		$villageId 		= $obj->villageId;
+		$distDivId		= $obj->distDivId;
+		$talDivId		= $obj->talDivId;
+		$VillageDivId	= $obj->VillageDivId;
+ 		$data			= '';
 		
-		$data	.= '<select id="ddl_'.$stateParameter.'_dist" name="ddl_'.$stateParameter.'_dist" class="select2-me input-large" onChange="getTal(\''.$stateParameter.'\', this.value);" >';
+		$data	.= '<select id="'.$distId.'" name="'.$distId.'" class="select2-me input-large" onChange="getTal(\''.$stateParameter.'\', this.value, \''.$talId.'\', \''.$villageId.'\', \''.$talDivId.'\', \''.$VillageDivId.'\');" >';
 			if($stateId != '')
 			{
 				$data	.= '<option value="" disabled selected>Select District</option>';
@@ -38,9 +44,13 @@
 	{
 		$distId			= $obj->distVal;
 		$distParameter	= $obj->distParameter;
+		$talId 			= $obj->talId;
+		$villageId 		= $obj->villageId;
+		$talDivId		= $obj->talDivId;
+		$VillageDivId	= $obj->VillageDivId;
 		$data			= '';
 		
-		$data	.= '<select id="ddl_'.$distParameter.'_tal" name="ddl_'.$distParameter.'_tal" class="select2-me input-large" onChange="getVillage(\''.$distParameter.'\', this.value);" >';
+		$data	.= '<select id="'.$talId.'" name="'.$talId.'" class="select2-me input-large" onChange="getVillage(\''.$distParameter.'\', this.value, \''.$villageId.'\', \''.$VillageDivId.'\');" >';
 			if($distId != '')
 			{
 				$data	.= '<option value="" disabled selected>Select Taluka</option>';
@@ -70,9 +80,10 @@
 	{
 		$talId			= $obj->talVal;
 		$talParameter	= $obj->talParameter;
+		$villageId 		= $obj->villageId;
 		$data			= '';
 		
-		$data	.= '<select id="ddl_'.$talParameter.'_village" name="ddl_'.$talParameter.'_village" class="select2-me input-large" >';
+		$data	.= '<select id="'.$villageId.'" name="'.$villageId.'" class="select2-me input-large" >';
 			if($talId != '')
 			{
 				$data	.= '<option value="" disabled selected>Select Village</option>';

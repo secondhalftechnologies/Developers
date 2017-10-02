@@ -269,7 +269,7 @@
                                 <div class="control-group span6" style="clear:both;">
                                 	<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<select id="ddl_p_state" name="ddl_p_state" onChange="getDist('p', this.value);" class="select2-me input-large" >
+                                    	<select id="ddl_p_state" name="ddl_p_state" onChange="getDist('p', this.value, 'ddl_p_dist', 'ddl_p_tal', 'ddl_p_village', 'div_p_dist', 'div_p_tal', 'div_p_village');" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select State</option>
                                         	<?php
                                             $res_get_state	= lookup_value('tbl_state',array(),array(),array(),array(),array());
@@ -289,7 +289,7 @@
                                 <div class="control-group span6">
                                 	<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<select id="ddl_c_state" name="ddl_c_state"  onChange="getDist('c', this.value);" class="select2-me input-large" >
+                                    	<select id="ddl_c_state" name="ddl_c_state"  onChange="getDist('c', this.value, 'ddl_c_dist', 'ddl_c_tal', 'ddl_c_village', 'div_c_dist', 'div_c_tal', 'div_c_village');" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select State</option>
                                         	<?php
                                             $res_get_state	= lookup_value('tbl_state',array(),array(),array(),array(),array());
@@ -435,9 +435,9 @@
 				}
 			});
 			
-			function getDist(stateParameter, stateVal)
+			function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
 			{
-				var sendInfo	= {"stateVal":stateVal, "stateParameter":stateParameter, "load_dist":1};
+				var sendInfo	= {"stateVal":stateVal, "stateParameter":stateParameter, "distId":distId, "talId":talId, "villageId":villageId, "distDivId":distDivId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_dist":1};
 				var dist_load 	= JSON.stringify(sendInfo);
 				
 				$.ajax({
@@ -451,8 +451,8 @@
 						
 						if(data.Success == "Success") 
 						{
-							$('#div_'+stateParameter+'_dist').html(data.resp);
-							$('#ddl_'+stateParameter+'_dist').select2();
+							$('#'+distDivId).html(data.resp);
+							$('#'+distId).select2();
 						} 
 						else if(data.Success == "fail") 
 						{
@@ -473,9 +473,9 @@
 				});	
 			}
 			
-			function getTal(distParameter, distVal)
+			function getTal(distParameter, distVal, talId, villageId, talDivId, VillageDivId)
 			{
-				var sendInfo	= {"distVal":distVal, "distParameter":distParameter, "load_tal":1};
+				var sendInfo	= {"distVal":distVal, "distParameter":distParameter, "talId":talId, "villageId":villageId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_tal":1};
 				var tal_load 	= JSON.stringify(sendInfo);
 				
 				$.ajax({
@@ -489,8 +489,8 @@
 						
 						if(data.Success == "Success") 
 						{
-							$('#div_'+distParameter+'_tal').html(data.resp);
-							$('#ddl_'+distParameter+'_tal').select2();
+							$('#'+talDivId).html(data.resp);
+							$('#'+talId).select2();
 						} 
 						else if(data.Success == "fail") 
 						{
@@ -511,9 +511,9 @@
 				});	
 			}
 			
-			function getVillage(talParameter, talVal)
+			function getVillage(talParameter, talVal, villageId, VillageDivId)
 			{
-				var sendInfo		= {"talVal":talVal, "talParameter":talParameter, "load_village":1};
+				var sendInfo		= {"talVal":talVal, "talParameter":talParameter, "villageId":villageId, "VillageDivId":VillageDivId, "load_village":1};
 				var village_load 	= JSON.stringify(sendInfo);
 				
 				$.ajax({
@@ -527,8 +527,8 @@
 						
 						if(data.Success == "Success") 
 						{
-							$('#div_'+talParameter+'_village').html(data.resp);
-							$('#ddl_'+talParameter+'_village').select2();
+							$('#'+VillageDivId).html(data.resp);
+							$('#'+villageId).select2();
 						} 
 						else if(data.Success == "fail") 
 						{

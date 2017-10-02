@@ -439,7 +439,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 											         $id =$i+1;
 												?>
 											  <div id="land<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
-                                              <div id="loan_detail" style=" padding: 10px; margin: 5px;">  
+                                            <div id="loan_detail" style=" padding: 10px; margin: 5px;">  
                                                 
                                                 <input type="hidden" name="id[]" id="id" value="<?php echo @$land_arr[$i]['id']; ?>">
                                                 <h2>Farm Land <?php echo $id; ?> Details</h2>

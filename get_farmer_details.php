@@ -33,6 +33,18 @@
             $no_of_land = sizeof($land_arr);
         }
     }
+
+    $no_of_crops    = 1;
+    $crops_arr      = array();
+    $result         = lookup_value('tbl_cultivation_data',array(),array("fm_id"=>$fm_id),array(),array(),array());
+    if($result)
+    {
+        while($row = mysqli_fetch_array($result))
+        {
+        array_push($crops_arr ,$row);
+        }
+        $no_of_crops = sizeof($crops_arr);
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -944,7 +956,7 @@
                                                                     </div>	<!-- Input Fields for getting the land details -->
                                                                     
                                                                     <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
-	                                                                    <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand();" id="addLoanType"/>
+	                                                                    <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand(0);" id="addLoanType"/>
     	                                                                <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box" data-backdrop="static" id="removeLoanType"/>
                                                                     </div>	<!-- Add More -->
                                                                     
@@ -992,12 +1004,192 @@
                                                     <div class="tab-content padding tab-content-inline">
                                                         <div class="tab-pane active" id="div_crop_cultivation">
                                                     		Crop And Cultivation Details
+                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_crop_cultivation" name="frm_crop_cultivation">
+
+                                                                <div class="step" id="Step1">
+                                                                    <div class="form-content" >
+                                                                        <div id="formContent">
+                                                                            <?php
+                                                                            for($j=0; $j < $no_of_crops; $j++)
+                                                                            {
+                                                                                $id =$j+1;
+
+                                                                                ?>
+                                                                                <div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                                    <input type="hidden" name="id[]" id="id" value="<?php echo @$crops_arr[$j]['id']; ?>">    
+                                                                                    <h3>Crop <?php echo $id; ?></h3>
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Current Crop Season <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_cur_crop_season<?php echo $id; ?>" name="ddl_cur_crop_season<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="Kharif">Kharif</option>
+                                                                                                <option value="Rabi">Rabi</option>
+                                                                                                <option value="Summer">Summer</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Current Crop Season [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_cultivating<?php echo $id; ?>" name="ddl_cultivating<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" > <!-- onchange="calTotal();" -->
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <?php
+
+                                                                                                $crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
+                                                                                                while($crop = mysqli_fetch_array($crops))
+                                                                                                {
+                                                                                                    ?>
+                                                                                                    <option value="<?php echo $crop['crop_id']; ?>">
+                                                                                                        <?php echo $crop['crop_name']; ?>
+                                                                                                    </option>
+                                                                                                    <?php
+                                                                                                }
+
+                                                                                            ?>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Type of crop cultivating this year [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_stage<?php echo $id; ?>" name="ddl_stage<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" > <!--onchange="calTotal()"-->
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option point="3" value="Land Preparation">Land Preparation</option>
+                                                                                                <option point="4" value="Seed Selection">Seed Selection</option>
+                                                                                                <option point="5" value="Seed Sowing">Seed Sowing</option>
+                                                                                                <option point="6" value="Irrigation">Irrigation</option>
+                                                                                                <option point="7" value="Crop Growth">Crop Growth</option>
+                                                                                                <option point="8" value="Fertilizing">Fertilizing</option>
+                                                                                                <option point="9" value="Harvesting">Harvesting</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Current stage of crop [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="txt_expected_yield<?php echo $id; ?>" name="txt_expected_yield<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Yield Expected">
+                                                                                        </div>
+                                                                                    </div>  <!-- Total Yield Expected [In tonnes Per Acre] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Potential market <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_potential_market<?php echo $id; ?>" name="ddl_potential_market<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="local_mandis">Local Mandis and Location</option>
+                                                                                                <option value="FPO">FPO</option>
+                                                                                                <option value="Private_Buyer">Private Buyer (Companies)</option>
+                                                                                                <option value="Government">Government</option>
+                                                                                                <option value="Other">Other</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Potential market [DDL] -->
+
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Crop Storage <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_crop_storage<?php echo $id; ?>" name="ddl_crop_storage<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="Govt_warehouse">Govt. Warehouse</option>
+                                                                                                <option value="Pvt_warehouse">Pvt. Warehouse</option>
+                                                                                                <option value="Factory">Factory</option>
+                                                                                                <option value="Mandis_direct">Mandis Direct</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Crop Storage [DDL] -->             
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Expected Price This Year In Rs. <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="txt_expectedprice<?php echo $id; ?>" name="txt_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" placeholder="Expected Price"> <!-- onchange="calTotal()" -->
+                                                                                        </div>
+                                                                                    </div>  <!-- Expected Price This Year  -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Total Income Expected This Year [ Per Acre Per Crop ] <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="txt_expectedincome<?php echo $id; ?>" name="txt_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true" data-rule-number="true" maxlength="10"  placeholder="Total Income Expected">   <!-- onchange="calTotal()" -->
+                                                                                        </div>
+                                                                                    </div>  <!-- Total income expected this year -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Potential Crop Diseases <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_diseases<?php echo $id; ?>" name="ddl_diseases<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" > <!-- onchange="calTotal()" -->
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option point="1" value="Fungal"> Fungal</option>
+                                                                                                <option point="4" value="Non-fungal"> Non-fungal</option>
+                                                                                                <option point="0" value="Severe"> Severe</option>
+                                                                                                <option point="8" value="Treatable"> Treatable</option>
+                                                                                                <option point="10" value="No potential of diseases"> No potential of diseases</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Potential crop diseases [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Potential Pest Control Problems <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_pest_problems<?php echo $id; ?>" name="ddl_pest_problems<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="yes">Yes</option>
+                                                                                                <option value="no">No</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Potential Pest problems [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="ddl_filt_type<?php echo $id; ?>" name="ddl_filt_type<?php echo $id; ?>" class="select2-me input-xlarge">
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="Organic Fertilizers">Organic Fertilizers</option>
+                                                                                                <option value="Inorganic Fertilizers">Inorganic Fertilizers</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- What kind of Fertilizer and pesticides being used [DDL] -->
+                                                                                </div>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                            <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
+                                                                                <input type="button" class="btn btn-warning " value="Add New Crop" onClick="addMoreCrop(0);" id="addCrop"/>
+                                                                                <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box_crop" data-backdrop="static" id="removeCropType"/>
+                                                                            </div>  <!-- Add More -->
+                                                                            
+                                                                            <div class="form-actions">
+                                                                                <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                                <input type="reset" class="btn" value="Reset" id="Reset">
+                                                                            </div>  <!-- Rest or Submit -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>            
                                                         </div>	<!-- Crop And Cultivation Details -->
                                                         <div class="tab-pane" id="div_prev_crop_cycle">
                                                            Previous Crop Cycle Details
+                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_prev_crop_cycle" name="frm_prev_crop_cycle">
+                                                                
+                                                            </form>
                                                         </div>	<!-- Previous Crop Cycle Details -->
                                                         <div class="tab-pane" id="div_cur_crop_cycle">
                                                            Current Crop Cycle Details
+                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_cur_crop_cycle" name="frm_cur_crop_cycle">
+                                                            </form>
                                                         </div>	<!-- Current Crop Cycle Details -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>
@@ -1030,9 +1222,141 @@
                                                     <div class="tab-content padding tab-content-inline">
                                                         <div class="tab-pane active" id="div_asset_details">
                                                     		Assets Details
+                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_asset_details" name="frm_asset_details">
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_vehical_owned" name="ddl_vehical_owned" class="select2-me input-xlarge" >
+                                                                            <option value="" disabled selected>Select here</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4_or_more">4 OR More</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>  <!-- Vehical Owned [DDL] -->
+
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Total Value of the Vehical <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <input type="text" id="txt_total_value_of_vehical" name="txt_total_value_of_vehical" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
+                                                                    </div>
+                                                                </div>  <!-- Total Value of the Vehical -->
+
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_machinery_owned" name="ddl_machinery_owned" class="select2-me input-xlarge" >
+                                                                            <option value="" disabled selected>Select here</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4_or_more">4 OR More</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>  <!-- Machinery Owned -->
+
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Total Value of the Vehical <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <input type="text" id="txt_total_value_of_machinery" name="txt_total_value_of_machinery" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
+                                                                    </div>
+                                                                </div>  <!-- Total Value of the Machinery -->
+
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_any_other_assets" name="ddl_any_other_assets" onchange="changeDivDisplay(this.value, 'div_any_other_assets_display')" class="select2-me input-xlarge" >
+                                                                            <option value="" disabled selected>Select here</option>
+                                                                            <option value="yes">Yes</option>
+                                                                            <option value="no">No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>  <!-- Any Other Assets [DDL] -->
+
+                                                                <div id="div_any_other_assets_display" style="display: none;">
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Which Assets you owned <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_which_assets_you_owned" name="ddl_which_assets_you_owned" class="select2-me input-xlarge">
+                                                                                <option value="" disabled selected>Select here</option>
+                                                                                <option value="Other Buildings">Other Buildings</option>
+                                                                                <option value="Land">Land</option>
+                                                                                <option value="Residential Building">Residential Building</option>
+                                                                                <option value="Other">Other</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Which Assets you owned [If Yes [DDL]] -->
+
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Mention the value of the assets <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_mention_value_of_assets" name="txt_mention_value_of_assets" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
+                                                                        </div>
+                                                                    </div>    <!-- Mention the value of the assets [If Yes] -->
+                                                                    
+                                                                </div>  <!-- div_any_other_assets_display -->
+
+                                                                <div class="form-actions" style="clear:both;">
+                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                </div>  <!-- Cancel or Submit -->
+                                                            </form>
                                                         </div>	<!-- Assets Details -->
                                                         <div class="tab-pane" id="div_live_stock">
                                                            Live Stock
+                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_live_stock" name="frm_live_stock">
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Type of Livestock <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_type_of_livestock" name="ddl_type_of_livestock" class="select2-me input-xlarge" >
+                                                                            <option value="" disabled selected>Select here</option>
+                                                                            <option value="Dairy Cattle">Dairy Cattle</option>
+                                                                            <option value="Darft Cattle">Darft Cattle</option>
+                                                                            <option value="Buffalo">Buffalo</option>
+                                                                            <option value="Ox">Ox</option>
+                                                                            <option value="Sheep">Sheep</option>
+                                                                            <option value="Goat">Goat</option>
+                                                                            <option value="Pig">Pig</option>
+                                                                            <option value="Poultry">Poultry</option>
+                                                                            <option value="Donkey">Donkey</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>  <!-- Type of Livestock -->
+
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Livestock Count <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <input type="text" id="txt_livestock_count" name="txt_livestock_count" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Livestock Count">
+                                                                    </div>
+                                                                </div>  <!-- Livestock Count -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="tasktitel" class="control-label">Income Gained From Livestock <span style="color:#F00">*</span>
+                                                                    </label>
+                                                                    <div class="controls">
+                                                                        <input type="text" id="txt_income_gained_from_livestock" name="txt_income_gained_from_livestock" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Income Gained From Livestock">
+                                                                    </div>
+                                                                </div>  <!-- Income Gained From Livestock -->
+
+                                                                <div class="form-actions" style="clear:both;">
+                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                </div>  <!-- Cancel or Submit -->
+
+                                                            </form>
                                                         </div>	<!-- Live Stock -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>
@@ -1070,12 +1394,37 @@
                                                     <div class="tab-content padding tab-content-inline">
                                                         <div class="tab-pane active" id="div_home_loan_details">
                                                     		Home Loan Details
+                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_home_loan_details" name="frm_home_loan_details">
+
+                                                                <!-- Any Loans taken against House Construction [DDL] -->
+
+                                                                <!-- Loop Start -->
+                                                                <!-- Total Amount [If Yes] -->
+
+                                                                <!-- Bank Name [If Yes] -->
+
+                                                                <!-- Outstanding Amount [If Yes] -->
+
+                                                                <!-- EMI Amount paid per month [IF Yes] -->
+                                                                <!-- Loop END -->
+
+                                                                <!-- Add More Button -->
+
+                                                                <!-- Submit and Reset Button -->
+
+                                                            </form>
                                                         </div>	<!-- Home Loan Details -->
                                                         <div class="tab-pane" id="div_financial_details">
                                                            Financial Details
+                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_financial_details" name="frm_financial_details">
+                                                                
+                                                            </form>
                                                         </div>	<!-- Financial Details -->
                                                         <div class="tab-pane" id="div_financial_history">
                                                            Financial History
+                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_financial_history" name="frm_financial_history">
+                                                                
+                                                            </form>
                                                         </div>	<!-- Financial History -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>
@@ -1092,6 +1441,57 @@
                	</div>
            	</div>
         </div>
+
+        <div class="modal fade" id="confirm_box" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Remove Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p >Are you sure want to remove land?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="addMoreLand(1);" data-dismiss="modal">
+                            Yes
+                        </button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            No
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="confirm_box_crop" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Remove Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p >Are you sure want to remove crop?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="addMoreCrop(1);" data-dismiss="modal">
+                            Yes
+                        </button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            No
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
         <script type="text/javascript">
 
             function changeDivDisplay(boolVal, divId)
@@ -1257,6 +1657,7 @@
 
             function addMoreLand(remove)
             {
+                contentCount = <?php echo $no_of_land; ?>;
             
                 if(remove==1)
                 {
@@ -1272,7 +1673,7 @@
                     
                 }
                 
-                contentCount    = contentCount + 1
+                contentCount    = contentCount + 1;
                 landData        = '<div id="land'+contentCount+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">';
                     landData        += '<div id="loan_detail" style=" padding: 10px; margin: 5px;">';
                             landData    +=  '<input type="hidden" name="id[]" id="id" value="">';
@@ -1288,7 +1689,7 @@
                             landData    += '<div class="control-group">';
                                 landData    += '<label for="text" class="control-label" style="margin-top:10px">Ownership<span style="color:#F00">*</span></label>';
                                 landData    += '<div class="controls">';
-                                    landData    += '<select id="ddl_owner'+contentCount+'" name="ddl_owner'+contentCount+'" onChange="changeDivDisplay(this.value, '');" class="input-xlarge" data-rule-required="true">';
+                                    landData    += '<select id="ddl_owner'+contentCount+'" name="ddl_owner'+contentCount+'" onChange="changeDivDisplay(this.value, "");" class="input-xlarge" data-rule-required="true">';
                                         landData    += '<option value="" disabled selected> Select here</option>';
                                         landData    += '<option value="Owned">Owned</option>';
                                         landData    += '<option value="Rental">Rental</option>';
@@ -1329,7 +1730,7 @@
                             landData    += '<div class="control-group" >';
                                 landData    += '<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>';
                                 landData    += '<div class="controls">';
-                                    landData    += '<select id="ddl_p_state'+contentCount+'" name="ddl_p_state'+contentCount+'" onChange="getDist("p", this.value, "ddl_p_dist'+contentCount+'", "ddl_p_tal'+contentCount+'", "ddl_p_village'+contentCount+'", "div_p_dist'+contentCount+'", "div_p_tal'+contentCount+'", "div_p_village'+contentCount+'");" class="select2-me input-large" >';
+                                    landData    += '<select id="ddl_p_state'+contentCount+'" name="ddl_p_state'+contentCount+'" onChange="getDist(\'p\', this.value, \'ddl_p_dist'+contentCount+'\', \'ddl_p_tal'+contentCount+'\', \'ddl_p_village'+contentCount+'\', \'div_p_dist'+contentCount+'\', \'div_p_tal'+contentCount+'\', \'div_p_village'+contentCount+'\');" class="select2-me input-large" >';
                                         landData    += '<option value="" disabled selected>Select State</option>';
                                         landData    += '<option value="1">TELANGANA</option>';
                                     landData    += '</select>';
@@ -1445,6 +1846,177 @@
                 {
                     $('#removeLoanType').show('swing');
                 }
+            }
+
+            function addMoreCrop(remove)
+            {
+                contentCount = <?php echo $no_of_crops; ?>;
+
+                alert(contentCount);
+                return false;
+
+                if(remove==1)
+                {
+                    //$('#land'+contentCount).remove();
+                     $('#formContent').find('#crop'+contentCount).slideUp("slow");
+                    contentCount    = contentCount - 1
+                    if(contentCount==1)
+                    {
+                        $('#removeCropTypeLoanType').hide('swing');
+                    }
+                    //calTotal();
+                    return false;
+                }
+
+                contentCount    = contentCount + 1;
+
+                cropData    = '';
+
+                cropData    += '<div id="crop'+contentCount+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">';
+                    cropData    += '<input type="hidden" name="id[]" id="id" value="">';
+                    cropData    += '<h3>Crop '+contentCount+'</h3>';
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Current Crop Season <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_cur_crop_season'+contentCount+'" name="ddl_cur_crop_season'+contentCount+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="Kharif">Kharif</option>';
+                                cropData    += '<option value="Rabi">Rabi</option>';
+                                cropData    += '<option value="Summer">Summer</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Current Crop Season [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_cultivating'+contentCount+'" name="ddl_cultivating'+contentCount+'" class="input-xlarge" data-rule-required="true" >'; // <!-- onchange="calTotal();" -->
+                                cropData    += '<option value="" disabled selected> Select here</option>';
+                                <?php
+
+                                $crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
+                                while($crop = mysqli_fetch_array($crops))
+                                {
+                                    ?>
+                                    cropData += '<option value="<?php echo $crop['crop_id'] ?>">';
+                                        cropData += "<?php echo $crop['crop_name'] ?>";
+                                    cropData += '</option>';
+                                    <?php   
+                                }
+                                ?>
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';  // <!-- Type of crop cultivating this year [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_stage'+contentCount+'" name="ddl_stage'+contentCount+'" class="input-xlarge" data-rule-required="true" >';  // <!--onchange="calTotal()"-->
+                                cropData    += '<option value="" disabled selected> Select here</option>';
+                                cropData    += '<option point="3" value="Land Preparation">Land Preparation</option>';
+                                cropData    += '<option point="4" value="Seed Selection">Seed Selection</option>';
+                                cropData    += '<option point="5" value="Seed Sowing">Seed Sowing</option>';
+                                cropData    += '<option point="6" value="Irrigation">Irrigation</option>';
+                                cropData    += '<option point="7" value="Crop Growth">Crop Growth</option>';
+                                cropData    += '<option point="8" value="Fertilizing">Fertilizing</option>';
+                                cropData    += '<option point="9" value="Harvesting">Harvesting</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';  // <!-- Current stage of crop [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<input type="text" id="txt_expected_yield'+contentCount+'" name="txt_expected_yield'+contentCount+'" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Yield Expected">';
+                        cropData    += '</div>';
+                    cropData    += '</div>';  // <!-- Total Yield Expected [In tonnes Per Acre] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Potential market <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_potential_market'+contentCount+'" name="ddl_potential_market'+contentCount+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="local_mandis">Local Mandis and Location</option>';
+                                cropData    += '<option value="FPO">FPO</option>';
+                                cropData    += '<option value="Private_Buyer">Private Buyer (Companies)</option>';
+                                cropData    += '<option value="Government">Government</option>';
+                                cropData    += '<option value="Other">Other</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Potential market [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Crop Storage <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_crop_storage'+contentCount+'" name="ddl_crop_storage'+contentCount+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="Govt_warehouse">Govt. Warehouse</option>';
+                                cropData    += '<option value="Pvt_warehouse">Pvt. Warehouse</option>';
+                                cropData    += '<option value="Factory">Factory</option>';
+                                cropData    += '<option value="Mandis_direct">Mandis Direct</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Crop Storage [DDL] --> 
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Expected Price This Year In Rs. <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<input type="text" id="txt_expectedprice'+contentCount+'" name="txt_expectedprice'+contentCount+'" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" placeholder="Expected Price">';    // <!-- onchange="calTotal()" -->
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Expected Price This Year  -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Total Income Expected This Year [ Per Acre Per Crop ] <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<input type="text" id="txt_expectedincome'+contentCount+'" name="txt_expectedincome'+contentCount+'" class="input-xlarge"  data-rule-required="true" data-rule-number="true" maxlength="10"  placeholder="Total Income Expected"> '; // <!-- onchange="calTotal()" -->
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Total income expected this year -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Potential Crop Diseases <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_diseases'+contentCount+'" name="ddl_diseases'+contentCount+'" class="input-xlarge" data-rule-required="true" >';    // <!-- onchange="calTotal()" -->
+                                cropData    += '<option value="" disabled selected> Select here</option>';
+                                cropData    += '<option point="1" value="Fungal"> Fungal</option>';
+                                cropData    += '<option point="4" value="Non-fungal"> Non-fungal</option>';
+                                cropData    += '<option point="0" value="Severe"> Severe</option>';
+                                cropData    += '<option point="8" value="Treatable"> Treatable</option>';
+                                cropData    += '<option point="10" value="No potential of diseases"> No potential of diseases</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Potential crop diseases [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Potential Pest Control Problems <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_pest_problems'+contentCount+'" name="ddl_pest_problems'+contentCount+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="yes">Yes</option>';
+                                cropData    += '<option value="no">No</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Potential Pest problems [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_filt_type'+contentCount+'" name="ddl_filt_type'+contentCount+'" class="select2-me input-xlarge">';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="Organic Fertilizers">Organic Fertilizers</option>';
+                                cropData    += '<option value="Inorganic Fertilizers">Inorganic Fertilizers</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- What kind of Fertilizer and pesticides being used [DDL] -->
+
+                cropData    += '</div>';
+                
+                $('#formContent').append(cropData).find('#crop'+contentCount).slideDown("slow");
+                 
+                if(contentCount>=2)
+                {
+                    $('#removeCropType').show('swing');
+                }   
             }
         </script>
     </body>

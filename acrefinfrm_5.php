@@ -207,7 +207,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
                                              <div class="control-group">
 												<label for="text" class="control-label" style="margin-top:10px">Type of Phone Ownership<span style="color:#F00">*</span></label>
 												<div class="controls">
-													<select data-rule-required="true" id="f5_phonetype" name="f5_phonetype" class="input-xlarge" data-rule-required="true">
+													<select id="f5_phonetype" name="f5_phonetype" class="input-xlarge" data-rule-required="true">
 														<option value="" disabled selected> Select here</option>
 														<option value="smartphone" > Smart Phone</option>
 														<option value="featurephone" > Feature Phone</option>

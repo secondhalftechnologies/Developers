@@ -52,19 +52,18 @@
 
 		if(!$check_exist)
 		{
-			$res=insert('tbl_spouse_details', $data);
-
+			$res = insert('tbl_spouse_details', $data);
+			
 			quit('Record Submitted Successfully..!',1);
 		}
 		else
 		{
-			$id 	= $check_exist;
+			$id 	= $check_exist['id'];
 			
 			$data['f3_modified_by']		= $fm_caid;
 			$data['f3_modified_date']	= $datetime;
 
-			$res =update('tbl_spouse_details',$data,array('id'=>$id),array(),array(),array());
-
+			$res =update('tbl_spouse_details',$data,array("id"=>$id),array(),array(),array());
 			quit('Record Updated Successfully..!',1);
 		}
 	}

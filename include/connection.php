@@ -18,7 +18,14 @@
         $dbuname = "root"; // Database Username
         $dbpass = ""; // Database Password
         $dbname = "sqyard_2017"; // Database Name
-		$BaseFolder = "http://localhost/sqoreyard/";
+		if ($_SERVER['HTTP_HOST'] == "localhost")
+		{
+			$BaseFolder = "http://localhost/sqoreyard/";	
+		}
+		else
+		{
+			$BaseFolder = "http://192.168.0.13/sqoreyard/";
+		}
 	}
 	else
 	{
@@ -39,11 +46,12 @@
 	}
 	
 	
+	
 	if(isset($_REQUEST['fm_id']) && $_REQUEST['fm_id']!=  "")
 	{
-		include('include/query-helper.php');	
+		include('query-helper.php');
 	  	$check_exist = checkExist('tbl_farmers',array('fm_id'=>$_REQUEST['fm_id']),array(),array(),array());
-			
+			           
 			if(!$check_exist)
 			{ ?>
 
@@ -362,6 +370,7 @@ EOF;
 	// ======================================================================================
 	// END : PayU Money
 	// ======================================================================================
+	
 	function loader()
 	{
 		?>

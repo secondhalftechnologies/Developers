@@ -230,14 +230,14 @@
                                 <div class="control-group span6" style="clear:both;">
                                 	<label for="tasktitel" class="control-label">House No. <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" data-rule-number="true" maxlength="6" size="6" />
+                                    	<input type="text" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="10" size="10" />
                                     </div>
                                 </div>	<!-- P House No. -->
                                 
                                 <div class="control-group span6">
                                 	<label for="tasktitel" class="control-label">House No. <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" data-rule-number="true" maxlength="6" size="6" />
+                                    	<input type="text" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="10" size="10" />
                                     </div>
                                 </div>	<!-- C House No. -->
                                 

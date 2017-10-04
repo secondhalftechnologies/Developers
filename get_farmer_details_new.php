@@ -18,16 +18,6 @@
         <?php
     }
 	
-	$result = lookup_value('tbl_points',array(),array("fm_id"=>$fm_id),array(),array(),array());
-	if($result)
-	{
-		$num	= mysqli_num_rows($result);
-		if($num !=0)
-		{
-			$pt_row	= mysqli_fetch_array($result);
-		}
-	}
-	
     $res_spouse_details     = lookup_value('tbl_spouse_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
     if($res_spouse_details)
     {
@@ -48,49 +38,9 @@
             $data['f3_spouse_mfi']              = $row_spouse_details['f3_spouse_mfi'];
             $data['f3_spouse_mfiname']          = $row_spouse_details['f3_spouse_mfiname'];
             $data['f3_spouse_mfiamount']        = $row_spouse_details['f3_spouse_mfiamount'];
-			$data['f3_affliation_status']		= $row_spouse_details['f3_affliation_status'];
-			$data['f3_fpo_name']				= $row_spouse_details['f3_fpo_name'];
-			$data['f3_bank_name']				= $row_spouse_details['f3_bank_name'];
         }
     }
-	
-	$res_applicant_knowledge = lookup_value('tbl_applicant_knowledge',array(),array("fm_id"=>$fm_id),array(),array(),array());
-	if($res_applicant_knowledge)
-	{
-		$num_applicant_knowledge    = mysqli_num_rows($res_applicant_knowledge);
-		if($num_applicant_knowledge !=0)
-		{
-			$row_applicant_knowledge  = mysqli_fetch_array($res_applicant_knowledge);
-			$data['f2_edudetail']     = $row_applicant_knowledge['f2_edudetail'];
-			$data['f2_proficiency']   = $row_applicant_knowledge['f2_proficiency'];
-			$data['f2_participation'] = $row_applicant_knowledge['f2_participation'];
-			$data['f2_points']        = $row_applicant_knowledge['f2_points'];
-			
-			$data['f2_typeprog']      = $row_applicant_knowledge['f2_typeprog'];
-			$data['f2_condprog']      = $row_applicant_knowledge['f2_condprog'];
-			$data['f2_cropprog']      = $row_applicant_knowledge['f2_cropprog'];
-			$data['f2_durprog']       = $row_applicant_knowledge['f2_durprog'];
-		}
-	}
-	
-	$res_applicant_phone = lookup_value('tbl_applicant_phone',array(),array("fm_id"=>$fm_id),array(),array(),array());
-	if($res_applicant_phone)
-	{
-		$num_applicant_phone    = mysqli_num_rows($res_applicant_phone);
-		if($num_applicant_phone !=0)
-		{
-			$row_applicant_phone      				= mysqli_fetch_array($res_applicant_phone);
-			$data['f5_phonetype']     				= $row_applicant_phone['f5_phonetype'];
-			$data['f5_servpro']       				= $row_applicant_phone['f5_servpro'];
-			$data['f5_network']       				= $row_applicant_phone['f5_network'];
-			$data['f5_datapack']      				= $row_applicant_phone['f5_datapack'];
-			$data['f5_datapackname']  				= $row_applicant_phone['f5_datapackname'];
-			$data['f5_appuse']        				= $row_applicant_phone['f5_appuse'];
-			$data['f5_farmapp']       				= $row_applicant_phone['f5_farmapp'];
-			$data['f5_any_one_have_smart_phone']	= $row_applicant_phone['f5_any_one_have_smart_phone'];
-		}
-	}
-	
+
     $no_of_land = 1;
     $land_arr   = array();
     $result     = lookup_value('tbl_land_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
@@ -132,6 +82,68 @@
     	<?php
         	headerdata($feature_name);
 		?>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- <title>Farmer Details</title> -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <!-- Apple devices fullscreen -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!-- Apple devices fullscreen -->
+        <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- jQuery UI -->
+        <link rel="stylesheet" href="css/plugins/jquery-ui/smoothness/jquery-ui.html">
+        <link rel="stylesheet" href="css/plugins/jquery-ui/smoothness/jquery.ui.theme.html">
+        <!-- Notify -->
+        <link rel="stylesheet" href="css/plugins/gritter/jquery.gritter.css">
+        <!-- Theme CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Color CSS -->
+        <link rel="stylesheet" href="css/themes.css">
+        
+        <!-- jQuery -->
+        <script src="js/jquery.min.js"></script>
+    
+        <!-- Nice Scroll -->
+        <script src="js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
+        <!-- imagesLoaded -->
+        <script src="js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
+        <!-- jQuery UI -->
+        <script src="js/plugins/jquery-ui/jquery.ui.core.min.html"></script>
+        <script src="js/plugins/jquery-ui/jquery.ui.widget.min.html"></script>
+        <script src="js/plugins/jquery-ui/jquery.ui.mouse.min.html"></script>
+        <script src="js/plugins/jquery-ui/jquery.ui.resizable.min.html"></script>
+        <script src="js/plugins/jquery-ui/jquery.ui.sortable.min.html"></script>
+        <!-- slimScroll -->
+        <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Bootbox -->
+        <script src="js/plugins/bootbox/jquery.bootbox.js"></script>
+        <!-- Notify -->
+        <script src="js/plugins/gritter/jquery.gritter.min.js"></script>
+    
+        <!-- Theme framework -->
+        <script src="js/eakroko.min.js"></script>
+        <!-- Theme scripts -->
+        <script src="js/application.min.js"></script>
+        <!-- Just for demonstration -->
+        <script src="js/demonstration.min.js"></script>
+    	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="img/favicon.ico" />
+        <!-- Apple devices Homescreen icon -->
+        <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
+        <style type="text/css">
+        .tabs.tabs-inline.tabs-left 
+        {
+            background: #eee none repeat scroll 0 0;
+            position: absolute;
+            width: 150px;
+        }
+        </style>
     </head>
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
@@ -204,22 +216,6 @@
                                                                 <li class='active'>
                                                                     <a href="#div_spouse_details" data-toggle='tab'>
                                                                         <i class="fa fa-lock"></i>Spouse Details
-																		<?php 
-																		if(isset($pt_row['pt_frm3']) && $pt_row['pt_frm3']!="") 
-																		{
-																			?>
-                                                                        	<span class="badge " id="f3_pt" style="font-size:16px; font-weight:bold">
-																				<?php echo $pt_row['pt_frm3']; ?>
-                                                                            </span> 
-                                                                        	<?php 
-																		} 
-                                                                        else
-                                                                        {
-																			?>
-                                                                        	<span class="badge " id="f3_pt" style="font-size:16px; color:red">Incomplete</span> 
-                                                                        	<?php 
-																		} 
-																		?>
                                                                     </a>
                                                                 </li>   <!-- Spouse Details -->
                                                                 <?php
@@ -228,22 +224,6 @@
                                                             <li <?php if($married_status == 'no'){ ?> class="active" <?php }  ?>>
                                                                 <a href="#div_appli_knowledge" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Applicant's Knowledge
-                                                                    <?php 
-																	if(isset($pt_row['pt_frm2']) && $pt_row['pt_frm2']!="") 
-																	{
-																		?>
-																		<span class="badge " id="f2_pt" style="font-size:16px; font-weight:bold">
-																			<?php echo $pt_row['pt_frm2']; ?>
-																		</span> 
-																		<?php 
-																	} 
-																	else
-																	{
-																		?>
-																		<span class="badge " id="f2_pt" style="font-size:16px; color:red">Incomplete</span> 
-																		<?php 
-																	} 
-																	?>
                                                                 </a>
                                                             </li>	<!-- Applicant's Knowledge -->
                                                             <li>
@@ -258,7 +238,7 @@
                                                             </li>	<!-- Family Details -->
                                                             <li>
                                                                 <a href="#div_appliances_motors" data-toggle='tab'>
-                                                                    <i class="fa fa-twitter"></i>Appliances / Motors
+                                                                    <i class="fa fa-twitter"></i>Appliances / Motors 
                                                                 </a>
                                                             </li>	<!-- Appliances / Motors -->
                                                         </ul>
@@ -269,386 +249,367 @@
                                                         {
                                                             ?>
                                                             <div class="tab-pane active" id="div_spouse_details">
-                                                                <form enctype="multipart/form-data" method="POST" class='form-horizontal form-bordered form-validate' id="frm_knowledge_detail">
+                                                                Spouse Details
+                                                                <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_spouse_details" name="frm_spouse_details">
                                                                     
-                                                                    <input type="hidden" id="add_knowledge_detail" name="add_knowledge_detail" value="1">
-                                                                    <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
-                                                                    <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
-                                                                    <input type="hidden" id="f3_points" name="f3_points" value="">
-                                                                    
-                                                                    <div class="form-content">
-                                                                    	<div class="control-group">
-                                                                            <label for="text" class="control-label" style="margin-top:10px">Are You Married? <span style="color:#F00">*</span></label>
-                                                                            <div class="controls">
-                                                                                <select id="f3_married" name="f3_married" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                    <option value="" disabled > Select here</option>
-                                                                                    <option value="yes" point="10" <?php if($married_status == 'yes'){?> selected="selected" <?php } ?>> Yes</option>
-                                                                                    <option value="no" point="2"> No</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>	<!-- Are You Married? -->
-                                                                        
-                                                                        <div id="spouse_detail" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
-                                                                            <div class="control-group">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">Spouse Name<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" id="f3_spouse_fname" name="f3_spouse_fname" class="input-xlarge v_name" data-rule-minlength="3" data-rule-maxlength="50" data-rule-required="true" placeholder="Spouse Name">
-                                                                                </div>
-                                                                            </div>	<!-- Spouse Name -->
-                            
-                                                                            <div class="control-group">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">Age <span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" id="f3_spouse_age" name="f3_spouse_age" class="v_number input-xlarge" data-rule-number="true" data-rule-minlength="2" data-rule-maxlength="2" data-rule-required="true" placeholder="Age">
-                                                                                </div>
-                                                                            </div>	<!--age-->
-                            
-                                                                            <div class="control-group">
-                                                                                <label for="numberfield" class="control-label">Mobile no.<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" placeholder="Mobile no." name="f3_spouse_mobno" id="f3_spouse_mobno" class="input-xlarge v_number" data-rule-number="true"  data-rule-minlength="10"  data-rule-maxlength="10" data-rule-required="true" >
-                                                                                </div>
-                                                                            </div>	<!--Mobile no-->
-                            
-                                                                            <div class="control-group">
-                                                                                <label for="numberfield" class="control-label">Aadhaar no.<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" placeholder="Aadhaar no." name="f3_spouse_adhno" id="f3_spouse_adhno" class="input-xlarge v_number" data-rule-number="true"  data-rule-minlength="12"  data-rule-maxlength="12" data-rule-required="true">
-                                                                                </div>
-                                                                            </div>	<!--aadhar no-->
-                            
-                                                                            <div class="control-group">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">Is your Spouse a part of any SHG?<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <select id="f3_spouse_shg" name="f3_spouse_shg" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                        <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" point="10" <?php if($data['f3_spouse_shg'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" point="0" <?php if($data['f3_spouse_shg'] == 'no'){ ?> selected <?php }  ?>> No</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>	<!--Is your Spouse a part of any SHG?-->
-                            
-                                                                            <div class="control-group" id="shg_name" style="display: none">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">Name of SHG <span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" id="f3_spouse_shgname" name="f3_spouse_shgname" class="input-xlarge v_name" data-rule-required="true" placeholder="Name of SHG">
-                                                                                </div>
-                                                                            </div>	<!--shg name-->
-                            
-                                                                            <div class="control-group">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">Occupation<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <select id="f3_spouse_occp" name="f3_spouse_occp" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                        <option value="" disabled selected> Select here</option>
-                                                                                        <option value="housewife" point="0" <?php if($data['f3_spouse_occp'] == 'housewife'){ ?> selected <?php }  ?>> Housewife</option>
-                                                                                        <option value="farmer"    point="10" <?php if($data['f3_spouse_occp'] == 'farmer'){ ?> selected <?php }  ?>> Farmer</option>
-                                                                                        <option value="other"     point="5" <?php if($data['f3_spouse_occp'] == 'other'){ ?> selected <?php }  ?>> Other</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>	<!-- Spouse's Occupation -->
-                            
-                                                                            <div class="control-group" id="input_income" style="display: none;">
-                                                                                <label for="numberfield" class="control-label">Spouse Income per month<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" placeholder="Spouse Income per month" name="f3_spouse_income" id="f3_spouse_income" data-rule-number="true"  class="input-xlarge" data-rule-maxlength="10" data-rule-required="true">
-                                                                                </div>
-                                                                            </div>	<!-- Spouse's Income-->
-                            
-                                                                            <div class="control-group">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">Any micro finance help taken by spouse?<span style="color:#F00">*</span></label>
-                                                                                <div class="controls">
-                                                                                    <select id="f3_spouse_mfi" name="f3_spouse_mfi" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                        <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" point="10" <?php if($data['f3_spouse_mfi'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" point="0" <?php if($data['f3_spouse_mfi'] == 'no'){ ?> selected <?php }  ?>> No</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>	<!--Any micro finance help taken by spouse?-->
-                            
-                                                                            <div id="microfinance" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
-                            
-                                                                                <div class="control-group">
-                                                                                    <label for="text" class="control-label" style="margin-top:10px">Name of Microfinance<span style="color:#F00">*</span></label>
-                                                                                    <div class="controls">
-                                                                                        <input type="text" id="f3_spouse_mfiname" name="f3_spouse_mfiname" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4"  data-rule-maxlength="100" placeholder="Micro finance firm">
-                                                                                    </div>
-                                                                                </div>	<!-- Name of Microfinance -->
-                            
-                                                                                <div class="control-group">
-                                                                                    <label for="numberfield" class="control-label">Amount taken from Microfinance<span style="color:#F00">*</span></label>
-                                                                                    <div class="controls">
-                                                                                        <input type="text" placeholder="Amount Taken" name="f3_spouse_mfiamount" id="f3_spouse_mfiamount" class="input-xlarge v_number" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="8">
-                                                                                    </div>
-                                                                                </div>	<!-- Amount taken from Microfinance -->
-                                                                            
-                                                                            </div>	<!-- microfinance[If Yes] -->
-                                                                            
-                                                                            <div class="control-group">
-                                                                                <label for="tasktitel" class="control-label">
-                                                                                    Affliation to any association? <span style="color:#F00">*</span>
-                                                                                </label>
-                                                                                <div class="controls">
-                                                                                    <select id="f3_affliation_status" name="f3_affliation_status" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                        <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" point="10" <?php if($data['f3_affliation_status'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" point="0" <?php if($data['f3_affliation_status'] == 'no'){ ?> selected <?php }  ?>> No</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>  <!-- Affliation to any association [DDL] -->
-                                                                    
-                                                                            <div id="div_affliation_display" style="display: none;">
-                                                                                <div class="control-group">
-                                                                                    <label for="text" class="control-label" style="margin-top:10px">
-                                                                                        FPO/FPC Name <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <input type="text" id="f3_fpo_name" name="f3_fpo_name" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4"  data-rule-maxlength="100" placeholder="Entre FPO/FPC Name">
-                                                                                    </div>
-                                                                                </div>  <!-- Name Of FPO / FPC [If Yes] -->
-                                                                            </div>  <!-- If affliation DDL Yes -->
-        
-                                                                            <div class="control-group">
-                                                                                <label for="text" class="control-label" style="margin-top:10px">
-                                                                                    Co-operative society / Bank Name <span style="color:#F00">*</span>
-                                                                                </label>
-                                                                                <div class="controls">
-                                                                                    <input type="text" id="f3_bank_name" name="f3_bank_name" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4"  data-rule-maxlength="100" placeholder="Co-operative society / Bank Name">
-                                                                                </div>
-                                                                            </div>  <!-- Co-operative society / Bank Name -->
-                                                                            
+                                                                    <input type="hidden" id="hid_spouse_details" name="hid_spouse_details" value="1">
+                                                                    <input type="hidden" id="hid_farmer_id" name="hid_farmer_id" value="<?php echo $fm_id; ?>">
+
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            Spouse Name <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_spouse_name" name="txt_spouse_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Entre Your Spouse Name">
                                                                         </div>
+                                                                    </div>  <!-- Spouse Name -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            Spouse Age <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_spouse_age" name="txt_spouse_age" class="input-xlarge v_name" data-rule-required="true" data-rule-number="true" maxlength="3" size="3" placeholder="Entre Your Spouse Age">
+                                                                        </div>
+                                                                    </div>  <!-- Spouse Age -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="numberfield" class="control-label">
+                                                                            Spouse Mobile Number <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                    
+                                                                        <div class="controls">
+                                                                            <input type="text" placeholder="Spouse Mobile Number" name="txt_spouse_mobile_no" id="txt_spouse_mobile_no" data-rule-number="true" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
+                                                                            <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
+                                                                        </div>
+                                                                    </div>  <!-- Spouse Mobile Number -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="numberfield" class="control-label">
+                                                                            Spouse Aadhaar No. <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" placeholder="Spouse Aadhaar no" name="txt_spouse_aadhar" id="txt_spouse_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
+                                                                            <label id="comp_1" style="color:#FF0000;width:200px;margin-left:100px;"></label>
+                                                                        </div>
+                                                                    </div> <!-- Spouse Aadhaar Number -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">
+                                                                            Part of any SHG? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_part_of_shg" name="ddl_part_of_shg" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'div_shg_name');">
+                                                                                <option value="">Select here</option>
+                                                                                <option value="yes">Yes</option>
+                                                                                <option value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Part of any SHG [Radio] -->
+                                                                    
+                                                                    <div id="div_shg_name" style="display: none;">
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">
+                                                                                SHG Name <span style="color:#F00">*</span>
+                                                                            </label>
+                                                                            <div class="controls">
+                                                                                <input type="text" id="txt_shg_name" name="txt_shg_name" class="input-xlarge v_name" placeholder="Entre Your SHG Name">
+                                                                            </div>
+                                                                        </div>    
+                                                                    </div>  <!-- SHG Name [If Yes] -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Spouse Occupation</label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_spouse_occupation" name="ddl_spouse_occupation" class="select2-me input-large" onchange="changeDivDisplay(this.value, 'div_spouse_income');">
+                                                                                <option value="">Select Spouse Occupation</option>
+                                                                                <option value="Housewife">Housewife</option>
+                                                                                <option value="Farmer">Farmer</option>
+                                                                                <option value="Other">Other</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Spouse Occupation [DDL] -->
+                                                                    
+                                                                    <div id="div_spouse_income" style="display: none;">
+                                                                        <div class="control-group">
+                                                                            <label for="tasktitel" class="control-label">Spouse Income</label>
+                                                                            <div class="controls">
+                                                                                <input type="text" placeholder="Spouse Income" name="txt_spouse_incode" id="txt_spouse_incode" data-rule-number="true" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-maxlength="10" class="input-xlarge v_number">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>  <!-- Spouse Income [If not Housewife] -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">
+                                                                            Mony Taken From Microfinance? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_mony_isTaken" name="ddl_mony_isTaken" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'div_microfinance_display');">
+                                                                                <option value="">Select here</option>
+                                                                                <option value="yes">Yes</option>
+                                                                                <option value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Microfinance help taken [DDL] -->
+                                                                    
+                                                                    <div id="div_microfinance_display" style="display: none;">
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">
+                                                                                Microfinance Name <span style="color:#F00">*</span>
+                                                                            </label>
+                                                                            <div class="controls">
+                                                                                <input type="text" id="txt_microfinance_name" name="txt_microfinance_name" class="input-xlarge v_name" placeholder="Entre Your Microfinance Name">
+                                                                            </div>
+                                                                        </div>  <!-- Name of the Microfinance [If Yes] -->
                                                                         
-                                                                        <div class="form-actions">
-                                                                            <input type="reset" class="btn" value="Back" id="back">
-                                                                            <input type="submit" class="btn btn-primary" value="Save" id="save">
-                                                                        </div>	<!-- Back and Save -->
-                                                                    </div>
+                                                                        <div class="control-group">
+                                                                            <label for="tasktitel" class="control-label">Mony Taken From Microfinance</label>
+                                                                            <div class="controls">
+                                                                                <input type="text" placeholder="Mony Taken From Microfinance" name="txt_mony_taken_from_mf" id="txt_mony_taken_from_mf" data-rule-number="true" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-maxlength="10" class="input-xlarge v_number">
+                                                                            </div>
+                                                                        </div>  <!-- How much mony taken from Microfinance [DDL] [If yes] -->
+                                                                    </div>  <!-- If Micro-Finance DDL Yes -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">
+                                                                            Affliation to any association? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_affliation" name="ddl_affliation" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'div_affliation_display');">
+                                                                                <option value="">Select here</option>
+                                                                                <option value="yes">Yes</option>
+                                                                                <option value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Affliation to any association [DDL] -->
+                                                                    
+                                                                    <div id="div_affliation_display" style="display: none;">
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">
+                                                                                FPO/FPC Name <span style="color:#F00">*</span>
+                                                                            </label>
+                                                                            <div class="controls">
+                                                                                <input type="text" id="txt_fpo_name" name="txt_fpo_name" class="input-xlarge v_name" data-rule-lettersonly="true" placeholder="Entre FPO/FPC Name">
+                                                                            </div>
+                                                                        </div>  <!-- Name Of FPO / FPC [If Yes] -->
+                                                                    </div>  <!-- If affliation DDL Yes -->
+
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            Co-operative society / Bank Name <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_spouse_bank_name" name="txt_spouse_bank_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Co-operative society / Bank Name">
+                                                                        </div>
+                                                                    </div>  <!-- Co-operative society / Bank Name -->
+                                                                    
+                                                                    <div class="form-actions" style="clear:both;">
+                                                                        <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                        <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                    </div> <!-- Submit -->
+                                    
                                                                 </form>
-                                                                <h1 id="spouse_g_total">0</h1>
                                                             </div>  <!-- Spouse Details -->
                                                             <?php
                                                         }
                                                         ?>
+                                                        
                                                         <div class="tab-pane <?php if($married_status == 'no'){ ?> active <?php }  ?>" id="div_appli_knowledge">
-                                                           	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_applicant_knowledge" name="frm_applicant_knowledge">
+                                                           	Applicant's Knowledge
+                                                          	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="div_appli_knowledge" name="div_appli_knowledge">
                                                             	
-                                                                <input type="hidden" id="add_knowledge_detail" name="add_knowledge_detail" value="1">
-                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
-                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
-                                                                <input type="hidden" id="f2_points" name="f2_points" value="">
-                                                                
-                                                                <div class="form-content">
-                                                                	
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Educational Qualification Details <span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <select id="f2_edudetail" name="f2_edudetail" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
-                                                                                <option value="" disabled <?php if($data['f2_edudetail'] == ''){ ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="illiterate" point="2" <?php if($data['f2_edudetail'] == 'illiterate'){ ?> selected <?php } ?>>Illiterate</option>
-                                                                                <option value="primary education" point="4" <?php if($data['f2_edudetail'] == 'primary education'){ ?> selected <?php } ?>>Primary Education</option>
-                                                                                <option value="matriculate" point="6" <?php if($data['f2_edudetail'] == 'matriculate'){ ?> selected <?php } ?>>Matriculate</option>
-                                                                                <option value="graduate" point="8" <?php if($data['f2_edudetail'] == 'graduate'){ ?> selected <?php } ?>>Graduate</option>
-                                                                                <option value="post graduate" point="10" <?php if($data['f2_edudetail'] == 'post graduate'){ ?> selected <?php } ?>>Post Graduate</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!-- Educational Qualification Details [DDL] -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Regional Language Knowledge <span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <select id="f2_proficiency" data-rule-required="true" name="f2_proficiency" class="select2-me input-xlarge" onchange="calTotal()">
-                                                                                <option value="" disabled <?php if($data['f2_proficiency'] == ''){ ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="read write" point="10" <?php if($data['f2_proficiency'] == 'read write'){ ?> selected <?php } ?>>Read and Write</option>
-                                                                                <option value="read only" point="5" <?php if($data['f2_proficiency'] == 'read only'){ ?> selected <?php } ?>>Read Only</option>
-                                                                                <option value="understand only" point="0" <?php if($data['f2_proficiency'] == 'understand only'){ ?> selected <?php } ?>>Understand Only</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!-- Regional Language Knowledge [DDL] -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
-                                                                        <div class="controls">
-                                                                            <select id="f2_participation" data-rule-required="true" name="f2_participation" class="select2-me input-xlarge">
-                                                                                <option value="" disabled selected> Select here</option>
-                                                                                <option value="yes" point="10"> Yes</option>
-                                                                                <option value="no" point="0"> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!-- Participation in any Farming Program / Trainings [DDL] -->
-                                                                    
-                                                                    <div id="program_detail" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
-                                                                    	
-                                                                        <div class="control-group">
-                                                                            <label for="text" class="control-label" style="margin-top:10px">Type of the training Programs<span style="color:#F00">*</span></label>
-                                                                            <div class="controls">
-                                                                                <select id="f2_typeprog" name="f2_typeprog" class="select2-me input-xxlarge" data-rule-required="true">
-                                                                                    <option value="" disabled selected> Select here</option>
-                                                                                    <option value="organic farming training"> Organic Farming Training</option>
-                                                                                    <option value="equipment training"> Equipment Training</option>
-                                                                                    <option value="technology training"> Technology Training</option>
-                                                                                    <option value="pesticide fertilizer training"> Pesticide/Fertilizer Training</option>
-                                                                                    <option value="other farming training"> Other Farming Training</option>
-                                                                                    <option value="others"> Others</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>	<!-- Type of Training Programs [If Yes] -->
-                                                                    
-                                                                    	<div class="control-group">
-                                                                            <label for="numberfield" class="control-label">
-                                                                                What was the duration of the program?<span style="color:#F00">*</span>
-                                                                            </label>
-                                                                            <div class="controls">
-                                                                                <input type="text" placeholder="00" id="f2_durprog" name="f2_durprog" class="input-xlarge v_number" data-rule-required="true" data-rule-number="true"  data-rule-maxlength="3">
-                                                                            </div>
-                                                                        </div>  <!-- What was the duration of the program [If Yes] -->
-                                                                        
-                                                                        <div class="control-group">
-                                                                            <label for="text" class="control-label" style="margin-top:10px">
-                                                                                Who conducted the Program? <span style="color:#F00">*</span>
-                                                                            </label>
-                                                                            <div class="controls">
-                                                                                <input type="text" placeholder="Who conducted the Program" id="f2_condprog" name="f2_condprog" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4" data-rule-maxlength="100">
-                                                                            </div>
-                                                                        </div>  <!-- Who conducted the Program [If Yes] -->
-                                                                        
-                                                                        <div class="control-group">
-                                                                            <label for="text" class="control-label" style="margin-top:10px">
-                                                                                For which crop was the program held? <span style="color:#F00">*</span>
-                                                                            </label>
-                                                                            <div class="controls">
-                                                                                <input type="text" placeholder="Name" id="f2_cropprog" name="f2_cropprog" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4" data-rule-maxlength="100">
-                                                                            </div>
-                                                                        </div>  <!-- For which crop was the program held [If Yes] -->
-                                                                        
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Educational Qualification Details <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_edudetails" name="ddl_edudetails" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="illiterate" point="2">Illiterate</option>
+                                                                            <option value="primary_education" point="4">Primary Education</option>
+                                                                            <option value="matriculate" point="6">Matriculate</option>
+                                                                            <option value="graduate" point="8">Graduate</option>
+                                                                            <option value="post_graduate" point="10">Post Graduate</option>
+                                                                        </select>
                                                                     </div>
+                                                                </div>	<!-- Educational Qualification Details [DDL] -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Regional Language Knowledge <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_regional_lang" name="ddl_regional_lang" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="read_write" point="10">Read and Write</option>
+                                                                            <option value="read_only" point="5">Read Only</option>
+                                                                            <option value="understand_only" point="0">Understand Only</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Regional Language Knowledge [DDL] -->
+                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_participation" name="ddl_participation" data-rule-required="true" class="select2-me input-xlarge" onchange="changeDivDisplay(this.value, 'program_detail');">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes" point="10"> Yes</option>
+                                                                            <option value="no" point="0"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Participation in any Farming Program / Trainings [DDL] -->
+                                                                
+                                                                <div id="program_detail" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
+                                                                
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Type of the training Programs<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_typeprog" name="ddl_typeprog" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="organic_farming_training"> Organic Farming Training</option>
+                                                                                <option value="equipment_training"> Equipment Training</option>
+                                                                                <option value="technology_training"> Technology Training</option>
+                                                                                <option value="pesticide_fertilizer_training"> Pesticide/Fertilizer Training</option>
+                                                                                <option value="other_farming_training"> Other Farming Training</option>
+                                                                                <option value="others"> Others</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Type of Training Programs [If Yes] -->
                                                                     
-                                                                    <div class="form-actions">
-                                                                        <input type="reset" class="btn" value="Back" id="back">
-                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
-                                                                    </div>	<!-- Back and Save -->
+                                                                    <div class="control-group">
+                                                                        <label for="numberfield" class="control-label">
+                                                                            What was the duration of the program?<span style="color:#F00">*</span>
+                                                                        </label>
                                                                     
-                                                                </div>
-                                                            
+                                                                        <div class="controls">
+                                                                            <input type="text" placeholder="What was the duration of the program?" name="txt_farm_prog_duration" id="txt_farm_prog_duration" data-rule-number="true" maxlength="2" autocomplete="off" data-rule-maxlength="2" class="input-xlarge v_number">
+                                                                        </div>
+                                                                    </div>  <!-- What was the duration of the program [If Yes] -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            Who conducted the Program? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_farm_prog_conducted_by" name="txt_farm_prog_conducted_by" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Who conducted the Program?">
+                                                                        </div>
+                                                                    </div>  <!-- Who conducted the Program [If Yes] -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">
+                                                                            For which crop was the program held? <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="txt_farm_prog_crop" name="txt_farm_prog_crop" class="input-xlarge v_name" data-rule-required="true" placeholder="For which crop was the program held?">
+                                                                        </div>
+                                                                    </div>  <!-- For which crop was the program held [If Yes] -->
+                                                                </div> 	<!-- [If Yes wala div] -->
+                                                                
+                                                                <div class="form-actions" style="clear:both;">
+                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
+                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
+                                                                </div> <!-- Submit -->
+                                                                
                                                             </form>
-                                                            <h1 id="applicant_knowledge_g_total">0</h1> 
                                                         </div>	<!-- Applicant's Knowledge -->
                                                         <div class="tab-pane" id="div_phone_details">
                                                            	Applicant's Phone Details
-                                                        	<form enctype="multipart/form-data" method="POST" class='form-horizontal form-wizard wizard-vertical' id="frm_applicant_phone" name="frm_applicant_phone">
+                                                        	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_phone_details" name="frm_phone_details">
 																
-                                                                <input type="hidden" id="add_applicant_detail" name="add_applicant_detail" value="1">
-                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
-                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Type of phone ownership <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_phonetype" name="ddl_phonetype" class="select2-me input-xlarge" data-rule-required="true" onchange="changeDivDisplay(this.value, 'div_smartphone_display')">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="smartphone" >Smartphone</option>
+                                                                            <option value="featurephone" >Featurephone</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Type of phone ownership -->
                                                                 
-                                                                <div class="form-content">
-                                                                	
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Type of phone ownership <span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_phonetype" name="f5_phonetype" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                <option value="" disabled <?php if($data['f5_phonetype'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="smartphone" point="10" <?php if($data['f5_phonetype'] == 'smartphone') { ?> selected <?php } ?>>Smartphone</option>
-                                                                                <option value="featurephone" point="5" <?php if($data['f5_phonetype'] == 'featurephone') { ?> selected <?php } ?>>Featurephone</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!-- Type of phone ownership -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Does any of your family member own a Smart Phone? <span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_any_one_have_smart_phone" name="f5_any_one_have_smart_phone" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                <option value="" disabled <?php if($data['f5_any_one_have_smart_phone'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f5_any_one_have_smart_phone'] == 'yes') { ?> selected <?php } ?>>Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f5_any_one_have_smart_phone'] == 'no') { ?> selected <?php } ?>>No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!-- Does any of your family member own a Smart Phone?  -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Who is the service Provider?</label>
-                                                                        <div class="controls">
-                                                                            <select data-rule-required="true" id="f5_servpro" name="f5_servpro" class="input-xlarge" >
-                                                                                <option value="" disabled <?php if($data['f5_servpro'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="aircel" <?php if($data['f5_servpro'] == 'aircel') { ?> selected <?php } ?>>Aircel</option>
-                                                                                <option value="airtel" <?php if($data['f5_servpro'] == 'airtel') { ?> selected <?php } ?>>Airtel</option>
-                                                                                <option value="jio" <?php if($data['f5_servpro'] == 'jio') { ?> selected <?php } ?>>Jio</option>
-                                                                                <option value="relience" <?php if($data['f5_servpro'] == 'relience') { ?> selected <?php } ?>>Relience</option>
-                                                                                <option value="tata docomo" <?php if($data['f5_servpro'] == 'tata docomo') { ?> selected <?php } ?>>Tata Docomo</option>
-                                                                                <option value="tata" <?php if($data['f5_servpro'] == 'tata') { ?> selected <?php } ?>>Tata</option>
-                                                                                <option value="uninor" <?php if($data['f5_servpro'] == 'uninor') { ?> selected <?php } ?>>Uninor</option>
-                                                                                <option value="vodafone" <?php if($data['f5_servpro'] == 'vodafone') { ?> selected <?php } ?>>Vodafone</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!-- Who is the Service Provider -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you receive sufficeint network Coverage?</label>
-                                                                        <div class="controls">
-                                                                            <select data-rule-required="true" id="f5_network" name="f5_network" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_network'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" <?php if($data['f5_network'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" <?php if($data['f5_network'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!--Do you receive sufficeint network Coverage?-->
-                                                                    
-                                                                    <div class="control-group" style="display: none" id="datapackInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_datapack" name="f5_datapack" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_datapack'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f5_datapack'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f5_datapack'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!--Do you have Data Pack on your Phone ? -->
-                                                                    
-                                                                    <div class="control-group" style="display: none" id="datapacknameInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_datapackname" name="f5_datapackname" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_datapackname'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="2g" <?php if($data['f5_datapackname'] == '2g') { ?> selected <?php } ?>> 2G</option>
-                                                                                <option value="3g" <?php if($data['f5_datapackname'] == '3g') { ?> selected <?php } ?>> 3G</option>
-                                                                                <option value="4g" <?php if($data['f5_datapackname'] == '4g') { ?> selected <?php } ?>> 4G</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!--specify data pack-->
-                                                                    
-                                                                    <div class="control-group" style="display: none" id="appuseInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_appuse" name="f5_appuse" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_appuse'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" <?php if($data['f5_appuse'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" <?php if($data['f5_appuse'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div><!--Do you use apps regularly-->
-                                                                    
-                                                                    <div class="control-group" style="display: none;" id="farmappInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_farmapp" name="f5_farmapp" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_farmapp'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f5_farmapp'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f5_farmapp'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!--Subscriptions to Farming Advisory Apps?-->
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Does any of your family member own a Smart Phone? <span style="color:#F00">*</span></label>
+                                                                    <div class="controls">
+                                                                        <select id="ddl_own_sp" name="ddl_own_sp" class="select2-me input-xlarge" data-rule-required="true">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes" >Yes</option>
+                                                                            <option value="no" >No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Does any of your family member own a Smart Phone?  -->
                                                                 
-                                                                </div>
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Who is the Service Provider?</label>
+                                                                    <div class="controls">
+                                                                        <select data-rule-required="true" id="ddl_servpro" name="ddl_servpro" class="input-xlarge" >
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="aircel">Aircel</option>
+                                                                            <option value="airtel">Airtel</option>
+                                                                            <option value="jio">Jio</option>
+                                                                            <option value="relience">Relience</option>
+                                                                            <option value="tata docomo">Tata Docomo</option>
+                                                                            <option value="tata">Tata</option>
+                                                                            <option value="uninor">Uninor</option>
+                                                                            <option value="vodafone">Vodafone</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Who is the Service Provider -->
                                                                 
-                                                                
-                                                                
-                                                                
+                                                                <div class="control-group">
+                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you receive sufficeint network Coverage?</label>
+                                                                    <div class="controls">
+                                                                        <select data-rule-required="true" id="ddl_network" name="ddl_network" class="input-xlarge">
+                                                                            <option value="" disabled selected> Select here</option>
+                                                                            <option value="yes"> Yes</option>
+                                                                            <option value="no"> No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>	<!-- Do you receive sufficeint network coverage? -->
                                                                 
                                                                 <div id="div_smartphone_display" style="display: none;">
 
+                                                                    <div class="control-group" >
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
+                                                                        <div class="controls">
+                                                                            <select id="ddl_datapack" name="ddl_datapack" class="input-xlarge" onchange="changeDivDisplay(this.value, 'div_datapack_display');">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes"> Yes</option>
+                                                                                <option value="no"> No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Do you have data pack on your phone? -->
                                                                     
-                                                                    
+                                                                    <div id="div_datapack_display" style="display: none;">
+                                                                        <div class="control-group" >
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
+                                                                            <div class="controls">
+                                                                                <select id="f5_datapackname" name="f5_datapackname" class="input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="2g"> 2G</option>
+                                                                                    <option value="3g"> 3G</option>
+                                                                                    <option value="4g"> 4G</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!-- Specify if it is [2G / 3G / 4G] -->
+                                                                        
+                                                                        <div class="control-group" id="farmappInput">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
+                                                                            <div class="controls">
+                                                                                <select id="ddl_farmapp" name="ddl_farmapp" class="input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="yes"> Yes</option>
+                                                                                    <option value="no"> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div><!-- Subscription to Farming Advisory Apps? -->
+                                                                    </div>
                                                                    
-                                                                    
+                                                                    <div class="control-group" >
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
+                                                                        <div class="controls">
+                                                                            <select id="f5_appuse" name="f5_appuse" class="input-xlarge" onchange="changeDivDisplay(this.value, 'div_used_app_name_display');">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes"> Yes</option>
+                                                                                <option value="no"> No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Do you use apps regularly? -->
                                                                     
                                                                     <div id="div_used_app_name_display" style="display: none;">
                                                                         <div class="control-group">
@@ -1580,364 +1541,763 @@
         </div><!-- /.modal -->
 
         <script type="text/javascript">
-			var spouse_g_total = 0;
-			var applicant_knowledge_g_total	= 0;
+            var baseurll	= '<?php echo $BaseFolder; ?>';
 			
-			$(document).ready(function()
-			{
-				$('body').on('change','#f3_spouse_age, #f3_spouse_shg, #f3_spouse_occp, #f3_spouse_income', function(){
-					calTotal();
-				});
-	
-				$('#f3_married').on('change', function(){
-					if($(this).val() == 'yes'){
-						$('#spouse_detail').show('swing');
-					}
-					else
-					{
-						$('#spouse_detail').hide('swing');
-						$('#spouse_detail').find('input, select').val('').trigger('change');
-					}
-					calTotal();
-				});
-	
-				$('#f3_spouse_mfi').on('change', function(){
-					if($(this).val() == 'yes'){
-						$('#microfinance').show('swing');
-					}
-					else
-					{
-						$('#microfinance').hide('swing');
-						$('#microfinance').find('input, select').val('').trigger('change');
-					}
-					calTotal();
-				});
-	
-				$('#f3_affliation_status').on('change', function(){
-					if($(this).val() == 'yes'){
-						$('#div_affliation_display').show('swing');
-					}
-					else
-					{
-						$('#div_affliation_display').hide('swing');
-						$('#div_affliation_display').val('');
-					}
-					calTotal();	
-				});
-	
-				$('#f3_spouse_shg').on('change', function(){
-					if($(this).val() == 'yes'){
-						$('#shg_name').show('swing');
-					}
-					else
-					{
-						$('#shg_name').hide('swing');
-						$('#shg_name').val('');
-					}
-					calTotal();
-				});
-	
-	
-				$('#f3_spouse_occp').on('change', function(){
-					if($(this).val() == 'housewife'){
-						$('#input_income').hide('swing').find('input').val('');
-					}
-					else
-					{
-						$('#input_income').show('swing');
-						$('#input_income').val('');
-					}
-					calTotal();
-				});
-	
-				
-				$('#f3_married').val('<?= @$data['f3_married']; ?>');
-				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
-				$('#f3_spouse_age').val('<?= @$data['f3_spouse_age']; ?>');
-				$('#f3_spouse_mobno').val('<?= @$data['f3_spouse_mobno']; ?>');
-				$('#f3_spouse_adhno').val('<?= @$data['f3_spouse_adhno']; ?>');
-				$('#f3_spouse_shg').val('<?= @$data['f3_spouse_shg']; ?>');
-				$('#f3_spouse_shgname').val('<?= @$data['f3_spouse_shgname']; ?>');
-				$('#f3_spouse_occp').val('<?= @$data['f3_spouse_occp']; ?>');
-				$('#f3_spouse_income').val('<?= @$data['f3_spouse_income']; ?>');
-				$('#f3_spouse_mfi').val('<?= @$data['f3_spouse_mfi']; ?>');
-				$('#f3_spouse_mfiname').val('<?= @$data['f3_spouse_mfiname']; ?>');
-				$('#f3_spouse_mfiamount').val('<?= @$data['f3_spouse_mfiamount']; ?>');
-				$('#f3_fpo_name').val('<?= @$data['f3_fpo_name']; ?>');
-				$('#f3_bank_name').val('<?= @$data['f3_bank_name']; ?>');
-				$('#f3_points').val('<?= @$data['f3_points']; ?>');
-				
-				$('#f2_edudetail').val('<?= @$data['f2_edudetail']; ?>');
-				$('#f2_proficiency').val('<?= @$data['f2_proficiency']; ?>');
-				$('#f2_participation').val('<?= @$data['f2_participation']; ?>');
-				$('#f2_typeprog').val('<?= @$data['f2_typeprog']; ?>');
-				$('#f2_condprog').val('<?= @$data['f2_condprog']; ?>');
-				$('#f2_cropprog').val('<?= @$data['f2_cropprog']; ?>');
-				$('#f2_durprog').val('<?= @$data['f2_durprog']; ?>');
-				$('#f2_participation').trigger('change');
-				$('#f2_typeprog').trigger('change');
-	
-				if($('#f3_married').val() == 'yes'){
-					$('#spouse_detail').show('swing');
-				}
-	
-				if($('#f3_spouse_shg').val() == 'yes')
-				{
-					$('#shg_name').show('swing');
-				}
-	
-				if($('#f3_spouse_occp').val() == 'other' || $('#f3_spouse_occp').val() == 'farmer')
-				{
-					$('#input_income').show('swing');	
-				}
-				
-				if($('#f3_affliation_status').val() == 'yes')
-				{
-					$('#div_affliation_display').show('swing');	
-				}
-				
-				if($('#f3_spouse_mfi').val() == 'yes')
-				{
-					$('#microfinance').show('swing');
-				}
-				else
-				{
-					$('#microfinance').find('input, select').val('');
-				}
-	
-				$('#spouse_detail').find('input, select').trigger('change');
-				calTotal();
-				
-			});
-			
-			function convertIncomeToPoint(x)
-			{
-				if(x >= 500 && x <= 2500)
-				{
-					return 2;
-				}
-				else if(x >= 2501 && x <= 5000)
-				{
-					return 4;
-				}
-				else if(x >= 5001 && x <= 7500)
-				{
-					return 6;
-				}
-				else if(x > 7500)
-				{
-					return 8;	
-				}
-				else
-				{
-				  return 0;
-				}
-			}
-			
-			function convertMfiamountToPoint(x)
-			{
-				if(x >= 100 && x <= 2500)
-				{
-					return 2;
-				}
-				else if(x >= 2501 && x <= 5000)
-				{
-					return 4;
-				}
-				else if(x >= 5001 && x <= 7500)
-				{
-					return 8;
-				}
-				else if(x >= 7501 && x <= 10000)
-				{
-					return 10;
-				}
-				else if(x > 10000)
-				{
-					return 6;	
-				}
-				else
-				{
-				  return 0;
-				}	
-			}
-			
-			function calTotal()
-			{
-				var f3_married	= '<?php echo $married_status; ?>';
-				if(f3_married == 'yes')
-				{
-					$('#f3_married').val('yes');	
-				}
-				else
-				{
-					$('#f3_married').val('no');
-				}
-				
-				var married	= parseInt($('option:selected','#f3_married').attr('point')) || 0;
-				
-				if(married === 10)
-				{
-					var age 		= parseInt($('#f3_spouse_age').val()) || 0;
-					var shg 		= parseInt($('option:selected','#f3_spouse_shg').attr('point'))  || 0;
-					var occp 		= parseInt($('option:selected','#f3_spouse_occp').attr('point')) || 0;
-					var affliation	= parseInt($('option:selected','#f3_affliation_status').attr('point')) || 0;
-					var income 		= parseInt($('#f3_spouse_income').val()) || 0;
-	
-					//age 	= convertAgeToPoint(age);
-					income 	= convertIncomeToPoint(income);
-	
-					if($('#f3_spouse_mfi').val() === 'yes')
-					{
-						var mfiamount	= parseInt($('#f3_spouse_mfiamount').val()) || 0;
-						
-						mfiamount	= convertMfiamountToPoint(mfiamount);
-						spouse_g_total = married + shg + occp + income + affliation + mfiamount;
-					}
-					else
-					{
-						spouse_g_total = married + shg + occp + income + affliation;
-					}
-	
-				}
-				else
-				{
-					spouse_g_total = married ;
-				}
-				document.getElementById('spouse_g_total').innerHTML = spouse_g_total;
-				var no_of_point	= 1;
-				if(married === 10)
-				{
-					no_of_point += 3;
-					
-					if(shg == 'yes')
-					{
-						no_of_point +=1;
-					}
-					if($('#f3_spouse_mfi').val() === 'yes')
-					{
-						no_of_point +=3;
-					}
-				}
-				var f3_pt = spouse_g_total/no_of_point;
-				f3_pt     = f3_pt.toFixed(2);
-				$('#f3_points').val(f3_pt);
-				$('#f3_pt').html(f3_pt);
-				
-				
-				var a = parseInt($('option:selected','#f2_proficiency').attr('point')) || 0;
-				var b = parseInt($('option:selected','#f2_edudetail').attr('point')) || 0;
-				var c = parseInt($('option:selected','#f2_participation').attr('point')) || 0;
-				applicant_knowledge_g_total = a + b + c;
-				
-				document.getElementById('applicant_knowledge_g_total').innerHTML=applicant_knowledge_g_total;
-				
-				var f2_pt = applicant_knowledge_g_total/3;
-				f2_pt     = f2_pt.toFixed(2);
-				$('#f2_points').val(f2_pt);
-				$('#f2_pt').html(f2_pt);
-			}
-			
-			$('#frm_knowledge_detail').on('submit', function(e) 
-			{
-				e.preventDefault();
-				if ($('#frm_knowledge_detail').valid())
-				{
-					$.ajax({
-							type: "POST",
-							url: "action_pages/action_frm3.php",
-							data: new FormData(this),
-							processData: false,
-							contentType: false,
-							cache: false,
-							success: function(msg)
-							{
-								data = JSON.parse(msg);
-								
-								if(data.Success == "Success")
-								{
-									alert(data.resp);
-									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
-									//loading_hide();
-								}
-								else if(data.Success == "fail") 
-								{
-									alert(data.resp);
-									//loading_hide();	
-								}	
-							},
-							error: function (request, status, error)
-							{
-								//loading_hide();	
-							},
-							complete: function()
-							{
-								//loading_hide();	
-							}	
-						});
-				}
-			});
-			
-			$('#frm_applicant_knowledge').on('submit', function(e) {
-				e.preventDefault();
-				if ($('#frm_applicant_knowledge').valid())
-				{
-					//loading_show();	
-					$.ajax({
-						type: "POST",
-						url: "action_pages/action_frm2.php",
-						data: new FormData(this),
-						processData: false,
-						contentType: false,
-						cache: false,
-						success: function(msg)
-						{
-							data = JSON.parse(msg);
-						
-							if(data.Success == "Success")
-							{
-								alert(data.resp);
-								window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
-								//loading_hide();
-							}
-							else if(data.Success == "fail") 
-							{
-								alert(data.resp);
-								//loading_hide();	
-							}	
-						},
-						error: function (request, status, error)
-						{
-							//loading_hide();	
-						},
-						complete: function()
-						{
-							//loading_hide();	
-						}	
-					});
-				}
-			});
-			
-			$('#f2_participation').on('change', function(){
-				if($(this).val() == 'yes'){
-					$('#program_detail').show('swing');
-				}
-				else
-				{
-					$('#program_detail').hide('swing');
-					$('#program_detail').find('input, select').val('').trigger('change');
-				}
-				calTotal();
-			});
-			
-			$('#f2_typeprog').on('change', function(){
-				if($(this).val()){
-					$('#progType').text($(this).val());
-				}
-				else{
-					$('#progType').text('Crop');
-				}
-			});
+			contentCount 	= '<?php echo $no_of_land; ?>';
+            contentCount1 	= '<?php echo $no_of_crops; ?>';
+
+            function changeDivDisplay(boolVal, divId)
+            {
+                //alert(boolVal);
+                if(boolVal == 'yes')
+                {
+                    $('#'+divId).slideDown();
+                }
+                else if (boolVal == 'no')
+                {
+                    $('#'+divId).slideUp();
+                }
+                else if(boolVal == 'Housewife')
+                {
+                    $('#'+divId).slideUp();   
+                }
+                else if(boolVal == 'smartphone')
+                {
+                    $('#'+divId).slideDown();
+                }
+                else if(boolVal == '0')
+                {
+                    $('#'+divId).slideUp();
+                }
+                else if(boolVal == 'Rental')
+                {
+                    $('#div_leas_display').slideUp();
+                    $('#div_contract_display').slideUp();
+                    $('#div_rental_display').slideDown();
+                }
+                else if (boolVal == 'Leased') 
+                {
+                    $('#div_rental_display').slideUp();
+                    $('#div_contract_display').slideUp();
+                    $('#div_leas_display').slideDown();
+                }
+                else if (boolVal == 'Contracted')
+                {
+                    $('#div_leas_display').slideUp();
+                    $('#div_rental_display').slideUp();
+                    $('#div_contract_display').slideDown();
+                }
+                else
+                {
+                    $('#'+divId).slideDown();  
+                }
+            }
+
+            function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
+            {
+                var sendInfo    = {"stateVal":stateVal, "stateParameter":stateParameter, "distId":distId, "talId":talId, "villageId":villageId, "distDivId":distDivId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_dist":1};
+                var dist_load   = JSON.stringify(sendInfo);
+                
+                $.ajax({
+                    url: "load_farmer.php?",
+                    type: "POST",
+                    data: dist_load,
+                    contentType: "application/json; charset=utf-8",                     
+                    success: function(response) 
+                    {
+                        data = JSON.parse(response);
+                        
+                        if(data.Success == "Success") 
+                        {
+                            $('#'+distDivId).html(data.resp);
+                            $('#'+distId).select2();
+                        } 
+                        else if(data.Success == "fail") 
+                        {
+                            //alert(data.resp);
+                            console.log(data.resp);
+                        }
+                    },
+                    error: function (request, status, error) 
+                    {
+                        $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                        $('#error_model').modal('toggle');                      
+                    },
+                    complete: function()
+                    {
+                        //loading_hide();
+                        //alert("complete");
+                    }
+                }); 
+            }
+            
+            function getTal(distParameter, distVal, talId, villageId, talDivId, VillageDivId)
+            {
+                var sendInfo    = {"distVal":distVal, "distParameter":distParameter, "talId":talId, "villageId":villageId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_tal":1};
+                var tal_load    = JSON.stringify(sendInfo);
+                
+                $.ajax({
+                    url: "load_farmer.php?",
+                    type: "POST",
+                    data: tal_load,
+                    contentType: "application/json; charset=utf-8",                     
+                    success: function(response) 
+                    {
+                        data = JSON.parse(response);
+                        
+                        if(data.Success == "Success") 
+                        {
+                            $('#'+talDivId).html(data.resp);
+                            $('#'+talId).select2();
+                        } 
+                        else if(data.Success == "fail") 
+                        {
+                            //alert(data.resp);
+                            console.log(data.resp);
+                        }
+                    },
+                    error: function (request, status, error) 
+                    {
+                        $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                        $('#error_model').modal('toggle');                      
+                    },
+                    complete: function()
+                    {
+                        //loading_hide();
+                        //alert("complete");
+                    }
+                }); 
+            }
+            
+            function getVillage(talParameter, talVal, villageId, VillageDivId)
+            {
+                var sendInfo        = {"talVal":talVal, "talParameter":talParameter, "villageId":villageId, "VillageDivId":VillageDivId, "load_village":1};
+                var village_load    = JSON.stringify(sendInfo);
+                
+                $.ajax({
+                    url: "load_farmer.php?",
+                    type: "POST",
+                    data: village_load,
+                    contentType: "application/json; charset=utf-8",                     
+                    success: function(response) 
+                    {
+                        data = JSON.parse(response);
+                        
+                        if(data.Success == "Success") 
+                        {
+                            $('#'+VillageDivId).html(data.resp);
+                            $('#'+villageId).select2();
+                        } 
+                        else if(data.Success == "fail") 
+                        {
+                            //alert(data.resp);
+                            console.log(data.resp);
+                        }
+                    },
+                    error: function (request, status, error) 
+                    {
+                        $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                        $('#error_model').modal('toggle');                      
+                    },
+                    complete: function()
+                    {
+                        //loading_hide();
+                        //alert("complete");
+                    }
+                }); 
+            }
+
+            function addMoreLand(remove)
+            {
+                //alert(contentCount);
+                if(remove==1)
+                {
+                    //$('#land'+contentCount).remove();
+                     $('#lands').find('#land'+contentCount).slideUp("slow");
+                    contentCount    = contentCount - 1
+                    if(contentCount==1)
+                    {
+                        $('#removeLoanType').hide('swing');
+                    }
+                    //calTotal();
+                    return false;
+                    
+                }
+                
+                contentCount    = contentCount + 1;
+                landData        = '<div id="land'+contentCount+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">';
+                    landData        += '<div id="loan_detail" style=" padding: 10px; margin: 5px;">';
+                            landData    +=  '<input type="hidden" name="id[]" id="id" value="">';
+                            landData    +=  '<h2>Farm Land '+contentCount+' Details</h2>';
+
+                            landData    +=  '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_size'+contentCount+'" name="txt_land_size'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Size in Acres -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Ownership<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_owner'+contentCount+'" name="ddl_owner'+contentCount+'" onChange="changeDivDisplay(this.value, "");" class="input-xlarge" data-rule-required="true">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="Owned">Owned</option>';
+                                        landData    += '<option value="Rental">Rental</option>';
+                                        landData    += '<option value="Leased">Leased</option>';
+                                        landData    += '<option value="Contracted">Contracted</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- Ownership -->
+
+                            landData    += '<div id="div_rental_display" style="display: none;">';
+                                landData    += '<div class="control-group">';
+                                    landData    += '<label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>';
+                                    landData    += '<div class="controls">';
+                                        landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_rent_per_month'+contentCount+'" name="txt_land_rent_per_month'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                    landData    += '</div>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- [If On Rent, Mention tha amount per month on rent] -->
+                                                                                        
+                            landData    += '<div id="div_leas_display" style="display: none;">';
+                                landData    += '<div class="control-group">';
+                                    landData    += '<label for="text" class="control-label" style="margin-top:10px">Number of years under leasing<span style="color:#F00">*</span></label>';
+                                    landData    += '<div class="controls">';
+                                        landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_lease_year'+contentCount+'" name="txt_land_lease_year'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                    landData    += '</div>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- [If on lease, Number of years under leasing] -->
+
+                            landData    += '<div id="div_contract_display" style="display: none;">';
+                                landData    += '<div class="control-group">';
+                                    landData    += '<label for="text" class="control-label" style="margin-top:10px">Number of years under contract<span style="color:#F00">*</span></label>';
+                                    landData    += '<div class="controls">';
+                                        landData    += '<input placeholder="Size in Acres" type="text" id="txt_land_contract_year'+contentCount+'" name="txt_land_contract_year'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                    landData    += '</div>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- [If On Contract, Number of years under contract] -->
+                                                                                        
+                            //  <!-- START : Land Address -->                                                           
+                            landData    += '<div class="control-group" >';
+                                landData    += '<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_p_state'+contentCount+'" name="ddl_p_state'+contentCount+'" onChange="getDist(\'p\', this.value, \'ddl_p_dist'+contentCount+'\', \'ddl_p_tal'+contentCount+'\', \'ddl_p_village'+contentCount+'\', \'div_p_dist'+contentCount+'\', \'div_p_tal'+contentCount+'\', \'div_p_village'+contentCount+'\');" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select State</option>';
+                                        landData    += '<option value="1">TELANGANA</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';    // <!-- State -->
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls" id="div_p_dist'+contentCount+'">';
+                                    landData    += '<select id="ddl_p_dist'+contentCount+'" name="ddl_p_dist'+contentCount+'" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select District</option>'
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- District -->                  
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls" id="div_p_tal'+contentCount+'">';
+                                    landData    += '<select id="ddl_p_tal'+contentCount+'" name="ddl_p_tal'+contentCount+'" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select Taluka</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Taluka -->
+                            
+                            landData    += '<div class="control-group" >';
+                                landData    += '<label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls" id="div_p_village'+contentCount+'">';
+                                    landData    += '<select id="ddl_p_village'+contentCount+'" name="ddl_p_village'+contentCount+'" class="select2-me input-large" >';
+                                        landData    += '<option value="" disabled selected>Select Village</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Village -->
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Survey Number<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input placeholder="Size in Acres" type="text" id="txt_survey_no'+contentCount+'" name="txt_survey_no'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Survey Number -->
+
+                            landData    += '<div class="control-group" >';
+                                landData    += '<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input type="text" id="txt_p_pincode'+contentCount+'" name="txt_p_pincode'+contentCount+'" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Pincode -->
+                            
+                            // <!-- END : Land Address -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Type of Soil<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_soil_type'+contentCount+'" name="ddl_soil_type'+contentCount+'" class="input-xlarge" data-rule-required="true" onChange="calTotal()">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="Alluvial Soil">Alluvial Soil</option>';
+                                        landData    += '<option value="Black Soil">Black Soil</option>';
+                                        landData    += '<option value="Red Soil">Red Soil</option>';
+                                        landData    += '<option value="Mountain Soil">Mountain Soil</option>';
+                                        landData    += '<option value="Peat">Peat</option>';
+                                        landData    += '<option value="Laterite Soil">Laterite Soil</option>';
+                                        landData    += '<option value="Desert Soil">Desert Soil</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Type of soil -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<input placeholder="Size in Acres" type="text" id="txt_soil_depth'+contentCount+'" name="txt_soil_depth'+contentCount+'" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Soil Depth -->
+
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_soil_tested'+contentCount+'" name="ddl_soil_tested'+contentCount+'" class="input-xlarge" data-rule-required="true" onChange="calTotal()">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="yes">Yes</option>';
+                                        landData    += '<option value="no">no</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Have you Tested the Soil -->
+                            
+                            landData    += '<div class="control-group">';
+                                landData    += '<label for="text" class="control-label" style="margin-top:10px">Source Of Water<span style="color:#F00">*</span></label>';
+                                landData    += '<div class="controls">';
+                                    landData    += '<select id="ddl_water_source'+contentCount+'" name="ddl_water_source'+contentCount+'" class="input-xlarge" data-rule-required="true" onChange="calTotal()">';
+                                        landData    += '<option value="" disabled selected> Select here</option>';
+                                        landData    += '<option value="well_water">Well Water</option>';
+                                        landData    += '<option value="tube_water">Tube Water</option>';
+                                        landData    += '<option value="tank_water">Tank Water</option>';
+                                        landData    += '<option value="canals">Canals</option>';
+                                        landData    += '<option value="perennial_water">Perennial Water</option>';
+                                        landData    += '<option value="multipurpose_river_valley">Multipurpose River Valley</option>';
+                                        landData    += '<option value="rain_fed">Rain Fed</option>';
+                                        landData    += '<option value="drip_irrigation">Drip Irrigation</option>';
+                                        landData    += '<option value="sprinkler">Sprinkler</option>';
+                                        landData    += '<option value="furrow">Furrow</option>';
+                                        landData    += '<option value="ditch">Ditch</option>';
+                                        landData    += '<option value="surge">Surge</option>';
+                                        landData    += '<option value="seepage">Seepage</option>';
+                                    landData    += '</select>';
+                                landData    += '</div>';
+                            landData    += '</div>';  // <!-- Source of water -->
+
+                    landData    += '</div>';        
+                landData    += '</div>';                                          
+                
+                // $("#lands").append(loan).slideDown('slow');
+                $('#lands').append(landData).find('#land'+contentCount).slideDown("slow");
+                 
+                if(contentCount>=2)
+                {
+                    $('#removeLoanType').show('swing');
+                }
+            }
+
+            function addMoreCrop(remove)
+            {
+                alert(contentCount1);
+                
+                if(remove==1)
+                {
+                    //$('#land'+contentCount).remove();
+                     $('#crops').find('#crop'+contentCount1).slideUp("slow");
+                    contentCount1    = contentCount1 - 1
+                    if(contentCount1==1)
+                    {
+                        $('#removeCropType').hide('swing');
+                    }
+                    //calTotal();
+                    return false;
+                }
+
+                contentCount1    = contentCount1 + 1;
+
+                cropData    = '';
+
+                cropData    += '<div id="crop'+contentCount1+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">';
+                    cropData    += '<input type="hidden" name="id[]" id="id" value="">';
+                    cropData    += '<h3>Crop '+contentCount1+'</h3>';
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Current Crop Season <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_cur_crop_season'+contentCount1+'" name="ddl_cur_crop_season'+contentCount+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="Kharif">Kharif</option>';
+                                cropData    += '<option value="Rabi">Rabi</option>';
+                                cropData    += '<option value="Summer">Summer</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Current Crop Season [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_cultivating'+contentCount1+'" name="ddl_cultivating'+contentCount1+'" class="input-xlarge" data-rule-required="true" >'; // <!-- onchange="calTotal();" -->
+                                cropData    += '<option value="" disabled selected> Select here</option>';
+                                <?php
+
+                                $crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
+                                while($crop = mysqli_fetch_array($crops))
+                                {
+                                    ?>
+                                    cropData += '<option value="<?php echo $crop['crop_id'] ?>"><?php echo trim($crop['crop_name']); ?></option>';
+                                    <?php   
+                                }
+                                ?>
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';  // <!-- Type of crop cultivating this year [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_stage'+contentCount1+'" name="ddl_stage'+contentCount1+'" class="input-xlarge" data-rule-required="true" >';  // <!--onchange="calTotal()"-->
+                                cropData    += '<option value="" disabled selected> Select here</option>';
+                                cropData    += '<option point="3" value="Land Preparation">Land Preparation</option>';
+                                cropData    += '<option point="4" value="Seed Selection">Seed Selection</option>';
+                                cropData    += '<option point="5" value="Seed Sowing">Seed Sowing</option>';
+                                cropData    += '<option point="6" value="Irrigation">Irrigation</option>';
+                                cropData    += '<option point="7" value="Crop Growth">Crop Growth</option>';
+                                cropData    += '<option point="8" value="Fertilizing">Fertilizing</option>';
+                                cropData    += '<option point="9" value="Harvesting">Harvesting</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';  // <!-- Current stage of crop [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<input type="text" id="txt_expected_yield'+contentCount1+'" name="txt_expected_yield'+contentCount1+'" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Yield Expected">';
+                        cropData    += '</div>';
+                    cropData    += '</div>';  // <!-- Total Yield Expected [In tonnes Per Acre] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Potential market <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_potential_market'+contentCount1+'" name="ddl_potential_market'+contentCount+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="local_mandis">Local Mandis and Location</option>';
+                                cropData    += '<option value="FPO">FPO</option>';
+                                cropData    += '<option value="Private_Buyer">Private Buyer (Companies)</option>';
+                                cropData    += '<option value="Government">Government</option>';
+                                cropData    += '<option value="Other">Other</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Potential market [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Crop Storage <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_crop_storage'+contentCount1+'" name="ddl_crop_storage'+contentCount1+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="Govt_warehouse">Govt. Warehouse</option>';
+                                cropData    += '<option value="Pvt_warehouse">Pvt. Warehouse</option>';
+                                cropData    += '<option value="Factory">Factory</option>';
+                                cropData    += '<option value="Mandis_direct">Mandis Direct</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Crop Storage [DDL] --> 
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Expected Price This Year In Rs. <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<input type="text" id="txt_expectedprice'+contentCount1+'" name="txt_expectedprice'+contentCount1+'" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" placeholder="Expected Price">';    // <!-- onchange="calTotal()" -->
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Expected Price This Year  -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Total Income Expected This Year [ Per Acre Per Crop ] <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<input type="text" id="txt_expectedincome'+contentCount1+'" name="txt_expectedincome'+contentCount1+'" class="input-xlarge"  data-rule-required="true" data-rule-number="true" maxlength="10"  placeholder="Total Income Expected"> '; // <!-- onchange="calTotal()" -->
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Total income expected this year -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Potential Crop Diseases <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_diseases'+contentCount1+'" name="ddl_diseases'+contentCount1+'" class="input-xlarge" data-rule-required="true" >';    // <!-- onchange="calTotal()" -->
+                                cropData    += '<option value="" disabled selected> Select here</option>';
+                                cropData    += '<option point="1" value="Fungal"> Fungal</option>';
+                                cropData    += '<option point="4" value="Non-fungal"> Non-fungal</option>';
+                                cropData    += '<option point="0" value="Severe"> Severe</option>';
+                                cropData    += '<option point="8" value="Treatable"> Treatable</option>';
+                                cropData    += '<option point="10" value="No potential of diseases"> No potential of diseases</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Potential crop diseases [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">Potential Pest Control Problems <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_pest_problems'+contentCount1+'" name="ddl_pest_problems'+contentCount1+'" class="select2-me input-xlarge" >';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="yes">Yes</option>';
+                                cropData    += '<option value="no">No</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- Potential Pest problems [DDL] -->
+
+                    cropData    += '<div class="control-group">';
+                        cropData    += '<label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span></label>';
+                        cropData    += '<div class="controls">';
+                            cropData    += '<select id="ddl_filt_type'+contentCount1+'" name="ddl_filt_type'+contentCount1+'" class="select2-me input-xlarge">';
+                                cropData    += '<option value="" disabled selected>Select here</option>';
+                                cropData    += '<option value="Organic Fertilizers">Organic Fertilizers</option>';
+                                cropData    += '<option value="Inorganic Fertilizers">Inorganic Fertilizers</option>';
+                            cropData    += '</select>';
+                        cropData    += '</div>';
+                    cropData    += '</div>';    // <!-- What kind of Fertilizer and pesticides being used [DDL] -->
+
+                cropData    += '</div>';
+                
+                $('#crops').append(cropData).find('#crop'+contentCount1).slideDown("slow");
+                 
+                if(contentCount1>=2)
+                {
+                    $('#removeCropType').show('swing');
+                }   
+            }
+
+            $(document).ready(function(){
+
+                $('#txt_spouse_name').val('<?= @$data['f3_spouse_fname']; ?>');
+                $('#txt_spouse_age') .val('<?= @$data['f3_spouse_age']; ?>');
+                $('#f3_spouse_mobno').val('<?= @$data['f3_spouse_mobno']; ?>');
+                $('#f3_spouse_adhno').val('<?= @$data['f3_spouse_adhno']; ?>');
+                $('#ddl_part_of_shg').val('<?= @$data['f3_spouse_shg']; ?>');
+                $('#txt_shg_name').val('<?= @$data['f3_spouse_shgname']; ?>');
+                $('#ddl_spouse_occupation').val('<?= @$data['f3_spouse_occp']; ?>');
+                $('#txt_spouse_incode').val('<?= @$data['f3_spouse_income']; ?>');
+                $('#ddl_mony_isTaken').val('<?= @$data['f3_spouse_mfi']; ?>');
+                $('#txt_microfinance_name').val('<?= @$data['f3_spouse_mfiname']; ?>');
+                $('#txt_mony_taken_from_mf').val('<?= @$data['f3_spouse_mfiamount']; ?>');
+
+                if($('#ddl_part_of_shg').val() == 'yes')
+                {
+                    $('#txt_shg_name').show('swing');
+                }
+
+                if($('#ddl_mony_isTaken').val() == 'yes')
+                {
+                    $('#div_microfinance_display').show('swing');
+                }
+                else
+                {
+                    $('#div_microfinance_display').find('input, select').val('');
+                }    
+
+            });
+
+            $('#frm_spouse_details').on('submit', function(e) 
+            {
+                alert('Hi');
+                e.preventDefault();
+                if ($('#frm_spouse_details').valid())
+                {
+                    $.ajax({
+                        url: "load_farmer_details.php?",
+                        type: "POST",
+                        data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                        contentType: false,       // The content type used when sending data to the server.
+                        cache: false,             // To unable request pages to be cached
+                        processData:false,        // To send DOMDocument or non processed data file it is set to false
+                        async:true,                     
+                            success: function(response) 
+                            {   
+                                data = JSON.parse(response);
+                                alert(data.Success);
+                                if(data.Success == "Success") 
+                                {  
+                                    alert('Added Successfully');
+                                    //location.href   = baseurll + "/view_farmers.php?pag=farmers";
+                                } 
+                                else 
+                                {   
+                                    alert(data.resp);
+                                    location.href   = baseurll + "/error-404";
+                                }
+                            },
+                            error: function (request, status, error) 
+                            {
+                                $("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');                          
+                                $('#error_model').modal('toggle');  
+                                loading_hide();
+                            },
+                            complete: function()
+                            {
+                                //alert("complete");
+                                loading_hide();
+                            }
+                        });
+                }
+            });
+
+            function getXMLHTTP()   //fuction to return the xml http object 
+            { 
+            
+                    var xmlhttp=false;  
+            
+                    try{
+            
+                        xmlhttp=new XMLHttpRequest();
+            
+                    }
+            
+                    catch(e)    {       
+            
+                        try{            
+            
+                            xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+            
+                        }
+            
+                        catch(e){
+            
+                            try{
+            
+                            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            
+                            }
+            
+                            catch(e1){
+            
+                                xmlhttp=false;
+            
+                            }
+            
+                        }
+            
+                    }
+            
+                        
+            
+                    return xmlhttp;
+            
+                }
+            
+            function Aadhaar(comp1) 
+            {       
+                if(!isNaN(comp1) && comp1 != '' && comp1 != 'undefined' && comp1.length === 12)
+                {
+                    var strURL="viewaadhaar.php?comp1="+comp1;
+                    var req = getXMLHTTP();
+                    if (req) {
+        
+                        
+        
+                        req.onreadystatechange = function() {
+        
+                            if (req.readyState == 4) {
+        
+                                // only if "OK"
+        
+                                if (req.status == 200) {                        
+        
+                                    document.getElementById('comp_1').innerHTML=req.responseText;
+        
+                                        var g=document.getElementById('fm_aadhar').value;
+        
+                                        if(g==2)
+        
+                                        {
+        
+                                            <!--alert(" User Already registered with this username");-->
+        
+                                                document.getElementById('fm_aadhar').value="";
+        
+                                        }
+        
+                                        else
+        
+                                        {
+        
+                                            
+        
+                                        }                       
+        
+                                } else {
+        
+                                    alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+        
+                                }
+        
+                            }               
+        
+                        }           
+        
+                        req.open("GET", strURL, true);
+        
+                        req.send(null);
+        
+                    }
+                }
+            }   
+            
+            function Mobile(comp2) 
+            {       
+                if(!isNaN(comp2) && comp2 != '' && comp2 != 'undefined' && comp2.length === 10)
+                {
+                    
+                    var strURL="viewmobile.php?comp2="+comp2;
+                    var req = getXMLHTTP();
+                    if (req) {
+        
+                        
+        
+                        req.onreadystatechange = function() {
+        
+                            if (req.readyState == 4) {
+        
+                                // only if "OK"
+        
+                                if (req.status == 200) {                        
+        
+                                    document.getElementById('comp_2').innerHTML=req.responseText;
+        
+                                        var g=document.getElementById('fm_mobileno').value;
+        
+                                        if(g==2)
+        
+                                        {
+        
+                                            <!--alert(" User Already registered with this username");-->
+        
+                                                document.getElementById('fm_mobileno').value="";
+        
+                                        }
+        
+                                        else
+        
+                                        {
+        
+                                            
+        
+                                        }                       
+        
+                                } else {
+        
+                                    alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+        
+                                }
+        
+                            }               
+        
+                        }           
+        
+                        req.open("GET", strURL, true);
+        
+                        req.send(null);
+        
+                    }
+                }
+            }
         </script>
     </body>
 </html>

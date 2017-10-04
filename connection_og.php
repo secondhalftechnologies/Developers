@@ -664,7 +664,7 @@ function delete($table,$where,$not_where_array=array(),$and_like_array=array(),$
 
 //Added By Ejaz On 19 May 2017
 	
-	/*?>function validate($data){
+	function validate($data){
 		
 		$res[] = [
 			'validity' => false,
@@ -695,7 +695,7 @@ function delete($table,$where,$not_where_array=array(),$and_like_array=array(),$
 		}
 
 		return $res;
-	} */
+	} 
 
 //End of Added By Ejaz On 19 May 2017
 function loader()

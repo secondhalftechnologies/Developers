@@ -74,6 +74,7 @@
 	}
 	
 	$res_applicant_phone = lookup_value('tbl_applicant_phone',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	
 	if($res_applicant_phone)
 	{
 		$num_applicant_phone    = mysqli_num_rows($res_applicant_phone);
@@ -88,8 +89,23 @@
 			$data['f5_appuse']        				= $row_applicant_phone['f5_appuse'];
 			$data['f5_farmapp']       				= $row_applicant_phone['f5_farmapp'];
 			$data['f5_any_one_have_smart_phone']	= $row_applicant_phone['f5_any_one_have_smart_phone'];
+			$data['f5_app_name']					= $row_applicant_phone['f5_app_name'];
+		}
+		else
+		{
+			$data['f5_phonetype']     				= '';
+			$data['f5_servpro']       				= '';
+			$data['f5_network']       				= '';
+			$data['f5_datapack']      				= '';
+			$data['f5_datapackname']  				= '';
+			$data['f5_appuse']        				= '';
+			$data['f5_farmapp']       				= '';
+			$data['f5_any_one_have_smart_phone']	= '';
+			$data['f5_app_name']					= '';
 		}
 	}
+	
+	
 	
     $no_of_land = 1;
     $land_arr   = array();
@@ -249,6 +265,22 @@
                                                             <li>
                                                                 <a href="#div_phone_details" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Phone Details
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm5']) && $pt_row['pt_frm5']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f5_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm5']; ?>
+																		</span> 
+																		<?php 
+																	} 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f5_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                 </a>
                                                             </li>	<!-- Applicant's Phone Details -->
                                                             <li>
@@ -469,9 +501,9 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
                                                                         <div class="controls">
                                                                             <select id="f2_participation" data-rule-required="true" name="f2_participation" class="select2-me input-xlarge">
-                                                                                <option value="" disabled selected> Select here</option>
-                                                                                <option value="yes" point="10"> Yes</option>
-                                                                                <option value="no" point="0"> No</option>
+                                                                                <option value="" disabled <?php if($data['f2_participation'] == ''){ ?> selected <?php } ?>> Select here</option>
+                                                                                <option value="yes" point="10" <?php if($data['f2_participation'] == 'yes'){ ?> selected <?php } ?>> Yes</option>
+                                                                                <option value="no" point="0" <?php if($data['f2_participation'] == 'no'){ ?> selected <?php } ?>> No</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Participation in any Farming Program / Trainings [DDL] -->
@@ -482,13 +514,13 @@
                                                                             <label for="text" class="control-label" style="margin-top:10px">Type of the training Programs<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
                                                                                 <select id="f2_typeprog" name="f2_typeprog" class="select2-me input-xxlarge" data-rule-required="true">
-                                                                                    <option value="" disabled selected> Select here</option>
-                                                                                    <option value="organic farming training"> Organic Farming Training</option>
-                                                                                    <option value="equipment training"> Equipment Training</option>
-                                                                                    <option value="technology training"> Technology Training</option>
-                                                                                    <option value="pesticide fertilizer training"> Pesticide/Fertilizer Training</option>
-                                                                                    <option value="other farming training"> Other Farming Training</option>
-                                                                                    <option value="others"> Others</option>
+                                                                                    <option value="" disabled <?php if($data['f2_typeprog'] == ''){ ?> selected <?php } ?>> Select here</option>
+                                                                                    <option value="organic farming training" <?php if($data['f2_typeprog'] == 'organic farming training'){ ?> selected <?php } ?>> Organic Farming Training</option>
+                                                                                    <option value="equipment training" <?php if($data['f2_typeprog'] == 'equipment training'){ ?> selected <?php } ?>> Equipment Training</option>
+                                                                                    <option value="technology training" <?php if($data['f2_typeprog'] == 'technology training'){ ?> selected <?php } ?>> Technology Training</option>
+                                                                                    <option value="pesticide fertilizer training" <?php if($data['f2_typeprog'] == 'pesticide fertilizer training'){ ?> selected <?php } ?>> Pesticide/Fertilizer Training</option>
+                                                                                    <option value="other farming training" <?php if($data['f2_typeprog'] == 'other farming training'){ ?> selected <?php } ?>> Other Farming Training</option>
+                                                                                    <option value="others" <?php if($data['f2_typeprog'] == 'others'){ ?> selected <?php } ?>> Others</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>	<!-- Type of Training Programs [If Yes] -->
@@ -534,8 +566,8 @@
                                                         </div>	<!-- Applicant's Knowledge -->
                                                         <div class="tab-pane" id="div_phone_details">
                                                            	Applicant's Phone Details
-                                                        	<form enctype="multipart/form-data" method="POST" class='form-horizontal form-wizard wizard-vertical' id="frm_applicant_phone" name="frm_applicant_phone">
-																
+                                                        	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_applicant_phone" name="frm_applicant_phone">
+                                                            	
                                                                 <input type="hidden" id="add_applicant_detail" name="add_applicant_detail" value="1">
                                                                 <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
                                                                 <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
@@ -546,9 +578,9 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Type of phone ownership <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
                                                                             <select id="f5_phonetype" name="f5_phonetype" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                <option value="" disabled <?php if($data['f5_phonetype'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="smartphone" point="10" <?php if($data['f5_phonetype'] == 'smartphone') { ?> selected <?php } ?>>Smartphone</option>
-                                                                                <option value="featurephone" point="5" <?php if($data['f5_phonetype'] == 'featurephone') { ?> selected <?php } ?>>Featurephone</option>
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="smartphone" point="10" <?php if((isset($data['f5_phonetype'])) && $data['f5_phonetype'] == 'smartphone') { ?> selected <?php } ?>>Smartphone</option>
+                                                                                <option value="featurephone" point="5" <?php if((isset($data['f5_phonetype'])) && $data['f5_phonetype'] == 'featurephone') { ?> selected <?php } ?>>Featurephone</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Type of phone ownership -->
@@ -557,9 +589,9 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Does any of your family member own a Smart Phone? <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
                                                                             <select id="f5_any_one_have_smart_phone" name="f5_any_one_have_smart_phone" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                <option value="" disabled <?php if($data['f5_any_one_have_smart_phone'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f5_any_one_have_smart_phone'] == 'yes') { ?> selected <?php } ?>>Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f5_any_one_have_smart_phone'] == 'no') { ?> selected <?php } ?>>No</option>
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes" point="10" <?php if((isset($data['f5_any_one_have_smart_phone'])) && $data['f5_any_one_have_smart_phone'] == 'yes') { ?> selected <?php } ?>>Yes</option>
+                                                                                <option value="no" point="0" <?php if((isset($data['f5_any_one_have_smart_phone'])) && $data['f5_any_one_have_smart_phone'] == 'no') { ?> selected <?php } ?>>No</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Does any of your family member own a Smart Phone?  -->
@@ -567,16 +599,16 @@
                                                                     <div class="control-group">
                                                                         <label for="text" class="control-label" style="margin-top:10px">Who is the service Provider?</label>
                                                                         <div class="controls">
-                                                                            <select data-rule-required="true" id="f5_servpro" name="f5_servpro" class="input-xlarge" >
-                                                                                <option value="" disabled <?php if($data['f5_servpro'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="aircel" <?php if($data['f5_servpro'] == 'aircel') { ?> selected <?php } ?>>Aircel</option>
-                                                                                <option value="airtel" <?php if($data['f5_servpro'] == 'airtel') { ?> selected <?php } ?>>Airtel</option>
-                                                                                <option value="jio" <?php if($data['f5_servpro'] == 'jio') { ?> selected <?php } ?>>Jio</option>
-                                                                                <option value="relience" <?php if($data['f5_servpro'] == 'relience') { ?> selected <?php } ?>>Relience</option>
-                                                                                <option value="tata docomo" <?php if($data['f5_servpro'] == 'tata docomo') { ?> selected <?php } ?>>Tata Docomo</option>
-                                                                                <option value="tata" <?php if($data['f5_servpro'] == 'tata') { ?> selected <?php } ?>>Tata</option>
-                                                                                <option value="uninor" <?php if($data['f5_servpro'] == 'uninor') { ?> selected <?php } ?>>Uninor</option>
-                                                                                <option value="vodafone" <?php if($data['f5_servpro'] == 'vodafone') { ?> selected <?php } ?>>Vodafone</option>
+                                                                            <select data-rule-required="true" id="f5_servpro" name="f5_servpro" class="select2-me input-xlarge" >
+                                                                                <option value="" disabled selected > Select here</option>
+                                                                                <option value="aircel" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'aircel') { ?> selected <?php } ?>>Aircel</option>
+                                                                                <option value="airtel" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'airtel') { ?> selected <?php } ?>>Airtel</option>
+                                                                                <option value="jio" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'jio') { ?> selected <?php } ?>>Jio</option>
+                                                                                <option value="relience" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'relience') { ?> selected <?php } ?>>Relience</option>
+                                                                                <option value="tata docomo" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'tata docomo') { ?> selected <?php } ?>>Tata Docomo</option>
+                                                                                <option value="tata" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'tata') { ?> selected <?php } ?>>Tata</option>
+                                                                                <option value="uninor" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'uninor') { ?> selected <?php } ?>>Uninor</option>
+                                                                                <option value="vodafone" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'vodafone') { ?> selected <?php } ?>>Vodafone</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Who is the Service Provider -->
@@ -584,91 +616,84 @@
                                                                     <div class="control-group">
                                                                         <label for="text" class="control-label" style="margin-top:10px">Do you receive sufficeint network Coverage?</label>
                                                                         <div class="controls">
-                                                                            <select data-rule-required="true" id="f5_network" name="f5_network" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_network'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" <?php if($data['f5_network'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" <?php if($data['f5_network'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                            <select data-rule-required="true" id="f5_network" name="f5_network" class="select2-me input-xlarge">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes" <?php if((isset($data['f5_network'])) && $data['f5_network'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                <option value="no" <?php if((isset($data['f5_network'])) && $data['f5_network'] == 'no') { ?> selected <?php } ?>> No</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!--Do you receive sufficeint network Coverage?-->
                                                                     
-                                                                    <div class="control-group" style="display: none" id="datapackInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_datapack" name="f5_datapack" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_datapack'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f5_datapack'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f5_datapack'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!--Do you have Data Pack on your Phone ? -->
+                                                                    <div id="div_smartphone_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
                                                                     
-                                                                    <div class="control-group" style="display: none" id="datapacknameInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_datapackname" name="f5_datapackname" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_datapackname'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="2g" <?php if($data['f5_datapackname'] == '2g') { ?> selected <?php } ?>> 2G</option>
-                                                                                <option value="3g" <?php if($data['f5_datapackname'] == '3g') { ?> selected <?php } ?>> 3G</option>
-                                                                                <option value="4g" <?php if($data['f5_datapackname'] == '4g') { ?> selected <?php } ?>> 4G</option>
-                                                                            </select>
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Do you have Data Pack on your Phone ?</label>
+                                                                            <div class="controls">
+                                                                                <select id="f5_datapack" name="f5_datapack" class="select2-me input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="yes" point="10" <?php if((isset($data['f5_datapack'])) && $data['f5_datapack'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                    <option value="no" point="0" <?php if((isset($data['f5_datapack'])) && $data['f5_datapack'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!--Do you have Data Pack on your Phone ? -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Specify Data pack</label>
+                                                                            <div class="controls">
+                                                                                <select id="f5_datapackname" name="f5_datapackname" class="select2-me input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="2g" <?php if((isset($data['f5_datapackname'])) && $data['f5_datapackname'] == '2g') { ?> selected <?php } ?>> 2G</option>
+                                                                                    <option value="3g" <?php if((isset($data['f5_datapackname'])) && $data['f5_datapackname'] == '3g') { ?> selected <?php } ?>> 3G</option>
+                                                                                    <option value="4g" <?php if((isset($data['f5_datapackname'])) && $data['f5_datapackname'] == '4g') { ?> selected <?php } ?>> 4G</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!--specify data pack-->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
+                                                                            <div class="controls">
+                                                                                <select id="f5_appuse" name="f5_appuse" class="select2-me input-xlarge">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="yes" <?php if((isset($data['f5_appuse'])) && $data['f5_appuse'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                    <option value="no" <?php if((isset($data['f5_appuse'])) && $data['f5_appuse'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!--Do you use apps regularly-->
+                                                                        
+                                                                        <div id="div_app_name_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                        
+                                                                            <div class="control-group">
+                                                                                <label for="text" class="control-label" style="margin-top:10px">
+                                                                                    Specify name of the App <span style="color:#F00">*</span>
+                                                                                </label>
+                                                                                <div class="controls">
+                                                                                    <input type="text" id="txt_app_name" name="txt_app_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Specify name of the App">
+                                                                                </div>
+                                                                            </div>  <!-- Specify name of the App [If Yes] -->
+                                                                        
                                                                         </div>
-                                                                    </div>	<!--specify data pack-->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
+                                                                            <div class="controls">
+                                                                                <select id="f5_farmapp" name="f5_farmapp" class="select2-me input-xlarge">
+                                                                                    <option value="" disabled selected > Select here</option>
+                                                                                    <option value="yes" point="10" <?php if((isset($data['f5_farmapp'])) && $data['f5_farmapp'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                    <option value="no" point="0" <?php if((isset($data['f5_farmapp'])) && $data['f5_farmapp'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!--Subscriptions to Farming Advisory Apps?-->
                                                                     
-                                                                    <div class="control-group" style="display: none" id="appuseInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you use apps regularly</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_appuse" name="f5_appuse" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_appuse'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" <?php if($data['f5_appuse'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" <?php if($data['f5_appuse'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div><!--Do you use apps regularly-->
+                                                                    </div>
                                                                     
-                                                                    <div class="control-group" style="display: none;" id="farmappInput">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Subscriptions to Farming Advisory Apps?</label>
-                                                                        <div class="controls">
-                                                                            <select id="f5_farmapp" name="f5_farmapp" class="input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f5_farmapp'] == '') { ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f5_farmapp'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f5_farmapp'] == 'no') { ?> selected <?php } ?>> No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>	<!--Subscriptions to Farming Advisory Apps?-->
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div> 	<!-- Reset Or Save -->
                                                                 
                                                                 </div>
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                <div id="div_smartphone_display" style="display: none;">
-
-                                                                    
-                                                                    
-                                                                   
-                                                                    
-                                                                    
-                                                                    <div id="div_used_app_name_display" style="display: none;">
-                                                                        <div class="control-group">
-                                                                            <label for="text" class="control-label" style="margin-top:10px">
-                                                                                Specify name of the App <span style="color:#F00">*</span>
-                                                                            </label>
-                                                                            <div class="controls">
-                                                                                <input type="text" id="txt_app_name" name="txt_app_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Specify name of the App">
-                                                                            </div>
-                                                                        </div>  <!-- Specify name of the App [If Yes] -->
-                                                                    </div>
-                                                                
-                                                                </div>  <!-- If phone type will be smartphone only -->
-
-                                                                <div class="form-actions" style="clear:both;">
-                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
-                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
-                                                                </div> <!-- Submit -->
-                                                                
                                                             </form>
+                                                            <h1 id="phone_details_g_total">0</h1>
                                                         </div>	<!-- Applicant's Phone Details -->
                                                         <div class="tab-pane" id="div_family_details">
                                                             Family Details
@@ -1580,8 +1605,9 @@
         </div><!-- /.modal -->
 
         <script type="text/javascript">
-			var spouse_g_total = 0;
+			var spouse_g_total 				= 0;
 			var applicant_knowledge_g_total	= 0;
+			var phone_details_g_total		= 0;
 			
 			$(document).ready(function()
 			{
@@ -1649,7 +1675,42 @@
 					}
 					calTotal();
 				});
-	
+				
+				$('#f5_phonetype').on('change', function(){
+					if($(this).val() == 'smartphone'){
+						$('#div_smartphone_display').show('swing');
+					}
+					else
+					{
+						$('#div_smartphone_display').hide('swing');
+						$('#div_smartphone_display').find('input, select').val('').trigger('change');
+					}
+					calTotal();
+				});
+				
+				$('#f5_any_one_have_smart_phone').on('change', function(){
+					calTotal();
+				}); 
+				
+				$('#f5_datapack').on('change', function(){ 
+					calTotal();
+				});
+				
+				$('#f5_farmapp').on('change', function(){
+					calTotal();
+				});
+				
+				$('#f5_appuse').on('change', function(){
+					if($(this).val() == 'yes'){
+						$('#div_app_name_display').show('swing');
+					}
+					else
+					{
+						$('#div_app_name_display').hide('swing');
+						$('#div_app_name_display').find('input, select').val('').trigger('change');
+					}
+				});
+				
 				
 				$('#f3_married').val('<?= @$data['f3_married']; ?>');
 				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
@@ -1676,7 +1737,18 @@
 				$('#f2_durprog').val('<?= @$data['f2_durprog']; ?>');
 				$('#f2_participation').trigger('change');
 				$('#f2_typeprog').trigger('change');
-	
+				
+				$('#f5_phonetype').val('<?= @$data['f5_phonetype']; ?>');
+				$('#f5_servpro').val('<?= @$data['f5_servpro']; ?>');
+				$('#f5_network').val('<?= @$data['f5_network']; ?>');
+				$('#f5_datapack').val('<?= @$data['f5_datapack']; ?>');
+				$('#f5_datapackname').val('<?= @$data['f5_datapackname']; ?>');
+				$('#f5_appuse').val('<?= @$data['f5_appuse']; ?>');
+				$('#f5_farmapp').val('<?= @$data['f5_farmapp']; ?>');
+				$('#f5_any_one_have_smart_phone').val('<?= @$data['f5_any_one_have_smart_phone']; ?>');
+				$('#f5_app_name').val('<?= @$data['f5_app_name']; ?>');
+				$('input, select').trigger('change');
+				
 				if($('#f3_married').val() == 'yes'){
 					$('#spouse_detail').show('swing');
 				}
@@ -1703,6 +1775,24 @@
 				else
 				{
 					$('#microfinance').find('input, select').val('');
+				}
+				
+				if($('#f5_phonetype').val() == 'smartphone')
+				{
+					$('#div_smartphone_display').show('swing');
+				}
+				else
+				{
+					$('#div_smartphone_display').find('input, select').val('');
+				}
+				
+				if($('#f5_appuse').val() == 'yes')
+				{
+					$('#div_app_name_display').show('swing');
+				}
+				else
+				{
+					$('#div_app_name_display').find('input, select').val('');
 				}
 	
 				$('#spouse_detail').find('input, select').trigger('change');
@@ -1836,6 +1926,22 @@
 				f2_pt     = f2_pt.toFixed(2);
 				$('#f2_points').val(f2_pt);
 				$('#f2_pt').html(f2_pt);
+				
+				
+				
+				var phoneType		= parseInt($('option:selected','#f5_phonetype').attr('point')) || 0;
+				var anyOtherSPUser	= parseInt($('option:selected','#f5_any_one_have_smart_phone').attr('point')) || 0;
+				var dataPack		= parseInt($('option:selected','#f5_datapack').attr('point')) || 0;
+				var farmApp			= parseInt($('option:selected','#f5_farmapp').attr('point')) || 0;
+				
+				phone_details_g_total	= phoneType + anyOtherSPUser + dataPack + farmApp;
+				
+				document.getElementById('phone_details_g_total').innerHTML=phone_details_g_total;
+				
+				var f5_pt = phone_details_g_total/3;
+				f5_pt     = f5_pt.toFixed(2);
+				$('#f5_points').val(f5_pt);
+				$('#f5_pt').html(f5_pt);
 			}
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
@@ -1878,7 +1984,8 @@
 				}
 			});
 			
-			$('#frm_applicant_knowledge').on('submit', function(e) {
+			$('#frm_applicant_knowledge').on('submit', function(e) 
+			{
 				e.preventDefault();
 				if ($('#frm_applicant_knowledge').valid())
 				{
@@ -1917,6 +2024,47 @@
 					});
 				}
 			});
+			
+			$('#frm_applicant_phone').on('submit', function(e) 
+			{
+			e.preventDefault();
+			if ($('#frm_applicant_phone').valid())
+			{
+				loading_show();	
+				$.ajax({
+						type: "POST",
+						url: "action_pages/action_frm5.php",
+						data: new FormData(this),
+						processData: false,
+  						contentType: false,
+						cache: false,
+						success: function(msg)
+						{
+							data = JSON.parse(msg);
+						
+							if(data.Success == "Success")
+							{
+								alert(data.resp);
+							window.location.href="acrefinfrm_6.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+								loading_hide();
+							}
+							else if(data.Success == "fail") 
+							{
+								alert(data.resp);
+								loading_hide();	
+							}	
+						},
+						error: function (request, status, error)
+						{
+							loading_hide();	
+						},
+						complete: function()
+						{
+							loading_hide();	
+						}	
+					});
+			}
+		});	
 			
 			$('#f2_participation').on('change', function(){
 				if($(this).val() == 'yes'){

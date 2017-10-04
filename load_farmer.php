@@ -1,7 +1,11 @@
 <?php
+	include('access1.php'); 
 	include('include/connection.php');
 	include('include/query-helper.php');
 	
+	$fm_caid   	= $_SESSION['ca_id'];
+	$fm_caname  = $_SESSION['acrefin_user'];
+
 	if((isset($obj->load_dist)) == '1' && (isset($obj->load_dist)))
 	{
 		$stateId		= $obj->stateVal;
@@ -146,8 +150,7 @@
 			$txt_p_pincode			= mysqli_real_escape_string($db_con,$_POST['txt_p_pincode']);
 			$txt_c_pincode			= mysqli_real_escape_string($db_con,$_POST['txt_c_pincode']);
 			
-			$fm_caid            	= $_SESSION['ca_id'];
-			$fm_caname            	= $_SESSION['acrefin_user'];
+			
 			$ipaddress				= $_SERVER['REMOTE_ADDR'];
 			
 			$sql_fm_id	= mysqli_query($db_con,"select fm_id from tbl_farmers order by id desc limit 0,1");

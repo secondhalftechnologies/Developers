@@ -3,6 +3,9 @@
 	include('include/connection.php');
 	include('include/query-helper.php');
 	
+    // echo $fm_caid        = $_SESSION['ca_id'];
+    // echo '<br>'.$fm_caname      = $_SESSION['acrefin_user'];
+
 	$feature_name 	= 'Farmer';
 	$home_name    	= "Home";
 	$title			= 'Add Farmer';

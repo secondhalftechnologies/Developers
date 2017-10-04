@@ -40,13 +40,6 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 			$data['f3_spouse_mfiinterest'] 	    = $row['f3_spouse_mfiinterest'];
 			$data['f3_spouse_mfitotalamount'] 	= $row['f3_spouse_mfitotalamount'];
 			$data['f3_spouse_mfiemipaid'] 	    = $row['f3_spouse_mfiemipaid'];
-
-
-			
-			
-			
-			
-			
 			
 	  }
   }

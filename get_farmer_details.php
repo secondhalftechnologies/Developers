@@ -22,7 +22,7 @@
 	if($result)
 	{
 		$num	= mysqli_num_rows($result);
-		if($num !=0)
+		if($num != 0)
 		{
 			$pt_row	= mysqli_fetch_array($result);
 		}
@@ -77,7 +77,7 @@
 	if($res_applicant_phone)
 	{
 		$num_applicant_phone    = mysqli_num_rows($res_applicant_phone);
-		if($num_applicant_phone !=0)
+		if($num_applicant_phone != 0)
 		{
 			$row_applicant_phone      				= mysqli_fetch_array($res_applicant_phone);
 			$data['f5_phonetype']     				= $row_applicant_phone['f5_phonetype'];
@@ -135,6 +135,7 @@
 		{
 			$row_residence_details    = mysqli_fetch_array($res_residence_details);
 			
+			$data['f7_points']        = @$row_residence_details['f7_points'];
 			$data['f7_television']    = @$row_residence_details['f7_television'];
 			$data['f7_refrigerator']  = @$row_residence_details['f7_refrigerator'];
 			$data['f7_wmachine']      = @$row_residence_details['f7_wmachine'];
@@ -148,34 +149,70 @@
 		}
 	}
 	
-    $no_of_land = 1;
-    $land_arr   = array();
-    $result     = lookup_value('tbl_land_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
-    if($result)
-    {
-        $num    = mysqli_num_rows($result);
-        if($num != 0)
-        {
-            while($row = mysqli_fetch_array($result))
-            {
-                array_push($land_arr ,$row);
-            }
-            $no_of_land = sizeof($land_arr);
-        }
-    }
-
+	$no_of_land	= 1;
+	$land_arr  	= array();
+	$res_land_details 	= lookup_value('tbl_land_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_land_details)
+	{
+		$num_land_details    = mysqli_num_rows($res_land_details);
+		if($num_land_details != 0)
+		{
+			while($row_land_details	= mysqli_fetch_array($res_land_details))
+			{
+				array_push($land_arr ,$row_land_details);
+			}
+			$no_of_land = sizeof($land_arr);
+		}
+	}
+	
+	/*print_r($land_arr);
+	echo '<br><br>';
+	echo $land_arr[1]['fm_id'];
+	exit();*/
+	
     $no_of_crops    = 1;
     $crops_arr      = array();
-    $result         = lookup_value('tbl_cultivation_data',array(),array("fm_id"=>$fm_id),array(),array(),array());
-    if($result)
+    $res_cultivation_data	= lookup_value('tbl_cultivation_data',array(),array("fm_id"=>$fm_id),array(),array(),array());
+    if($res_cultivation_data)
     {
-        while($row = mysqli_fetch_array($result))
+        while($row_cultivation_data = mysqli_fetch_array($res_cultivation_data))
         {
-        array_push($crops_arr ,$row);
+       		array_push($crops_arr ,$row_cultivation_data);
         }
         $no_of_crops = sizeof($crops_arr);
     }
-
+	
+	$res_asset_details	= lookup_value('tbl_asset_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_asset_details)
+	{
+		$num_asset_details	= mysqli_num_rows($res_asset_details);
+		if($num_asset_details != 0)
+		{
+			$row_asset_details					= mysqli_fetch_array($res_asset_details);
+			$data['f12_machinery']				= $row_asset_details['f12_machinery'];
+			$data['f12_machinery']				= $row_asset_details['f12_machinery'];
+			$data['f12_vehicle']				= $row_asset_details['f12_vehicle'];
+			$data['f12_is_immovable']			= $row_asset_details['f12_is_immovable'];
+			$data['f12_immovable_asset']		= $row_asset_details['f12_immovable_asset'];
+			$data['f12_total_val_of_vehical']	= $row_asset_details['f12_total_val_of_vehical'];
+			$data['f12_total_val_of_machinery']	= $row_asset_details['f12_total_val_of_machinery'];
+			$data['f12_any_other_assets']		= $row_asset_details['f12_any_other_assets'];
+			$data['f12_name_of_other_assets']	= $row_asset_details['f12_name_of_other_assets'];
+		}
+		else
+		{
+			$data['f12_machinery']				= '';
+			$data['f12_machinery']				= '';
+			$data['f12_vehicle']				= '';
+			$data['f12_is_immovable']			= '';
+			$data['f12_immovable_asset']		= '';
+			$data['f12_total_val_of_vehical']	= '';
+			$data['f12_total_val_of_machinery']	= '';
+			$data['f12_any_other_assets']		= '';
+			$data['f12_name_of_other_assets']	= '';
+		}
+	}
+	
     // Query for chacking user is married or not
     $sql_chk_married_status = " SELECT * FROM `tbl_spouse_details` WHERE `fm_id`='".$fm_id."' ";
     $res_chk_married_status = mysqli_query($db_con, $sql_chk_married_status) or die(mysqli_error($db_con));
@@ -357,9 +394,9 @@
 																		?>
 																		<span class="badge " id="f7_pt" style="font-size:16px; font-weight:bold">
 																			<?php echo $pt_row['pt_frm7']; ?>
-																		</span> 
-																		<?php 
-																	} 
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
 																	else
 																	{
 																		?>
@@ -873,70 +910,70 @@
                                                                             <label for="text" class="control-label" style="margin-top:10px">Television
                                                                             <span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_television" id="f7_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_television" id="f7_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_television'])) && $data['f7_television'] != '0'){ echo $data['f7_television']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Television -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_refrigerator" id="f7_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_refrigerator" id="f7_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_refrigerator'])) && $data['f7_refrigerator'] != '0'){ echo $data['f7_refrigerator']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Refrigerator -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_wmachine" id="f7_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_wmachine" id="f7_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_wmachine'])) && $data['f7_wmachine'] != '0'){ echo $data['f7_wmachine']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Washing Machine -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_mixer" id="f7_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_mixer" id="f7_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_mixer'])) && $data['f7_mixer'] != '0'){ echo $data['f7_mixer']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Mixer -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_stove" id="f7_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_stove" id="f7_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_stove'])) && $data['f7_stove'] != '0'){ echo $data['f7_stove']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Gas Stove -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_bicycle" id="f7_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_bicycle" id="f7_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_bicycle'])) && $data['f7_bicycle'] != '0'){ echo $data['f7_bicycle']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Bicycle -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_ccylinder" id="f7_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_ccylinder" id="f7_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_ccylinder'])) && $data['f7_ccylinder'] != '0'){ echo $data['f7_ccylinder']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Cooking Cylinder -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_fans" id="f7_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_fans" id="f7_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_fans'])) && $data['f7_fans'] != '0'){ echo $data['f7_fans']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Lights & Fans -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_motorcycle" id="f7_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_motorcycle" id="f7_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_motorcycle'])) && $data['f7_motorcycle'] != '0'){ echo $data['f7_motorcycle']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Motorcycle -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_car" id="f7_car" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                                <input type="number" name="f7_car" id="f7_car" placeholder="Car" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_car'])) && $data['f7_car'] != '0'){ echo $data['f7_car']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Car -->
                                                                         
@@ -954,7 +991,7 @@
                                                     </div>	<!-- Main Forms -->
                                                 </div>
                                             </div>
-                                        </div>	<!-- KYC -->
+                                        </div>	<!-- KYC [COMPLETE] -->
                                         <!-- =========== -->
                                         <!-- END   : KYC -->
                                         <!-- =========== -->
@@ -970,219 +1007,258 @@
                                                             <li class='active'>
                                                                 <a href="#div_farm_land_details" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Farm Land Details
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm9']) && $pt_row['pt_frm9']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f9_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm9']; ?>
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f9_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                	</a>
                                                             </li>	<!-- Farm Land Details -->
                                                         </ul>
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
                                                         <div class="tab-pane active" id="div_farm_land_details">
-                                                    		<form enctype="multipart/form-data" method="POST" class='form-horizontal form-wizard wizard-vertical' id="frm_farm_land_details" name="frm_farm_land_details">
-																
-                                                        		<!-- <div class="form-content"> -->
-                                                                    <div id="lands">
+                                                    		<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_farm_land_details" name="frm_farm_land_details">
+                                                            	
+                                                                <input type="hidden" id="add_land_detail" name="add_land_detail" value="1">
+                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" name="f9_points" value="" id="f9_points">
+                                                                <input type="hidden" name="no_of_land" value="" id="no_of_land">
+                                                                
+                                                                <div class="form-content">
+
+																	<div id="lands">
                                                                     	<?php
-                                                                        for($i=0; $i<$no_of_land; $i++)
+                                                                        for($i = 0; $i < $no_of_land; $i++)
 																		{
-																	       $id =$i+1;
-
-                                                                           ?>
-                                                                           <div id="land<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
-                                                                                <div id="loan_detail" style=" padding: 10px; margin: 5px;">
-                                                                                    
+																			$id	= $i+1;
+																			?>
+																			<div id="land<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                            	<div id="land_detail" style=" padding: 10px; margin: 5px;">
+                                                                                	
                                                                                     <input type="hidden" name="id[]" id="id" value="<?php echo @$land_arr[$i]['id']; ?>">
-
                                                                                     <h2>Farm Land <?php echo $id; ?> Details</h2>
-
+                                                                                    
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input placeholder="Size in Acres" type="text" id="txt_land_size<?php echo $id; ?>" name="txt_land_size<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        	<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size<?php echo $id; ?>" name="f9_land_size<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_land_size'])) && $land_arr[$i]['f9_land_size'] != ''){ echo $land_arr[$i]['f9_land_size']; } ?>" data-rule-required="true" onChange="calTotal()" maxlength="6">
                                                                                         </div>
-                                                                                    </div>  <!-- Size in Acres -->
-
+                                                                                    </div>	<!-- Size in Acres -->
+                                                                                    
                                                                                     <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Ownership
-                                                                                        <span style="color:#F00">*</span></label>
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Ownership<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_owner<?php echo $id; ?>" name="ddl_owner<?php echo $id; ?>" class="input-xlarge" data-rule-required="true">
+                                                                                            <select id="f9_owner<?php echo $id; ?>" name="f9_owner<?php echo $id; ?>" onChange="ownership(<?php echo $id; ?>,this.value)" class="select2-me input-xlarge" data-rule-required="true">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option value="Owned">Owned</option>
-                                                                                                <option value="Rental">Rental</option>
-                                                                                                <option value="Leased">Leased</option>
-                                                                                                <option value="Contracted">Contracted</option>
+                                                                                                <option value="Owned" point="10" <?php if((isset($land_arr[$i]['f9_owner'])) && $land_arr[$i]['f9_owner'] == 'Owned') { ?> selected <?php } ?>>Owned</option>
+                                                                                                <option value="Ancestral" point="5" <?php if((isset($land_arr[$i]['f9_owner'])) && $land_arr[$i]['f9_owner'] == 'Ancestral') { ?> selected <?php } ?>>Ancestral</option>
+                                                                                                <option value="Rented" point="5" <?php if((isset($land_arr[$i]['f9_owner'])) && $land_arr[$i]['f9_owner'] == 'Rented') { ?> selected <?php } ?>>Rented</option>
+                                                                                                <option value="Contracted" point="5" <?php if((isset($land_arr[$i]['f9_owner'])) && $land_arr[$i]['f9_owner'] == 'Contracted') { ?> selected <?php } ?>>Contracted</option>
+                                                                                                <option value="Leased" point="3" <?php if((isset($land_arr[$i]['f9_owner'])) && $land_arr[$i]['f9_owner'] == 'Leased') { ?> selected <?php } ?>>Leased</option>
                                                                                             </select>
                                                                                         </div>
-                                                                                    </div>  <!-- Ownership -->
-
-                                                                                    <div id="div_rental_display" style="display: none;">
+                                                                                    </div>	<!-- Ownership -->
+                                                                                    
+                                                                                    <div id="div_lease_display<?php echo $id; ?>" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
                                                                                         <div class="control-group">
+                                                                                            <label for="text" class="control-label" style="margin-top:10px">No. of Lease year<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                            	<input value="<?php if((isset($land_arr[$i]['f9_lease_year'])) && $land_arr[$i]['f9_lease_year'] != ''){ echo $land_arr[$i]['f9_lease_year']; } ?>" type="text" class="input-xlarge v_number" placeholder="Lease Year" name="f9_lease_year<?php echo $id; ?>" id="f9_lease_year<?php echo $id; ?>" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="10">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>	<!-- [If on lease, Number of years under leasing] -->
+                                                                                    
+                                                                                    <div id="div_rental_display<?php echo $id; ?>" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
+                                                                                    	<div class="control-group">
                                                                                             <label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>
                                                                                             <div class="controls">
-                                                                                                <input placeholder="Size in Acres" type="text" id="txt_land_rent_per_month<?php echo $id; ?>" name="txt_land_rent_per_month<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                            	<input value="<?php if((isset($land_arr[$i]['f9_amount_on_rent'])) && $land_arr[$i]['f9_amount_on_rent'] != ''){ echo $land_arr[$i]['f9_amount_on_rent']; } ?>" type="text" class="input-xlarge v_number" placeholder="amount per month on rent" name="f9_amount_on_rent<?php echo $id; ?>" id="f9_amount_on_rent<?php echo $id; ?>" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="10">
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>  <!-- [If On Rent, Mention tha amount per month on rent] -->
-
-                                                                                    <div id="div_leas_display" style="display: none;">
+                                                                                    </div>	<!-- [If On Rent, Mention tha amount per month on rent] -->
+                                                                                    
+                                                                                    <div id="div_contract_display<?php echo $id; ?>" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
                                                                                         <div class="control-group">
-                                                                                            <label for="text" class="control-label" style="margin-top:10px">Number of years under leasing<span style="color:#F00">*</span></label>
+                                                                                            <label for="text" class="control-label" style="margin-top:10px"> No. of Contract year<span style="color:#F00">*</span></label>
                                                                                             <div class="controls">
-                                                                                                <input placeholder="Size in Acres" type="text" id="txt_land_lease_year<?php echo $id; ?>" name="txt_land_lease_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                            	<input type="text" class="input-xlarge ui-wizard-content" placeholder="Contract Year" name="f9_contract_year<?php echo $id; ?>" id="f9_contract_year<?php echo $id; ?>" value="<?php if((isset($land_arr[$i]['f9_contract_year'])) && $land_arr[$i]['f9_contract_year'] != ''){ echo $land_arr[$i]['f9_contract_year']; } ?>" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="10">
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>  <!-- [If on lease, Number of years under leasing] -->
-
-                                                                                    <div id="div_contract_display" style="display: none;">
-                                                                                        <div class="control-group">
-                                                                                            <label for="text" class="control-label" style="margin-top:10px">Number of years under contract<span style="color:#F00">*</span></label>
-                                                                                            <div class="controls">
-                                                                                                <input placeholder="Size in Acres" type="text" id="txt_land_contract_year<?php echo $id; ?>" name="txt_land_contract_year<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>  <!-- [If On Contract, Number of years under contract] -->
-
-                                                                                    <!-- START : Land Address -->
-
+                                                                                    </div>	<!-- [If On Contract, Number of years under contract] -->
+                                                                                    
+                                                                                    <h3>Land Address</h3>
+                                                                                     
                                                                                     <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_p_state<?php echo $id; ?>" name="ddl_p_state<?php echo $id; ?>" onChange="getDist('p', this.value, 'ddl_p_dist<?php echo $id; ?>', 'ddl_p_tal<?php echo $id; ?>', 'ddl_p_village<?php echo $id; ?>', 'div_p_dist<?php echo $id; ?>', 'div_p_tal<?php echo $id; ?>', 'div_p_village<?php echo $id; ?>');" class="select2-me input-large" >
+                                                                                            <select id="f9_state<?php echo $id; ?>" name="f9_state<?php echo $id; ?>" onChange="getDist('p', this.value, 'f9_district<?php echo $id; ?>', 'f9_taluka<?php echo $id; ?>', 'f9_vilage<?php echo $id; ?>', 'div_p_dist<?php echo $id; ?>', 'div_p_tal<?php echo $id; ?>', 'div_p_village<?php echo $id; ?>');" class="select2-me input-large" >
                                                                                                 <option value="" disabled selected>Select State</option>
                                                                                                 <?php
                                                                                                 $res_get_state  = lookup_value('tbl_state',array(),array(),array(),array(),array());
                                                                                                 
-                                                                                                if($res_get_state)
-                                                                                                {
-                                                                                                    while ($row = mysqli_fetch_array($res_get_state) ) 
-                                                                                                    {
-                                                                                                        echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
-                                                                                                    }
-                                                                                                }
+																									if($res_get_state)
+																									{
+																										while ($row = mysqli_fetch_array($res_get_state) ) 
+																										{
+																											//echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
+																											?>
+																											<option value="<?php echo $row['id']; ?>" <?php if((isset($land_arr[$i]['f9_state'])) && $land_arr[$i]['f9_state'] == $row['id']) { ?> selected <?php } ?>>
+                                                                                                            	<?php echo strtoupper($row['st_name']); ?>
+                                                                                                            </option>	
+																											<?php
+																										}
+                                                                                                	}
                                                                                                 ?>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- State -->
-
+                                                                                    
                                                                                     <div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>
                                                                                         <div class="controls" id="div_p_dist<?php echo $id; ?>">
-                                                                                            <select id="ddl_p_dist<?php echo $id; ?>" name="ddl_p_dist<?php echo $id; ?>" class="select2-me input-large" >
-                                                                                                <option value="" disabled selected>Select District</option>
+                                                                                            <select id="f9_district<?php echo $id; ?>" name="f9_district<?php echo $id; ?>" class="select2-me input-large" >
+                                                                                            	<option value="" disabled selected>Select District</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- District -->
-
+                                                                                    
                                                                                     <div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>
                                                                                         <div class="controls" id="div_p_tal<?php echo $id; ?>">
-                                                                                            <select id="ddl_p_tal<?php echo $id; ?>" name="ddl_p_tal<?php echo $id; ?>" class="select2-me input-large" >
-                                                                                                <option value="" disabled selected>Select Taluka</option>
+                                                                                            <select id="f9_taluka<?php echo $id; ?>" name="f9_taluka<?php echo $id; ?>" class="select2-me input-large" >
+                                                                                            	<option value="" disabled selected>Select Taluka</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Taluka -->
-
+                                                                                    
                                                                                     <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>
                                                                                         <div class="controls" id="div_p_village<?php echo $id; ?>">
-                                                                                            <select id="ddl_p_village<?php echo $id; ?>" name="ddl_p_village<?php echo $id; ?>" class="select2-me input-large" >
-                                                                                                <option value="" disabled selected>Select Village</option>
+                                                                                            <select id="f9_vilage<?php echo $id; ?>" name="f9_vilage<?php echo $id; ?>" class="select2-me input-large" >
+                                                                                            	<option value="" disabled selected>Select Village</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Village -->
-
+                                                                                    
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Survey Number<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input placeholder="Size in Acres" type="text" id="txt_survey_no<?php echo $id; ?>" name="txt_survey_no<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                        	<input placeholder="Survey Number" type="text" id="f9_survey_number<?php echo $id; ?>" name="f9_survey_number<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_survey_number'])) && $land_arr[$i]['f9_survey_number'] != ''){ echo $land_arr[$i]['f9_survey_number']; } ?>" data-rule-required="true" maxlength="10">
                                                                                         </div>
                                                                                     </div>  <!-- Survey Number -->
-
+                                                                                    
                                                                                     <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" id="txt_p_pincode<?php echo $id; ?>" name="txt_p_pincode<?php echo $id; ?>" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
+                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_pincode'])) && $land_arr[$i]['f9_pincode'] != ''){ echo $land_arr[$i]['f9_pincode']; } ?>" id="f9_pincode<?php echo $id; ?>" name="f9_pincode<?php echo $id; ?>" placeholder="Pin-Code" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" minlength="6" maxlength="6" size="6" />
                                                                                         </div>
                                                                                     </div>  <!-- Pincode -->
-
-                                                                                    <!-- END : Land Address -->
-
-                                                                                    <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Type of Soil
-                                                                                        <span style="color:#F00">*</span></label>
+                                                                                    
+                                                                                    <div class="control-group" >
+                                                                                        <label for="tasktitel" class="control-label">latitude <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_soil_type<?php echo $id; ?>" name="ddl_soil_type<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_lat'])) && $land_arr[$i]['f9_lat'] != ''){ echo $land_arr[$i]['f9_lat']; } ?>" id="f9_lat<?php echo $id; ?>" name="f9_lat<?php echo $id; ?>" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>
+                                                                                        </div>
+                                                                                    </div>  <!-- latitude -->
+                                                                                    
+                                                                                    <div class="control-group" >
+                                                                                        <label for="tasktitel" class="control-label">longitude <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_long'])) && $land_arr[$i]['f9_long'] != ''){ echo $land_arr[$i]['f9_long']; } ?>" id="f9_long<?php echo $id; ?>" name="f9_long<?php echo $id; ?>" placeholder="Longitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>
+                                                                                        </div>
+                                                                                    </div>  <!-- longitude -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Type of Soil<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f9_soil_type<?php echo $id; ?>" name="f9_soil_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal()">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option value="Alluvial Soil">Alluvial Soil</option>
-                                                                                                <option value="Black Soil">Black Soil</option>
-                                                                                                <option value="Red Soil">Red Soil</option>
-                                                                                                <option value="Mountain Soil">Mountain Soil</option>
-                                                                                                <option value="Peat">Peat</option>
-                                                                                                <option value="Laterite Soil">Laterite Soil</option>
-                                                                                                <option value="Desert Soil">Desert Soil</option>
+                                                                                                <option value="Alluvial Soil" point="10" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Alluvial Soil') { ?> selected <?php } ?>>Alluvial Soil</option>
+                                                                                                <option value="Black Soil" point="9" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Black Soil') { ?> selected <?php } ?>>Black Soil</option>
+                                                                                                <option value="Red Soil" point="8" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Red Soil') { ?> selected <?php } ?>>Red Soil</option>
+                                                                                                <option value="Mountain Soil" point="6" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Mountain Soil') { ?> selected <?php } ?>>Mountain Soil</option>
+                                                                                                <option value="Peat" point="5" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Peat') { ?> selected <?php } ?>>Peat</option>
+                                                                                                <option value="Laterite Soil" point="5" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Laterite Soil') { ?> selected <?php } ?>>Laterite Soil</option>
+                                                                                                <option value="Desert Soil" point="2" <?php if((isset($land_arr[$i]['f9_soil_type'])) && $land_arr[$i]['f9_soil_type'] == 'Desert Soil') { ?> selected <?php } ?>>Desert Soil</option>
                                                                                              </select>
                                                                                         </div>
-                                                                                    </div>  <!-- Type of soil -->
-
+                                                                                    </div>	<!-- Type of soil -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f9_soil_tested<?php echo $id; ?>" name="f9_soil_tested<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option value="yes" point="10" <?php if((isset($land_arr[$i]['f9_soil_tested'])) && $land_arr[$i]['f9_soil_tested'] == 'yes') { ?> selected <?php } ?>>Yes</option>
+                                                                                                <option value="no" point="0" <?php if((isset($land_arr[$i]['f9_soil_tested'])) && $land_arr[$i]['f9_soil_tested'] == 'no') { ?> selected <?php } ?>>no</option>
+                                                                                             </select>
+                                                                                        </div>
+                                                                                    </div>	<!-- Have you had the soil tested in your land? -->
+                                                                                    
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input placeholder="Size in Acres" type="text" id="txt_soil_depth<?php echo $id; ?>" name="txt_soil_depth<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" data-rule-number="true">
+                                                                                            <input placeholder="Soil Depth" type="text" id="f9_soil_depth<?php echo $id; ?>" name="f9_soil_depth<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_soil_depth'])) && $land_arr[$i]['f9_soil_depth'] != ''){ echo $land_arr[$i]['f9_soil_depth']; } ?>" data-rule-required="true">
                                                                                         </div>
                                                                                     </div>  <!-- Soil Depth -->
-
-                                                                                    <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?
-                                                                                        <span style="color:#F00">*</span></label>
-                                                                                        <div class="controls">
-                                                                                            <select id="ddl_soil_tested<?php echo $id; ?>" name="ddl_soil_tested<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
-                                                                                                <option value="" disabled selected> Select here</option>
-                                                                                                <option value="yes">Yes</option>
-                                                                                                <option value="no">no</option>
-                                                                                             </select>
-                                                                                        </div>
-                                                                                    </div>  <!-- Have you Tested the Soil -->
-
+                                                                                    
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Source Of Water
                                                                                         <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_water_source<?php echo $id; ?>" name="ddl_water_source<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                                            <select id="f9_source_of_water<?php echo $id; ?>" name="f9_source_of_water<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal()">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option value="well_water">Well Water</option>
-                                                                                                <option value="tube_water">Tube Water</option>
-                                                                                                <option value="tank_water">Tank Water</option>
-                                                                                                <option value="canals">Canals</option>
-                                                                                                <option value="perennial_water">Perennial Water</option>
-                                                                                                <option value="multipurpose_river_valley">Multipurpose River Valley</option>
-                                                                                                <option value="rain_fed">Rain Fed</option>
-                                                                                                <option value="drip_irrigation">Drip Irrigation</option>
-                                                                                                <option value="sprinkler">Sprinkler</option>
-                                                                                                <option value="furrow">Furrow</option>
-                                                                                                <option value="ditch">Ditch</option>
-                                                                                                <option value="surge">Surge</option>
-                                                                                                <option value="seepage">Seepage</option>
+                                                                                                <option value="Well Water" point="5" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Well Water') { ?> selected <?php } ?>>Well Water</option>
+                                                                                                <option value="Tube Water" point="7" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Tube Water') { ?> selected <?php } ?>>Tube Water</option>
+                                                                                                <option value="Tank Water" point="5" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Tank Water') { ?> selected <?php } ?>>Tank Water</option>
+                                                                                                <option value="Canals" point="5" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Canals') { ?> selected <?php } ?>>Canals</option>
+                                                                                                <option value="Perennial Water" point="5" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Perennial Water') { ?> selected <?php } ?>>Perennial Water</option>
+                                                                                                <option value="Multipurpose River Valley" point="5" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Multipurpose River Valley') { ?> selected <?php } ?>>Multipurpose River Valley</option>
+                                                                                                <option value="Rain Fed" point="4" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Rain Fed') { ?> selected <?php } ?>>Rain Fed</option>
+                                                                                                <option value="Drip Irrigation" point="8" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Drip Irrigation') { ?> selected <?php } ?>>Drip Irrigation</option>
+                                                                                                <option value="Sprinkler" point="7" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Sprinkler') { ?> selected <?php } ?>>Sprinkler</option>
+                                                                                                <option value="Furrow" point="3" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Furrow') { ?> selected <?php } ?>>Furrow</option>
+                                                                                                <option value="Ditch" point="3" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Ditch') { ?> selected <?php } ?>>Ditch</option>
+                                                                                                <option value="Surge" point="3" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Surge') { ?> selected <?php } ?>>Surge</option>
+                                                                                                <option value="Seepage" point="3" <?php if((isset($land_arr[$i]['f9_source_of_water'])) && $land_arr[$i]['f9_source_of_water'] == 'Seepage') { ?> selected <?php } ?>>Seepage</option>
                                                                                              </select>
                                                                                         </div>
                                                                                     </div>  <!-- Source of water -->
+                                                                                    
                                                                                 </div>
-                                                                           </div> 
-                                                                           <?php			
+                                                                            </div>
+																			<?php
 																		}
 																		?>
-                                                                    </div>	<!-- Input Fields for getting the land details -->
-                                                                    
+                                                                    </div>
+
                                                                     <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
-	                                                                    <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand(0);" id="addLoanType"/>
-    	                                                                <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box" data-backdrop="static" id="removeLoanType"/>
-                                                                    </div>	<!-- Add More -->
-                                                                    
+                                                                        <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand();" id="addLoanType"/>
+                                                                        <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box_land" data-backdrop="static" id="removeLandType"/>
+                                                                    </div>
+
                                                                     <div class="form-actions">
-                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
-                                                                        <input type="reset" class="btn" value="Reset" id="Reset">
-                                                                    </div>	<!-- Rest or Submit -->
-                                                                <!-- </div> -->
+    	                                                                <input type="reset" class="btn" value="Reset" id="Reset">
+	                                                                    <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>
+                                                                    
+                                                                </div>
                                                                 
                                                             </form>
+                                                            <div id="farm_land_details_g_total"></div>
                                                         </div>	<!-- Farm Land Details -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>
@@ -1426,6 +1502,22 @@
                                                             <li class='active'>
                                                                 <a href="#div_asset_details" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Assets Details
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm12']) && $pt_row['pt_frm12']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f12_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm12']; ?>
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f12_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                	</a>
                                                             </li>	<!-- Assets Details -->
                                                             <li>
@@ -1440,61 +1532,84 @@
                                                     		Assets Details
                                                             <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_asset_details" name="frm_asset_details">
                                                                 
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_vehical_owned" name="ddl_vehical_owned" class="select2-me input-xlarge" >
-                                                                            <option value="" disabled selected>Select here</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4_or_more">4 OR More</option>
-                                                                        </select>
+                                                            	<input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="add_asset_detail" name="add_asset_detail" value="1">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">    
+                                                                
+                                                                <div class="form-content">
+                                                                	
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f12_vehicle" name="f12_vehicle" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected>Select here</option>
+                                                                                <option value="1" point="5" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '1'){ ?> selected <?php }  ?>>1</option>
+                                                                                <option value="2" point="7" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '2'){ ?> selected <?php }  ?>>2</option>
+                                                                                <option value="3" point="8" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '3'){ ?> selected <?php }  ?>>3</option>
+                                                                                <option value="4_or_more" point="10" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '4_or_more'){ ?> selected <?php }  ?>>4 OR More</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Vehical Owned [DDL] -->
+                                                                    
+                                                                     <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Total Value of the Vehical<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="text" value="" id="f12_total_val_of_vehical" name="f12_total_val_of_vehical" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
+                                                                        </div>
+                                                                    </div>  <!-- Total Value of the Vehical -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Machinery Owned<span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <select id="f12_machinery" name="f12_machinery" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected>Select here</option>
+                                                                                <option value="1" point="2" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '1'){ ?> selected <?php }  ?>>1</option>
+                                                                                <option value="2" point="4" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '2'){ ?> selected <?php }  ?>>2</option>
+                                                                                <option value="3" point="6" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '3'){ ?> selected <?php }  ?>>3</option>
+                                                                                <option value="4_or_more" point="0" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '4_or_more'){ ?> selected <?php }  ?>>4 OR More</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Machinery Owned -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Total Value of the Machinery <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <input type="text" id="f12_total_val_of_machinery" name="f12_total_val_of_machinery" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of the Machinery">
+                                                                        </div>
+                                                                    </div>  <!-- Total Value of the Machinery -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
+                                                                        </label>
+                                                                        <div class="controls">
+                                                                            <select id="f12_any_other_assets" name="f12_any_other_assets" class="select2-me input-xlarge" >
+                                                                                <option value="" disabled selected>Select here</option>
+                                                                                <option value="yes">Yes</option>
+                                                                                <option value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>  <!-- Any Other Assets [DDL] -->
+                                                                    
+                                                                    <div id="program_detail" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
+                                                                    
+                                                                    	
+                                                                    
                                                                     </div>
-                                                                </div>  <!-- Vehical Owned [DDL] -->
+                                                                    
+                                                                </div>
+                                                                
+                                                                
+                                                                
 
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Total Value of the Vehical <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_total_value_of_vehical" name="txt_total_value_of_vehical" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
-                                                                    </div>
-                                                                </div>  <!-- Total Value of the Vehical -->
+                                                               
 
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_machinery_owned" name="ddl_machinery_owned" class="select2-me input-xlarge" >
-                                                                            <option value="" disabled selected>Select here</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4_or_more">4 OR More</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>  <!-- Machinery Owned -->
+                                                                
 
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Total Value of the Vehical <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_total_value_of_machinery" name="txt_total_value_of_machinery" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
-                                                                    </div>
-                                                                </div>  <!-- Total Value of the Machinery -->
+                                                                
 
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_any_other_assets" name="ddl_any_other_assets" class="select2-me input-xlarge" >
-                                                                            <option value="" disabled selected>Select here</option>
-                                                                            <option value="yes">Yes</option>
-                                                                            <option value="no">No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>  <!-- Any Other Assets [DDL] -->
+                                                                
 
                                                                 <div id="div_any_other_assets_display" style="display: none;">
                                                                     
@@ -1531,6 +1646,10 @@
                                                         <div class="tab-pane" id="div_live_stock">
                                                            Live Stock
                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_live_stock" name="frm_live_stock">
+                                                                
+                                                                
+                                                                
+                                                                
                                                                 
                                                                 <div class="control-group">
                                                                     <label for="tasktitel" class="control-label">Type of Livestock <span style="color:#F00">*</span>
@@ -1658,7 +1777,7 @@
            	</div>
         </div>
 
-        <div class="modal fade" id="confirm_box" tabindex="-1" role="dialog">
+        <div class="modal fade" id="confirm_box_land" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1714,6 +1833,9 @@
 			var phone_details_g_total		= 0;
 			var family_details_g_total		= 0;
 			var appliances_motors_g_total	= 0;
+			var farm_land_details_g_total	= 0;
+			
+			var contentCountLand 			= <?php echo $no_of_land; ?>;
 			
 			$(document).ready(function()
 			{
@@ -1833,13 +1955,75 @@
 				});
 				
 				$('#f7_television').on('blur', function(){
-					alert($(this).val());
-					if($(this).val() != '0' && $(this).val() != '')
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
 					{
-						alert('aala');
 						calTotal();
 					}
 				});
+				
+				$('#f7_refrigerator').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
+				$('#f7_wmachine').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				   
+				$('#f7_mixer').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
+				$('#f7_stove').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
+				$('#f7_bicycle').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				   
+				$('#f7_ccylinder').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
+				$('#f7_fans').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
+				$('#f7_motorcycle').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
+				$('#f7_car').on('blur', function(){
+					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal();
+					}
+				});
+				
 				
 				$('#f3_married').val('<?= @$data['f3_married']; ?>');
 				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
@@ -2032,6 +2216,76 @@
 				}
 			}
 			
+			function convertAppliancesToPoint(x, typeVal)
+			{
+				
+				if(typeVal == 1)
+				{
+					if(x > 0)
+					{
+					  return 4;
+					}
+					else
+					{
+					  return 0;
+					}
+				}
+				else if(typeVal == 2)
+				{
+					if(x > 0)
+					{
+					  return 8;
+					}
+					else
+					{
+					  return 0;
+					}
+				}
+				else
+				{
+					if(x > 0)
+					{
+					  return 10;
+					}
+					else
+					{
+					  return 0;
+					}	
+				}
+			}
+			
+			function cal_land_size_pt(x)
+			{
+				if(x >= 0 && x <= 3)
+				{
+				  return 5;
+				}
+				else if(x >= 4 && x <= 6)
+				{
+				  return 7;
+				}
+				else if(x >= 7 && x <= 10)
+				{
+				  return 8;
+				}
+				else if(x >= 11 && x <= 15)
+				{
+				  return 9;
+				}
+				else if(x >= 16 && x <= 20)
+				{
+				  return 10;
+				}
+				else if(x >= 21)
+				{
+				  return 10;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			
 			function calTotal()
 			{
 				var f3_married	= '<?php echo $married_status; ?>';
@@ -2144,6 +2398,86 @@
 				f6_pt     = f6_pt.toFixed(2);
 				$('#f6_points').val(f6_pt);
 				$('#f6_pt').html(f6_pt);
+				
+				
+				var f7_television	= parseInt($('#f7_television').val()) || 0;
+				var f7_refrigerator	= parseInt($('#f7_refrigerator').val()) || 0;
+				var f7_wmachine 	= parseInt($('#f7_wmachine').val()) || 0;
+				var f7_mixer 		= parseInt($('#f7_mixer').val()) || 0;
+				var f7_stove 		= parseInt($('#f7_stove').val()) || 0;
+				var f7_bicycle 		= parseInt($('#f7_bicycle').val()) || 0;
+				var f7_ccylinder 	= parseInt($('#f7_ccylinder').val()) || 0;
+				var f7_fans 		= parseInt($('#f7_fans').val()) || 0;
+				var f7_motorcycle 	= parseInt($('#f7_motorcycle').val()) || 0;
+				var f7_car			= parseInt($('#f7_car').val()) || 0;
+				
+				f7_television 		= convertAppliancesToPoint(f7_television, 1);
+				f7_refrigerator 	= convertAppliancesToPoint(f7_refrigerator, 1);
+				f7_wmachine 		= convertAppliancesToPoint(f7_wmachine, 1);
+				f7_mixer 			= convertAppliancesToPoint(f7_mixer, 1);
+				f7_stove 			= convertAppliancesToPoint(f7_stove, 1);
+				f7_bicycle 			= convertAppliancesToPoint(f7_bicycle, 1);
+				f7_ccylinder 		= convertAppliancesToPoint(f7_ccylinder, 1);
+				f7_fans 			= convertAppliancesToPoint(f7_fans, 1);
+				f7_motorcycle 		= convertAppliancesToPoint(f7_motorcycle, 2);
+				f7_car				= convertAppliancesToPoint(f7_car, 3);
+				
+				appliances_motors_g_total	= f7_television + f7_refrigerator + f7_wmachine + f7_mixer + f7_stove + f7_bicycle + f7_ccylinder + f7_fans + f7_motorcycle + f7_car;
+				
+				document.getElementById('appliances_motors_g_total').innerHTML=appliances_motors_g_total;
+				var f7_pt = appliances_motors_g_total/3;
+				f7_pt     = f7_pt.toFixed(2);
+				$('#f7_points').val(f7_pt);
+				$('#f7_pt').html(f7_pt);
+				
+				
+				var no_of_points        	= 2;
+				var f9_land_size_tpt    	= 0;
+				var f9_owner_tpt			= 0;
+				var f9_soil_tested_pt   	= 0;
+				var f9_soil_type_tpt    	= 0;
+				var f9_source_of_water_tpt	= 0;
+			
+				for(var i=1; i <= contentCountLand; i++)
+				{
+					var f9_land_size     =  $('#f9_land_size'+i).val() || 0;
+					var f9_land_size_pt  = cal_land_size_pt(f9_land_size);
+					f9_land_size_tpt  += f9_land_size_pt;
+					
+					var f9_owner	= parseInt($('option:selected','#f9_owner'+i).attr('point')) || 0;
+					f9_owner_tpt	+= f9_owner;
+					
+					var f9_soil_tested  = $('#f9_soil_tested'+i).val() || 'no';
+					if(f9_soil_tested=='yes')
+					{
+						f9_soil_tested_pt 	+= 10;
+						no_of_points        = 3;
+					}
+					else
+					{
+						f9_soil_tested_pt += 0;
+					}
+					
+					var f9_soil_type = parseInt($('option:selected','#f9_soil_type'+i).attr('point')) || 0;
+					f9_soil_type_tpt    += f9_soil_type ;
+					
+					var f9_source_of_water	= parseInt($('option:selected','#f9_source_of_water'+i).attr('point')) || 0;
+					f9_source_of_water_tpt	+= f9_source_of_water; 
+				}
+				
+				farm_land_details_g_total	= f9_land_size_tpt + f9_soil_tested_pt + f9_soil_type_tpt + f9_owner_tpt + f9_source_of_water_tpt;
+				document.getElementById('farm_land_details_g_total').innerHTML = farm_land_details_g_total;
+				 
+				var f9_pt = farm_land_details_g_total/(no_of_points*contentCountLand) ;
+				f9_pt     = f9_pt.toFixed(2);
+				$('#f9_points').val(f9_pt);
+				$('#f9_pt').html(f9_pt);
+				$('#no_of_land').val(contentCountLand);
+				
+				if(contentCountLand > 1)
+				{
+					$('#removeLandType').show('swing');
+				}
 			}
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
@@ -2310,6 +2644,93 @@
 				}
 			});
 			
+			$('#frm_appliances_motors').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_appliances_motors').valid())
+				{
+					loading_show();	
+					$.ajax({
+						type: "POST",
+						url: "action_pages/action_frm7.php",
+						data: new FormData(this),
+						processData: false,
+						contentType: false,
+						cache: false,
+						success: function(msg)
+						{
+							data = JSON.parse(msg);
+							
+							alert(data.Success+'<==>'+data.resp);
+						 	loading_hide();
+							console.log(data.resp);
+							return false;
+							
+							if(data.Success == "Success")
+							{
+								alert(data.resp);
+								window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+								loading_hide();
+							}
+							else if(data.Success == "fail") 
+							{
+								alert(data.resp);
+								loading_hide();	
+							}	
+						},
+						error: function (request, status, error)
+						{
+							loading_hide();	
+						},
+						complete: function()
+						{
+							loading_hide();	
+						}	
+					});
+				}
+			});
+			
+			$('#frm_farm_land_details').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_farm_land_details').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm9.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});
+			
 			$('#f2_participation').on('change', function(){
 				if($(this).val() == 'yes'){
 					$('#program_detail').show('swing');
@@ -2330,6 +2751,381 @@
 					$('#progType').text('Crop');
 				}
 			});
+			
+			function numsonly(e)
+			{
+				var unicode=e.charCode? e.charCode : e.keyCode
+				
+				if (unicode !=8 && unicode !=32 &&  unicode !=46)
+				{  // unicode<48||unicode>57 &&
+					if ( unicode<48||unicode>57)  //if not a number
+					return false //disable key press
+				}
+			}
+			
+			function ownership(id,value)
+			{
+				if(value == 'Leased')
+				{
+					$('#div_lease_display'+id).show('swing');
+					$('#div_rental_display'+id).hide('swing');
+					$('#div_contract_display'+id).hide('swing');
+					
+					$('#f9_amount_on_rent'+id).val('');
+					$('#f9_contract_year'+id).val('');
+				}
+				else if(value == 'Contracted')
+				{
+					$('#div_contract_display'+id).show('swing');
+					$('#div_rental_display'+id).hide('swing');
+					$('#div_lease_display'+id).hide('swing');
+					
+					$('#f9_amount_on_rent'+id).val('');
+					$('#f9_lease_year'+id).val('');
+				}
+				else if(value == 'Rented')
+				{
+					$('#div_rental_display'+id).show('swing');
+					$('#div_contract_display'+id).hide('swing');
+					$('#div_lease_display'+id).hide('swing');
+					
+					$('#f9_contract_year'+id).val('');
+					$('#f9_lease_year'+id).val('');
+				}
+			}
+			
+			function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
+			{
+				var sendInfo	= {"stateVal":stateVal, "stateParameter":stateParameter, "distId":distId, "talId":talId, "villageId":villageId, "distDivId":distDivId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_dist":1};
+				var dist_load 	= JSON.stringify(sendInfo);
+				
+				$.ajax({
+					url: "load_farmer.php?",
+					type: "POST",
+					data: dist_load,
+					contentType: "application/json; charset=utf-8",						
+					success: function(response) 
+					{
+						data = JSON.parse(response);
+						
+						if(data.Success == "Success") 
+						{
+							$('#'+distDivId).html(data.resp);
+							$('#'+distId).select2();
+						} 
+						else if(data.Success == "fail") 
+						{
+							//alert(data.resp);
+							console.log(data.resp);
+						}
+					},
+					error: function (request, status, error) 
+					{
+						$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
+						$('#error_model').modal('toggle');						
+					},
+					complete: function()
+					{
+						//loading_hide();
+						//alert("complete");
+					}
+				});	
+			}
+			
+			function getTal(distParameter, distVal, talId, villageId, talDivId, VillageDivId)
+			{
+				var sendInfo	= {"distVal":distVal, "distParameter":distParameter, "talId":talId, "villageId":villageId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_tal":1};
+				var tal_load 	= JSON.stringify(sendInfo);
+				
+				$.ajax({
+					url: "load_farmer.php?",
+					type: "POST",
+					data: tal_load,
+					contentType: "application/json; charset=utf-8",						
+					success: function(response) 
+					{
+						data = JSON.parse(response);
+						
+						if(data.Success == "Success") 
+						{
+							$('#'+talDivId).html(data.resp);
+							$('#'+talId).select2();
+						} 
+						else if(data.Success == "fail") 
+						{
+							//alert(data.resp);
+							console.log(data.resp);
+						}
+					},
+					error: function (request, status, error) 
+					{
+						$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
+						$('#error_model').modal('toggle');						
+					},
+					complete: function()
+					{
+						//loading_hide();
+						//alert("complete");
+					}
+				});	
+			}
+			
+			function getVillage(talParameter, talVal, villageId, VillageDivId)
+			{
+				var sendInfo		= {"talVal":talVal, "talParameter":talParameter, "villageId":villageId, "VillageDivId":VillageDivId, "load_village":1};
+				var village_load 	= JSON.stringify(sendInfo);
+				
+				$.ajax({
+					url: "load_farmer.php?",
+					type: "POST",
+					data: village_load,
+					contentType: "application/json; charset=utf-8",						
+					success: function(response) 
+					{
+						data = JSON.parse(response);
+						
+						if(data.Success == "Success") 
+						{
+							$('#'+VillageDivId).html(data.resp);
+							$('#'+villageId).select2();
+						} 
+						else if(data.Success == "fail") 
+						{
+							//alert(data.resp);
+							console.log(data.resp);
+						}
+					},
+					error: function (request, status, error) 
+					{
+						$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
+						$('#error_model').modal('toggle');						
+					},
+					complete: function()
+					{
+						//loading_hide();
+						//alert("complete");
+					}
+				});	
+			}
+			
+			function addMoreLand(remove)
+			{
+				if(remove==1)
+				{
+					$('#lands').find('#land'+contentCountLand).slideUp("slow");
+					contentCountLand    = contentCountLand - 1
+					if(contentCountLand==1)
+					{
+						$('#removeLandType').hide('swing');
+					}
+					calTotal();
+					return false;
+				}
+				
+				contentCountLand    = contentCountLand + 1
+				
+				landData	= '';
+				
+				landData	+= '<div id="land'+contentCountLand+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;display:none;">';
+					landData	+= '<div style=" padding: 10px; margin: 5px;">';
+										
+						landData	+= '<input type="hidden" name="id[]" id="id" value="">';
+						landData	+= '<h2>Farm Land '+contentCountLand+' Details</h2>';
+										
+						landData	+= '<div class="control-group">';
+						landData	+= '<label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size'+contentCountLand+'" name="f9_land_size'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" onChange="calTotal()" maxlength="6">';
+							landData	+= '</div>';
+						landData	+= '</div>';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Ownership<span style="color:#F00">*</span></label>';
+								landData	+= '<div class="controls">';
+								landData	+= '<select id="f9_owner'+contentCountLand+'" name="f9_owner'+contentCountLand+'" onChange="ownership('+contentCountLand+',this.value)" class="select2-me input-xlarge" data-rule-required="true">';
+									landData	+= '<option value="" disabled selected> Select here</option>';
+									landData	+= '<option value="Owned" point="10">Owned</option>';
+									landData	+= '<option value="Ancestral" point="5">Ancestral</option>';
+									landData	+= '<option value="Rented" point="5">Rented</option>';
+									landData	+= '<option value="Contracted" point="5">Contracted</option>';
+									landData	+= '<option value="Leased" point="3">Leased</option>';
+								landData	+= '</select>';
+							landData	+= '</div>';
+						landData	+= '</div>	';
+										
+						landData	+= '<div id="div_lease_display'+contentCountLand+'" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">';
+							landData	+= '<div class="control-group">';
+								landData	+= '<label for="text" class="control-label" style="margin-top:10px">No. of Lease year<span style="color:#F00">*</span></label>';
+								landData	+= '<div class="controls">';
+									landData	+= '<input value="" type="text" class="input-xlarge v_number" placeholder="Lease Year" name="f9_lease_year'+contentCountLand+'" id="f9_lease_year'+contentCountLand+'" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="10">';
+								landData	+= '</div>';
+							landData	+= '</div>';
+						landData	+= '</div>	';
+										
+						landData	+= '<div id="div_rental_display'+contentCountLand+'" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">';
+							landData	+= '<div class="control-group">';
+								landData	+= '<label for="text" class="control-label" style="margin-top:10px">Mention tha amount per month on rent<span style="color:#F00">*</span></label>';
+								landData	+= '<div class="controls">';
+									landData	+= '<input value="" type="text" class="input-xlarge v_number" placeholder="amount per month on rent" name="f9_amount_on_rent'+contentCountLand+'" id="f9_amount_on_rent'+contentCountLand+'" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="10">';
+								landData	+= '</div>';
+							landData	+= '</div>';
+						landData	+= '</div>	';
+										
+						landData	+= '<div id="div_contract_display'+contentCountLand+'" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">';
+							landData	+= '<div class="control-group">';
+								landData	+= '<label for="text" class="control-label" style="margin-top:10px"> No. of Contract year<span style="color:#F00">*</span></label>';
+								landData	+= '<div class="controls">';
+									landData	+= '<input type="text" class="input-xlarge ui-wizard-content" placeholder="Contract Year" name="f9_contract_year'+contentCountLand+'" id="f9_contract_year'+contentCountLand+'" value="" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="10">';
+								landData	+= '</div>';
+							landData	+= '</div>';
+						landData	+= '</div>	';
+										
+						landData	+= '<h3>Land Address</h3>';
+										 
+						landData	+= '<div class="control-group" >';
+							landData	+= '<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<select name="f9_state'+contentCountLand+'" id="f9_state'+contentCountLand+'" data-rule-required="true" onChange="getDist(\'p\', this.value, \'f9_district'+contentCountLand+'\', \'f9_taluka'+contentCountLand+'\', \'f9_vilage'+contentCountLand+'\', \'div_p_dist'+contentCountLand+'\', \'div_p_tal'+contentCountLand+'\', \'div_p_village'+contentCountLand+'\');" class="input-xlarge">';
+									landData	+= '<option value="">Select State</option>';
+									landData	+= '<option value="1">TELANGANA</option>';
+								landData	+= '</select>';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls" id="div_p_dist'+contentCountLand+'">';
+								landData	+= '<select id="f9_district'+contentCountLand+'" name="f9_district'+contentCountLand+'" class="select2-me input-large" >';
+									landData	+= '<option value="" disabled selected>Select District</option>';
+								landData	+= '</select>';
+							landData	+= '</div>';
+						landData	+= '</div> '; 
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls" id="div_p_tal'+contentCountLand+'">';
+								landData	+= '<select id="f9_taluka'+contentCountLand+'" name="f9_taluka'+contentCountLand+'" class="select2-me input-large" >';
+									landData	+= '<option value="" disabled selected>Select Taluka</option>';
+								landData	+= '</select>';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group" >';
+							landData	+= '<label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls" id="div_p_village'+contentCountLand+'">';
+								landData	+= '<select id="f9_vilage'+contentCountLand+'" name="f9_vilage'+contentCountLand+'" class="select2-me input-large" >';
+									landData	+= '<option value="" disabled selected>Select Village</option>';
+								landData	+= '</select>';
+							landData	+= '</div>';
+						landData	+= '</div> ';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Survey Number<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input placeholder="Survey Number" type="text" id="f9_survey_number'+contentCountLand+'" name="f9_survey_number'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" maxlength="10">';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group" >';
+							landData	+= '<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input type="text" id="f9_pincode'+contentCountLand+'" name="f9_pincode'+contentCountLand+'" placeholder="Pin-Code" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" minlength="6" maxlength="6" size="6" />';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group" >';
+							landData	+= '<label for="tasktitel" class="control-label">latitude <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input type="text" id="f9_lat'+contentCountLand+'" name="f9_lat'+contentCountLand+'" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group" >';
+							landData	+= '<label for="tasktitel" class="control-label">longitude <span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input type="text" id="f9_long'+contentCountLand+'" name="f9_long'+contentCountLand+'" placeholder="Longitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Type of Soil<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<select id="f9_soil_type'+contentCountLand+'" name="f9_soil_type'+contentCountLand+'" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal()">';
+									landData	+= '<option value="" disabled selected> Select here</option>';
+									landData	+= '<option value="Alluvial Soil" point="10">Alluvial Soil</option>';
+									landData	+= '<option value="Black Soil" point="9">Black Soil</option>';
+									landData	+= '<option value="Red Soil" point="8">Red Soil</option>';
+									landData	+= '<option value="Mountain Soil" point="6">Mountain Soil</option>';
+									landData	+= '<option value="Peat" point="5">Peat</option>';
+									landData	+= '<option value="Laterite Soil" point="5">Laterite Soil</option>';
+									landData	+= '<option value="Desert Soil" point="2">Desert Soil</option>';
+								landData	+= '				 </select>';
+							landData	+= '</div>';
+						landData	+= '</div>	';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<select id="f9_soil_tested'+contentCountLand+'" name="f9_soil_tested'+contentCountLand+'" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal()">';
+									landData	+= '<option value="" disabled selected> Select here</option>';
+									landData	+= '<option value="yes" point="10">Yes</option>';
+									landData	+= '<option value="no" point="0">no</option>';
+								landData	+= '				 </select>';
+							landData	+= '</div>';
+						landData	+= '</div>	';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input placeholder="Soil Depth" type="text" id="f9_soil_depth'+contentCountLand+'" name="f9_soil_depth'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true">';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Source Of Water';
+							landData	+= '<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<select id="f9_source_of_water'+contentCountLand+'" name="f9_source_of_water'+contentCountLand+'" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal()">';
+									landData	+= '<option value="" disabled selected> Select here</option>';
+									landData	+= '<option value="Well Water" point="5">Well Water</option>';
+									landData	+= '<option value="Tube Water" point="7">Tube Water</option>';
+									landData	+= '<option value="Tank Water" point="5">Tank Water</option>';
+									landData	+= '<option value="Canals" point="5">Canals</option>';
+									landData	+= '<option value="Perennial Water" point="5">Perennial Water</option>';
+									landData	+= '<option value="Multipurpose River Valley" point="5">Multipurpose River Valley</option>';
+									landData	+= '<option value="Rain Fed" point="4">Rain Fed</option>';
+									landData	+= '<option value="Drip Irrigation" point="8">Drip Irrigation</option>';
+									landData	+= '<option value="Sprinkler" point="7">Sprinkler</option>';
+									landData	+= '<option value="Furrow" point="3">Furrow</option>';
+									landData	+= '<option value="Ditch" point="3">Ditch</option>';
+									landData	+= '<option value="Surge" point="3">Surge</option>';
+									landData	+= '<option value="Seepage" point="3">Seepage</option>';
+								landData	+= '				 </select>';
+							landData	+= '</div>';
+						landData	+= '</div>  ';
+										
+					landData	+= '</div>';
+				landData	+= '</div>';
+				
+				/*alert(landData);
+				return false;*/
+				
+				$('#f9_owner'+contentCountLand).select2();
+				$('#f9_state'+contentCountLand).select2();
+				$('#f9_district'+contentCountLand).select2();
+				$('#f9_taluka'+contentCountLand).select2();
+				$('#f9_vilage'+contentCountLand).select2();
+				$('#f9_soil_type'+contentCountLand).select2();
+				$('#f9_soil_tested'+contentCountLand).select2();
+				$('#f9_source_of_water'+contentCountLand).select2();
+				
+				$('#lands').append(landData).find('#land'+contentCountLand).slideDown("slow");
+				
+				if(contentCountLand >= 2)
+				{
+					$('#removeLandType').show('swing');
+				}
+			}
         </script>
     </body>
 </html>

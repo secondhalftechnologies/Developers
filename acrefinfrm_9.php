@@ -6,9 +6,9 @@ $fm_id = (isset($_REQUEST['fm_id'])?$_REQUEST['fm_id']:"");
 
 if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!="")
 {  
-  $no_of_land=1;
-  $land_arr  = array();
-  $result = lookup_value('tbl_land_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+  $no_of_land	= 1;
+  $land_arr  	= array();
+  $result 		= lookup_value('tbl_land_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
   if($result)
   {
 	  $num    = mysqli_num_rows($result);
@@ -230,8 +230,8 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 			{
 				$('#removeLoanType').show('swing');
 			}
-
-		//	$('[id^="f9_state"]').change();
+			
+			//	$('[id^="f9_state"]').change();
 		}
 
       
@@ -428,9 +428,6 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
                                     
 										<div class="form-content">
 											
-                                          
-                                               
-                                            
                                                 <div id="lands">
                                                 
                                                 <?php 
@@ -438,263 +435,253 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 											        { 
 											         $id =$i+1;
 												?>
-											  <div id="land<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
-                                            <div id="loan_detail" style=" padding: 10px; margin: 5px;">  
-                                                
-                                                <input type="hidden" name="id[]" id="id" value="<?php echo @$land_arr[$i]['id']; ?>">
-                                                <h2>Farm Land <?php echo $id; ?> Details</h2>
-                                            	<div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>
-													<div class="controls">
-														<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size<?php echo $id; ?>" name="f9_land_size<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" onChange="calTotal()">
-													</div>
-												</div><!--Fixed Monthly Income-->
-
-												<div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Ownership
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-														<select id="f9_owner<?php echo $id; ?>" name="f9_owner<?php echo $id; ?>" onChange="ownership(<?php echo $id; ?>,this.value)" class="input-xlarge" data-rule-required="true">
-															<option value="" disabled selected> Select here</option>
-															<option value="Owned">Owned</option>
-															<option value="Ancestral">Ancestral</option>
-                                                            <option value="Leased">Leased</option>
-															<option value="Contracted">Contracted</option>
-														</select>
-													</div>
-	                                            </div><!--Owner-->
-                                                
-                                                <div class="control-group" id="lease_year<?php echo $id; ?>" style="display:none">
-													<label for="text" class="control-label" style="margin-top:10px">No. of Lease year
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-														 <input value="" type="text" class="input-xlarge ui-wizard-content v_number" placeholder="Lease Year" name="f9_lease_year<?php echo $id; ?>" id="f9_lease_year<?php echo $id; ?>" data-rule-required="true"    maxlength="10">
-	                                                </div>
-	                                            </div>
-                                                
-                                                
-                                                <div class="control-group" id="contract_year<?php echo $id; ?>" style="display:none">
-													<label for="text" class="control-label" style="margin-top:10px"> No. of Contract year
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-														 <input type="text" class="input-xlarge ui-wizard-content" placeholder="Contract Year" name="f9_contract_year<?php echo $id; ?>" id="f9_contract_year<?php echo $id; ?>" value="" data-rule-required="true" onKeyPress="return numsonly(event);"   data-rule-maxlength="10">
-	                                               </div>
-	                                            </div>
-                                                
-                                                <h3>Land Address</h3>
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">State<span style="color:#F00">*</span></label>
-													<div class="controls">
-                                                    <select name="f9_state<?php echo $id; ?>" id="f9_state<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
-                                                    <option value="">Select State</option>
-                                                    <option value="1">TELANGANA</option>
-                                                    </select>
-													</div>
-	                                            </div> 
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">District
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-                                                    <select name="f9_district<?php echo $id; ?>" id="f9_district<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
-                                                    <option value="">Select District</option>
-                                                    <?php
-
-                                                    if(isset($land_arr[$i]['f9_state']))
-                                                    {
-         												$result = lookup_value('tbl_district',array(),array("dt_stid"=>$land_arr[$i]['f9_state']),array(),array(),array());
-
-														if($result)
-														{
-															while ($row = mysqli_fetch_array($result))
-															{
-																echo '<option value="'.$row['id'].'">'.strtoupper($row['dt_name']).'</option>';
-															}
-														}
-                                                    }
-                                                    ?>
-
-                                                    </select>
-													</div>
-	                                            </div> 
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Taluka
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-                                                    <select name="f9_taluka<?php echo $id; ?>" id="f9_taluka<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
-                                                    <option value="">Select Taluka</option>
-                                                    <?php
-
-                                                    if(isset($land_arr[$i]['f9_district']))
-                                                    {   
-         												$tal_result = lookup_value('tbl_taluka',array(),array("tk_dtid"=>$land_arr[$i]['f9_district']),array(),array(),array());
-
-														if($tal_result)
-														{
-															while ($tal_row = mysqli_fetch_array($tal_result) ) {
-																echo '<option value="'.$tal_row['id'].'"';
- 																if($tal_row['id']==$land_arr[$i]['f9_taluka'])
- 																{
- 																	echo ' selected ';
- 																}
-																echo '>'.strtoupper($tal_row['tk_name']).'</option>';
-															}
-														}
-                                                    }
-                                                    ?>
-                                                    </select>
-													</div>
-	                                            </div> 
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Village
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-                                                    <select name="f9_vilage<?php echo $id; ?>" id="f9_vilage<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
-                                                    <option value="">Select Village</option>
-                                                    <?php
-
-                                                    if(isset($land_arr[$i]['f9_taluka']))
-                                                    {   
-         												$result = lookup_value('tbl_village',array(),array("vl_tkid"=>$land_arr[$i]['f9_taluka']),array(),array(),array());
-
-														if($result)
-														{
-															while ($row = mysqli_fetch_array($result) ) {
-																echo '<option value="'.$row['id'].'">'.strtoupper($row['vl_name']).'</option>';
-															}
-														}
-                                                    }
-                                                    ?>
-                                                    </select>
-													</div>
-	                                            </div> 
-                                                
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Survey Number
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-                                                    <!--<select name="f9_survey_number<?php echo $id; ?>" id="f9_survey_number<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
-                                                    <option value="">Select Survey Number</option>
-                                                    <option value="60">60</option>
-                                                    </select> -->
+											  	<div id="land<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                    <div id="loan_detail" style=" padding: 10px; margin: 5px;">  
+                                                        <input type="hidden" name="id[]" id="id" value="<?php echo @$land_arr[$i]['id']; ?>">
+                                                        <h2>Farm Land <?php echo $id; ?> Details</h2>
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                <input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size<?php echo $id; ?>" name="f9_land_size<?php echo $id; ?>" class="input-xlarge" value="" data-rule-required="true" onChange="calTotal()">
+                                                            </div>
+                                                        </div><!--Fixed Monthly Income-->
+        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Ownership
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                <select id="f9_owner<?php echo $id; ?>" name="f9_owner<?php echo $id; ?>" onChange="ownership(<?php echo $id; ?>,this.value)" class="input-xlarge" data-rule-required="true">
+                                                                    <option value="" disabled selected> Select here</option>
+                                                                    <option value="Owned">Owned</option>
+                                                                    <option value="Ancestral">Ancestral</option>
+                                                                    <option value="Leased">Leased</option>
+                                                                    <option value="Contracted">Contracted</option>
+                                                                </select>
+                                                            </div>
+                                                        </div><!--Owner-->
                                                         
-                                                        <input type="text" class="input-xlarge ui-wizard-content" placeholder="Survey Number" name="f9_survey_number<?php echo $id; ?>" id="f9_survey_number<?php echo $id; ?>" value="" data-rule-required="true"  maxlength="10">
-                                                    
-													</div>
-	                                            </div>
-                                                 
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Pincode
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-														 <input type="text" class="input-xlarge ui-wizard-content" placeholder="Pincode" name="f9_pincode<?php echo $id; ?>" id="f9_pincode<?php echo $id; ?>" value="" data-rule-required="true" onKeyPress="return numsonly(event);" minlength="6" maxlength="6">
-	                                                 </div>
-	                                            </div>
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-														<select id="f9_soil_tested<?php echo $id; ?>" name="f9_soil_tested<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
-															<option value="" disabled selected> Select here</option>
-															<option value="yes">Yes</option>
-															<option value="no">no</option>
-                                                         </select>
-													</div>
-	                                            </div><!--f9_soil_tested-->
-                                                
-                                                <div class="control-group">
-													<label for="text" class="control-label" style="margin-top:10px">Type of Soil
-													<span style="color:#F00">*</span></label>
-													<div class="controls">
-														<select id="f9_soil_type<?php echo $id; ?>" name="f9_soil_type<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
-															<option value="" disabled selected> Select here</option>
-															<option value="Alluvial Soil">Alluvial Soil</option>
-															<option value="Black Soil">Black Soil</option>
-                                                            <option value="Red Soil">Red Soil</option>
-															<option value="Mountain Soil">Mountain Soil</option>
-                                                            <option value="Peat">Peat</option>
-															<option value="Laterite Soil">Laterite Soil</option>
-                                                            <option value="Desert Soil">Desert Soil</option>
-                                                         </select>
-													</div>
-	                                            </div><!--f9_soil_tested-->
-                                                
-                                                <script>
-												 <?php
-
-
-														echo '$("#f9_land_size'.$id.'").val("'.@$land_arr[$i]['f9_land_size'].'");';
-														echo '$("#f9_owner'.$id.'").val("'.@$land_arr[$i]['f9_owner'].'");';
-														echo '$("#f9_lease_year'.$id.'").val("'.@$land_arr[$i]['f9_lease_year'].'");';
-														echo '$("#f9_contract_year'.$id.'").val("'.@$land_arr[$i]['f9_contract_year'].'");';
-														echo '$("#f9_survey_number'.$id.'").val("'.@$land_arr[$i]['f9_survey_number'].'");';
-														
-														echo '$("#f9_vilage'.$id.'").val("'.@$land_arr[$i]['f9_vilage'].'");';
-														echo '$("#f9_taluka'.$id.'").val("'.@$land_arr[$i]['f9_taluka'].'");';
-														echo '$("#f9_district'.$id.'").val("'.@$land_arr[$i]['f9_district'].'");';
-														echo '$("#f9_state'.$id.'").val("'.@$land_arr[$i]['f9_state'].'");';
-														
-														echo '$("#f9_pincode'.$id.'").val("'.@$land_arr[$i]['f9_pincode'].'");';
-														echo '$("#f9_soil_tested'.$id.'").val("'.@$land_arr[$i]['f9_soil_tested'].'");';
-														echo '$("#f9_soil_type'.$id.'").val("'.@$land_arr[$i]['f9_soil_type'].'");';
-														echo '$("#f9_points'.$id.'").val("'.@$land_arr[$i]['f9_points'].'");';
-														
-														echo 'var f9_districts = [];';
-														echo 'var f9_talukas = [];';
-														echo 'var f9_villages =[];';
-														// echo 'var f9_state'.$id.'= '.@$land_arr[$i]['f9_state'].';';
-														echo 'f9_districts['.$id.'] = "'.@$land_arr[$i]['f9_district'].'";';
-														echo 'f9_talukas['.$id.']= "'.@$land_arr[$i]['f9_taluka'].'";';
-														echo ' f9_villages['.$id.']= "'.@$land_arr[$i]['f9_vilage'].'";';
-														
-														// echo '$("#f9_vilage'.$id.'").html("'.@$land_arr[$i]['f9_vilage'].'");';
-														// echo '$("#f9_taluka'.$id.'").html("'.@$land_arr[$i]['f9_taluka'].'");';
-														// echo '$("#f9_district'.$id.'").html("'.@$land_arr[$i]['f9_district'].'");';
-														// echo '$("#f9_state'.$id.'").text("'.@$land_arr[$i]['f9_state'].'");';
-														
-														echo '
-														    var f9_owner =$("#f9_owner'.$id.'").val();
-															console.log(f9_owner);
-														    if(f9_owner=="Leased")
-															{
-																$("#lease_year'.$id.'").show("swing");
-																$("#contract_year'.$id.'").hide("swing");
-															}
-															else if(f9_owner == "Contracted")
-															{
-																$("#lease_year'.$id.'").hide("swing");
-																$("#contract_year'.$id.'").show("swing");
-															}
-															else
-															{
-																$("#lease_year'.$id.'").hide("swing");
-																$("#contract_year'.$id.'").hide("swing");
-															}';
-												 ?>
-											 </script>
-                                                 </div>
-                                                   </div><!--loan_detail-->
+                                                        <div class="control-group" id="lease_year<?php echo $id; ?>" style="display:none">
+                                                            <label for="text" class="control-label" style="margin-top:10px">No. of Lease year
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                 <input value="" type="text" class="input-xlarge ui-wizard-content v_number" placeholder="Lease Year" name="f9_lease_year<?php echo $id; ?>" id="f9_lease_year<?php echo $id; ?>" data-rule-required="true"    maxlength="10">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="control-group" id="contract_year<?php echo $id; ?>" style="display:none">
+                                                            <label for="text" class="control-label" style="margin-top:10px"> No. of Contract year
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                 <input type="text" class="input-xlarge ui-wizard-content" placeholder="Contract Year" name="f9_contract_year<?php echo $id; ?>" id="f9_contract_year<?php echo $id; ?>" value="" data-rule-required="true" onKeyPress="return numsonly(event);"   data-rule-maxlength="10">
+                                                           </div>
+                                                        </div>
+                                                        
+                                                        <h3>Land Address</h3>
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">State<span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                            <select name="f9_state<?php echo $id; ?>" id="f9_state<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
+                                                            <option value="">Select State</option>
+                                                            <option value="1">TELANGANA</option>
+                                                            </select>
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">District
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                            <select name="f9_district<?php echo $id; ?>" id="f9_district<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
+                                                            <option value="">Select District</option>
+                                                            <?php
+        
+                                                            if(isset($land_arr[$i]['f9_state']))
+                                                            {
+                                                                $result = lookup_value('tbl_district',array(),array("dt_stid"=>$land_arr[$i]['f9_state']),array(),array(),array());
+        
+                                                                if($result)
+                                                                {
+                                                                    while ($row = mysqli_fetch_array($result))
+                                                                    {
+                                                                        echo '<option value="'.$row['id'].'">'.strtoupper($row['dt_name']).'</option>';
+                                                                    }
+                                                                }
+                                                            }
+                                                            ?>
+        
+                                                            </select>
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Taluka
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                            <select name="f9_taluka<?php echo $id; ?>" id="f9_taluka<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
+                                                            <option value="">Select Taluka</option>
+                                                            <?php
+        
+                                                            if(isset($land_arr[$i]['f9_district']))
+                                                            {   
+                                                                $tal_result = lookup_value('tbl_taluka',array(),array("tk_dtid"=>$land_arr[$i]['f9_district']),array(),array(),array());
+        
+                                                                if($tal_result)
+                                                                {
+                                                                    while ($tal_row = mysqli_fetch_array($tal_result) ) {
+                                                                        echo '<option value="'.$tal_row['id'].'"';
+                                                                        if($tal_row['id']==$land_arr[$i]['f9_taluka'])
+                                                                        {
+                                                                            echo ' selected ';
+                                                                        }
+                                                                        echo '>'.strtoupper($tal_row['tk_name']).'</option>';
+                                                                    }
+                                                                }
+                                                            }
+                                                            ?>
+                                                            </select>
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Village
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                            <select name="f9_vilage<?php echo $id; ?>" id="f9_vilage<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
+                                                            <option value="">Select Village</option>
+                                                            <?php
+        
+                                                            if(isset($land_arr[$i]['f9_taluka']))
+                                                            {   
+                                                                $result = lookup_value('tbl_village',array(),array("vl_tkid"=>$land_arr[$i]['f9_taluka']),array(),array(),array());
+        
+                                                                if($result)
+                                                                {
+                                                                    while ($row = mysqli_fetch_array($result) ) {
+                                                                        echo '<option value="'.$row['id'].'">'.strtoupper($row['vl_name']).'</option>';
+                                                                    }
+                                                                }
+                                                            }
+                                                            ?>
+                                                            </select>
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Survey Number
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                            <!--<select name="f9_survey_number<?php echo $id; ?>" id="f9_survey_number<?php echo $id; ?>" data-rule-required="true" class="input-xlarge">
+                                                            <option value="">Select Survey Number</option>
+                                                            <option value="60">60</option>
+                                                            </select> -->
+                                                                
+                                                                <input type="text" class="input-xlarge ui-wizard-content" placeholder="Survey Number" name="f9_survey_number<?php echo $id; ?>" id="f9_survey_number<?php echo $id; ?>" value="" data-rule-required="true"  maxlength="10">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                         
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Pincode
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                 <input type="text" class="input-xlarge ui-wizard-content" placeholder="Pincode" name="f9_pincode<?php echo $id; ?>" id="f9_pincode<?php echo $id; ?>" value="" data-rule-required="true" onKeyPress="return numsonly(event);" minlength="6" maxlength="6">
+                                                             </div>
+                                                        </div>
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Have you had the soil tested in your land?
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                <select id="f9_soil_tested<?php echo $id; ?>" name="f9_soil_tested<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                    <option value="" disabled selected> Select here</option>
+                                                                    <option value="yes">Yes</option>
+                                                                    <option value="no">no</option>
+                                                                 </select>
+                                                            </div>
+                                                        </div><!--f9_soil_tested-->
+                                                        
+                                                        <div class="control-group">
+                                                            <label for="text" class="control-label" style="margin-top:10px">Type of Soil
+                                                            <span style="color:#F00">*</span></label>
+                                                            <div class="controls">
+                                                                <select id="f9_soil_type<?php echo $id; ?>" name="f9_soil_type<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onChange="calTotal()">
+                                                                    <option value="" disabled selected> Select here</option>
+                                                                    <option value="Alluvial Soil">Alluvial Soil</option>
+                                                                    <option value="Black Soil">Black Soil</option>
+                                                                    <option value="Red Soil">Red Soil</option>
+                                                                    <option value="Mountain Soil">Mountain Soil</option>
+                                                                    <option value="Peat">Peat</option>
+                                                                    <option value="Laterite Soil">Laterite Soil</option>
+                                                                    <option value="Desert Soil">Desert Soil</option>
+                                                                 </select>
+                                                            </div>
+                                                        </div><!--f9_soil_tested-->
+                                                        
+                                                        <script>
+                                                         <?php
+        
+        
+                                                                echo '$("#f9_land_size'.$id.'").val("'.@$land_arr[$i]['f9_land_size'].'");';
+                                                                echo '$("#f9_owner'.$id.'").val("'.@$land_arr[$i]['f9_owner'].'");';
+                                                                echo '$("#f9_lease_year'.$id.'").val("'.@$land_arr[$i]['f9_lease_year'].'");';
+                                                                echo '$("#f9_contract_year'.$id.'").val("'.@$land_arr[$i]['f9_contract_year'].'");';
+                                                                echo '$("#f9_survey_number'.$id.'").val("'.@$land_arr[$i]['f9_survey_number'].'");';
+                                                                
+                                                                echo '$("#f9_vilage'.$id.'").val("'.@$land_arr[$i]['f9_vilage'].'");';
+                                                                echo '$("#f9_taluka'.$id.'").val("'.@$land_arr[$i]['f9_taluka'].'");';
+                                                                echo '$("#f9_district'.$id.'").val("'.@$land_arr[$i]['f9_district'].'");';
+                                                                echo '$("#f9_state'.$id.'").val("'.@$land_arr[$i]['f9_state'].'");';
+                                                                
+                                                                echo '$("#f9_pincode'.$id.'").val("'.@$land_arr[$i]['f9_pincode'].'");';
+                                                                echo '$("#f9_soil_tested'.$id.'").val("'.@$land_arr[$i]['f9_soil_tested'].'");';
+                                                                echo '$("#f9_soil_type'.$id.'").val("'.@$land_arr[$i]['f9_soil_type'].'");';
+                                                                echo '$("#f9_points'.$id.'").val("'.@$land_arr[$i]['f9_points'].'");';
+                                                                
+                                                                echo 'var f9_districts = [];';
+                                                                echo 'var f9_talukas = [];';
+                                                                echo 'var f9_villages =[];';
+                                                                // echo 'var f9_state'.$id.'= '.@$land_arr[$i]['f9_state'].';';
+                                                                echo 'f9_districts['.$id.'] = "'.@$land_arr[$i]['f9_district'].'";';
+                                                                echo 'f9_talukas['.$id.']= "'.@$land_arr[$i]['f9_taluka'].'";';
+                                                                echo ' f9_villages['.$id.']= "'.@$land_arr[$i]['f9_vilage'].'";';
+                                                                
+                                                                // echo '$("#f9_vilage'.$id.'").html("'.@$land_arr[$i]['f9_vilage'].'");';
+                                                                // echo '$("#f9_taluka'.$id.'").html("'.@$land_arr[$i]['f9_taluka'].'");';
+                                                                // echo '$("#f9_district'.$id.'").html("'.@$land_arr[$i]['f9_district'].'");';
+                                                                // echo '$("#f9_state'.$id.'").text("'.@$land_arr[$i]['f9_state'].'");';
+                                                                
+                                                                echo '
+                                                                    var f9_owner =$("#f9_owner'.$id.'").val();
+                                                                    console.log(f9_owner);
+                                                                    if(f9_owner=="Leased")
+                                                                    {
+                                                                        $("#lease_year'.$id.'").show("swing");
+                                                                        $("#contract_year'.$id.'").hide("swing");
+                                                                    }
+                                                                    else if(f9_owner == "Contracted")
+                                                                    {
+                                                                        $("#lease_year'.$id.'").hide("swing");
+                                                                        $("#contract_year'.$id.'").show("swing");
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        $("#lease_year'.$id.'").hide("swing");
+                                                                        $("#contract_year'.$id.'").hide("swing");
+                                                                    }';
+                                                         ?>
+                                                     </script>
+                                                	</div>
+                                                </div><!--loan_detail-->
                                                 <?php } ?>
                                                 
                                                 </div><!--lands end here-->
-                                                
                                                 
                                              <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
                                              <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand();" id="addLoanType"/>
                                              <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box" data-backdrop="static" id="removeLoanType"/>
                                              </div>
-                                             
-                                             
-                                                
-                                          
-                                        
-                                           
-                                        
+                                            
 	                                        <div class="form-actions">
 												<input type="reset" class="btn" value="Reset" id="Reset">
                                                 

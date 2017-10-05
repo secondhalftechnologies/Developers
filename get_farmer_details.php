@@ -74,7 +74,6 @@
 	}
 	
 	$res_applicant_phone = lookup_value('tbl_applicant_phone',array(),array("fm_id"=>$fm_id),array(),array(),array());
-	
 	if($res_applicant_phone)
 	{
 		$num_applicant_phone    = mysqli_num_rows($res_applicant_phone);
@@ -105,7 +104,49 @@
 		}
 	}
 	
+	$res_family_details = lookup_value('tbl_family_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_family_details)
+	{
+		$num_family_details    = mysqli_num_rows($res_family_details);
+		if($num_family_details !=0)
+		{
+			$row_family_details       = mysqli_fetch_array($res_family_details);
+			$data['f6_points']        = $row_family_details['f6_points'];
+			$data['f6_jointfamily']   = $row_family_details['f6_jointfamily'];
+			$data['f6_members']       = $row_family_details['f6_members'];
+			$data['f6_children']      = $row_family_details['f6_children'];
+			$data['f6_smartuse']      = $row_family_details['f6_smartuse'];
+		}
+		else
+		{
+			$data['f6_points']        = '';
+			$data['f6_jointfamily']   = '';
+			$data['f6_members']       = '';
+			$data['f6_children']      = '';
+			$data['f6_smartuse']      = '';
+		}
+	}
 	
+	$res_residence_details = lookup_value('tbl_residence_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_residence_details)
+	{
+		$num_residence_details    = mysqli_num_rows($res_residence_details);
+		if($num_residence_details !=0)
+		{
+			$row_residence_details    = mysqli_fetch_array($res_residence_details);
+			
+			$data['f7_television']    = @$row_residence_details['f7_television'];
+			$data['f7_refrigerator']  = @$row_residence_details['f7_refrigerator'];
+			$data['f7_wmachine']      = @$row_residence_details['f7_wmachine'];
+			$data['f7_mixer']         = @$row_residence_details['f7_mixer'];
+			$data['f7_stove']         = @$row_residence_details['f7_stove'];
+			$data['f7_bicycle']       = @$row_residence_details['f7_bicycle'];
+			$data['f7_ccylinder']     = @$row_residence_details['f7_ccylinder'];
+			$data['f7_fans']          = @$row_residence_details['f7_fans'];
+			$data['f7_motorcycle']    = @$row_residence_details['f7_motorcycle'];
+			$data['f7_car']           = @$row_residence_details['f7_car'];
+		}
+	}
 	
     $no_of_land = 1;
     $land_arr   = array();
@@ -152,6 +193,9 @@
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
     	<?php
+		/*START : Loader*/
+		loader();
+		/*END : Loader*/
 		/*include Bootstrap model pop up for error display*/
 		modelPopUp();
 		/*include Bootstrap model pop up for error display*/
@@ -286,11 +330,43 @@
                                                             <li>
                                                                 <a href="#div_family_details" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Family Details
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm6']) && $pt_row['pt_frm6']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f6_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm6']; ?>
+																		</span> 
+																		<?php 
+																	} 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f6_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                 </a>
                                                             </li>	<!-- Family Details -->
                                                             <li>
                                                                 <a href="#div_appliances_motors" data-toggle='tab'>
                                                                     <i class="fa fa-twitter"></i>Appliances / Motors
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm7']) && $pt_row['pt_frm7']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f7_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm7']; ?>
+																		</span> 
+																		<?php 
+																	} 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f7_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                 </a>
                                                             </li>	<!-- Appliances / Motors -->
                                                         </ul>
@@ -667,7 +743,7 @@
                                                                                     Specify name of the App <span style="color:#F00">*</span>
                                                                                 </label>
                                                                                 <div class="controls">
-                                                                                    <input type="text" id="txt_app_name" name="txt_app_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Specify name of the App">
+                                                                                    <input type="text" id="f5_app_name" name="f5_app_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Specify name of the App">
                                                                                 </div>
                                                                             </div>  <!-- Specify name of the App [If Yes] -->
                                                                         
@@ -698,153 +774,181 @@
                                                         <div class="tab-pane" id="div_family_details">
                                                             Family Details
                                                             <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_family_details" name="frm_family_details">
-                                                            	
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Do you live in a Joint Family?<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_jointfamily" name="ddl_jointfamily" class="input-xlarge" data-rule-required="true" >
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <option value="yes" point="10"> Yes</option>
-                                                                            <option value="no" point="4"> No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>	<!-- Do you live in joint Family? -->
+                                                            
+                                                            	<input type="hidden" id="add_knowledge_detail" name="add_knowledge_detail" value="1">
+                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" id="f6_points" name="f6_points" value="">
                                                                 
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">How many members are there in your family?<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_members" name="ddl_members" class="input-xlarge" data-rule-required="true">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <?php 
-                                                                                for($i=1; $i<21; $i++)
-																				{
-                                                                                    ?>
-																					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-																					<?php
-                                                                                }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>	<!-- How many members are there in your family -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="text" class="control-label" style="margin-top:10px">Number of Children<span style="color:#F00">*</span></label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_children" name="ddl_children" class="input-xlarge" data-rule-required="true" onchange="changeDivDisplay(this.value, 'div_IsChild_use_smartphone')">
-                                                                            <option value="" disabled selected> Select here</option>
-                                                                            <?php 
-                                                                                for($i=0; $i<16; $i++)
-																				{
-                                                                                    ?>
-																					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-																					<?php
-																				}
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>  <!-- Number of Children the farmer has -->
-                                                                
-                                                                <div id="div_IsChild_use_smartphone" style="display: none;">
-                                                                    <div class="control-group" id="use_smartphone">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Any of children use Smart Phones?<span style="color:#F00">*</span></label>
+                                                                <div class="form-content">
+                                                                	
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Do you live in a Joint Family?<span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <select id="ddl_smartuse" name="ddl_smartuse" class="input-xlarge" data-rule-required="true">
+                                                                            <select id="f6_jointfamily" name="f6_jointfamily" class="select2-me input-xlarge" data-rule-required="true">
                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                <option value="yes" point="10"> Yes</option>
-                                                                                <option value="no" point="1"> No</option>
+                                                                                <option value="yes" <?php if((isset($data['f6_jointfamily'])) && $data['f6_jointfamily'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                <option value="no" <?php if((isset($data['f6_jointfamily'])) && $data['f6_jointfamily'] == 'no') { ?> selected <?php } ?>> No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div>	<!-- Any of your children use Smart Phone? -->
-                                                                </div>  <!-- IF child will be more than Zero -->
-
-                                                                <div class="form-actions" style="clear:both;">
-                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
-                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
-                                                                </div> <!-- Submit -->
+                                                                    </div>	<!--Do you live in a Joint Family?-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">How many members are there in your family?<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f6_members" name="f6_members" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <?php 
+                                                                                    for($i=1; $i<21; $i++)
+																					{
+                                                                                        ?>
+																						<option value="<?php echo $i; ?>" <?php if((isset($data['f6_members'])) && $data['f6_members'] == $i) { ?> selected <?php } ?>>
+                                                                                        	<?php echo $i; ?>
+                                                                                        </option>
+																						<?php
+                                                                                    }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- How many members are there in your family -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Number of Children<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f6_children" name="f6_children" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <?php 
+                                                                                    for($i=0; $i<16; $i++)
+																					{
+                                                                                       ?>
+																						<option value="<?php echo $i; ?>" <?php if((isset($data['f6_children'])) && $data['f6_children'] == $i) { ?> selected <?php } ?>>
+                                                                                        	<?php echo $i; ?>
+                                                                                        </option>
+																						<?php
+                                                                                    }
+                                                                                ?>
+                                                                                
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Number of Children the farmer has -->
+                                                                    
+                                                                    <div id="use_smartphone" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                    
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Any of children use Smart Phones?<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <select id="f6_smartuse" name="f6_smartuse" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="yes" point="10" <?php if((isset($data['f6_smartuse'])) && $data['f6_smartuse'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                    <option value="no" point="0" <?php if((isset($data['f6_smartuse'])) && $data['f6_smartuse'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!-- Any of your children use Smart Phone? -->
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>	<!-- Back Or Save -->
+                                                                    
+                                                                </div>
                                                                 
                                                             </form>
+                                                            <h1 id="family_details_g_total">0</h1> 
                                                         </div>	<!-- Family Details -->
                                                         <div class="tab-pane" id="div_appliances_motors">
                                                             <div class="span10" style="padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
                                                                 <h3>What appliances are there in your house? Also mention their count.</h3>
                                                             	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_appliances_motors" name="frm_appliances_motors">
+                                                                
+                                                                	<input type="hidden" id="add_knowledge_detail" name="add_knowledge_detail" value="1">
+                                                                    <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                    <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                    <input type="hidden" id="f7_points" name="f7_points" value="" >
                                                                     
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Television<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_television" id="txt_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Television -->
+                                                                    <div class="form-content">
                                                                     
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_refrigerator" id="txt_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Refrigerator -->
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Television
+                                                                            <span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_television" id="f7_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Television -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_refrigerator" id="f7_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Refrigerator -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_wmachine" id="f7_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Washing Machine -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_mixer" id="f7_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Mixer -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_stove" id="f7_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Gas Stove -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_bicycle" id="f7_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Bicycle -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_ccylinder" id="f7_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Cooking Cylinder -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_fans" id="f7_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Lights & Fans -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_motorcycle" id="f7_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Motorcycle -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="number" name="f7_car" id="f7_car" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            </div>
+                                                                        </div>	<!-- Car -->
+                                                                        
+                                                                        <div class="form-actions">
+                                                                            <input type="reset" class="btn" value="Back" id="back">
+                                                                            <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                        </div>	<!-- Back Or Save -->
                                                                     
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_wmachine" id="txt_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Washing Machine -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_mixer" id="txt_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Mixer -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_stove" id="txt_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Gas Stove -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_bicycle" id="txt_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Bicycle -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_ccylinder" id="txt_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Cooking Cylinder -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_fans" id="txt_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Lights & Fans -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_motorcycle" id="txt_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Motorcycle -->
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
-                                                                        <div class="controls">
-                                                                            <input type="number" name="txt_car" id="txt_car" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="0">
-                                                                        </div>
-                                                                    </div>	<!-- Car -->
-                                                                    
-                                                                    <div class="form-actions" style="clear:both;">
-                                                                        <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
-                                                                        <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
-                                                                    </div> <!-- Submit -->
+                                                                    </div>
                                                                     
                                                                 </form>
+                                                                <h1 id="appliances_motors_g_total">0</h1> 
                                                             </div>
                                                         </div>	<!-- Appliances / Motors -->
                                                     </div>	<!-- Main Forms -->
@@ -900,7 +1004,7 @@
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Ownership
                                                                                         <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="ddl_owner<?php echo $id; ?>" name="ddl_owner<?php echo $id; ?>" onChange="changeDivDisplay(this.value, '');" class="input-xlarge" data-rule-required="true">
+                                                                                            <select id="ddl_owner<?php echo $id; ?>" name="ddl_owner<?php echo $id; ?>" class="input-xlarge" data-rule-required="true">
                                                                                                 <option value="" disabled selected> Select here</option>
                                                                                                 <option value="Owned">Owned</option>
                                                                                                 <option value="Rental">Rental</option>
@@ -1384,7 +1488,7 @@
                                                                     <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
                                                                     </label>
                                                                     <div class="controls">
-                                                                        <select id="ddl_any_other_assets" name="ddl_any_other_assets" onchange="changeDivDisplay(this.value, 'div_any_other_assets_display')" class="select2-me input-xlarge" >
+                                                                        <select id="ddl_any_other_assets" name="ddl_any_other_assets" class="select2-me input-xlarge" >
                                                                             <option value="" disabled selected>Select here</option>
                                                                             <option value="yes">Yes</option>
                                                                             <option value="no">No</option>
@@ -1608,6 +1712,8 @@
 			var spouse_g_total 				= 0;
 			var applicant_knowledge_g_total	= 0;
 			var phone_details_g_total		= 0;
+			var family_details_g_total		= 0;
+			var appliances_motors_g_total	= 0;
 			
 			$(document).ready(function()
 			{
@@ -1711,6 +1817,29 @@
 					}
 				});
 				
+				$('#f6_children').on('change', function(){
+					if($(this).val() == '0' || $(this).val() == '' || $(this).val() == null){
+						//$('#use_smartphone').show('swing');
+						$('#use_smartphone').hide('swing');
+						$('#use_smartphone').find('input, select').val('').trigger('change');
+					}
+					else
+					{
+						//$('#use_smartphone').hide('swing');
+						//$('#use_smartphone').find('input, select').val('').trigger('change');
+						$('#use_smartphone').show('swing');
+					}
+					calTotal();
+				});
+				
+				$('#f7_television').on('blur', function(){
+					alert($(this).val());
+					if($(this).val() != '0' && $(this).val() != '')
+					{
+						alert('aala');
+						calTotal();
+					}
+				});
 				
 				$('#f3_married').val('<?= @$data['f3_married']; ?>');
 				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
@@ -1748,6 +1877,23 @@
 				$('#f5_any_one_have_smart_phone').val('<?= @$data['f5_any_one_have_smart_phone']; ?>');
 				$('#f5_app_name').val('<?= @$data['f5_app_name']; ?>');
 				$('input, select').trigger('change');
+				
+				$('#f6_jointfamily').val('<?= @$data['f6_jointfamily']; ?>');
+				$('#f6_members').val('<?= @$data['f6_members']; ?>');
+				$('#f6_children').val('<?= @$data['f6_children']; ?>');
+				$('#f6_smartuse').val('<?=  @$data['f6_smartuse']; ?>');
+				$('#f6_children').trigger('change');
+				
+				$('#f7_television').val('<?= @$data['f7_television']; ?>');
+				$('#f7_refrigerator').val('<?= @$data['f7_refrigerator']; ?>');
+				$('#f7_wmachine').val('<?= @$data['f7_wmachine']; ?>');
+				$('#f7_mixer').val('<?= @$data['f7_mixer']; ?>');
+				$('#f7_stove').val('<?= @$data['f7_stove']; ?>');
+				$('#f7_bicycle').val('<?= @$data['f7_bicycle']; ?>');
+				$('#f7_ccylinder').val('<?= @$data['f7_ccylinder']; ?>');
+				$('#f7_fans').val('<?= @$data['f7_fans']; ?>');
+				$('#f7_motorcycle').val('<?= @$data['f7_motorcycle']; ?>');
+				$('#f7_car').val('<?= @$data['f7_car']; ?>');
 				
 				if($('#f3_married').val() == 'yes'){
 					$('#spouse_detail').show('swing');
@@ -1793,6 +1939,16 @@
 				else
 				{
 					$('#div_app_name_display').find('input, select').val('');
+				}
+				
+				
+				if($('#f6_children').val() != '0' || $('#f6_children').val() != ''  || $(this).val() != null)
+				{
+					$('#use_smartphone').show('swing');
+				}
+				else
+				{
+					$('#use_smartphone').find('input, select').val('');
 				}
 	
 				$('#spouse_detail').find('input, select').trigger('change');
@@ -1850,6 +2006,30 @@
 				{
 				  return 0;
 				}	
+			}
+			
+			function convertMemebersToPoint(x)
+			{
+				if(x >= 0 && x <= 2)
+				{
+				  return 10;
+				}
+				else if(x >= 3 && x <= 5)
+				{
+				  return 4;
+				}
+				else if(x >= 6 && x <= 7)
+				{
+				  return 2;
+				}
+				else if(x >= 8)
+				{
+				  return 0;
+				}
+				else
+				{
+				  return 0;
+				}
 			}
 			
 			function calTotal()
@@ -1928,7 +2108,6 @@
 				$('#f2_pt').html(f2_pt);
 				
 				
-				
 				var phoneType		= parseInt($('option:selected','#f5_phonetype').attr('point')) || 0;
 				var anyOtherSPUser	= parseInt($('option:selected','#f5_any_one_have_smart_phone').attr('point')) || 0;
 				var dataPack		= parseInt($('option:selected','#f5_datapack').attr('point')) || 0;
@@ -1942,6 +2121,29 @@
 				f5_pt     = f5_pt.toFixed(2);
 				$('#f5_points').val(f5_pt);
 				$('#f5_pt').html(f5_pt);
+				
+				
+				var jointFamily = parseInt($('option:selected','#f6_jointfamily').attr('point')) || 0;
+				var children 	= $('#f6_children').val() != '' ? parseInt($('#f6_children').val()) : '';
+				var smartuse 	= parseInt($('option:selected','#f6_smartuse').attr('point')) || 0;
+	
+				children = convertMemebersToPoint(children);
+	
+				family_details_g_total = jointFamily + children + smartuse;
+				document.getElementById('family_details_g_total').innerHTML=family_details_g_total;
+				var f6_pt = '';
+				if($('#f6_children').val() == '' || $('#f6_children').val() == 0)
+				{
+					f6_pt = family_details_g_total/2;
+				}
+				else
+				{
+					f6_pt = family_details_g_total/3;
+				}
+	
+				f6_pt     = f6_pt.toFixed(2);
+				$('#f6_points').val(f6_pt);
+				$('#f6_pt').html(f6_pt);
 			}
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
@@ -1949,6 +2151,7 @@
 				e.preventDefault();
 				if ($('#frm_knowledge_detail').valid())
 				{
+					loading_show();	
 					$.ajax({
 							type: "POST",
 							url: "action_pages/action_frm3.php",
@@ -1964,21 +2167,21 @@
 								{
 									alert(data.resp);
 									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
-									//loading_hide();
+									loading_hide();
 								}
 								else if(data.Success == "fail") 
 								{
 									alert(data.resp);
-									//loading_hide();	
+									loading_hide();	
 								}	
 							},
 							error: function (request, status, error)
 							{
-								//loading_hide();	
+								loading_hide();	
 							},
 							complete: function()
 							{
-								//loading_hide();	
+								loading_hide();	
 							}	
 						});
 				}
@@ -1989,7 +2192,7 @@
 				e.preventDefault();
 				if ($('#frm_applicant_knowledge').valid())
 				{
-					//loading_show();	
+					loading_show();	
 					$.ajax({
 						type: "POST",
 						url: "action_pages/action_frm2.php",
@@ -2005,47 +2208,6 @@
 							{
 								alert(data.resp);
 								window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
-								//loading_hide();
-							}
-							else if(data.Success == "fail") 
-							{
-								alert(data.resp);
-								//loading_hide();	
-							}	
-						},
-						error: function (request, status, error)
-						{
-							//loading_hide();	
-						},
-						complete: function()
-						{
-							//loading_hide();	
-						}	
-					});
-				}
-			});
-			
-			$('#frm_applicant_phone').on('submit', function(e) 
-			{
-			e.preventDefault();
-			if ($('#frm_applicant_phone').valid())
-			{
-				loading_show();	
-				$.ajax({
-						type: "POST",
-						url: "action_pages/action_frm5.php",
-						data: new FormData(this),
-						processData: false,
-  						contentType: false,
-						cache: false,
-						success: function(msg)
-						{
-							data = JSON.parse(msg);
-						
-							if(data.Success == "Success")
-							{
-								alert(data.resp);
-							window.location.href="acrefinfrm_6.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
 								loading_hide();
 							}
 							else if(data.Success == "fail") 
@@ -2063,8 +2225,90 @@
 							loading_hide();	
 						}	
 					});
-			}
-		});	
+				}
+			});
+			
+			$('#frm_applicant_phone').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_applicant_phone').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm5.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});	
+		
+			$('#frm_family_details').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_family_details').valid())
+				{
+					loading_show();	
+					$.ajax({
+						type: "POST",
+						url: "action_pages/action_frm6.php",
+						data: new FormData(this),
+						processData: false,
+						contentType: false,
+						cache: false,
+						success: function(msg)
+						{
+							data = JSON.parse(msg);
+						
+							if(data.Success == "Success")
+							{
+								alert(data.resp);
+								window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+								loading_hide();
+							}
+							else if(data.Success == "fail") 
+							{
+								alert(data.resp);
+								loading_hide();	
+							}	
+						},
+						error: function (request, status, error)
+						{
+							loading_hide();	
+						},
+						complete: function()
+						{
+							loading_hide();	
+						}	
+					});
+				}
+			});
 			
 			$('#f2_participation').on('change', function(){
 				if($(this).val() == 'yes'){

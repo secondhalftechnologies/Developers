@@ -1,6 +1,8 @@
 <?php 
 
-include('../connection.php');
+include('../include/connection.php');
+//include('../include/query-helper.php');
+include('../include/validate-helper.php');
 
 $table ='tbl_residence_details';
 if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
@@ -91,7 +93,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 
 
 		
-$check_exist = check_exist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
+$check_exist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
 
 if(!$check_exist)
 {
@@ -101,7 +103,7 @@ if(!$check_exist)
 	$res=insert($table,$data);
 	
 	
-    $check_pt_exist = check_exist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
+    $check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
 	if(!$check_pt_exist)
 	{
 		$pt_data['fm_id']=$data['fm_id'];
@@ -118,7 +120,7 @@ if(!$check_exist)
 }
 else
 {
-	$id =$check_exist;
+	$id =$check_exist['id'];
 	
 	$data['f7_modified_by']= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
     $data['f7_modified_date']=$datetime;

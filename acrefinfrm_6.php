@@ -278,7 +278,8 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
       </div>
     <script type="text/javascript">
 
-		function convertMemebersToPoint(x){
+		function convertMemebersToPoint(x)
+		{
 			if(x >= 0 && x <= 2)
 			{
 			  return 5;

@@ -380,7 +380,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 														</select> -->
 														<input type="number" name="f13_poultry" id="f13_poultry" placeholder="Poultry Count" class="input-xlarge v_number cal_tcount" value="0">
 													</div>
-	                                            </div><!--f13_sheep-->
+	                                            </div><!--f13_poultry-->
                                                 
                                                 <div class="control-group">
 													<label for="text" class="control-label" style="margin-top:10px">Donkeys
@@ -393,7 +393,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 														</select> -->
 														<input type="number" name="f13_donkeys" id="f13_donkeys" placeholder="Donkeys Count" class="input-xlarge v_number cal_tcount" value="0">
 													</div>
-	                                            </div><!--f13_goat-->
+	                                            </div><!--f13_donkeys-->
                                                 
                                                 <div id="livestock_count" style="display:none">
                                                 <div class="control-group" >

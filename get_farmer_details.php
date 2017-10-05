@@ -190,26 +190,57 @@
 		{
 			$row_asset_details					= mysqli_fetch_array($res_asset_details);
 			$data['f12_machinery']				= $row_asset_details['f12_machinery'];
-			$data['f12_machinery']				= $row_asset_details['f12_machinery'];
 			$data['f12_vehicle']				= $row_asset_details['f12_vehicle'];
-			$data['f12_is_immovable']			= $row_asset_details['f12_is_immovable'];
-			$data['f12_immovable_asset']		= $row_asset_details['f12_immovable_asset'];
 			$data['f12_total_val_of_vehical']	= $row_asset_details['f12_total_val_of_vehical'];
 			$data['f12_total_val_of_machinery']	= $row_asset_details['f12_total_val_of_machinery'];
 			$data['f12_any_other_assets']		= $row_asset_details['f12_any_other_assets'];
 			$data['f12_name_of_other_assets']	= $row_asset_details['f12_name_of_other_assets'];
+			$data['f12_mention_value_of_assets']= $row_asset_details['f12_mention_value_of_assets'];
 		}
 		else
 		{
 			$data['f12_machinery']				= '';
-			$data['f12_machinery']				= '';
 			$data['f12_vehicle']				= '';
-			$data['f12_is_immovable']			= '';
-			$data['f12_immovable_asset']		= '';
 			$data['f12_total_val_of_vehical']	= '';
 			$data['f12_total_val_of_machinery']	= '';
 			$data['f12_any_other_assets']		= '';
 			$data['f12_name_of_other_assets']	= '';
+			$data['f12_mention_value_of_assets']= '';  
+		}
+	}
+	
+	$res_livestock_details = lookup_value('tbl_livestock_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_livestock_details)
+	{
+		$num_livestock_details    = mysqli_num_rows($res_livestock_details);
+		if($num_livestock_details != 0)
+		{
+			$row_livestock_details 			= mysqli_fetch_array($res_livestock_details);
+			$data['f13_dairy_cattle']		= $row_livestock_details['f13_dairy_cattle'];
+			$data['f13_draft_cattle']		= $row_livestock_details['f13_draft_cattle'];
+			$data['f13_buffalo']			= $row_livestock_details['f13_buffalo'];
+			$data['f13_ox']					= $row_livestock_details['f13_ox'];
+			$data['f13_sheep']				= $row_livestock_details['f13_sheep'];
+			$data['f13_goat']				= $row_livestock_details['f13_goat'];
+			$data['f13_pig']				= $row_livestock_details['f13_pig'];
+			$data['f13_poultry']			= $row_livestock_details['f13_poultry'];
+			$data['f13_donkeys']			= $row_livestock_details['f13_donkeys'];
+			$data['f13_livestock_count']	= $row_livestock_details['f13_livestock_count'];
+			$data['f13_livestock_income']	= $row_livestock_details['f13_livestock_income'];
+		}
+		else
+		{
+			$data['f13_dairy_cattle']		= '';
+			$data['f13_draft_cattle']		= '';
+			$data['f13_buffalo']			= '';
+			$data['f13_ox']					= '';
+			$data['f13_sheep']				= '';
+			$data['f13_goat']				= '';
+			$data['f13_pig']				= '';
+			$data['f13_poultry']			= '';
+			$data['f13_donkeys']			= '';
+			$data['f13_livestock_count']	= '';
+			$data['f13_livestock_income']	= '';
 		}
 	}
 	
@@ -1263,7 +1294,7 @@
                                                     </div>	<!-- Main Forms -->
                                                 </div>
                                             </div>
-                                        </div>	<!-- LAND -->
+                                        </div>	<!-- LAND [COMPLETE] -->
                                         <!-- ============ -->
                                         <!-- END :   LAND -->
                                         <!-- ============ -->
@@ -1523,6 +1554,22 @@
                                                             <li>
                                                                 <a href="#div_live_stock" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Live Stock
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm13']) && $pt_row['pt_frm13']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f13_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm13']; ?>
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f13_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                 </a>
                                                             </li>	<!-- Live Stock -->
                                                         </ul>
@@ -1534,7 +1581,8 @@
                                                                 
                                                             	<input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
                                                                 <input type="hidden" id="add_asset_detail" name="add_asset_detail" value="1">
-                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">    
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" id="f12_points" name="f12_points" value=""> 
                                                                 
                                                                 <div class="form-content">
                                                                 	
@@ -1581,122 +1629,164 @@
                                                                     </div>  <!-- Total Value of the Machinery -->
                                                                     
                                                                     <div class="control-group">
-                                                                        <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span>
+                                                                        <label for="tasktitel" class="control-label">Any Other Assets <span style="color:#F00">*</span>
                                                                         </label>
                                                                         <div class="controls">
                                                                             <select id="f12_any_other_assets" name="f12_any_other_assets" class="select2-me input-xlarge" >
                                                                                 <option value="" disabled selected>Select here</option>
-                                                                                <option value="yes">Yes</option>
-                                                                                <option value="no">No</option>
+                                                                                <option value="yes" <?php if((isset($data['f12_any_other_assets'])) && $data['f12_any_other_assets'] == 'yes'){ ?> selected <?php }  ?>>Yes</option>
+                                                                                <option value="no" <?php if((isset($data['f12_any_other_assets'])) && $data['f12_any_other_assets'] == 'no'){ ?> selected <?php }  ?>>No</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>  <!-- Any Other Assets [DDL] -->
                                                                     
-                                                                    <div id="program_detail" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
+                                                                    <div id="div_any_other_assets_display" style="display: none; padding: 10px; border:1px solid #d6d6d6; margin: 20px;">
                                                                     
-                                                                    	
+                                                                    	<div class="control-group">
+                                                                            <label for="tasktitel" class="control-label">Which Assets you owned <span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <select id="f12_name_of_other_assets" name="f12_name_of_other_assets" class="select2-me input-xlarge">
+                                                                                    <option value="" disabled selected>Select here</option>
+                                                                                    <option value="Other Buildings" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Other Buildings'){ ?> selected <?php }  ?>>Other Buildings</option>
+                                                                                    <option value="Land" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Land'){ ?> selected <?php }  ?>>Land</option>
+                                                                                    <option value="Residential Building" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Residential Building'){ ?> selected <?php }  ?>>Residential Building</option>
+                                                                                    <option value="Other" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Other'){ ?> selected <?php }  ?>>Other</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>  <!-- Which Assets you owned [If Yes [DDL]] -->
+    
+                                                                        <div class="control-group">
+                                                                            <label for="tasktitel" class="control-label">Mention the value of the assets <span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="text" id="f12_mention_value_of_assets" name="f12_mention_value_of_assets" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
+                                                                            </div>
+                                                                        </div>    <!-- Mention the value of the assets [If Yes] -->
                                                                     
-                                                                    </div>
+                                                                    </div>	<!-- div_any_other_assets_display -->
+                                                                    
+                                                                    <div class="form-actions">
+                                                                    	<input type="reset" class="btn" value="Back" id="back">
+                                                                    	<input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>	<!-- Back And Save -->
                                                                     
                                                                 </div>
                                                                 
-                                                                
-                                                                
-
-                                                               
-
-                                                                
-
-                                                                
-
-                                                                
-
-                                                                <div id="div_any_other_assets_display" style="display: none;">
-                                                                    
-                                                                    <div class="control-group">
-                                                                        <label for="tasktitel" class="control-label">Which Assets you owned <span style="color:#F00">*</span>
-                                                                        </label>
-                                                                        <div class="controls">
-                                                                            <select id="ddl_which_assets_you_owned" name="ddl_which_assets_you_owned" class="select2-me input-xlarge">
-                                                                                <option value="" disabled selected>Select here</option>
-                                                                                <option value="Other Buildings">Other Buildings</option>
-                                                                                <option value="Land">Land</option>
-                                                                                <option value="Residential Building">Residential Building</option>
-                                                                                <option value="Other">Other</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>  <!-- Which Assets you owned [If Yes [DDL]] -->
-
-                                                                    <div class="control-group">
-                                                                        <label for="tasktitel" class="control-label">Mention the value of the assets <span style="color:#F00">*</span>
-                                                                        </label>
-                                                                        <div class="controls">
-                                                                            <input type="text" id="txt_mention_value_of_assets" name="txt_mention_value_of_assets" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Value of Vehical">
-                                                                        </div>
-                                                                    </div>    <!-- Mention the value of the assets [If Yes] -->
-                                                                    
-                                                                </div>  <!-- div_any_other_assets_display -->
-
-                                                                <div class="form-actions" style="clear:both;">
-                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
-                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
-                                                                </div>  <!-- Cancel or Submit -->
                                                             </form>
+                                                            <h1 id="asset_details_g_total">0</h1>
                                                         </div>	<!-- Assets Details -->
                                                         <div class="tab-pane" id="div_live_stock">
-                                                           Live Stock
-                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_live_stock" name="frm_live_stock">
+                                                           	Live Stock
+                                                        	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_live_stock" name="frm_live_stock">
+                                                            	    
+                                                                <input type="hidden" id="add_livestock_detail" name="add_livestock_detail" value="1">
+                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" id="f13_points" name="f13_points" value="">
                                                                 
+                                                                <div class="form-content">
+                                                                	
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Dairy Cattle
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="number" name="f13_dairy_cattle" id="f13_dairy_cattle" placeholder="Dairy Cattle Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f3_dairy_cattle-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Draft Cattle
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_draft_cattle" id="f13_draft_cattle" placeholder="Draft Cattle Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_draft_cattle-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Buffalo
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_buffalo" id="f13_buffalo" placeholder="Buffalo Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_buffalo-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Ox
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_ox" id="f13_ox" placeholder="Ox Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_ox-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Sheep
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_sheep" id="f13_sheep" placeholder="Sheep Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_sheep-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Goat
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_goat" id="f13_goat" placeholder="Goat Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_goat-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Pig
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_pig" id="f13_pig" placeholder="Pig Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_pig-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Poultry [ chicken, geese, turkey, duck]
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_poultry" id="f13_poultry" placeholder="Poultry Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_poultry-->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Donkeys
+                                                                        <span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <input type="number" name="f13_donkeys" id="f13_donkeys" placeholder="Donkeys Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                        </div>
+                                                                    </div>	<!--f13_donkeys-->
+                                                                    
+                                                                    <div id="livestock_count" style="display:none">
+                                                                        <div class="control-group" >
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Livestock Count<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input readonly type="text" onKeyPress="return numsonly(event);" id="f13_livestock_count" name="f13_livestock_count" class="input-xlarge" value="<?php echo @$f13_livestock_count; ?>"  data-rule-required="true" placeholder="Livestock Count">
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="control-group" >
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Income Gained From Livestock in Rs.<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <input type="text" value="<?php echo @$f13_livestock_income; ?>" onKeyPress="return numsonly(event);" id="f13_livestock_income" name="f13_livestock_income" class="input-xlarge"  data-rule-required="true" placeholder="Income Gained">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>	<!--livestock_count-->
+                                                                    
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>	<!-- Back OR Save -->
+                                                                    
+                                                                </div>
                                                                 
-                                                                
-                                                                
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Type of Livestock <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <select id="ddl_type_of_livestock" name="ddl_type_of_livestock" class="select2-me input-xlarge" >
-                                                                            <option value="" disabled selected>Select here</option>
-                                                                            <option value="Dairy Cattle">Dairy Cattle</option>
-                                                                            <option value="Darft Cattle">Darft Cattle</option>
-                                                                            <option value="Buffalo">Buffalo</option>
-                                                                            <option value="Ox">Ox</option>
-                                                                            <option value="Sheep">Sheep</option>
-                                                                            <option value="Goat">Goat</option>
-                                                                            <option value="Pig">Pig</option>
-                                                                            <option value="Poultry">Poultry</option>
-                                                                            <option value="Donkey">Donkey</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>  <!-- Type of Livestock -->
-
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Livestock Count <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_livestock_count" name="txt_livestock_count" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Livestock Count">
-                                                                    </div>
-                                                                </div>  <!-- Livestock Count -->
-                                                                
-                                                                <div class="control-group">
-                                                                    <label for="tasktitel" class="control-label">Income Gained From Livestock <span style="color:#F00">*</span>
-                                                                    </label>
-                                                                    <div class="controls">
-                                                                        <input type="text" id="txt_income_gained_from_livestock" name="txt_income_gained_from_livestock" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Income Gained From Livestock">
-                                                                    </div>
-                                                                </div>  <!-- Income Gained From Livestock -->
-
-                                                                <div class="form-actions" style="clear:both;">
-                                                                    <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
-                                                                    <button id="reset" type="button" class="btn" onclick="window.history.back()">Cancel</button>
-                                                                </div>  <!-- Cancel or Submit -->
-
                                                             </form>
+                                                            <h1 id="live_stock_g_total">0</h1>
                                                         </div>	<!-- Live Stock -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>
                                             </div>
-                                        </div>	<!-- ASSETS -->
+                                        </div>	<!-- ASSETS [COMPLETE] -->
                                         <!-- ============== -->
                                         <!-- END  : Assets -->
                                         <!-- ============== -->
@@ -1834,6 +1924,8 @@
 			var family_details_g_total		= 0;
 			var appliances_motors_g_total	= 0;
 			var farm_land_details_g_total	= 0;
+			var asset_details_g_total		= 0;
+			var live_stock_g_total			= 0;
 			
 			var contentCountLand 			= <?php echo $no_of_land; ?>;
 			
@@ -2024,6 +2116,18 @@
 					}
 				});
 				
+				$('#f12_any_other_assets').on('change', function(){
+					if($(this).val() == 'yes'){
+						$('#div_any_other_assets_display').show('swing');
+					}
+					else
+					{
+						$('#div_any_other_assets_display').hide('swing');
+						$('#div_any_other_assets_display').find('input, select').val('').trigger('change');
+					}
+				});
+				
+				
 				
 				$('#f3_married').val('<?= @$data['f3_married']; ?>');
 				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
@@ -2078,6 +2182,24 @@
 				$('#f7_fans').val('<?= @$data['f7_fans']; ?>');
 				$('#f7_motorcycle').val('<?= @$data['f7_motorcycle']; ?>');
 				$('#f7_car').val('<?= @$data['f7_car']; ?>');
+				
+				$('#f12_machinery').val('<?= @$data['f12_machinery']; ?>');
+				$('#f12_vehicle').val('<?= @$data['f12_vehicle']; ?>');	
+				$('#f12_total_val_of_vehical').val('<?= @$data['f12_total_val_of_vehical']; ?>');	
+				$('#f12_total_val_of_machinery').val('<?= @$data['f12_total_val_of_machinery']; ?>');	
+				$('#f12_any_other_assets').val('<?= @$data['f12_any_other_assets']; ?>');		
+				$('#f12_name_of_other_assets').val('<?= @$data['f12_name_of_other_assets']; ?>');
+				$('#f12_mention_value_of_assets').val('<?= @$data['f12_mention_value_of_assets']; ?>');
+				
+				$('#f13_dairy_cattle').val('<?= @$data['f13_dairy_cattle']; ?>');
+				$('#f13_draft_cattle').val('<?= @$data['f13_draft_cattle']; ?>');
+				$('#f13_buffalo').val('<?= @$data['f13_buffalo']; ?>');
+				$('#f13_ox').val('<?= @$data['f13_ox']; ?>');
+				$('#f13_sheep').val('<?= @$data['f13_sheep']; ?>');
+				$('#f13_goat').val('<?= @$data['f13_goat']; ?>');
+				$('#f13_pig').val('<?= @$data['f13_pig']; ?>');
+				$('#f13_poultry').val('<?= @$data['f13_poultry']; ?>');
+				$('#f13_donkeys').val('<?= @$data['f13_donkeys']; ?>');
 				
 				if($('#f3_married').val() == 'yes'){
 					$('#spouse_detail').show('swing');
@@ -2134,9 +2256,31 @@
 				{
 					$('#use_smartphone').find('input, select').val('');
 				}
+				
+				
+				if($('#f12_any_other_assets').val() == 'yes')
+				{
+					$('#div_any_other_assets_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_other_assets_display').find('input, select').val('');
+				}
 	
 				$('#spouse_detail').find('input, select').trigger('change');
 				calTotal();
+				
+				$('body').on('change','#f13_dairy_cattle, #f13_donkeys,#f13_draft_cattle', function(){
+					calTotal();
+				});
+				
+				$('body').on('change','#f13_poultry, #f13_pig,#f13_goat', function(){
+					calTotal();
+				});
+				
+				$('body').on('change','#f13_sheep, #f13_ox, #f13_buffalo,f13_livestock_count', function(){
+					calTotal();
+				});
 				
 			});
 			
@@ -2254,6 +2398,122 @@
 				}
 			}
 			
+			function convertAssetsToPoint(x)
+			{
+				if(x >= 0 && x <= 50000)
+				{
+					return 2;
+				}
+				else if(x >= 50001 && x <= 100000)
+				{
+				  return 4;
+				}
+				else if(x >= 100001 && x <= 500000)
+				{
+				  return 6;
+				}
+				else if(x >= 500001 && x <= 1000000)
+				{
+				  return 8;
+				}
+				else if(x >= 1000001)
+				{
+				  return 10;
+				}
+				else
+				{
+				  return 0;
+				}	
+			}
+			
+			function convertLiveAssetsToPoints(x)
+			{
+				if(x == 'dairy_cattle')
+				{
+					return 7;
+				}
+				else if(x == 'donkeys')
+				{
+					return 3;
+				}
+				else if(x == 'draft_cattle')
+				{
+					return 7;
+				}
+				else if(x == 'poultry')
+				{
+					return 7;
+				}
+				else if(x == 'pig')
+				{
+					return 6;
+				}
+				else if(x == 'goat')
+				{
+					return 6;
+				}
+				else if(x == 'sheep')
+				{
+					return 6;
+				}
+				else if(x == 'ox')
+				{
+					return 4;
+				}
+				else if(x == 'buffalo')
+				{
+					return 7;	
+				}
+				else
+				{
+					return 0;	
+				}
+			}
+			
+			function convertLiveStockCountToPoints(x)
+			{
+				if(x >= 0 && x <= 50)
+				{
+					return 4;
+				}
+				else if(x >= 51 && x <= 100)
+				{
+				  return 6;
+				}
+				else if(x >= 101 && x <= 150)
+				{
+				  return 10;
+				}
+				else
+				{
+				  return 0;
+				}	
+			}
+			
+			function convertLiveStockIncomeToPoints(x)
+			{
+				if(x >= 0 && x <= 5000)
+				{
+					return 4;
+				}
+				else if(x >= 5001 && x <= 20000)
+				{
+				  return 6;
+				}
+				else if(x >= 20001 && x <= 50000)
+				{
+				  return 8;
+				}
+				else if(x >= 50001)
+				{
+				  return 10;
+				}
+				else
+				{
+				  return 0;
+				}	
+			}
+			
 			function cal_land_size_pt(x)
 			{
 				if(x >= 0 && x <= 3)
@@ -2288,6 +2548,7 @@
 			
 			function calTotal()
 			{
+				// START : f3
 				var f3_married	= '<?php echo $married_status; ?>';
 				if(f3_married == 'yes')
 				{
@@ -2347,8 +2608,9 @@
 				f3_pt     = f3_pt.toFixed(2);
 				$('#f3_points').val(f3_pt);
 				$('#f3_pt').html(f3_pt);
+				// END : f3
 				
-				
+				// START : f2
 				var a = parseInt($('option:selected','#f2_proficiency').attr('point')) || 0;
 				var b = parseInt($('option:selected','#f2_edudetail').attr('point')) || 0;
 				var c = parseInt($('option:selected','#f2_participation').attr('point')) || 0;
@@ -2360,8 +2622,9 @@
 				f2_pt     = f2_pt.toFixed(2);
 				$('#f2_points').val(f2_pt);
 				$('#f2_pt').html(f2_pt);
+				// END : f2
 				
-				
+				// START : f5
 				var phoneType		= parseInt($('option:selected','#f5_phonetype').attr('point')) || 0;
 				var anyOtherSPUser	= parseInt($('option:selected','#f5_any_one_have_smart_phone').attr('point')) || 0;
 				var dataPack		= parseInt($('option:selected','#f5_datapack').attr('point')) || 0;
@@ -2375,8 +2638,9 @@
 				f5_pt     = f5_pt.toFixed(2);
 				$('#f5_points').val(f5_pt);
 				$('#f5_pt').html(f5_pt);
+				// END : f5
 				
-				
+				// START : f6
 				var jointFamily = parseInt($('option:selected','#f6_jointfamily').attr('point')) || 0;
 				var children 	= $('#f6_children').val() != '' ? parseInt($('#f6_children').val()) : '';
 				var smartuse 	= parseInt($('option:selected','#f6_smartuse').attr('point')) || 0;
@@ -2398,8 +2662,9 @@
 				f6_pt     = f6_pt.toFixed(2);
 				$('#f6_points').val(f6_pt);
 				$('#f6_pt').html(f6_pt);
+				// END : f6
 				
-				
+				// START : f7
 				var f7_television	= parseInt($('#f7_television').val()) || 0;
 				var f7_refrigerator	= parseInt($('#f7_refrigerator').val()) || 0;
 				var f7_wmachine 	= parseInt($('#f7_wmachine').val()) || 0;
@@ -2429,8 +2694,9 @@
 				f7_pt     = f7_pt.toFixed(2);
 				$('#f7_points').val(f7_pt);
 				$('#f7_pt').html(f7_pt);
+				// END : f7
 				
-				
+				// START : f9
 				var no_of_points        	= 2;
 				var f9_land_size_tpt    	= 0;
 				var f9_owner_tpt			= 0;
@@ -2478,6 +2744,76 @@
 				{
 					$('#removeLandType').show('swing');
 				}
+				// END : f9
+				
+				// START : f12
+				var f12_vehicle					= parseInt($('option:selected','#f12_vehicle').attr('point')) || 0;
+				var f12_total_val_of_vehical	= $('#f12_total_val_of_vehical').val();
+				f12_total_val_of_vehical		= convertAssetsToPoint(f12_total_val_of_vehical);
+				var f12_machinery				= parseInt($('option:selected','#f12_machinery').attr('point')) || 0;
+				var f12_total_val_of_machinery	= $('#f12_total_val_of_machinery').val();
+				f12_total_val_of_machinery		= convertAssetsToPoint(f12_total_val_of_machinery);
+				var f12_mention_value_of_assets	= $('#f12_mention_value_of_assets').val();
+				f12_mention_value_of_assets		= convertAssetsToPoint(f12_mention_value_of_assets);
+				
+				asset_details_g_total	= f12_vehicle + f12_total_val_of_vehical + f12_machinery + f12_total_val_of_machinery + f12_mention_value_of_assets;
+				
+				document.getElementById('asset_details_g_total').innerHTML = asset_details_g_total;
+				var f12_pt = asset_details_g_total/3;
+				f12_pt     = f12_pt.toFixed(2);
+				$('#f12_points').val(f12_pt);
+				$('#f12_pt').html(f12_pt);
+				// END : f12
+				
+				// START : f13
+				f13_dairy_cattle = parseInt($('#f13_dairy_cattle').val() || '0');
+				f13_donkeys      = parseInt($('#f13_donkeys').val()|| '0');
+				f13_draft_cattle = parseInt($('#f13_draft_cattle').val()|| '0');
+				f13_poultry		 = parseInt($('#f13_poultry').val()|| '0');
+				f13_pig 		 = parseInt($('#f13_pig').val()|| '0');
+				f13_goat  		 = parseInt($('#f13_goat').val()|| '0');
+				f13_sheep		 = parseInt($('#f13_sheep').val()|| '0');
+				f13_ox			 = parseInt($('#f13_ox').val()|| '0');
+				f13_buffalo 	 = parseInt($('#f13_buffalo').val()|| '0');
+				
+				total_p          = f13_dairy_cattle + f13_donkeys + f13_draft_cattle + f13_poultry +f13_pig +f13_goat +f13_sheep + f13_ox +f13_buffalo;
+				
+				if(total_p == 0)
+				{
+					$('#livestock_count').hide('wing');
+					$('#f13_livestock_count').val("");
+					$('#f13_livestock_income').val("");
+				}
+				else
+				{
+					$('#livestock_count').show('wing');
+					$('#f13_livestock_count').val(total_p);
+				}
+				
+				var f13_dairy_cattle_pt	= convertLiveAssetsToPoints('dairy_cattle');
+				var f13_donkeys_pt      = convertLiveAssetsToPoints('donkeys');
+				var f13_draft_cattle_pt = convertLiveAssetsToPoints('draft_cattle');
+				var f13_poultry_pt		= convertLiveAssetsToPoints('poultry');
+				var f13_pig_pt 		 	= convertLiveAssetsToPoints('pig');
+				var f13_goat_pt  		= convertLiveAssetsToPoints('goat');
+				var f13_sheep_pt		= convertLiveAssetsToPoints('sheep');
+				var f13_ox_pt			= convertLiveAssetsToPoints('ox');
+				var f13_buffalo_pt		= convertLiveAssetsToPoints('buffalo');
+				
+				var f13_livestock_count	= $('#f13_livestock_count').val();
+				var f13_livestock_count_pt	= convertLiveStockCountToPoints(f13_livestock_count);
+				
+				var f13_livestock_income	= $('#f13_livestock_income').val();
+				var f13_livestock_income_pt	= convertLiveStockIncomeToPoints(f13_livestock_income);
+				
+				live_stock_g_total	= f13_dairy_cattle_pt + f13_donkeys_pt + f13_draft_cattle_pt + f13_poultry_pt + f13_pig_pt + f13_goat_pt + f13_sheep_pt + f13_ox_pt + f13_buffalo_pt + f13_livestock_count_pt + f13_livestock_income_pt;
+				
+				document.getElementById('live_stock_g_total').innerHTML = live_stock_g_total;
+				var f13_pt = live_stock_g_total/3;
+				f13_pt     = f13_pt.toFixed(2);
+				$('#f13_points').val(f13_pt);
+				$('#f13_pt').html(f13_pt);
+				// END : f3
 			}
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
@@ -2699,6 +3035,88 @@
 					$.ajax({
 							type: "POST",
 							url: "action_pages/action_frm9.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});
+			
+			$('#frm_asset_details').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_asset_details').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm12.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});	
+		
+			$('#frm_live_stock').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_live_stock').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm13.php",
 							data: new FormData(this),
 							processData: false,
 							contentType: false,

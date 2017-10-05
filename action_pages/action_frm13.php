@@ -1,6 +1,8 @@
 <?php 
 
-include('../connection.php');
+include('../include/connection.php');
+//include('../include/query-helper.php');
+include('../include/validate-helper.php');
 
 $table ='tbl_livestock_details';
 
@@ -22,16 +24,16 @@ if(isset($_POST['add_livestock_detail']) && $_POST['add_livestock_detail']==1)
 	$data['f13_donkeys'] 	 	  = mysqli_real_escape_string($db_con,$_POST['f13_donkeys']);
 	$data['f13_livestock_count']  = mysqli_real_escape_string($db_con,$_POST['f13_livestock_count']);
 	$data['f13_livestock_income'] = mysqli_real_escape_string($db_con,$_POST['f13_livestock_income']);
-	$data['f13_status']    =1;
-	$data['f13_points']    ='NA';
-	$data['f13_section_id']='';
+	$data['f13_status']    			= 1;
+	$data['f13_points']    			= @$_POST['f13_points'];;
+	$data['f13_section_id']			= '';
 	
 	if($data['fm_id']!="" &&  $data['fm_caid'] !="")
 	{
 		
-		$check_exist = check_exist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
+		$checkExist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
 		
-		if(!$check_exist)
+		if(!$checkExist)
 		{
 			$data['f13_created_by']       = mysqli_real_escape_string($db_con,$_POST['fm_caid']);
 	        $data['f13_created_date']     = $datetime;
@@ -39,10 +41,10 @@ if(isset($_POST['add_livestock_detail']) && $_POST['add_livestock_detail']==1)
 			$res=insert($table,$data);
 			
 			$pt_data['fm_id']     = $data['fm_id'];
-			$pt_data['pt_frm13']  = 'NA';
+			$pt_data['pt_frm13']  = $data['f13_points'];
 		   
 		   
-		    $check_pt_exist = check_exist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
+		    $check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
 
 			if(!$check_pt_exist)
 			{
@@ -57,14 +59,14 @@ if(isset($_POST['add_livestock_detail']) && $_POST['add_livestock_detail']==1)
 		}
 		else
 		{
-			$id =$check_exist;
+			$id =$checkExist['id'];
 			
 			$data['f13_modified_by']       = mysqli_real_escape_string($db_con,$_POST['fm_caid']);
 	        $data['f13_modified_date']     = $datetime;
 			
 			$res =update($table,$data,array('id'=>$id),array(),array(),array());
 			
-			$pt_data['pt_frm13']='NA';
+			$pt_data['pt_frm13']=$data['f13_points'];
 			$res=update('tbl_points',$pt_data,array('fm_id'=>$data['fm_id']),array(),array(),array());
 			quit('Record Updated Successfully..!',1);
 			

@@ -394,12 +394,13 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 												<div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
 								                  	<input type="hidden" name="id[]" id="id" value="<?php echo @$crops_arr[$i]['id']; ?>">    
                                                 <h3>Crop <?php echo $id; ?></h3>
-													<div class="control-group">
+													
+                                                    <div class="control-group">
 														<label for="text" class="control-label" style="margin-top:10px">Yield Achieved Last Year In tonnes <span style="color:#F00">*</span></label>
 														<div class="controls">
 		                                                    <input type="text" id="f11_achieved<?php echo $id; ?>" name="f11_achieved<?php echo $id; ?>" class="input-xlarge"  onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" onchange="calTotal()" placeholder="Yield Achieved">
 														</div>
-		                                            </div><!--Yield Achieved Last Year  -->
+		                                            </div>	<!--Yield Achieved Last Year  -->
 
 		                                            <div class="control-group">
 														<label for="text" class="control-label" style="margin-top:10px">Income Achieved Last Year in Rs. <span style="color:#F00">*</span></label>

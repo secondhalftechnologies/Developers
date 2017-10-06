@@ -1,6 +1,8 @@
 <?php 
 
-include('../connection.php');
+include('../include/connection.php');
+//include('../include/query-helper.php');
+include('../include/validate-helper.php');
 
 $json 	= file_get_contents('php://input');
 $obj 	= json_decode($json);
@@ -11,23 +13,20 @@ $obj 	= json_decode($json);
 $table ='tbl_cultivation_data';
 if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 {
-	$data['fm_id']	  = mysqli_real_escape_string($db_con,$_POST['fm_id']);
-	$data['fm_caid']  = mysqli_real_escape_string($db_con,$_POST['fm_caid']);
-	$id				  = $_POST['id'];
-	$no_of_crops      = mysqli_real_escape_string($db_con,$_POST['no_of_crops']);
+	$data['fm_id']	  	= mysqli_real_escape_string($db_con,$_POST['fm_id']);
+	$data['fm_caid']  	= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
+	$id				  	= $_POST['id'];
+	$no_of_crops      	= mysqli_real_escape_string($db_con,$_POST['no_of_crops']);
 	$data['f10_points'] = mysqli_real_escape_string($db_con,$_POST['f10_points']);
 
 	$data['f10_status']    = 1;
 	$data['f10_section_id']='';
 	
-	
-	
 	if($data['fm_id']!="" &&  $data['fm_caid'] !="")
 	{
+		$checkExist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
 		
-		$check_exist = check_exist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
-		
-		if(!$check_exist)
+		if(!$checkExist)
 		{
 			$data['f10_created_by']       = $_POST['fm_caid'];
 	        $data['f10_created_date']     = $datetime;
@@ -42,10 +41,16 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 				$data['f10_expectedprice']    = mysqli_real_escape_string($db_con,$_POST['f10_expectedprice'.$i]);
 				$data['f10_diseases'] 		  = mysqli_real_escape_string($db_con,$_POST['f10_diseases'.$i]);
 				$data['f10_pest'] 		      = mysqli_real_escape_string($db_con,$_POST['f10_pest'.$i]);
-				$res=insert($table,$data);
+				
+				$data['f10_crop_season']		= mysqli_real_escape_string($db_con,$_POST['f10_crop_season'.$i]);
+				$data['f10_potential_market']	= mysqli_real_escape_string($db_con,$_POST['f10_potential_market'.$i]);
+				$data['f10_crop_storage']		= mysqli_real_escape_string($db_con,$_POST['f10_crop_storage'.$i]);
+				$data['f10_filt_type']			= mysqli_real_escape_string($db_con,$_POST['f10_filt_type'.$i]);
+				
+				$res = insert($table,$data);
 			}
 			
-			$check_pt_exist = check_exist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
+			$check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
 			if(!$check_pt_exist)
 			{
 				$pt_data['fm_id']=$data['fm_id'];
@@ -78,7 +83,12 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 				$data['f10_expectedprice']    = mysqli_real_escape_string($db_con,$_POST['f10_expectedprice'.$i]);
 				$data['f10_diseases'] 		  = mysqli_real_escape_string($db_con,$_POST['f10_diseases'.$i]);
 				$data['f10_pest'] 		      = mysqli_real_escape_string($db_con,$_POST['f10_pest'.$i]);
-					
+				
+				$data['f10_crop_season']		= mysqli_real_escape_string($db_con,$_POST['f10_crop_season'.$i]);
+				$data['f10_potential_market']	= mysqli_real_escape_string($db_con,$_POST['f10_potential_market'.$i]);
+				$data['f10_crop_storage']		= mysqli_real_escape_string($db_con,$_POST['f10_crop_storage'.$i]);
+				$data['f10_filt_type']			= mysqli_real_escape_string($db_con,$_POST['f10_filt_type'.$i]);
+				
 				if(isset($id[($i-1)])&&  $id[($i-1)]!="")
 				{
 					$data['f10_modified_by']       = mysqli_real_escape_string($db_con,$_POST['fm_caid']);

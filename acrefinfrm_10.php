@@ -170,7 +170,8 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 			}
 		}
 
-		function convertTonnesToPoint(x){
+		function convertTonnesToPoint(x)
+		{
 			if(x >= 0 && x <= 1)
 			{
 			  return 3;
@@ -197,7 +198,8 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 			}
 		}
 
-		function convertPriceToPoint(x){
+		function convertPriceToPoint(x)
+		{
 			if(x >= 10000 && x <= 20000)
 			{
 			  return 4;
@@ -489,11 +491,11 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 																<option value=""  selected> Select here</option>
 																<?php
 																
-								$crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
-								while($crop = mysqli_fetch_array($crops))
-								{
-								echo ' <option value="'.$crop['crop_id'].'" point="7" >'.$crop['crop_name'].'</option> '; 
-								 }
+																	$crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
+																	while($crop = mysqli_fetch_array($crops))
+																	{
+																	echo ' <option value="'.$crop['crop_id'].'" point="7" >'.$crop['crop_name'].'</option> '; 
+																	 }
 																
 																?>
 															</select>
@@ -553,8 +555,6 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 														</div>
 		                                            </div><!--Total Yield Expected [In tonnes Per Acre]:-->
 
-		                                            
-
 		                                            <div class="control-group">
 														<label for="text" class="control-label" style="margin-top:10px">Expected Price This Year In Rs.<span style="color:#F00">*</span></label>
 														<div class="controls">
@@ -611,7 +611,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 													echo 'contentCount='.$id.';';
 											 ?>
 											 </script>
-											<?php 
+												<?php 
 											 }
 											 ?>
 											 </div>
@@ -647,10 +647,9 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
       </div>
       <div class="modal-body">
         <p >Are you sure want to remove crop?</p>
-        
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-primary removeCrop_btn"  data-dismiss="modal">Yes</button>&nbsp;
+      	<button type="button" class="btn btn-primary removeCrop_btn"  data-dismiss="modal">Yes</button>&nbsp;
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
      </div><!-- /.modal-content -->
@@ -678,7 +677,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 							if(data.Success == "Success")
 							{
 								alert(data.resp);
-							window.location.href="acrefinfrm_11.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+								window.location.href="acrefinfrm_11.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
 								loading_hide();
 							}
 							else if(data.Success == "fail") 

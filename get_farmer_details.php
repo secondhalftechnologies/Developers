@@ -170,17 +170,29 @@
 	echo $land_arr[1]['fm_id'];
 	exit();*/
 	
-    $no_of_crops    = 1;
-    $crops_arr      = array();
-    $res_cultivation_data	= lookup_value('tbl_cultivation_data',array(),array("fm_id"=>$fm_id),array(),array(),array());
-    if($res_cultivation_data)
-    {
-        while($row_cultivation_data = mysqli_fetch_array($res_cultivation_data))
-        {
-       		array_push($crops_arr ,$row_cultivation_data);
-        }
-        $no_of_crops = sizeof($crops_arr);
-    }
+	$no_of_crops	= 1;
+	$crops_arr  	= array();
+	$res_cultivation_data = lookup_value('tbl_cultivation_data',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_cultivation_data)
+	{
+		while($row_cultivation_data = mysqli_fetch_array($res_cultivation_data))
+		{
+			array_push($crops_arr ,$row_cultivation_data);
+		}
+		$no_of_crops = sizeof($crops_arr);
+	}
+	
+	$no_of_prev_crops	= 1;
+	$prev_crops_arr		= array();
+	$res_yield_details 	= lookup_value('tbl_yield_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_yield_details)
+	{
+		while($row_yield_details = mysqli_fetch_array($res_yield_details))
+		{
+		  array_push($prev_crops_arr ,$row_yield_details);
+		}
+		$no_of_prev_crops = sizeof($prev_crops_arr);
+	}
 	
 	$res_asset_details	= lookup_value('tbl_asset_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
 	if($res_asset_details)
@@ -243,6 +255,8 @@
 			$data['f13_livestock_income']	= '';
 		}
 	}
+	
+	
 	
     // Query for chacking user is married or not
     $sql_chk_married_status = " SELECT * FROM `tbl_spouse_details` WHERE `fm_id`='".$fm_id."' ";
@@ -1310,6 +1324,22 @@
                                                             <li class='active'>
                                                                 <a href="#div_crop_cultivation" data-toggle='tab'>
                                                                     <i class="fa fa-lock"></i>Crop And Cultivation Details
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm10']) && $pt_row['pt_frm10']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f10_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm10']; ?>
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f10_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                	</a>
                                                             </li>	<!-- Crop And Cultivation Details -->
                                                             <li>
@@ -1328,186 +1358,323 @@
                                                         <div class="tab-pane active" id="div_crop_cultivation">
                                                     		Crop And Cultivation Details
                                                             <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_crop_cultivation" name="frm_crop_cultivation">
-
-                                                                <div class="form-content" >
-                                                                    <div id="crops">
-                                                                        <?php
-                                                                        for($j=0; $j < $no_of_crops; $j++)
-                                                                        {
-                                                                            $id =$j+1;
-
-                                                                            ?>
-                                                                            <div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
-                                                                                <input type="hidden" name="id[]" id="id" value="<?php echo @$crops_arr[$j]['id']; ?>">    
-                                                                                <h3>Crop <?php echo $id; ?></h3>
-
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Current Crop Season <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <select id="ddl_cur_crop_season<?php echo $id; ?>" name="ddl_cur_crop_season<?php echo $id; ?>" class="select2-me input-xlarge" >
-                                                                                            <option value="" disabled selected>Select here</option>
-                                                                                            <option value="Kharif">Kharif</option>
-                                                                                            <option value="Rabi">Rabi</option>
-                                                                                            <option value="Summer">Summer</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>  <!-- Current Crop Season [DDL] -->
+                                                            
+                                                            	<input type="hidden" id="add_crop_detail" name="add_crop_detail" value="1">
+                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" name="f10_points" id="f10_points" value="">
+                                                                <input type="hidden" name="no_of_crops" id="no_of_crops" value="1">
+                                                                
+                                                                <div class="form-content">
+                                                                	
+                                                                    <div id="formContent">
+                                                                    	<?php
+                                                                        for($j = 0; $j < $no_of_crops; $j++)
+																		{
+																			$id	= $j+1;
+																			?>
+																			<div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                            	<div id="crop_detail" style=" padding: 10px; margin: 5px;">
+                                                                                	<h2>Crop <?php echo $id; ?> Details</h2>
+                                                                                    
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Current Crop Season <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_crop_season<?php echo $id; ?>" name="f10_crop_season<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="Kharif" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Kharif') { ?> selected <?php } ?>>Kharif</option>
+                                                                                                <option value="Rabi" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Rabi') { ?> selected <?php } ?>>Rabi</option>
+                                                                                                <option value="Summer" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Summer') { ?> selected <?php } ?>>Summer</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Current Crop Season [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_cultivating<?php echo $id; ?>" name="f10_cultivating<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal();">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <?php
+                                                                                                $crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
+                                                                                                while($crop = mysqli_fetch_array($crops))
+                                                                                                {
+																									?>
+                                                                                                    <option point="7" value="<?php echo $crop['crop_id']; ?>" <?php if((isset($crops_arr[$j]['f10_cultivating'])) && $land_arr[$i]['f10_cultivating'] == $crop['crop_id']) { ?> selected <?php } ?>>
+                                                                                                        <?php echo strtoupper($crop['crop_name']); ?>
+                                                                                                    </option>	
+                                                                                                    <?php
+                                                                                                }
+                                                                                            ?>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Type of crop cultivating this year [DDL] -->
+                                                                                
+                                                                                	<div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_stage<?php echo $id; ?>" name="f10_stage<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option point="5" value="Land Tilling" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Land Tilling') { ?> selected <?php } ?>>Land Tilling</option>
+                                                                                                <option point="7" value="Sowing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Sowing') { ?> selected <?php } ?>>Sowing</option>
+                                                                                                <option point="6" value="Manure Adding OR Fertilizer" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Manure Adding OR Fertilizer') { ?> selected <?php } ?>>Manure Adding / Fertilizer</option>
+                                                                                                <option point="7" value="Irrigation" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Irrigation') { ?> selected <?php } ?>>Irrigation</option>
+                                                                                                <option point="7" value="Weeding" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Weeding') { ?> selected <?php } ?>>Weeding</option>
+                                                                                                <option point="8" value="Growing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Growing') { ?> selected <?php } ?>>Growing</option>
+                                                                                                <option point="7" value="Harvesting" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Harvesting') { ?> selected <?php } ?>>Harvesting</option>
+                                                                                                <option point="5" value="Threshing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Threshing') { ?> selected <?php } ?>>Threshing</option>
+                                                                                                <option point="2" value="Storing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Storing') { ?> selected <?php } ?>>Storing</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Current stage of crop [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="f10_expected<?php echo $id; ?>" name="f10_expected<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal()" placeholder="Total Yield Expected">
+                                                                                        </div>
+                                                                                    </div>  <!-- Total Yield Expected [In tonnes Per Acre] -->
+                                                                                
+                                                                                	<div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Potential market <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_potential_market<?php echo $id; ?>" name="f10_potential_market<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="Local Mandis and Location" <?php if((isset($crops_arr[$j]['f10_potential_market'])) && $crops_arr[$j]['f10_potential_market'] == '') { ?> selected <?php } ?>>Local Mandis and Location</option>
+                                                                                                <option value="FPO" <?php if((isset($crops_arr[$j]['f10_potential_market'])) && $crops_arr[$j]['f10_potential_market'] == 'FPO') { ?> selected <?php } ?>>FPO</option>
+                                                                                                <option value="Private Buyer" <?php if((isset($crops_arr[$j]['f10_potential_market'])) && $crops_arr[$j]['f10_potential_market'] == 'Private Buyer') { ?> selected <?php } ?>>Private Buyer (Companies)</option>
+                                                                                                <option value="Government" <?php if((isset($crops_arr[$j]['f10_potential_market'])) && $crops_arr[$j]['f10_potential_market'] == 'Government') { ?> selected <?php } ?>>Government</option>
+                                                                                                <option value="Other" <?php if((isset($crops_arr[$j]['f10_potential_market'])) && $crops_arr[$j]['f10_potential_market'] == 'Other') { ?> selected <?php } ?>>Other</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Potential market [DDL] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">Crop Storage <span style="color:#F00">*</span>
+                                                                                        </label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_crop_storage<?php echo $id; ?>" name="f10_crop_storage<?php echo $id; ?>" class="select2-me input-xlarge" >
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option value="Govt Warehouse" <?php if((isset($crops_arr[$j]['f10_crop_storage'])) && $crops_arr[$j]['f10_crop_storage'] == 'Govt Warehouse') { ?> selected <?php } ?>>Govt. Warehouse</option>
+                                                                                                <option value="Pvt Warehouse" <?php if((isset($crops_arr[$j]['f10_crop_storage'])) && $crops_arr[$j]['f10_crop_storage'] == 'Pvt Warehouse') { ?> selected <?php } ?>>Pvt. Warehouse</option>
+                                                                                                <option value="Factory" <?php if((isset($crops_arr[$j]['f10_crop_storage'])) && $crops_arr[$j]['f10_crop_storage'] == 'Factory') { ?> selected <?php } ?>>Factory</option>
+                                                                                                <option value="Mandis Direct" <?php if((isset($crops_arr[$j]['f10_crop_storage'])) && $crops_arr[$j]['f10_crop_storage'] == 'Mandis Direct') { ?> selected <?php } ?>>Mandis Direct</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- Crop Storage [DDL] --> 
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Expected Price This Year In Rs.<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="f10_expectedprice<?php echo $id; ?>" name="f10_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal()" placeholder="Expected Price">
+                                                                                        </div>
+                                                                                    </div>	<!--Expected price this year -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" id="f10_expectedincome<?php echo $id; ?>" name="f10_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal()" placeholder="Total Income Expected">
+                                                                                        </div>
+                                                                                    </div><!--Total Income Expected this year [ Per Acre Per Crop ] -->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Potential Crop Diseases<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_diseases<?php echo $id; ?>" name="f10_diseases<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option point="1" value="Fungal" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Fungal') { ?> selected <?php } ?>> Fungal</option>
+                                                                                                <option point="4" value="Non-fungal" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Non-fungal') { ?> selected <?php } ?>> Non-fungal</option>
+                                                                                                <option point="0" value="Severe" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Severe') { ?> selected <?php } ?>> Severe</option>
+                                                                                                <option point="8" value="Treatable" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Treatable') { ?> selected <?php } ?>> Treatable</option>
+                                                                                                <option point="10" value="No potential of diseases" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'No potential of diseases') { ?> selected <?php } ?>> No potential of diseases</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div><!--Potential crop diseases-->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Potential Pest Control Problems <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_pest<?php echo $id; ?>" name="f10_pest<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option point="1" value="yes" <?php if((isset($crops_arr[$j]['f10_pest'])) && $crops_arr[$j]['f10_pest'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                                <option point="10" value="no" <?php if((isset($crops_arr[$j]['f10_pest'])) && $crops_arr[$j]['f10_pest'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>	<!--Potential pest control problems-->
+                                                                                
+                                                                                	<div class="control-group">
+                                                                                        <label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f10_filt_type<?php echo $id; ?>" name="f10_filt_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                                <option value="" disabled selected>Select here</option>
+                                                                                                <option point="10" value="Organic Fertilizers" <?php if((isset($crops_arr[$j]['f10_filt_type'])) && $crops_arr[$j]['f10_filt_type'] == 'Organic Fertilizers') { ?> selected <?php } ?>>Organic Fertilizers</option>
+                                                                                                <option point="5" value="Inorganic Fertilizers" <?php if((isset($crops_arr[$j]['f10_filt_type'])) && $crops_arr[$j]['f10_filt_type'] == 'Inorganic Fertilizers') { ?> selected <?php } ?>>Inorganic Fertilizers</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>  <!-- What kind of Fertilizer and pesticides being used [DDL] -->
+                                                                                
+                                                                                </div>
+                                                                            </div>
+																			<?php
+																		}
+																		?>
+                                                                    </div>
+                                                                    
+                                                                    <div style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                        <a class="btn btn-sm btn-warning addCrop">Add New</a>
+                                                                        <a class="btn btn-sm btn-danger pull-right removeCrop" data-toggle="modal" data-target="#confirm_box_crop" data-backdrop="static">Remove</a>
+                                                                    </div>
+                        
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                
+                                                            </form>
+                                                            <h1 id="crop_cultivation_g_total">0</h1>           
+                                                        </div>	<!-- Crop And Cultivation Details -->
+                                                        <div class="tab-pane" id="div_prev_crop_cycle">
+                                                           	Previous Crop Cycle Details
+                                                           	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_prev_crop_cycle" name="frm_prev_crop_cycle">
+                                                           		
+                                                           		<input type="hidden" name="add_yield_detail" value="1">
+                                                                <input type="hidden" value="<?php echo $fm_id ?>" name="fm_id">
+                                                                <input type="hidden" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" name="f11_points" id="f11_points" value="">
+                                                                <input type="hidden" name="no_of_yield" id="no_of_yield" value="1">	
+                                                           		
+                                                                <div class="form-content">
+                                                                	
+                                                                    <div id="prev_crop">
+                                                                    	<?php
+                                                                        for($k=0;$k<$no_of_prev_crops;$k++)
+																		{
+																			$id =$k+1;
+																			
+																			?>
+																			<div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                                <input type="hidden" name="id[]" id="id" value="<?php echo @$prev_crops_arr[$k]['id']; ?>">    
+                                                                                <h3>Previous Crop <?php echo $id; ?> Details</h3>
                                                                                 
                                                                                 <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span>
-                                                                                    </label>
+                                                                                    <label for="tasktitel" class="control-label">Type of crop cultivating previous year <span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="ddl_cultivating<?php echo $id; ?>" name="ddl_cultivating<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" > <!-- onchange="calTotal();" -->
+                                                                                        <select id="f11_cultivating<?php echo $id; ?>" name="f11_cultivating<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal();">
                                                                                             <option value="" disabled selected> Select here</option>
                                                                                             <?php
-
                                                                                             $crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
                                                                                             while($crop = mysqli_fetch_array($crops))
                                                                                             {
                                                                                                 ?>
-                                                                                                <option value="<?php echo $crop['crop_id']; ?>">
-                                                                                                    <?php echo $crop['crop_name']; ?>
-                                                                                                </option>
+                                                                                                <option point="7" value="<?php echo $crop['crop_id']; ?>" <?php if((isset($crops_arr[$j]['f11_cultivating'])) && $land_arr[$i]['f11_cultivating'] == $crop['crop_id']) { ?> selected <?php } ?>>
+                                                                                                    <?php echo strtoupper($crop['crop_name']); ?>
+                                                                                                </option>	
                                                                                                 <?php
                                                                                             }
-
                                                                                         ?>
                                                                                         </select>
                                                                                     </div>
-                                                                                </div>  <!-- Type of crop cultivating this year [DDL] -->
+                                                                                </div>  <!-- Type of crop cultivating previous year [DDL] -->
                                                                                 
                                                                                 <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span>
-                                                                                    </label>
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">Yield Achieved Last Year In tonnes <span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="ddl_stage<?php echo $id; ?>" name="ddl_stage<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" > <!--onchange="calTotal()"-->
+                                                                                        <input type="text" id="f11_achieved<?php echo $id; ?>" name="f11_achieved<?php echo $id; ?>" class="input-xlarge"  onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" onchange="calTotal()" placeholder="Yield Achieved">
+                                                                                    </div>
+                                                                                </div>	<!--Yield Achieved Last Year  -->
+                                                    
+                                                    							<div class="control-group">
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">Income Achieved Last Year in Rs. <span style="color:#F00">*</span></label>
+                                                                                    <div class="controls">
+                                                                                        <input type="text" id="f11_income<?php echo $id; ?>" name="f11_income<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" onchange="calTotal()" placeholder="Income Achieved">
+                                                                                    </div>
+                                                                                </div>	<!--Income Achieved Last Year  -->
+                                                                                
+                                                                                <div class="control-group">
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">Any Pest or Diseases That The Yield Was Prone To? <span style="color:#F00">*</span></label>
+                                                                                    <div class="controls">
+                                                                                        <select id="f11_diseases<?php echo $id; ?>" name="f11_diseases<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onchange="calTotal()">
                                                                                             <option value="" disabled selected> Select here</option>
-                                                                                            <option point="3" value="Land Preparation">Land Preparation</option>
-                                                                                            <option point="4" value="Seed Selection">Seed Selection</option>
-                                                                                            <option point="5" value="Seed Sowing">Seed Sowing</option>
-                                                                                            <option point="6" value="Irrigation">Irrigation</option>
-                                                                                            <option point="7" value="Crop Growth">Crop Growth</option>
-                                                                                            <option point="8" value="Fertilizing">Fertilizing</option>
-                                                                                            <option point="9" value="Harvesting">Harvesting</option>
+                                                                                            <option point="0" value="yes" <?php if((isset($crops_arr[$j]['f11_diseases'])) && $land_arr[$i]['f11_diseases'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                            <option point="10" value="no" <?php if((isset($crops_arr[$j]['f11_diseases'])) && $land_arr[$i]['f11_diseases'] == 'no') { ?> selected <?php } ?>> No</option>
                                                                                         </select>
                                                                                     </div>
-                                                                                </div>  <!-- Current stage of crop [DDL] -->
+                                                                                </div>	<!--Any pest or diseases that the yield was prone to?-->
                                                                                 
                                                                                 <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span>
-                                                                                    </label>
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">What Kind Of Fertilizers Did You Use <span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <input type="text" id="txt_expected_yield<?php echo $id; ?>" name="txt_expected_yield<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal()" placeholder="Total Yield Expected">
-                                                                                    </div>
-                                                                                </div>  <!-- Total Yield Expected [In tonnes Per Acre] -->
-                                                                                
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Potential market <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <select id="ddl_potential_market<?php echo $id; ?>" name="ddl_potential_market<?php echo $id; ?>" class="select2-me input-xlarge" >
-                                                                                            <option value="" disabled selected>Select here</option>
-                                                                                            <option value="local_mandis">Local Mandis and Location</option>
-                                                                                            <option value="FPO">FPO</option>
-                                                                                            <option value="Private_Buyer">Private Buyer (Companies)</option>
-                                                                                            <option value="Government">Government</option>
-                                                                                            <option value="Other">Other</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>  <!-- Potential market [DDL] -->
-
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Crop Storage <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <select id="ddl_crop_storage<?php echo $id; ?>" name="ddl_crop_storage<?php echo $id; ?>" class="select2-me input-xlarge" >
-                                                                                            <option value="" disabled selected>Select here</option>
-                                                                                            <option value="Govt_warehouse">Govt. Warehouse</option>
-                                                                                            <option value="Pvt_warehouse">Pvt. Warehouse</option>
-                                                                                            <option value="Factory">Factory</option>
-                                                                                            <option value="Mandis_direct">Mandis Direct</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>  <!-- Crop Storage [DDL] -->             
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Expected Price This Year In Rs. <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <input type="text" id="txt_expectedprice<?php echo $id; ?>" name="txt_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" placeholder="Expected Price"> <!-- onchange="calTotal()" -->
-                                                                                    </div>
-                                                                                </div>  <!-- Expected Price This Year  -->
-                                                                                
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Total Income Expected This Year [ Per Acre Per Crop ] <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <input type="text" id="txt_expectedincome<?php echo $id; ?>" name="txt_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true" data-rule-number="true" maxlength="10"  placeholder="Total Income Expected">   <!-- onchange="calTotal()" -->
-                                                                                    </div>
-                                                                                </div>  <!-- Total income expected this year -->
-                                                                                
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Potential Crop Diseases <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <select id="ddl_diseases<?php echo $id; ?>" name="ddl_diseases<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" > <!-- onchange="calTotal()" -->
+                                                                                        <select id="f11_fertilizers<?php echo $id; ?>" name="f11_fertilizers<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onchange="calTotal()">
                                                                                             <option value="" disabled selected> Select here</option>
-                                                                                            <option point="1" value="Fungal"> Fungal</option>
-                                                                                            <option point="4" value="Non-fungal"> Non-fungal</option>
-                                                                                            <option point="0" value="Severe"> Severe</option>
-                                                                                            <option point="8" value="Treatable"> Treatable</option>
-                                                                                            <option point="10" value="No potential of diseases"> No potential of diseases</option>
+                                                                                            <option point="5" value="inorganic" <?php if((isset($crops_arr[$j]['f11_fertilizers'])) && $land_arr[$i]['f11_fertilizers'] == 'inorganic') { ?> selected <?php } ?>> Inorganic</option>
+                                                                                            <option point="10" value="organic" <?php if((isset($crops_arr[$j]['f11_fertilizers'])) && $land_arr[$i]['f11_fertilizers'] == 'organic') { ?> selected <?php } ?>> Organic</option>
                                                                                         </select>
                                                                                     </div>
-                                                                                </div>  <!-- Potential crop diseases [DDL] -->
+                                                                                </div>	<!--What kind of Fertilizers did you use -->
+                                                    							
+                                                                                <div class="control-group">
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">How much was the total consumption of Fertilizer in KGs <span style="color:#F00">*</span></label>
+                                                                                    <div class="controls">
+                                                                                        <input type="text" id="f11_consumption_fertilizer<?php echo $id; ?>" name="f11_consumption_fertilizer<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" onchange="calTotal()" placeholder="How much was the total consumption of Fertilizer in KGs">
+                                                                                    </div>
+                                                                                </div>	<!-- How much was the total consumption of Fertilizer in KGs -->
                                                                                 
                                                                                 <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">Potential Pest Control Problems <span style="color:#F00">*</span>
-                                                                                    </label>
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">Was your crop damaged / destroyed last year <span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="ddl_pest_problems<?php echo $id; ?>" name="ddl_pest_problems<?php echo $id; ?>" class="select2-me input-xlarge" >
-                                                                                            <option value="" disabled selected>Select here</option>
-                                                                                            <option value="yes">Yes</option>
-                                                                                            <option value="no">No</option>
+                                                                                        <select id="f11_damaged_prev_crop<?php echo $id; ?>" name="f11_damaged_prev_crop<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                            <option value="" disabled selected> Select here</option>
+                                                                                            <option point="0" value="yes" <?php if((isset($crops_arr[$j]['f11_damaged_prev_crop'])) && $land_arr[$i]['f11_damaged_prev_crop'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                            <option point="10" value="no" <?php if((isset($crops_arr[$j]['f11_damaged_prev_crop'])) && $land_arr[$i]['f11_damaged_prev_crop'] == 'no') { ?> selected <?php } ?>> No</option>
                                                                                         </select>
                                                                                     </div>
-                                                                                </div>  <!-- Potential Pest problems [DDL] -->
+                                                                                </div>	<!--Any pest or diseases that the yield was prone to?-->
                                                                                 
-                                                                                <div class="control-group">
-                                                                                    <label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span>
-                                                                                    </label>
-                                                                                    <div class="controls">
-                                                                                        <select id="ddl_filt_type<?php echo $id; ?>" name="ddl_filt_type<?php echo $id; ?>" class="select2-me input-xlarge">
-                                                                                            <option value="" disabled selected>Select here</option>
-                                                                                            <option value="Organic Fertilizers">Organic Fertilizers</option>
-                                                                                            <option value="Inorganic Fertilizers">Inorganic Fertilizers</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>  <!-- What kind of Fertilizer and pesticides being used [DDL] -->
-                                                                            </div>
-                                                                            <?php
-                                                                        }
-                                                                        ?>
+                                                                                <div id="div_damaged_prev_crop_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                                
+                                                                                	<div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">What was the reason?<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <select id="f11_what_was_the_reason<?php echo $id; ?>" name="f11_what_was_the_reason<?php echo $id; ?>" class="input-xlarge" data-rule-required="true" onchange="calTotal()">
+                                                                                                <option value="" disabled selected> Select here</option>
+                                                                                                <option value="Flood" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Flood') { ?> selected <?php } ?>> Flood</option>
+                                                                                                <option value="Drought" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Drought') { ?> selected <?php } ?>> Drought</option>
+                                                                                                <option value="Fire" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Fire') { ?> selected <?php } ?>> Fire</option>
+                                                                                                <option value="Stolen" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Stolen') { ?> selected <?php } ?>> Stolen</option>
+                                                                                                <option value="Irrigation Issues" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Irrigation Issues') { ?> selected <?php } ?>> Irrigation Issues</option>
+                                                                                                <option value="Lack of Component" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Lack of Component') { ?> selected <?php } ?>> Lack of Component</option>
+                                                                                                <option value="Others" <?php if((isset($crops_arr[$j]['f11_what_was_the_reason'])) && $land_arr[$i]['f11_what_was_the_reason'] == 'Others') { ?> selected <?php } ?>> Others</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>	<!-- What was the reason -->
+                                                                                
+                                                                                </div>
+                                                                                
+                                                                           	</div>
+																			<?php
+																		}
+																		?>
                                                                     </div>
-                                                                   
-                                                                    <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
-                                                                        <input type="button" class="btn btn-warning " value="Add New Crop" onClick="addMoreCrop(0);" id="addCrop"/>
-                                                                        <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box_crop" data-backdrop="static" id="removeCropType"/>
-                                                                    </div>  <!-- Add More -->
-
+                                                                    
+                                                                    <div style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                        <a class="btn btn-sm btn-warning addPrevCrop">Add New</a>
+                                                                        <a class="btn btn-sm btn-danger pull-right removePrevCrop" data-toggle="modal" data-target="#confirm_box_prev_crop" data-backdrop="static" >Remove</a>
+                                                                    </div>
+                        
                                                                     <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
                                                                         <input type="submit" class="btn btn-primary" value="Save" id="save">
-                                                                        <input type="reset" class="btn" value="Reset" id="Reset">
-                                                                    </div>  <!-- Rest or Submit -->
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 
-                                                            </form>            
-                                                        </div>	<!-- Crop And Cultivation Details -->
-                                                        <div class="tab-pane" id="div_prev_crop_cycle">
-                                                           Previous Crop Cycle Details
-                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_prev_crop_cycle" name="frm_prev_crop_cycle">
-                                                                
-                                                            </form>
+                                                        	</form>
+                                                            <h1 id="prev_crop_cycle_g_total">0</h1>
                                                         </div>	<!-- Previous Crop Cycle Details -->
                                                         <div class="tab-pane" id="div_cur_crop_cycle">
                                                            Current Crop Cycle Details
@@ -1892,26 +2059,19 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-        <div class="modal fade" id="confirm_box_crop" tabindex="-1" role="dialog">
+		<div class="modal fade" id="confirm_box_crop" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title">Remove Confirmation</h4>
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Remove Confirmation</h4>
                     </div>
                     <div class="modal-body">
-                        <p >Are you sure want to remove crop?</p>
+                    	<p >Are you sure want to remove crop?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="addMoreCrop(1);" data-dismiss="modal">
-                            Yes
-                        </button>
-                        &nbsp;
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            No
-                        </button>
+                        <button type="button" class="btn btn-primary removeCrop_btn"  data-dismiss="modal">Yes</button>&nbsp;
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -1926,8 +2086,11 @@
 			var farm_land_details_g_total	= 0;
 			var asset_details_g_total		= 0;
 			var live_stock_g_total			= 0;
+			var crop_cultivation_g_total	= 0;
+			var prev_crop_cycle_g_total		= 0;
 			
 			var contentCountLand 			= <?php echo $no_of_land; ?>;
+			var contentCountCrop 			= <?php echo $no_of_crops; ?>;
 			
 			$(document).ready(function()
 			{
@@ -2282,6 +2445,14 @@
 					calTotal();
 				});
 				
+				$('.addCrop').click(function(){
+					appendContent();
+				});
+	
+				$('.removeCrop_btn').click(function(){
+					removeContent();
+				});
+				
 			});
 			
 			function convertIncomeToPoint(x)
@@ -2543,6 +2714,82 @@
 				else
 				{
 					return 0;
+				}
+			}
+			
+			function convertTonnesToPoint(x)
+			{
+				if(x >= 0 && x <= 20)
+				{
+				  return 5;
+				}
+				else if(x >= 21 && x <= 40)
+				{
+				  return 6;
+				}
+				else if(x >= 41 && x <= 60)
+				{
+				  return 7;
+				}
+				else if(x >= 61 && x <= 80)
+				{
+				  return 8;
+				}
+				else if(x >= 81 && x <= 100)
+				{
+				  return 9;
+				}
+				else
+				{
+				  return 0;
+				}
+			}
+			
+			function convertPriceToPoint(x)
+			{
+				if(x >= 10000 && x <= 20000)
+				{
+				  return 4;
+				}
+				else if(x >= 20001 && x <= 30000)
+				{
+				  return 6;
+				}
+				else if(x >= 30001 && x <= 40000)
+				{
+				  return 10;
+				}
+				else
+				{
+				  return 0;
+				}
+			}
+			
+			function convertIncomeToPoint(x)
+			{
+				if(x >= 5000 && x <= 25000)
+				{
+				  return 3;
+				}
+				else if(x >= 25001 && x <= 50000)
+				{
+				  return 4;
+				}
+				else if(x >= 50001 && x <= 75000)
+				{
+				  return 5;
+				}
+				else if(x >= 75001 && x <= 100000)
+				{
+				  return 8;
+				}
+				else if(x >= 100001 && x <= 500000)
+				{
+				  return 10;
+				}
+				else
+				{
+				  return 0;
 				}
 			}
 			
@@ -2813,7 +3060,52 @@
 				f13_pt     = f13_pt.toFixed(2);
 				$('#f13_points').val(f13_pt);
 				$('#f13_pt').html(f13_pt);
-				// END : f3
+				// END : f13
+				
+				
+				// START : f10
+				cultivating = 0;
+				stage       = 0;
+				diseases	= 0;
+				pest		= 0;
+				tonnes		= 0;
+				price       = 0;
+				income      = 0;
+				
+				for(var i=1; i<=contentCountCrop; i++)
+				{
+					pnts = 0;
+					cultivating += parseInt($('option:selected','#f10_cultivating'+i).attr('point')) || 0;
+					stage       += parseInt($('option:selected','#f10_stage'+i).attr('point')) || 0;
+					diseases    += parseInt($('option:selected','#f10_diseases'+i).attr('point')) || 0;
+					pest        += parseInt($('option:selected','#f10_pest'+i).attr('point')) || 0;
+					tonnes_pt  	= $('#f10_expected'+i).val() ? (parseInt($('#f10_expected'+i).val()) || 0) : undefined;
+					price_pt    = parseInt($('#f10_expectedprice'+i).val()) || 0;
+					income_pt   = parseInt($('#f10_expectedincome'+i).val()) || 0;
+	
+					tonnes	+= convertTonnesToPoint(tonnes_pt);
+					price 	+= convertPriceToPoint(price_pt);
+					income 	+= convertIncomeToPoint(income_pt);
+				}
+				
+				crop_cultivation_g_total = cultivating + stage + diseases + pest + tonnes + price + income;
+				document.getElementById('crop_cultivation_g_total').innerHTML=crop_cultivation_g_total;
+				crop_cultivation_g_total =(crop_cultivation_g_total/(contentCountCrop*7));
+				
+				f10_pt     =crop_cultivation_g_total.toFixed(2);
+				$('#f10_points').val(f10_pt);
+				$('#f10_pt').html(f10_pt);
+				$('#no_of_crops').val(contentCountCrop);
+	
+				if(contentCountCrop==1)
+				{
+				   $('.removeCrop').hide('swing');
+				}
+				else
+				{
+					$('.removeCrop').show('swing');
+				}
+				// END : f10
 			}
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
@@ -3148,6 +3440,47 @@
 						});
 				}
 			});
+			
+			$('#frm_crop_cultivation').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_crop_cultivation').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm10.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="acrefinfrm_11.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});	
 			
 			$('#f2_participation').on('change', function(){
 				if($(this).val() == 'yes'){
@@ -3518,7 +3851,7 @@
 									landData	+= '<option value="Ditch" point="3">Ditch</option>';
 									landData	+= '<option value="Surge" point="3">Surge</option>';
 									landData	+= '<option value="Seepage" point="3">Seepage</option>';
-								landData	+= '				 </select>';
+								landData	+= '</select>';
 							landData	+= '</div>';
 						landData	+= '</div>  ';
 										
@@ -3544,6 +3877,171 @@
 					$('#removeLandType').show('swing');
 				}
 			}
+			
+			function removeContent()
+			{
+				if(contentCountCrop > 1){
+					
+					$('#formContent').find('#crop'+contentCountCrop).slideUp("slow", function(){
+						$(this).remove();
+						contentCountCrop--;
+						calTotal();
+					});
+				}
+			}
+			
+			function appendContent()
+			{
+				contentCountCrop++;
+				
+				var cropData	= '';
+				
+				cropData	+= '<div id="crop'+contentCountCrop+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;display:none;">';
+					cropData	+= '<div id="crop_detail" style=" padding: 10px; margin: 5px;">';
+						cropData	+= '<h2>Crop '+contentCountCrop+' Details</h2>';
+										
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">Current Crop Season <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_crop_season'+contentCountCrop+'" name="f10_crop_season'+contentCountCrop+'" class="select2-me input-xlarge" >';
+									cropData	+= '<option value="" disabled selected>Select here</option>';
+									cropData	+= '<option value="Kharif">Kharif</option>';
+									cropData	+= '<option value="Rabi" >Rabi</option>';
+									cropData	+= '<option value="Summer">Summer</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>  ';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_cultivating'+contentCountCrop+'" name="f10_cultivating'+contentCountCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal();">';
+									cropData	+= '<option value="" disabled selected> Select here</option>';
+													<?php
+													$crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
+													while($crop = mysqli_fetch_array($crops))
+													{
+														?>
+										cropData	+= '<option point="7" value="<?php echo $crop['crop_id']; ?>" <?php if((isset($crops_arr[$j]['f10_cultivating'])) && $land_arr[$i]['f10_cultivating'] == $crop['crop_id']) { ?> selected <?php } ?>>';
+											cropData	+= '<?php echo strtoupper(trim($crop['crop_name'])); ?>';
+										cropData	+= '</option>';
+														<?php
+													}
+												?>
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>  ';
+									
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_stage'+contentCountCrop+'" name="f10_stage'+contentCountCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">';
+									cropData	+= '<option value="" disabled selected> Select here</option>';
+									cropData	+= '<option point="5" value="Land Tilling" >Land Tilling</option>';
+									cropData	+= '<option point="7" value="Sowing" >Sowing</option>';
+									cropData	+= '<option point="6" value="Manure Adding OR Fertilizer" >Manure Adding / Fertilizer</option>';
+									cropData	+= '<option point="7" value="Irrigation" >Irrigation</option>';
+									cropData	+= '<option point="7" value="Weeding" >Weeding</option>';
+									cropData	+= '<option point="8" value="Growing">Growing</option>';
+									cropData	+= '<option point="7" value="Harvesting" >Harvesting</option>';
+									cropData	+= '<option point="5" value="Threshing" >Threshing</option>';
+									cropData	+= '<option point="2" value="Storing" >Storing</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<input type="text" id="f10_expected'+contentCountCrop+'" name="f10_expected'+contentCountCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal()" placeholder="Total Yield Expected">';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+									
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">Potential market <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_potential_market'+contentCountCrop+'" name="f10_potential_market'+contentCountCrop+'" class="select2-me input-xlarge" >';
+									cropData	+= '<option value="" disabled selected>Select here</option>';
+									cropData	+= '<option value="Local Mandis and Location" >Local Mandis and Location</option>';
+									cropData	+= '<option value="FPO">FPO</option>';
+									cropData	+= '<option value="Private Buyer" >Private Buyer (Companies)</option>';
+									cropData	+= '<option value="Government" >Government</option>';
+									cropData	+= '<option value="Other" >Other</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">Crop Storage <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_crop_storage'+contentCountCrop+'" name="f10_crop_storage'+contentCountCrop+'" class="select2-me input-xlarge" >';
+									cropData	+= '<option value="" disabled selected>Select here</option>';
+									cropData	+= '<option value="Govt Warehouse" >Govt. Warehouse</option>';
+									cropData	+= '<option value="Pvt Warehouse" >Pvt. Warehouse</option>';
+									cropData	+= '<option value="Factory" >Factory</option>';
+									cropData	+= '<option value="Mandis Direct" >Mandis Direct</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Expected Price This Year In Rs.<span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<input type="text" id="f10_expectedprice'+contentCountCrop+'" name="f10_expectedprice'+contentCountCrop+'" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal()" placeholder="Expected Price">';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<input type="text" id="f10_expectedincome'+contentCountCrop+'" name="f10_expectedincome'+contentCountCrop+'" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal()" placeholder="Total Income Expected">';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Potential Crop Diseases<span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_diseases'+contentCountCrop+'" name="f10_diseases'+contentCountCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">';
+									cropData	+= '<option value="" disabled selected> Select here</option>';
+									cropData	+= '<option point="1" value="Fungal" > Fungal</option>';
+									cropData	+= '<option point="4" value="Non-fungal" > Non-fungal</option>';
+									cropData	+= '<option point="0" value="Severe" > Severe</option>';
+									cropData	+= '<option point="8" value="Treatable" > Treatable</option>';
+									cropData	+= '<option point="10" value="No potential of diseases"> No potential of diseases</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+										
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Potential Pest Control Problems <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_pest'+contentCountCrop+'" name="f10_pest'+contentCountCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">';
+									cropData	+= '<option value="" disabled selected> Select here</option>';
+									cropData	+= '<option point="1" value="yes" > Yes</option>';
+									cropData	+= '<option point="10" value="no"> No</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+									
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<select id="f10_filt_type'+contentCountCrop+'" name="f10_filt_type'+contentCountCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">';
+									cropData	+= '<option value="" disabled selected>Select here</option>';
+									cropData	+= '<option point="10" value="Organic Fertilizers" >Organic Fertilizers</option>';
+									cropData	+= '<option point="5" value="Inorganic Fertilizers" >Inorganic Fertilizers</option>';
+								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+									
+					cropData	+= '</div>';
+				cropData	+= '</div>';
+				
+				$('#formContent').append(cropData).find('#crop'+contentCountCrop).slideDown("slow");
+				calTotal();
+			}
+			
         </script>
     </body>
 </html>

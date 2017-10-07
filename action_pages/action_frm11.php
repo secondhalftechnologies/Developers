@@ -1,6 +1,8 @@
 <?php 
 
-include('../connection.php');
+include('../include/connection.php');
+//include('../include/query-helper.php');
+include('../include/validate-helper.php');
 
 $table ='tbl_yield_details';
 if(isset($_POST['add_yield_detail']) && $_POST['add_yield_detail']==1)
@@ -18,20 +20,32 @@ if(isset($_POST['add_yield_detail']) && $_POST['add_yield_detail']==1)
 	if($data['fm_id']!="" &&  $data['fm_caid'] !="")
 	{
 		
-		$check_exist = check_exist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
+		$checkExist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
 		
-		if(!$check_exist)
+		if(!$checkExist)
 		{
 			$data['f11_created_by']       = mysqli_real_escape_string($db_con,$_POST['fm_caid']);
 	        $data['f11_created_date']     = $datetime;
 		
 			for($i=1;$i<=$no_of_yield;$i++)
 			{
-				$data['f11_achieved']      = mysqli_real_escape_string($db_con,$_POST['f11_achieved'.$i]);
-				$data['f11_income']		   = mysqli_real_escape_string($db_con,$_POST['f11_income'.$i]);
-				$data['f11_diseases ']	   = mysqli_real_escape_string($db_con,$_POST['f11_diseases'.$i]);
-				$data['f11_fertilizers']   = mysqli_real_escape_string($db_con,$_POST['f11_fertilizers'.$i]);
-				if($data['f11_achieved'] !="" && $data['f11_income']!="" && $data['f11_diseases ']!="" && $data['f11_fertilizers']!="")
+				$data['f11_achieved']      	= mysqli_real_escape_string($db_con,$_POST['f11_achieved'.$i]);
+				$data['f11_income']		   	= mysqli_real_escape_string($db_con,$_POST['f11_income'.$i]);
+				$data['f11_diseases ']	   	= mysqli_real_escape_string($db_con,$_POST['f11_diseases'.$i]);
+				$data['f11_fertilizers']   	= mysqli_real_escape_string($db_con,$_POST['f11_fertilizers'.$i]);
+				$data['f11_cultivating']	= mysqli_real_escape_string($db_con,$_POST['f11_cultivating'.$i]);
+				$data['f11_consumption_fertilizer']	= mysqli_real_escape_string($db_con,$_POST['f11_consumption_fertilizer'.$i]);
+				$data['f11_damaged_prev_crop']		= mysqli_real_escape_string($db_con,$_POST['f11_damaged_prev_crop'.$i]);
+				if(isset($_POST['f11_what_was_the_reason'.$i]))
+				{
+					$data['f11_what_was_the_reason']	= mysqli_real_escape_string($db_con,$_POST['f11_what_was_the_reason'.$i]);	
+				}
+				else
+				{
+					$data['f11_what_was_the_reason']	= '';	
+				}
+								
+				if($data['f11_achieved'] !="" && $data['f11_income']!="" && $data['f11_diseases']!="" && $data['f11_fertilizers']!="")
 				{
 					$res=insert($table,$data);
 				}
@@ -41,7 +55,7 @@ if(isset($_POST['add_yield_detail']) && $_POST['add_yield_detail']==1)
 				}
 			}
 			
-			$check_pt_exist = check_exist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
+			$check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
 			if(!$check_pt_exist)
 			{
 				$pt_data['fm_id']=$data['fm_id'];
@@ -68,6 +82,18 @@ if(isset($_POST['add_yield_detail']) && $_POST['add_yield_detail']==1)
 				$data['f11_income']		   = mysqli_real_escape_string($db_con,$_POST['f11_income'.$i]);
 				$data['f11_diseases ']	   = mysqli_real_escape_string($db_con,$_POST['f11_diseases'.$i]);
 				$data['f11_fertilizers']   = mysqli_real_escape_string($db_con,$_POST['f11_fertilizers'.$i]);
+				$data['f11_cultivating']	= mysqli_real_escape_string($db_con,$_POST['f11_cultivating'.$i]);
+				$data['f11_consumption_fertilizer']	= mysqli_real_escape_string($db_con,$_POST['f11_consumption_fertilizer'.$i]);
+				$data['f11_damaged_prev_crop']		= mysqli_real_escape_string($db_con,$_POST['f11_damaged_prev_crop'.$i]);
+				if(isset($_POST['f11_what_was_the_reason'.$i]))
+				{
+					$data['f11_what_was_the_reason']	= mysqli_real_escape_string($db_con,$_POST['f11_what_was_the_reason'.$i]);	
+				}
+				else
+				{
+					$data['f11_what_was_the_reason']	= '';	
+				}
+				
 				
 				if(isset($id[($i-1)])&&  $id[($i-1)]!="")
 				{

@@ -34,7 +34,7 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 			for($i=1;$i<=$no_of_crops;$i++)
 			{
 				$data['f10_cultivating']      = mysqli_real_escape_string($db_con,$_POST['f10_cultivating'.$i]);
-				$data['f10_variety']		  = mysqli_real_escape_string($db_con,$_POST['f10_variety'.$i]);
+				//$data['f10_variety']		  = mysqli_real_escape_string($db_con,$_POST['f10_variety'.$i]);
 				$data['f10_stage ']	          = mysqli_real_escape_string($db_con,$_POST['f10_stage'.$i]);
 				$data['f10_expected']         = mysqli_real_escape_string($db_con,$_POST['f10_expected'.$i]);
 				$data['f10_expectedincome']   = mysqli_real_escape_string($db_con,$_POST['f10_expectedincome'.$i]);
@@ -76,7 +76,7 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 			for($i=1;$i<=$no_of_crops;$i++)
 			{
 				$data['f10_cultivating']      = mysqli_real_escape_string($db_con,$_POST['f10_cultivating'.$i]);
-				$data['f10_variety']		  = mysqli_real_escape_string($db_con,$_POST['f10_variety'.$i]);
+				//$data['f10_variety']		  = mysqli_real_escape_string($db_con,$_POST['f10_variety'.$i]);
 				$data['f10_stage ']	          = mysqli_real_escape_string($db_con,$_POST['f10_stage'.$i]);
 				$data['f10_expected']         = mysqli_real_escape_string($db_con,$_POST['f10_expected'.$i]);
 				$data['f10_expectedincome']   = mysqli_real_escape_string($db_con,$_POST['f10_expectedincome'.$i]);

@@ -389,9 +389,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 											   $id =$i+1;
 											   
 											 ?>
-                                            
-											
-												<div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                            	<div id="crop<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
 								                  	<input type="hidden" name="id[]" id="id" value="<?php echo @$crops_arr[$i]['id']; ?>">    
                                                 <h3>Crop <?php echo $id; ?></h3>
 													

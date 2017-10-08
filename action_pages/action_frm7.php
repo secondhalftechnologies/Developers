@@ -94,7 +94,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 
 		
 $check_exist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
-quit($check_exist);
+
 if(!$check_exist)
 {
 	$data['f7_created_by']= mysqli_real_escape_string($db_con,$_POST['fm_caid']);

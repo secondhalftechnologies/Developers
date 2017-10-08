@@ -120,7 +120,7 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 
 if(isset($obj->get_variety) && $obj->get_variety==1)
 {
-	
+	include('../include/query-helper.php');
 	$crop_id = mysqli_real_escape_string($db_con,$obj->crop_id);
 	$data    ='<option value="">Select Variety</option>';
 	$data1   ='';

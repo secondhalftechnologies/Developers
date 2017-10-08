@@ -13,22 +13,27 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 	  $num    = mysqli_num_rows($result);
 	  if($num !=0)
 	  {
-		  $row     = mysqli_fetch_array($result);
-		  $data['fx_monthly_income']              = $row['fx_monthly_income'];
-		  $data['f8_loan_taken']		          = $row['f8_loan_taken'];
-		  $data['f8_private_lenders'] 	          = $row['f8_private_lenders'];
-		  $data['f8_borrowed_amount']	          = $row['f8_borrowed_amount'];
-		  $data['f8_borrowed_amount_date']        = $row['f8_borrowed_amount_date'];
-		  $data['f8_borrowed_outstanding_amount'] = $row['f8_borrowed_outstanding_amount'];
-		  $data['f8_borrowed_outstanding_principal']= $row['f8_borrowed_outstanding_principal'];
-		  $data['f8_borrowed_amount_emi'] 		  = $row['f8_borrowed_amount_emi'];
-		  $data['f8_borrowed_amount_emi_rem']	  = $row['f8_borrowed_amount_emi_rem'];
-		  $data['f8_borrowed_loan_per']		      = $row['f8_borrowed_loan_per'];
-		  
-		  $data['f8_borrowed_loan_month'] 		  = $row['f8_borrowed_loan_month'];
-		  $data['f8_borrowed_emi_paid'] 		  = $row['f8_borrowed_emi_paid'];
-		  $data['f8_borrowed_total_amount']		  = $row['f8_borrowed_total_amount'];
-		  $data['f8_borrowed_total_int']		  = $row['f8_borrowed_total_int'];
+		  	$row     = mysqli_fetch_array($result);
+		  	$data['fx_monthly_income']        		= $row['fx_monthly_income'];
+		  	$data['f8_loan_taken']		          	= $row['f8_loan_taken'];
+		  	$data['f8_borrowed_amount']	          	= $row['f8_borrowed_amount'];	
+		  	$data['f8_borrowed_amount_emi'] 		= $row['f8_borrowed_amount_emi'];
+			
+			
+			
+$data['f8_private_lenders'] 	          = $row['f8_private_lenders'];
+
+$data['f8_borrowed_amount_date']        = $row['f8_borrowed_amount_date'];
+$data['f8_borrowed_outstanding_amount'] = $row['f8_borrowed_outstanding_amount'];
+$data['f8_borrowed_outstanding_principal']= $row['f8_borrowed_outstanding_principal'];
+
+$data['f8_borrowed_amount_emi_rem']	  = $row['f8_borrowed_amount_emi_rem'];
+$data['f8_borrowed_loan_per']		      = $row['f8_borrowed_loan_per'];
+
+$data['f8_borrowed_loan_month'] 		  = $row['f8_borrowed_loan_month'];
+$data['f8_borrowed_emi_paid'] 		  = $row['f8_borrowed_emi_paid'];
+$data['f8_borrowed_total_amount']		  = $row['f8_borrowed_total_amount'];
+$data['f8_borrowed_total_int']		  = $row['f8_borrowed_total_int'];
 		  
 		  $loan_result     = lookup_value('tbl_bank_loan_detail',array(),array("fk_loan_detailsid"=>$row['id']),array(),array(),array());
 		 

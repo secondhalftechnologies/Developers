@@ -194,7 +194,6 @@
 		$no_of_prev_crops = sizeof($prev_crops_arr);
 	}
 	
-	
 	$no_of_cur_crops	= 1;
 	$cur_crops_arr		= array();
 	$res_current_crop_forecast 	= lookup_value('tbl_current_crop_forecast',array(),array("fm_id"=>$fm_id),array(),array(),array());
@@ -266,6 +265,46 @@
 			$data['f13_donkeys']			= '';
 			$data['f13_livestock_count']	= '';
 			$data['f13_livestock_income']	= '';
+		}
+	}
+	
+	$no_of_loan	= "";
+	$loan_arr  	= array();
+	
+	$res_loan_details	= lookup_value('tbl_loan_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_loan_details)
+	{
+		$num    = mysqli_num_rows($res_loan_details);
+		if($num !=0)
+		{
+			$row_loan_details	= mysqli_fetch_array($res_loan_details);
+			$data['fx_monthly_income']        		= $row_loan_details['fx_monthly_income'];
+			$data['f8_loan_taken']		          	= $row_loan_details['f8_loan_taken'];
+			$data['f8_points']						= $row_loan_details['f8_points'];
+			
+			$data['f8_loan_borrowed_from']			= $row_loan_details['f8_loan_borrowed_from'];
+			$data['f8_any_insurance']				= $row_loan_details['f8_any_insurance'];
+			$data['f8_reason_for_insurance']		= $row_loan_details['f8_reason_for_insurance'];
+			$data['f8_insurance_name']				= $row_loan_details['f8_insurance_name'];
+			$data['f8_other_insurance']				= $row_loan_details['f8_other_insurance'];
+			$data['f8_prev_loan_details']			= $row_loan_details['f8_prev_loan_details'];
+			$data['f8_use_of_prev_loan_amount']		= $row_loan_details['f8_use_of_prev_loan_amount'];
+			$data['f8_any_subsidies']				= $row_loan_details['f8_any_subsidies'];
+			$data['f8_subsidy_name']				= $row_loan_details['f8_subsidy_name'];
+			$data['f8_any_loan_waivers']			= $row_loan_details['f8_any_loan_waivers'];
+			$data['f8_waiver_name']					= $row_loan_details['f8_waiver_name'];
+			$data['f8_financial_history_points']	= $row_loan_details['f8_financial_history_points'];
+			
+			$loan_result     = lookup_value('tbl_bank_loan_detail',array(),array("fk_loan_detailsid"=>$row_loan_details['id']),array(),array(),array());
+			
+			if($loan_result)
+			{
+				while($ln_row = mysqli_fetch_array($loan_result))
+				{
+					array_push($loan_arr ,$ln_row);
+				}
+				$no_of_loan = sizeof($loan_arr);
+			}
 		}
 	}
 	
@@ -523,8 +562,8 @@
                                                                                 <div class="controls">
                                                                                     <select id="f3_spouse_shg" name="f3_spouse_shg" class="select2-me input-xlarge" data-rule-required="true">
                                                                                         <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" point="10" <?php if($data['f3_spouse_shg'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" point="0" <?php if($data['f3_spouse_shg'] == 'no'){ ?> selected <?php }  ?>> No</option>
+                                                                                        <option value="yes" point="10" <?php if((isset($data['f3_spouse_shg'])) && $data['f3_spouse_shg'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
+                                                                                        <option value="no" point="0" <?php if((isset($data['f3_spouse_shg'])) && $data['f3_spouse_shg'] == 'no'){ ?> selected <?php }  ?>> No</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>	<!--Is your Spouse a part of any SHG?-->
@@ -541,9 +580,9 @@
                                                                                 <div class="controls">
                                                                                     <select id="f3_spouse_occp" name="f3_spouse_occp" class="select2-me input-xlarge" data-rule-required="true">
                                                                                         <option value="" disabled selected> Select here</option>
-                                                                                        <option value="housewife" point="0" <?php if($data['f3_spouse_occp'] == 'housewife'){ ?> selected <?php }  ?>> Housewife</option>
-                                                                                        <option value="farmer"    point="10" <?php if($data['f3_spouse_occp'] == 'farmer'){ ?> selected <?php }  ?>> Farmer</option>
-                                                                                        <option value="other"     point="5" <?php if($data['f3_spouse_occp'] == 'other'){ ?> selected <?php }  ?>> Other</option>
+                                                                                        <option value="housewife" point="0" <?php if((isset($data['f3_spouse_occp'])) && $data['f3_spouse_occp'] == 'housewife'){ ?> selected <?php }  ?>> Housewife</option>
+                                                                                        <option value="farmer"    point="10" <?php if((isset($data['f3_spouse_occp'])) && $data['f3_spouse_occp'] == 'farmer'){ ?> selected <?php }  ?>> Farmer</option>
+                                                                                        <option value="other"     point="5" <?php if((isset($data['f3_spouse_occp'])) && $data['f3_spouse_occp'] == 'other'){ ?> selected <?php }  ?>> Other</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>	<!-- Spouse's Occupation -->
@@ -560,8 +599,8 @@
                                                                                 <div class="controls">
                                                                                     <select id="f3_spouse_mfi" name="f3_spouse_mfi" class="select2-me input-xlarge" data-rule-required="true">
                                                                                         <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" point="10" <?php if($data['f3_spouse_mfi'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" point="0" <?php if($data['f3_spouse_mfi'] == 'no'){ ?> selected <?php }  ?>> No</option>
+                                                                                        <option value="yes" point="10" <?php if((isset($data['f3_spouse_mfi'])) && $data['f3_spouse_mfi'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
+                                                                                        <option value="no" point="0" <?php if((isset($data['f3_spouse_mfi'])) && $data['f3_spouse_mfi'] == 'no'){ ?> selected <?php }  ?>> No</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>	<!--Any micro finance help taken by spouse?-->
@@ -591,8 +630,8 @@
                                                                                 <div class="controls">
                                                                                     <select id="f3_affliation_status" name="f3_affliation_status" class="select2-me input-xlarge" data-rule-required="true">
                                                                                         <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" point="10" <?php if($data['f3_affliation_status'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" point="0" <?php if($data['f3_affliation_status'] == 'no'){ ?> selected <?php }  ?>> No</option>
+                                                                                        <option value="yes" point="10" <?php if((isset($data['f3_affliation_status'])) && $data['f3_affliation_status'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
+                                                                                        <option value="no" point="0" <?php if((isset($data['f3_affliation_status'])) && $data['f3_affliation_status'] == 'no'){ ?> selected <?php }  ?>> No</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>  <!-- Affliation to any association [DDL] -->
@@ -644,12 +683,12 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Educational Qualification Details <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
                                                                             <select id="f2_edudetail" name="f2_edudetail" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal()">
-                                                                                <option value="" disabled <?php if($data['f2_edudetail'] == ''){ ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="illiterate" point="2" <?php if($data['f2_edudetail'] == 'illiterate'){ ?> selected <?php } ?>>Illiterate</option>
-                                                                                <option value="primary education" point="4" <?php if($data['f2_edudetail'] == 'primary education'){ ?> selected <?php } ?>>Primary Education</option>
-                                                                                <option value="matriculate" point="6" <?php if($data['f2_edudetail'] == 'matriculate'){ ?> selected <?php } ?>>Matriculate</option>
-                                                                                <option value="graduate" point="8" <?php if($data['f2_edudetail'] == 'graduate'){ ?> selected <?php } ?>>Graduate</option>
-                                                                                <option value="post graduate" point="10" <?php if($data['f2_edudetail'] == 'post graduate'){ ?> selected <?php } ?>>Post Graduate</option>
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="illiterate" point="2" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'illiterate'){ ?> selected <?php } ?>>Illiterate</option>
+                                                                                <option value="primary education" point="4" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'primary education'){ ?> selected <?php } ?>>Primary Education</option>
+                                                                                <option value="matriculate" point="6" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'matriculate'){ ?> selected <?php } ?>>Matriculate</option>
+                                                                                <option value="graduate" point="8" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'graduate'){ ?> selected <?php } ?>>Graduate</option>
+                                                                                <option value="post graduate" point="10" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'post graduate'){ ?> selected <?php } ?>>Post Graduate</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Educational Qualification Details [DDL] -->
@@ -658,10 +697,10 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Regional Language Knowledge <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
                                                                             <select id="f2_proficiency" data-rule-required="true" name="f2_proficiency" class="select2-me input-xlarge" onchange="calTotal()">
-                                                                                <option value="" disabled <?php if($data['f2_proficiency'] == ''){ ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="read write" point="10" <?php if($data['f2_proficiency'] == 'read write'){ ?> selected <?php } ?>>Read and Write</option>
-                                                                                <option value="read only" point="5" <?php if($data['f2_proficiency'] == 'read only'){ ?> selected <?php } ?>>Read Only</option>
-                                                                                <option value="understand only" point="0" <?php if($data['f2_proficiency'] == 'understand only'){ ?> selected <?php } ?>>Understand Only</option>
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="read write" point="10" <?php if((isset($data['f2_proficiency'])) && $data['f2_proficiency'] == 'read write'){ ?> selected <?php } ?>>Read and Write</option>
+                                                                                <option value="read only" point="5" <?php if((isset($data['f2_proficiency'])) && $data['f2_proficiency'] == 'read only'){ ?> selected <?php } ?>>Read Only</option>
+                                                                                <option value="understand only" point="0" <?php if((isset($data['f2_proficiency'])) && $data['f2_proficiency'] == 'understand only'){ ?> selected <?php } ?>>Understand Only</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Regional Language Knowledge [DDL] -->
@@ -670,9 +709,9 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Participation in Farming Programs</label>
                                                                         <div class="controls">
                                                                             <select id="f2_participation" data-rule-required="true" name="f2_participation" class="select2-me input-xlarge">
-                                                                                <option value="" disabled <?php if($data['f2_participation'] == ''){ ?> selected <?php } ?>> Select here</option>
-                                                                                <option value="yes" point="10" <?php if($data['f2_participation'] == 'yes'){ ?> selected <?php } ?>> Yes</option>
-                                                                                <option value="no" point="0" <?php if($data['f2_participation'] == 'no'){ ?> selected <?php } ?>> No</option>
+                                                                                <option value="" disabled selected> Select here</option>
+                                                                                <option value="yes" point="10" <?php if((isset($data['f2_participation'])) && $data['f2_participation'] == 'yes'){ ?> selected <?php } ?>> Yes</option>
+                                                                                <option value="no" point="0" <?php if((isset($data['f2_participation'])) && $data['f2_participation'] == 'no'){ ?> selected <?php } ?>> No</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Participation in any Farming Program / Trainings [DDL] -->
@@ -683,13 +722,13 @@
                                                                             <label for="text" class="control-label" style="margin-top:10px">Type of the training Programs<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
                                                                                 <select id="f2_typeprog" name="f2_typeprog" class="select2-me input-xxlarge" data-rule-required="true">
-                                                                                    <option value="" disabled <?php if($data['f2_typeprog'] == ''){ ?> selected <?php } ?>> Select here</option>
-                                                                                    <option value="organic farming training" <?php if($data['f2_typeprog'] == 'organic farming training'){ ?> selected <?php } ?>> Organic Farming Training</option>
-                                                                                    <option value="equipment training" <?php if($data['f2_typeprog'] == 'equipment training'){ ?> selected <?php } ?>> Equipment Training</option>
-                                                                                    <option value="technology training" <?php if($data['f2_typeprog'] == 'technology training'){ ?> selected <?php } ?>> Technology Training</option>
-                                                                                    <option value="pesticide fertilizer training" <?php if($data['f2_typeprog'] == 'pesticide fertilizer training'){ ?> selected <?php } ?>> Pesticide/Fertilizer Training</option>
-                                                                                    <option value="other farming training" <?php if($data['f2_typeprog'] == 'other farming training'){ ?> selected <?php } ?>> Other Farming Training</option>
-                                                                                    <option value="others" <?php if($data['f2_typeprog'] == 'others'){ ?> selected <?php } ?>> Others</option>
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option value="organic farming training" <?php if((isset($data['f2_typeprog'])) && $data['f2_typeprog'] == 'organic farming training'){ ?> selected <?php } ?>> Organic Farming Training</option>
+                                                                                    <option value="equipment training" <?php if((isset($data['f2_typeprog'])) && $data['f2_typeprog'] == 'equipment training'){ ?> selected <?php } ?>> Equipment Training</option>
+                                                                                    <option value="technology training" <?php if((isset($data['f2_typeprog'])) && $data['f2_typeprog'] == 'technology training'){ ?> selected <?php } ?>> Technology Training</option>
+                                                                                    <option value="pesticide fertilizer training" <?php if((isset($data['f2_typeprog'])) && $data['f2_typeprog'] == 'pesticide fertilizer training'){ ?> selected <?php } ?>> Pesticide/Fertilizer Training</option>
+                                                                                    <option value="other farming training" <?php if((isset($data['f2_typeprog'])) && $data['f2_typeprog'] == 'other farming training'){ ?> selected <?php } ?>> Other Farming Training</option>
+                                                                                    <option value="others" <?php if((isset($data['f2_typeprog'])) && $data['f2_typeprog'] == 'others'){ ?> selected <?php } ?>> Others</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>	<!-- Type of Training Programs [If Yes] -->
@@ -2015,7 +2054,7 @@
                                                     </div>	<!-- Main Forms -->
                                                 </div>
                                             </div>
-                                        </div>	<!-- CROP -->
+                                        </div>	<!-- CROP [COMPLETE] -->
                                         <!-- ============ -->
                                         <!-- END :   CROP -->
                                         <!-- ============ -->
@@ -2298,56 +2337,326 @@
                                                     <div class="tas-container">
                                                         <ul class="tabs tabs-inline tabs-left">
                                                             <li class='active'>
-                                                                <a href="#div_home_loan_details" data-toggle='tab'>
-                                                                    <i class="fa fa-lock"></i>Home Loan Details
-                                                               	</a>
-                                                            </li>	<!-- Home Loan Details -->
-                                                            <li>
                                                                 <a href="#div_financial_details" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Financial Details
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm8']) && $pt_row['pt_frm8']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f8_pt" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm8']; ?>
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f8_pt" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                 </a>
                                                             </li>	<!-- Financial Details -->
                                                             <li>
                                                                 <a href="#div_financial_history" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Financial History
+                                                                    <?php 
+																	if(isset($pt_row['pt_frm8_fh']) && $pt_row['pt_frm8_fh']!="") 
+																	{
+																		?>
+																		<span class="badge " id="f8_pt_fh" style="font-size:16px; font-weight:bold">
+																			<?php echo $pt_row['pt_frm8_fh']; ?>
+                                                                        </span>
+                                                                    	<?php
+                                                                    } 
+																	else
+																	{
+																		?>
+																		<span class="badge " id="f8_pt_fh" style="font-size:16px; color:red">Incomplete</span> 
+																		<?php 
+																	} 
+																	?>
                                                                 </a>
                                                             </li>	<!-- Financial History -->
                                                         </ul>
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
-                                                        <div class="tab-pane active" id="div_home_loan_details">
-                                                    		Home Loan Details
-                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_home_loan_details" name="frm_home_loan_details">
-
-                                                                <!-- Any Loans taken against House Construction [DDL] -->
-
-                                                                <!-- Loop Start -->
-                                                                <!-- Total Amount [If Yes] -->
-
-                                                                <!-- Bank Name [If Yes] -->
-
-                                                                <!-- Outstanding Amount [If Yes] -->
-
-                                                                <!-- EMI Amount paid per month [IF Yes] -->
-                                                                <!-- Loop END -->
-
-                                                                <!-- Add More Button -->
-
-                                                                <!-- Submit and Reset Button -->
-
-                                                            </form>
-                                                        </div>	<!-- Home Loan Details -->
-                                                        <div class="tab-pane" id="div_financial_details">
+                                                        <div class="tab-pane active" id="div_financial_details">
                                                            Financial Details
                                                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_financial_details" name="frm_financial_details">
                                                                 
-                                                            </form>
-                                                        </div>	<!-- Financial Details -->
-                                                        <div class="tab-pane" id="div_financial_history">
-                                                           Financial History
-                                                           <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_financial_history" name="frm_financial_history">
+                                                                <input type="hidden" id="add_loan_detail" name="add_loan_detail" value="1">
+                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" id="f8_points" name="f8_points" value="">
+                                                                
+                                                                <div class="form-content">
+                                                                
+                                                                	<div id="loan_detail" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                    	
+                                                                        <h2>Financial Details</h2>
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">How Much is your Avg or Fixed Monthly Income?<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <select   id="fx_monthly_income" name="fx_monthly_income" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                    <option value="" selected disabled>Select Here</option>
+                                                                                    <option value="500-2500" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '500-2500'){ ?> selected <?php } ?>>500-2500</option>
+                                                                                    <option value="2501-5000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '2501-5000'){ ?> selected <?php } ?>>2501-5000</option>
+                                                                                    <option value="5001-10000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '5001-10000'){ ?> selected <?php } ?>>5001-10000</option>
+                                                                                    <option value="10001-25000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '10001-25000'){ ?> selected <?php } ?>>10001-25000</option>
+                                                                                    <option value="25001-50000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '25001-50000'){ ?> selected <?php } ?>>25001-50000</option>
+                                                                                    <option value="50001-100000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '50001-100000'){ ?> selected <?php } ?>>50001-100000</option>
+                                                                                    <option value="100001-200000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '100001-200000'){ ?> selected <?php } ?>>100001-200000</option>
+                                                                                    <option value="200001-300000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '200001-300000'){ ?> selected <?php } ?>>200001-300000</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!--Fixed Monthly Income-->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Any Loan taken?<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <select id="f8_loan_taken" name="f8_loan_taken" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                    <option point="5" value="yes" <?php if((isset($data['f8_loan_taken'])) && $data['f8_loan_taken'] == 'yes'){ ?> selected <?php } ?> > Yes</option>
+                                                                                    <option point="10" value="no" <?php if((isset($data['f8_loan_taken'])) && $data['f8_loan_taken'] == 'no'){ ?> selected <?php } ?>> No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!--Any Loan Taken?-->
+                                                                        
+                                                                        <div id="loan_taken" style="display: none;">
+                                                                        	<input type="hidden" class="btn btn-primary" value="<?php echo $no_of_loan; ?>" name="num_of_loan" id="num_of_loan">
+                                                                            <div id="loans_type">
+                                                                            
+                                                                            	<?php
+																				if($no_of_loan=="")
+																				{
+																					$no_of_loan =1;
+																				}
+																				
+																				for($m=0;$m<$no_of_loan;$m++)
+																				{
+																					$id = $m+1; 
+																				
+																					?>
+																					<div id="loan<?php echo $id; ?>" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                                        <h3>Loan <?php echo $id; ?></h3>
+                                                                                        <input type="hidden" name="id[]" id="id" value="<?php echo @$loan_arr[$m]['id']; ?>">
+                                                                                        
+                                                                                        <div class="control-group">
+                                                                                            <label for="text" class="control-label" style="margin-top:10px">Mention the Loan Type<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <select onchange="calTotal();" id="f8_loan_type<?php echo $id; ?>" name="f8_loan_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Education'){ ?> selected <?php } ?> value="Education" >Education</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Land'){ ?> selected <?php } ?> value="Land">Land</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Agriculture'){ ?> selected <?php } ?> value="Agriculture">Agriculture</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Two Wheeler'){ ?> selected <?php } ?> value="Two Wheeler">Two Wheeler</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Equipment'){ ?> selected <?php } ?> value="Equipment">Equipment</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Irrigation'){ ?> selected <?php } ?> value="Irrigation">Irrigation</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Fencing'){ ?> selected <?php } ?> value="Fencing">Fencing</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Housing'){ ?> selected <?php } ?> value="Housing">Housing</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Construction OR Renovation'){ ?> selected <?php } ?> value="Construction OR Renovation">Construction/Renovation</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Four Wheeler'){ ?> selected <?php } ?> value="Four Wheeler">Four Wheeler</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Electronics'){ ?> selected <?php } ?> value="Electronics">Electronics</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'NA'){ ?> selected <?php } ?> value="NA">NA</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_loan_type'])) && $loan_arr[$m]['f8_loan_type'] == 'Others'){ ?> selected <?php } ?> value="Others">Others</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>	<!-- Mention the Loan Type -->
+                                                                                        
+                                                                                        <div class="control-group">
+                                                                                            <label for="numberfield" class="control-label">Total Loan Amount<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <input type="text" value="<?php if((isset($loan_arr[$m]['f8_loan_amount'])) && $loan_arr[$m]['f8_loan_amount'] != ''){ echo $loan_arr[$m]['f8_loan_amount']; } ?>" class="input-xlarge" placeholder="Loan Amount" name="f8_loan_amount<?php echo $id; ?>" id="f8_loan_amount<?php echo $id; ?>" onKeyPress=" return numsonly(event);"  data-rule-required="true"  maxlength="10">
+                                                                                            </div>
+                                                                                        </div>	<!-- Total Loan Amount -->
+                                                                                        
+                                                                                        <div class="control-group">
+                                                                                            <label for="numberfield" class="control-label">Provider<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <input type="text" class="input-xlarge" placeholder="Loan Provider" name="f8_loan_provider<?php echo $id; ?>" id="f8_loan_provider<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_loan_provider'])) && $loan_arr[$m]['f8_loan_provider'] != ''){ echo $loan_arr[$m]['f8_loan_provider']; } ?>"  data-rule-required="true"   >
+                                                                                                <label id="f8_loan_provider1_err" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
+                                                                                            </div>
+                                                                                        </div>	<!-- Provider -->
+                                                                                        
+                                                                                        <div class="control-group">
+                                                                                            <label for="numberfield" class="control-label">Current Outstanding Loan Amount With Interest<span style="color:#F00">*</span></label>
+                                                                                            <div class="controls">
+                                                                                                <input onchange="calTotal();" data-rule-required="true" type="text" class="input-xlarge" onKeyPress="return numsonly(event);" placeholder="Outstanding Loan Amount With Interest" name="f8_outstanding_loan<?php echo $id; ?>" id="f8_outstanding_loan<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_outstanding_loan'])) && $loan_arr[$m]['f8_outstanding_loan'] != ''){ echo $loan_arr[$m]['f8_outstanding_loan']; } ?>" data-rule-number="true" data-rule-maxlength="10"> <!-- readyonly -->
+                                                                                            </div>
+                                                                                        </div>	<!-- Current Outstanding Loan Amount With Interest -->
+                                                                                        
+                                                                                        <div class="control-group">
+                                                                                            <label for="numberfield" class="control-label">Therefore, No. of Months to clear Outstanding</label>
+                                                                                            <div class="controls">
+                                                                                                <input  type="text" class="input-xlarge" placeholder="No. Of EMI Remaining" name="f8_remaining_emi<?php echo $id; ?>" id="f8_remaining_emi<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_remaining_emi'])) && $loan_arr[$m]['f8_remaining_emi'] != ''){ echo $loan_arr[$m]['f8_remaining_emi']; } ?>" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="10"> <!-- readonly -->
+                                                                                            </div>
+	                                            										</div>	<!-- Therefore, No. of Months to clear Outstanding -->
+                                                                                        
+                                                                                    </div>
+																					<?php
+																				}
+																				?>
+                                                                            
+                                                                            </div>
+                                                                            
+                                                                    		<div style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
+                                                                                <a class="btn btn-sm btn-warning addLoanFrm1">Add New</a>
+                                                                                <a class="btn btn-sm btn-danger pull-right removeLoanFrm1" data-toggle="modal" data-target="#confirm_box_loan_frm1" data-backdrop="static" >Remove</a>
+                                                                            </div>        
+                       
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>	<!-- Submit and Reset Button -->
+                                                                	
+                                                                </div>
                                                                 
                                                             </form>
+                                                            <h1 id="financial_details_g_total">0</h1> 
+                                                        </div>	<!-- Financial Details -->
+                                                        <div class="tab-pane" id="div_financial_history">
+                                                           	Financial History
+                                                           	<form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_financial_history" name="frm_financial_history">
+                                                           		
+                                                                <input type="hidden" id="add_loan_detail" name="add_loan_detail" value="1">
+                                                                <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
+                                                                <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" id="f8_financial_history_points" name="f8_financial_history_points" value="">
+                                                                
+                                                                <div class="form-content">
+                                                                	
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Loan Borrowed from?<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f8_loan_borrowed_from" name="f8_loan_borrowed_from" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" selected disabled>Select Here</option>
+                                                                                <option point="6"  <?php if((isset($data['f8_loan_borrowed_from'])) && $data['f8_loan_borrowed_from'] == 'Pvt Banks'){ ?> selected <?php } ?> value="Pvt Banks">Pvt Banks</option>
+                                                                                <option point="8"  <?php if((isset($data['f8_loan_borrowed_from'])) && $data['f8_loan_borrowed_from'] == 'MFI'){ ?> selected <?php } ?> value="MFI">MFI</option>
+                                                                                <option point="4"  <?php if((isset($data['f8_loan_borrowed_from'])) && $data['f8_loan_borrowed_from'] == 'Co-operative Societies'){ ?> selected <?php } ?> value="Co-operative Societies">Co-operative Societies</option>
+                                                                                <option point="10" <?php if((isset($data['f8_loan_borrowed_from'])) && $data['f8_loan_borrowed_from'] == 'NABARD'){ ?> selected <?php } ?> value="NABARD">NABARD</option>
+                                                                                <option point="8"  <?php if((isset($data['f8_loan_borrowed_from'])) && $data['f8_loan_borrowed_from'] == 'NBFC'){ ?> selected <?php } ?> value="NBFC">NBFC</option>
+                                                                                <option point="0"  <?php if((isset($data['f8_loan_borrowed_from'])) && $data['f8_loan_borrowed_from'] == 'Private'){ ?> selected <?php } ?> value="Private">Private</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Loan Borrowed from -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Did you claim any Insurance previously?<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f8_any_insurance" name="f8_any_insurance" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" selected disabled>Select Here</option>
+                                                                                <option point="5"  <?php if((isset($data['f8_any_insurance'])) && $data['f8_any_insurance'] == 'yes'){ ?> selected <?php } ?> value="yes">Yes</option>
+                                                                                <option point="10" <?php if((isset($data['f8_any_insurance'])) && $data['f8_any_insurance'] == 'no'){ ?> selected <?php } ?> value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Did you claim any Insurance previously -->
+                                                                    
+																	<div id="div_any_insurance_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Reason for claimimg the Insurance<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <select id="f8_reason_for_insurance" name="f8_reason_for_insurance" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                    <option value="" selected disabled>Select Here</option>
+                                                                                    <option <?php if((isset($data['f8_reason_for_insurance'])) && $data['f8_reason_for_insurance'] == 'Flood'){ ?> selected <?php } ?> value="Flood">Flood</option>
+                                                                                    <option <?php if((isset($data['f8_reason_for_insurance'])) && $data['f8_reason_for_insurance'] == 'Drought'){ ?> selected <?php } ?> value="Drought">Drought</option>
+                                                                                    <option <?php if((isset($data['f8_reason_for_insurance'])) && $data['f8_reason_for_insurance'] == 'Fire'){ ?> selected <?php } ?> value="Fire">Fire</option>
+                                                                                    <option <?php if((isset($data['f8_reason_for_insurance'])) && $data['f8_reason_for_insurance'] == 'Theft'){ ?> selected <?php } ?> value="Theft">Theft</option>
+                                                                                    <option <?php if((isset($data['f8_reason_for_insurance'])) && $data['f8_reason_for_insurance'] == 'Other'){ ?> selected <?php } ?> value="Other">Other</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!-- Reason for claimimg the Insurance -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="numberfield" class="control-label">What was the name of the Insurance?</label>
+                                                                            <div class="controls">
+                                                                                <input  type="text" class="input-xlarge" placeholder="What was the name of the Insurance?" name="f8_insurance_name" id="f8_insurance_name" value="<?php if((isset($data['f8_insurance_name'])) && $data['f8_insurance_name'] != ''){ echo $data['f8_insurance_name']; } ?>" data-rule-required="true" > <!-- readonly -->
+                                                                            </div>
+                                                                        </div>	<!-- What was the name of the Insurance? -->
+                                                                        
+                                                                        <div class="control-group">
+                                                                            <label for="text" class="control-label" style="margin-top:10px">What other insurance do you have?<span style="color:#F00">*</span></label>
+                                                                            <div class="controls">
+                                                                                <select id="f8_other_insurance" name="f8_other_insurance" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                    <option value="" selected disabled>Select Here</option>
+                                                                                    <option point="10" <?php if((isset($data['f8_other_insurance'])) && $data['f8_other_insurance'] == 'Life Insurance'){ ?> selected <?php } ?> value="Life Insurance">Life Insurance</option>
+                                                                                    <option point="8" <?php if((isset($data['f8_other_insurance'])) && $data['f8_other_insurance'] == 'Health Insurance'){ ?> selected <?php } ?> value="Health Insurance">Health Insurance</option>
+                                                                                    <option point="6" <?php if((isset($data['f8_other_insurance'])) && $data['f8_other_insurance'] == 'Vehicle Insurance'){ ?> selected <?php } ?> value="Vehicle Insurance">Vehicle Insurance</option>
+                                                                                    <option point="4" <?php if((isset($data['f8_other_insurance'])) && $data['f8_other_insurance'] == 'Property Insurance'){ ?> selected <?php } ?> value="Property Insurance">Property Insurance</option>
+                                                                                    <option point="2" <?php if((isset($data['f8_other_insurance'])) && $data['f8_other_insurance'] == 'Other'){ ?> selected <?php } ?> value="Other">Other</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>	<!-- What other insurance do you have? -->
+                                                                   	</div>
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="numberfield" class="control-label">What previous loans have you taken?</label>
+                                                                        <div class="controls">
+                                                                            <input  type="text" class="input-xlarge" placeholder="What previous loans have you taken?" name="f8_prev_loan_details" id="f8_prev_loan_details" value="<?php if((isset($data['f8_prev_loan_details'])) && $data['f8_prev_loan_details'] != ''){ echo $data['f8_prev_loan_details']; } ?>" data-rule-required="true" > <!-- readonly -->
+                                                                        </div>
+                                                                    </div>	<!-- What previous loans have you taken? -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="numberfield" class="control-label">What did you use these loan amount for?</label>
+                                                                        <div class="controls">
+                                                                            <input  type="text" class="input-xlarge" placeholder="What did you use these loan amount for?" name="f8_use_of_prev_loan_amount" id="f8_use_of_prev_loan_amount" value="<?php if((isset($data['f8_use_of_prev_loan_amount'])) && $data['f8_use_of_prev_loan_amount'] != ''){ echo $data['f8_use_of_prev_loan_amount']; } ?>" data-rule-required="true" > <!-- readonly -->
+                                                                        </div>
+                                                                    </div>	<!-- What did you use these loan amount for? -->
+                                                                    
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Any subsidies received from the Government?<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f8_any_subsidies" name="f8_any_subsidies" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" selected disabled>Select Here</option>
+                                                                                <option <?php if((isset($data['f8_any_subsidies'])) && $data['f8_any_subsidies'] == 'yes'){ ?> selected <?php } ?> value="yes">Yes</option>
+                                                                                <option <?php if((isset($data['f8_any_subsidies'])) && $data['f8_any_subsidies'] == 'no'){ ?> selected <?php } ?> value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Any subsidies received from the Government -->
+
+																	<div id="div_any_subsidies_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                        <div class="control-group">
+                                                                            <label for="numberfield" class="control-label">Name of the Subsidy?</label>
+                                                                            <div class="controls">
+                                                                                <input  type="text" class="input-xlarge" placeholder="Name of the Subsidy?" name="f8_subsidy_name" id="f8_subsidy_name" value="<?php if((isset($data['f8_subsidy_name'])) && $data['f8_subsidy_name'] != ''){ echo $data['f8_subsidy_name']; } ?>" data-rule-required="true" > <!-- readonly -->
+                                                                            </div>
+                                                                        </div>	<!-- Name of the Subsidy? -->
+                                                                   	</div>
+                                                             
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Any Waivers received from the Government?<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                            <select id="f8_any_loan_waivers" name="f8_any_loan_waivers" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                <option value="" selected disabled>Select Here</option>
+                                                                                <option <?php if((isset($data['f8_any_loan_waivers'])) && $data['f8_any_loan_waivers'] == 'yes'){ ?> selected <?php } ?> value="yes">Yes</option>
+                                                                                <option <?php if((isset($data['f8_any_loan_waivers'])) && $data['f8_any_loan_waivers'] == 'no'){ ?> selected <?php } ?> value="no">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>	<!-- Any Waivers received from the Government -->
+																	
+                                                                    <div id="div_any_loan_waivers_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
+                                                                        <div class="control-group">
+                                                                            <label for="numberfield" class="control-label">Name of the Waivers</label>
+                                                                            <div class="controls">
+                                                                                <input  type="text" class="input-xlarge" placeholder="Name of the Waivers" name="f8_waiver_name" id="f8_waiver_name" value="<?php if((isset($data['f8_waiver_name'])) && $data['f8_waiver_name'] != ''){ echo $data['f8_waiver_name']; } ?>" data-rule-required="true" > <!-- readonly -->
+                                                                            </div>
+                                                                        </div>	<!-- Name of the Waivers? -->
+                                                                    </div>
+                                                                    
+                                                                    <div class="form-actions">
+                                                                        <input type="reset" class="btn" value="Back" id="back">
+                                                                        <input type="submit" class="btn btn-primary" value="Save" id="save">
+                                                                    </div>	<!-- Submit and Reset Button -->
+                                                                    
+                                                                </div>
+                                                                     
+                                                           	</form>
+                                                            <h1 id="financial_history_g_total">0</h1> 
                                                         </div>	<!-- Financial History -->
                                                     </div>	<!-- Main Forms -->
                                                 </div>
@@ -2425,6 +2734,42 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>	<!-- /.modal -->
+        
+        <div class="modal fade" id="confirm_box_cur_crop" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Remove Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<p >Are you sure want to remove crop?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary removeCurCrop_btn"  data-dismiss="modal">Yes</button>&nbsp;
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>	<!-- /.modal -->
+        
+        <div class="modal fade" id="confirm_box_loan_frm1" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Remove Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<p >Are you sure want to remove this Loan part?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary removeLoanFrm1_btn"  data-dismiss="modal">Yes</button>&nbsp;
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>	<!-- /.modal -->
 
         <script type="text/javascript">
 			var spouse_g_total 				= 0;
@@ -2438,11 +2783,14 @@
 			var crop_cultivation_g_total	= 0;
 			var prev_crop_cycle_g_total		= 0;
 			var cur_crop_cycle_g_total		= 0;
+			var financial_details_g_total	= 0;
+			var financial_history_g_total	= 0;
 			
 			var contentCountLand 			= <?php echo $no_of_land; ?>;
 			var contentCountCrop 			= <?php echo $no_of_crops; ?>;
 			var contentCountPrevCrop 		= <?php echo $no_of_prev_crops; ?>;
 			var contentCountCurCrop			= <?php echo $no_of_cur_crops; ?>;
+			var contentCountLoanFrm1		= <?php echo $no_of_loan; ?>;
 			
 			$(document).ready(function()
 			{
@@ -2714,7 +3062,7 @@
 				$('#f13_pig').val('<?= @$data['f13_pig']; ?>');
 				$('#f13_poultry').val('<?= @$data['f13_poultry']; ?>');
 				$('#f13_donkeys').val('<?= @$data['f13_donkeys']; ?>');
-													
+								
 				
 				if($('#f3_married').val() == 'yes'){
 					$('#spouse_detail').show('swing');
@@ -2783,7 +3131,7 @@
 				}
 	
 				$('#spouse_detail').find('input, select').trigger('change');
-				calTotal();
+				
 				
 				$('body').on('change','#f13_dairy_cattle, #f13_donkeys,#f13_draft_cattle', function(){
 					calTotal();
@@ -2821,6 +3169,101 @@
 					removeCurCropContent();
 				});
 				
+				
+				$('.addLoanFrm1').click(function(){
+					appendLoanFrm1Content();
+				});
+	
+				$('.removeLoanFrm1_btn').click(function(){
+					removeLoanFrm1Content();
+				});
+				
+				if($('#f8_loan_taken').val() == 'yes')
+				{
+					$('#loan_taken').show('swing');
+				}
+				else
+				{
+					$('#loan_taken').hide('swing');
+					$('#loan_taken').find('input, select').val('');
+				}
+				
+				if($('#f8_any_insurance').val() == 'yes')
+				{
+					$('#div_any_insurance_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_insurance_display').hide('swing');
+					$('#div_any_insurance_display').find('input, select').val('');
+				}
+				
+				if($('#f8_any_subsidies').val() == 'yes')
+				{
+					$('#div_any_subsidies_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_subsidies_display').hide('swing');
+					$('#div_any_subsidies_display').find('input, select').val('');
+				}
+				
+				if($('#f8_any_loan_waivers').val() == 'yes')
+				{
+					$('#div_any_loan_waivers_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_loan_waivers_display').hide('swing');
+					$('#div_any_loan_waivers_display').find('input, select').val('');
+				}
+				
+				$('#f8_loan_borrowed_from').on('change', function(){
+					calTotal();
+				});
+				
+				$('#f8_other_insurance').on('change', function(){
+					calTotal();
+				});
+				
+				$('#f8_any_insurance').on('change', function(){
+					
+					if($(this).val() == 'yes')
+					{
+						$('#div_any_insurance_display').show('swing');
+					}
+					else
+					{
+						$('#div_any_insurance_display').hide('swing');
+					}
+					calTotal();
+				});
+				
+				$('#f8_any_subsidies').on('change', function(){
+					
+					if($(this).val() == 'yes')
+					{
+						$('#div_any_subsidies_display').show('swing');
+					}
+					else
+					{
+						$('#div_any_subsidies_display').hide('swing');
+					}
+				});
+				
+				$('#f8_any_loan_waivers').on('change', function(){
+					
+					if($(this).val() == 'yes')
+					{
+						$('#div_any_loan_waivers_display').show('swing');
+					}
+					else
+					{
+						$('#div_any_loan_waivers_display').hide('swing');
+					}
+				});
+				
+				calTotal();
 			});
 			
 			function convertIncomeToPoint(x)
@@ -3248,6 +3691,7 @@
 			}
 			
 			
+			
 			function calTotal()
 			{
 				// START : f3
@@ -3628,7 +4072,43 @@
 					$('.removeCurCrop').hide('swing');
 				}
 				// END : f14
+				
+				// START : f8 [Loan Frm 1]
+				f8_loan_taken	= parseInt($('option:selected','#f8_loan_taken').attr('point')) || 0;
+				
+				financial_details_g_total = f8_loan_taken;
+				
+				document.getElementById('financial_details_g_total').innerHTML=financial_details_g_total;
+				f8_pt     = financial_details_g_total/(contentCountLoanFrm1* 4)
+				f8_pt     = f8_pt.toFixed(2);
+				$('#f8_points').val(f8_pt);
+				$('#f8_pt').html(f8_pt);
+				
+				$('#num_of_loan').val(contentCountLoanFrm1);
+				
+				if(contentCountLoanFrm1 == 1)
+				{
+					$('.removeLoanFrm1').hide('swing');
+				}
+				// END : f8 [Loan Frm 1]
+				
+				// START : f8 [Loan frm 2]
+				var f8_loan_borrowed_from 	= parseInt($('option:selected','#f8_loan_borrowed_from').attr('point')) || 0;
+				var f8_any_insurance 		= parseInt($('option:selected','#f8_any_insurance').attr('point')) || 0;
+				var f8_other_insurance 		= parseInt($('option:selected','#f8_other_insurance').attr('point')) || 0;
+				
+				financial_history_g_total	= f8_loan_borrowed_from + f8_any_insurance + f8_other_insurance;
+				
+				document.getElementById('financial_history_g_total').innerHTML = financial_history_g_total;
+				
+				var f8_pt_fh = financial_history_g_total/3;
+				f8_pt_fh     = f8_pt_fh.toFixed(2);
+				$('#f8_financial_history_points').val(f8_pt_fh);
+				$('#f8_pt_fh').html(f8_pt_fh); 
+				// END : f8 [Loan frm 2]
 			}
+			
+			
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
 			{
@@ -3810,11 +4290,6 @@
 						success: function(msg)
 						{
 							data = JSON.parse(msg);
-							
-							alert(data.Success+'<==>'+data.resp);
-						 	loading_hide();
-							console.log(data.resp);
-							return false;
 							
 							if(data.Success == "Success")
 							{
@@ -4086,6 +4561,88 @@
 				}
 			});	
 			
+			$('#frm_financial_details').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_financial_details').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm8.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});	
+		
+			$('#frm_financial_history').on('submit', function(e) 
+			{
+				e.preventDefault();
+				if ($('#frm_financial_history').valid())
+				{
+					loading_show();	
+					$.ajax({
+							type: "POST",
+							url: "action_pages/action_frm8_fh.php",
+							data: new FormData(this),
+							processData: false,
+							contentType: false,
+							cache: false,
+							success: function(msg)
+							{
+								data = JSON.parse(msg);
+							
+								if(data.Success == "Success")
+								{
+									alert(data.resp);
+									window.location.href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $fm_id; ?>";
+									loading_hide();
+								}
+								else if(data.Success == "fail") 
+								{
+									alert(data.resp);
+									loading_hide();	
+								}	
+							},
+							error: function (request, status, error)
+							{
+								loading_hide();	
+							},
+							complete: function()
+							{
+								loading_hide();	
+							}	
+						});
+				}
+			});
+			
 			$('#f2_participation').on('change', function(){
 				if($(this).val() == 'yes'){
 					$('#program_detail').show('swing');
@@ -4104,6 +4661,66 @@
 				}
 				else{
 					$('#progType').text('Crop');
+				}
+			});
+			
+			$('#f8_loan_taken').on('change', function(){
+				
+				if($(this).val() == 'yes')
+				{
+					$('#loan_taken').show('swing');
+					$('#num_of_loan').val(1);
+				}
+				else
+				{
+					$('#loan_taken').hide('swing');
+					$('#num_of_loan').val();
+				}
+				calTotal();
+			});
+			
+			$('#f8_loan_borrowed_from').on('change', function(){
+				calTotal();
+			});
+			
+			$('#f8_other_insurance').on('change', function(){
+				calTotal();
+			});
+			
+			$('#f8_any_insurance').on('change', function(){
+				
+				if($(this).val() == 'yes')
+				{
+					$('#div_any_insurance_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_insurance_display').hide('swing');
+				}
+				calTotal();
+			});
+			
+			$('#f8_any_subsidies').on('change', function(){
+				
+				if($(this).val() == 'yes')
+				{
+					$('#div_any_subsidies_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_subsidies_display').hide('swing');
+				}
+			});
+			
+			$('#f8_any_loan_waivers').on('change', function(){
+				
+				if($(this).val() == 'yes')
+				{
+					$('#div_any_loan_waivers_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_loan_waivers_display').hide('swing');
 				}
 			});
 			
@@ -5002,6 +5619,94 @@
 				calTotal();
 			}
 			
+			function removeLoanFrm1Content()
+			{
+				if(contentCountLoanFrm1 > 1){
+					
+					$('#loans_type').find('#loan'+contentCountLoanFrm1).slideUp("slow", function(){
+						$(this).remove();
+						contentCountLoanFrm1--;
+						if(contentCountLoanFrm1==1)
+						{
+							$('.removeLoanFrm1').hide('swing');
+						}
+						calTotal();
+					});
+				}
+			}
+			
+			function appendLoanFrm1Content()
+			{
+				contentCountLoanFrm1++;
+				
+				var loanData	= '';
+				
+				loanData	+= '<div id="loan'+contentCountLoanFrm1+'" style="padding:5px;border:1px solid #d6d6d6;margin:5px;display:none">';
+					loanData	+= '<h3>Loan '+contentCountLoanFrm1+'</h3>';
+					loanData	+= '<input type="hidden" name="id[]" id="id" value="">';
+									
+					loanData	+= '<div class="control-group">';
+						loanData	+= '<label for="text" class="control-label" style="margin-top:10px">Mention the Loan Type<span style="color:#F00">*</span></label>';
+						loanData	+= '<div class="controls">';
+							loanData	+= '<select onchange="calTotal();" id="f8_loan_type'+contentCountLoanFrm1+'" name="f8_loan_type'+contentCountLoanFrm1+'" class="select2-me input-xlarge" data-rule-required="true">';
+								loanData	+= '<option value="" disabled selected> Select here</option>';
+								loanData	+= '<option value="Education" >Education</option>';
+								loanData	+= '<option value="Land">Land</option>';
+								loanData	+= '<option value="Agriculture">Agriculture</option>';
+								loanData	+= '<option value="Two Wheeler">Two Wheeler</option>';
+								loanData	+= '<option value="Equipment">Equipment</option>';
+								loanData	+= '<option value="Irrigation">Irrigation</option>';
+								loanData	+= '<option value="Fencing">Fencing</option>';
+								loanData	+= '<option value="Housing">Housing</option>';
+								loanData	+= '<option value="Construction OR Renovation">Construction/Renovation</option>';
+								loanData	+= '<option value="Four Wheeler">Four Wheeler</option>';
+								loanData	+= '<option value="Electronics">Electronics</option>';
+								loanData	+= '<option value="NA">NA</option>';
+								loanData	+= '<option value="Others">Others</option>';
+							loanData	+= '</select>';
+						loanData	+= '</div>';
+					loanData	+= '</div>';
+									
+					loanData	+= '<div class="control-group">';
+						loanData	+= '<label for="numberfield" class="control-label">Total Loan Amount<span style="color:#F00">*</span></label>';
+						loanData	+= '<div class="controls">';
+							loanData	+= '<input type="text" class="input-xlarge" placeholder="Loan Amount" name="f8_loan_amount'+contentCountLoanFrm1+'" id="f8_loan_amount'+contentCountLoanFrm1+'" onKeyPress=" return numsonly(event);"  data-rule-required="true"  maxlength="10">';
+						loanData	+= '</div>';
+					loanData	+= '</div>';
+									
+					loanData	+= '<div class="control-group">';
+						loanData	+= '<label for="numberfield" class="control-label">Provider<span style="color:#F00">*</span></label>';
+						loanData	+= '<div class="controls">';
+							loanData	+= '<input type="text" class="input-xlarge ui-wizard-content" placeholder="Loan Provider" name="f8_loan_provider'+contentCountLoanFrm1+'" id="f8_loan_provider'+contentCountLoanFrm1+'" data-rule-required="true"   >';
+							loanData	+= '<label id="f8_loan_provider1_err" style="color:#FF0000;width:200px;margin-left:100px;"></label>';
+						loanData	+= '</div>';
+					loanData	+= '</div>';
+									
+					loanData	+= '<div class="control-group">';
+						loanData	+= '<label for="numberfield" class="control-label">Current Outstanding Loan Amount With Interest<span style="color:#F00">*</span></label>';
+						loanData	+= '<div class="controls">';
+							loanData	+= '<input onchange="calTotal();" data-rule-required="true" type="text" class="input-xlarge ui-wizard-content" onKeyPress="return numsonly(event);" placeholder="Outstanding Loan Amount With Interest" name="f8_outstanding_loan'+contentCountLoanFrm1+'" id="f8_outstanding_loan'+contentCountLoanFrm1+'" data-rule-number="true" data-rule-maxlength="10">';
+						loanData	+= '</div>';
+					loanData	+= '</div>';
+									
+					loanData	+= '<div class="control-group">';
+						loanData	+= '<label for="numberfield" class="control-label">Therefore, No. of Months to clear Outstanding</label>';
+						loanData	+= '<div class="controls">';
+							loanData	+= '<input  type="text" class="input-xlarge ui-wizard-content" placeholder="No. Of EMI Remaining" name="f8_remaining_emi'+contentCountLoanFrm1+'" id="f8_remaining_emi'+contentCountLoanFrm1+'" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="10">';
+						loanData	+= '</div>';
+					loanData	+= '</div>';
+									
+				loanData	+= '</div>';
+				
+				if(contentCountLoanFrm1>1)
+				{
+					$('.removeLoanFrm1').show('swing');
+				}
+				
+				$('#loans_type').append(loanData).find('#loan'+contentCountLoanFrm1).slideDown("slow");
+				calTotal();
+			}
+			
 			function get_variety(crop_id,no_of_crop)
 			{
 				
@@ -5019,6 +5724,7 @@
 						success: function(response) 
 						{		
 							data = JSON.parse(response);
+							
 							if(data.Success == "Success") 
 							{	
 								$('#f14_variety'+no_of_crop).html(data.resp);
@@ -5030,15 +5736,15 @@
 						},
 						error: function (request, status, error) 
 						{
-							$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
-							$('#error_model').modal('toggle');						
+							//$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
+							//$('#error_model').modal('toggle');						
 							loading_hide();
 						},
 						complete: function()
 						{
 							loading_hide();
-							$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');
-							$('#error_model').modal('toggle');
+							//$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');
+							//$('#error_model').modal('toggle');
 						}
 					});			
 			}

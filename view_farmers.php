@@ -75,7 +75,7 @@
                                                         <th>Farmer Name</th>
                                                         <th>Aadhaar No</th>
                                                         <th>Mobile No</th>
-                                                        <th>Loan Require ( Rs.)</th>
+                                                        <th>Total Points</th>
                                                         <th>Status</th>
                                                         <th class='hidden-350'>Created Date</th>
                                                     </tr>

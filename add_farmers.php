@@ -52,13 +52,17 @@
                             <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_add_farmer" name="frm_add_farmer">
                             	
                                 <input type="hidden" id="hid_farmer_reg" name="hid_farmer_reg" value="1">
-                            
+                                <!--<input type="hidden" id="hid_frm_reg_points" name="hid_frm_reg_points" value="">-->
+                                <input type="hidden" id="hid_residence_points" name="hid_residence_points" value="">
+                                <input type="hidden" id="hid_personal_details_points" name="hid_personal_details_points" value="">
+                                <input type="hidden" id="f3_married_reg_points" name="f3_married_reg_points" value="">
+                                
                                 <div class="control-group">
                                     <label for="text" class="control-label" style="margin-top:10px">
                                     	Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_name" name="txt_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Entre Your Name">
+                                    	<input type="text" id="txt_name" name="txt_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Enter Your Name">
                                     </div>
                                 </div>	<!-- Name -->
                                 
@@ -67,7 +71,7 @@
                                     	Father's / Spouse's Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" data-rule-lettersonly="true" placeholder="Father's / Spouse's Name">
+                                    	<input type="text" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" placeholder="Father's / Spouse's Name">
                                     </div>
                                 </div>	<!-- Father's / Spouse's Name -->
                                 
@@ -76,7 +80,7 @@
                                     	Mother's Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" data-rule-lettersonly="true" placeholder="Mother Name" >
+                                    	<input type="text" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Mother Name" >
                                     </div>
                                 </div>	<!-- Mother's Name -->
                                 
@@ -136,14 +140,6 @@
                                     </label>
                                     <div class="controls">
                                     	<input type="text" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
-                                        <!--<select id="ddl_farm_experience" name="ddl_farm_experience" class="select2-me input-large">
-                                        	<option value="">Select Year Range</option>
-                                            <option value="1_5">1 to 5</option>
-                                            <option value="6_10">6 to 10</option>
-                                            <option value="11_15">11 to 15</option>
-                                            <option value="16_20">16 to 20</option>
-                                            <option value="20_above">20 above</option>
-                                        </select>-->
                                     </div>
                                 </div>	<!-- Experience In Farming -->
                                 
@@ -154,13 +150,9 @@
                                     <div class="controls">
                                     	<select id="ddl_married_status" name="ddl_married_status" class="select2-me input-xlarge">
                                             <option value="">Select here</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
+                                            <option point="10" value="yes">Yes</option>
+                                            <option point="2" value="no">No</option>
                                         </select>
-                                        
-                                        <!-- <input type="radio" name="rad_married_status" id="rad_married_status" autocomplete="off" data-rule-required="true" value="yes"> Yes
-                                        &nbsp;&nbsp;
-                                        <input type="radio" name="rad_married_status" id="rad_married_status" autocomplete="off" data-rule-required="true" value="no"> No -->
                                     </div>
                                 </div>	<!-- Married Or Not -->
                                 
@@ -171,9 +163,9 @@
                                     <div class="controls">
                                     	<select id="ddl_residence_status" name="ddl_residence_status" class="select2-me input-large">
                                         	<option value="">Select Residence Status</option>
-                                            <option value="Rented">Rented</option>
-                                            <option value="Owned">Owned</option>
-                                            <option value="Ancestral">Ancestral</option>
+                                            <option point="2" value="Rented">Rented</option>
+                                            <option point="10" value="Owned">Owned</option>
+                                            <option point="6" value="Ancestral">Ancestral</option>
                                         </select>
                                     </div>
                                 </div>	<!-- Residence Status -->
@@ -183,14 +175,6 @@
                                         <label for="tasktitel" class="control-label">Rent</label>
                                         <div class="controls">
                                         	<input type="text" id="txt_rent" name="txt_rent" placeholder="Rent" data-rule-number="true" class="input-large" data-rule-maxlength="5" maxlength="5" size="5">
-                                            <!-- <select id="ddl_rent" name="ddl_rent" class="select2-me input-large">
-                                                <option value="">Select Rent</option>
-                                                <option value="0_500">0-500</option>
-                                                <option value="501_800">501-800</option>
-                                                <option value="801_1000">801-1000</option>
-                                                <option value="1001_2500">1001-2500</option>
-                                                <option value="2501_Above">2501 Above</option>
-                                            </select> -->
                                         </div>
                                     </div>	<!-- Rent [Only If Rental will select] -->
 								</div>	<!-- Rent [Only If Rental will select] -->
@@ -202,10 +186,6 @@
                                             <h3 style="margin:0px;">Address Details</h3>
                                         </div>
                                         <div style="margin-left:640px;">
-                                            <!--<input id="address_check" name="address_check" onClick="same_as_perment();" class="css-checkbox" value="CHK" type="checkbox">
-                                            <label for="address_check" class="css-label" style="margin:12px;font-size:15px;">
-                                            	Same As Permanent Address Details
-                                            </label>-->
                                             <small>
                                             <a id="btnsame" class="btn btn-warning btn-sm">
                                                 Same as Permanent
@@ -228,16 +208,16 @@
                                 </div>	<!-- Current Address -->
                                 
                                 <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">House No. <span style="color:#F00">*</span></label>
+                                	<label for="tasktitel" class="control-label">House No. / Address<span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="10" size="10" />
+                                    	<input type="text" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
                                     </div>
                                 </div>	<!-- P House No. -->
                                 
                                 <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">House No. <span style="color:#F00">*</span></label>
+                                	<label for="tasktitel" class="control-label">House No.  / Address<span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="10" size="10" />
+                                    	<input type="text" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
                                     </div>
                                 </div>	<!-- C House No. -->
                                 
@@ -391,7 +371,10 @@
         </div>
     	<script language="javascript">
     		
-			var baseurll = '<?php echo $BaseFolder; ?>';
+			var baseurll 			= '<?php echo $BaseFolder; ?>';
+			//var farmer_reg_g_total	= 0;
+			var residence_points	= 0;
+			var personal_details_points	= 0;
 			
 			$(document).ready(function(){
 				//$('#div_ifRental').slideUp();	
@@ -415,15 +398,148 @@
 						e.preventDefault();
 					}
 				});
+				
 			});
+			
+			function convertAgeToPoints(x)  
+			{
+				if(x >= 21 && x <= 25)
+				{
+					return 4;
+				}
+				else if(x >= 26 && x <= 30)
+				{
+					return 6;
+				}
+				else if(x >= 31 && x <= 35)
+				{
+					return 7;
+				}
+				else if(x >= 36 && x <= 45)
+				{
+					return 10;
+				}
+				else if(x >= 46 && x <= 60)
+				{
+					return 8;
+				}
+				else if(x > 60)
+				{
+					return 0;	
+				}
+				else
+				{
+				  return 0;
+				}	
+			}
+			
+			function convertFarmExpToPoints(x)  
+			{
+				if(x >= 1 && x <= 5)
+				{
+					return 2;
+				}
+				else if(x >= 6 && x <= 10)
+				{
+					return 4;
+				}
+				else if(x >= 11 && x <= 15)
+				{
+					return 6;
+				}
+				else if(x >= 16 && x <= 20)
+				{
+					return 8;
+				}
+				else if(x > 20)
+				{
+					return 10;	
+				}
+				else
+				{
+				  return 0;
+				}
+			}
+			 
+			function convertRentAmountToPoint(x)
+			{
+				if(x >= 1 && x <= 500)
+				{
+					return 4;
+				}
+				else if(x >= 501 && x <= 800)
+				{
+					return 6;
+				}
+				else if(x >= 801 && x <= 1000)
+				{
+					return 10;
+				}
+				else if(x >= 1001 && x <= 2500)
+				{
+					return 8;
+				}
+				else
+				{
+				  return 0;
+				}
+			}
+		
+			function calTotal()
+			{
+				var f1_dob			= 5;
+				var f1_age			= convertAgeToPoints($('#txt_age').val());
+				var f1_mobno		= 7;
+				var alt_mono		= $('#alt_mobileno').val();
+				var f1_altno		= 0;
+				if(alt_mono != '')
+				{
+					f1_altno		= 3; 	
+				}
+				var fm_aadhar		= 10;
+				var f1_expfarm		= convertFarmExpToPoints($('#txt_farm_experience').val());
+				var f7_resistatus	= parseInt($('option:selected','#ddl_residence_status').attr('point')) || 0;
+				
+				var resiStatusVal	= $('#ddl_residence_status').val();
+				var f7_rent_amount	= 0;
+				var divided_by		= 1;
+				if(resiStatusVal == "Rented")
+				{
+					f7_rent_amount	= convertRentAmountToPoint($('#txt_rent').val());
+					divided_by		= 2;	
+				}
+				var f3_married_reg_points	= parseInt($('option:selected','#ddl_married_status').attr('point')) || 0;
+				
+				//farmer_reg_g_total		= f1_dob + f1_age + f1_mobno + f1_altno + fm_aadhar + f1_expfarm + f7_resistatus + f7_rent_amount;
+				residence_points		= f7_resistatus + f7_rent_amount;
+				personal_details_points	= f1_dob + f1_age + f1_mobno + f1_altno + fm_aadhar + f1_expfarm;
+				
+				var residence_pt 		= residence_points/divided_by;
+				var personal_details_pt	= personal_details_points/6;
+				
+				//farmReg_pt     = farmReg_pt.toFixed(2);
+				residence_pt     		= residence_pt.toFixed(2);
+				personal_details_pt     = personal_details_pt.toFixed(2);
+				
+				$('#hid_residence_points').val(residence_pt);
+				$('#hid_personal_details_points').val(personal_details_pt);
+				$('#f3_married_reg_points').val(f3_married_reg_points);
+				//$('#farmer_reg_g_total').val(farmReg_pt);
+				//$('#hid_frm_reg_points').html(farmReg_pt);
+			}
 		
 			$('#txt_dob').on('changeDate', function(e){
 				var date1 = new Date($(this).val());
 				var date2 = new Date();
 				var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-				var diffyears = Math.ceil(timeDiff / (365 * 1000 * 3600 * 24)); 
+				var diffyears = (Math.ceil(timeDiff / (365 * 1000 * 3600 * 24))) - 1; 
 				
 				$('#txt_age').val(diffyears);
+				
+				if(date1 != '')
+				{
+					calTotal();	
+				}
 			});
 			
 			$('#ddl_residence_status').on('change', function(e){
@@ -436,6 +552,8 @@
 				{
 					$('#div_ifRental').slideUp();	
 				}
+				
+				calTotal();
 			});
 			
 			function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
@@ -575,6 +693,8 @@
 				e.preventDefault();
 				if ($('#frm_add_farmer').valid())
 				{
+					calTotal();
+					
 					$.ajax({
 						url: "load_farmer.php?",
 						type: "POST",

@@ -44,6 +44,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	$data['f7_car']           = mysqli_real_escape_string($db_con,@$_POST['f7_car']);
 	
 	$data['f7_points']        = mysqli_real_escape_string($db_con,@$_POST['f7_points']);
+	$data['f7_reg_points']	  = mysqli_real_escape_string($db_con,@$_POST['f7_reg_points']);
 	
 	$data['f7_status']        = 1;
 	$data['f7_section_id']	  = '';
@@ -97,10 +98,10 @@ $check_exist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),
 
 if(!$check_exist)
 {
-	$data['f7_created_by']= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
-    $data['f7_created_date']=$datetime;
+	$data['f7_created_by']		= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
+    $data['f7_created_date']	=$datetime;
 	
-	$res=insert($table,$data);
+	$res = insert($table,$data);
 	
 	
     $check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
@@ -120,14 +121,18 @@ if(!$check_exist)
 }
 else
 {
-	$id =$check_exist['id'];
+	$id = $check_exist['id'];
 	
-	$data['f7_modified_by']= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
-    $data['f7_modified_date']=$datetime;
-	$res =update($table,$data,array('id'=>$id),array(),array(),array());
+	$reg_time_points	= $check_exist['f7_points'];
 	
-	$pt_data['pt_frm7']=$data['f7_points'];
-	$res=update('tbl_points',$pt_data,array('fm_id'=>$data['fm_id']),array(),array(),array());
+	$data['f7_points']	= $data['f7_points'] + $data['f7_reg_points'];
+	
+	$data['f7_modified_by']		= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
+    $data['f7_modified_date']	= $datetime;
+	$res	= update($table,$data,array('id'=>$id),array(),array(),array());
+	
+	$pt_data['pt_frm7']	= $data['f7_points'];
+	$res				= update('tbl_points',$pt_data,array('fm_id'=>$data['fm_id']),array(),array(),array());
 	quit('Record Updated Successfully..!',1);
 	
 }

@@ -51,6 +51,8 @@
 			$data['f3_affliation_status']		= $row_spouse_details['f3_affliation_status'];
 			$data['f3_fpo_name']				= $row_spouse_details['f3_fpo_name'];
 			$data['f3_bank_name']				= $row_spouse_details['f3_bank_name'];
+			
+			$data['f3_married_reg_points']		= $row_spouse_details['f3_married_reg_points'];
         }
     }
 	
@@ -146,6 +148,8 @@
 			$data['f7_fans']          = @$row_residence_details['f7_fans'];
 			$data['f7_motorcycle']    = @$row_residence_details['f7_motorcycle'];
 			$data['f7_car']           = @$row_residence_details['f7_car'];
+			$data['f7_reg_points']    = @$row_residence_details['f7_reg_points'];
+			
 		}
 	}
 	
@@ -515,18 +519,20 @@
                                                                     <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
                                                                     <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
                                                                     <input type="hidden" id="f3_points" name="f3_points" value="">
+                                                                    <input type="hidden" id="f3_married_reg_points" name="f3_married_reg_points" value="<?php echo $data['f3_married_reg_points']; ?>">
+                                                                    <input type="hidden" id="f3_married" name="f3_married" value="<?php echo $married_status; ?>">
                                                                     
                                                                     <div class="form-content">
-                                                                    	<div class="control-group">
+                                                                    	<!--<div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Are You Married? <span style="color:#F00">*</span></label>
                                                                             <div class="controls">
                                                                                 <select id="f3_married" name="f3_married" class="select2-me input-xlarge" data-rule-required="true">
                                                                                     <option value="" disabled > Select here</option>
-                                                                                    <option value="yes" point="10" <?php if($married_status == 'yes'){?> selected="selected" <?php } ?>> Yes</option>
-                                                                                    <option value="no" point="2"> No</option>
+                                                                                    <option value="yes" point="10" <?php //if($married_status == 'yes'){?> selected="selected" <?php //} ?>> Yes</option>
+                                                                                    <option value="no" point="2" <?php //if($married_status == 'no'){?> selected="selected" <?php //} ?>> No</option>
                                                                                 </select>
                                                                             </div>
-                                                                        </div>	<!-- Are You Married? -->
+                                                                        </div>-->	<!-- Are You Married? -->
                                                                         
                                                                         <div id="spouse_detail" style="padding:5px;border:1px solid #d6d6d6;margin:5px;">
                                                                             <div class="control-group">
@@ -738,7 +744,7 @@
                                                                                 What was the duration of the program?<span style="color:#F00">*</span>
                                                                             </label>
                                                                             <div class="controls">
-                                                                                <input type="text" placeholder="00" id="f2_durprog" name="f2_durprog" class="input-xlarge v_number" data-rule-required="true" data-rule-number="true"  data-rule-maxlength="3">
+                                                                                <input type="text" placeholder="00" id="f2_durprog" name="f2_durprog" class="input-xlarge v_number" data-rule-required="true" data-rule-number="true"  data-rule-maxlength="3"> Days
                                                                             </div>
                                                                         </div>  <!-- What was the duration of the program [If Yes] -->
                                                                         
@@ -998,6 +1004,7 @@
                                                                     <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
                                                                     <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
                                                                     <input type="hidden" id="f7_points" name="f7_points" value="" >
+                                                                    <input type="hidden" id="f7_reg_points" name="f7_reg_points" value="<?php echo $data['f7_reg_points']; ?>" >
                                                                     
                                                                     <div class="form-content">
                                                                     
@@ -1005,70 +1012,70 @@
                                                                             <label for="text" class="control-label" style="margin-top:10px">Television
                                                                             <span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_television" id="f7_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_television'])) && $data['f7_television'] != '0'){ echo $data['f7_television']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_television" id="f7_television" placeholder="Television" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_television'])) && $data['f7_television'] != '0'){ echo $data['f7_television']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Television -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Refrigerator<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_refrigerator" id="f7_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_refrigerator'])) && $data['f7_refrigerator'] != '0'){ echo $data['f7_refrigerator']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_refrigerator" id="f7_refrigerator" placeholder="Refrigerator" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_refrigerator'])) && $data['f7_refrigerator'] != '0'){ echo $data['f7_refrigerator']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Refrigerator -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Washing Machine<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_wmachine" id="f7_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_wmachine'])) && $data['f7_wmachine'] != '0'){ echo $data['f7_wmachine']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_wmachine" id="f7_wmachine" placeholder="Washing Machine" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_wmachine'])) && $data['f7_wmachine'] != '0'){ echo $data['f7_wmachine']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Washing Machine -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Mixer<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_mixer" id="f7_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_mixer'])) && $data['f7_mixer'] != '0'){ echo $data['f7_mixer']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_mixer" id="f7_mixer" placeholder="Mixer" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_mixer'])) && $data['f7_mixer'] != '0'){ echo $data['f7_mixer']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Mixer -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Gas Stove<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_stove" id="f7_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_stove'])) && $data['f7_stove'] != '0'){ echo $data['f7_stove']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_stove" id="f7_stove" placeholder="Gas Stove" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_stove'])) && $data['f7_stove'] != '0'){ echo $data['f7_stove']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Gas Stove -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Bicycle<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_bicycle" id="f7_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_bicycle'])) && $data['f7_bicycle'] != '0'){ echo $data['f7_bicycle']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_bicycle" id="f7_bicycle" placeholder="Bicycle" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_bicycle'])) && $data['f7_bicycle'] != '0'){ echo $data['f7_bicycle']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Bicycle -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Cooking Cylinder<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_ccylinder" id="f7_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_ccylinder'])) && $data['f7_ccylinder'] != '0'){ echo $data['f7_ccylinder']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_ccylinder" id="f7_ccylinder" placeholder="Cooking Cylinder" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_ccylinder'])) && $data['f7_ccylinder'] != '0'){ echo $data['f7_ccylinder']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Cooking Cylinder -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Lights & Fans<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_fans" id="f7_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_fans'])) && $data['f7_fans'] != '0'){ echo $data['f7_fans']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_fans" id="f7_fans" placeholder="Lights & Fans" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_fans'])) && $data['f7_fans'] != '0'){ echo $data['f7_fans']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Lights & Fans -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Motorcycle<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_motorcycle" id="f7_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_motorcycle'])) && $data['f7_motorcycle'] != '0'){ echo $data['f7_motorcycle']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_motorcycle" id="f7_motorcycle" placeholder="Motorcycle" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_motorcycle'])) && $data['f7_motorcycle'] != '0'){ echo $data['f7_motorcycle']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Motorcycle -->
                                                                         
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">Car<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="number" name="f7_car" id="f7_car" placeholder="Car" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_car'])) && $data['f7_car'] != '0'){ echo $data['f7_car']; } else { ?> 0 <?php } ?>">
+                                                                                <input type="text" onKeyPress="return numsonly(event);" name="f7_car" id="f7_car" placeholder="Car" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f7_car'])) && $data['f7_car'] != '0'){ echo $data['f7_car']; } else { ?> 0 <?php } ?>">
                                                                             </div>
                                                                         </div>	<!-- Car -->
                                                                         
@@ -2661,7 +2668,7 @@
                                                     </div>	<!-- Main Forms -->
                                                 </div>
                                             </div>
-                                        </div>	<!-- LOAN -->
+                                        </div>	<!-- LOAN [COMPLETE] -->
                                         <!-- ============ -->
                                         <!-- END : LOAN -->
                                         <!-- ============ -->
@@ -2697,7 +2704,7 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div>	<!-- /.modal -->
+        </div>	<!-- confirm_box_land -->
 
 		<div class="modal fade" id="confirm_box_crop" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -2715,7 +2722,7 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div>	<!-- /.modal -->
+        </div>	<!-- confirm_box_crop -->
         
         <div class="modal fade" id="confirm_box_prev_crop" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -2733,7 +2740,7 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div>	<!-- /.modal -->
+        </div>	<!-- confirm_box_prev_crop -->
         
         <div class="modal fade" id="confirm_box_cur_crop" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -2751,7 +2758,7 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div>	<!-- /.modal -->
+        </div>	<!-- confirm_box_cur_crop -->
         
         <div class="modal fade" id="confirm_box_loan_frm1" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -2769,7 +2776,7 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div>	<!-- /.modal -->
+        </div>	<!-- confirm_box_loan_frm1 -->
 
         <script type="text/javascript">
 			var spouse_g_total 				= 0;
@@ -2798,7 +2805,8 @@
 					calTotal();
 				});
 	
-				$('#f3_married').on('change', function(){
+				/*$('#f3_married').on('change', function(){
+					
 					if($(this).val() == 'yes'){
 						$('#spouse_detail').show('swing');
 					}
@@ -2808,7 +2816,19 @@
 						$('#spouse_detail').find('input, select').val('').trigger('change');
 					}
 					calTotal();
-				});
+				});*/
+				
+				if($('#f3_married').val() == 'yes')
+				{
+					$('#spouse_detail').show('swing');
+					calTotal();
+				}
+				else
+				{
+					$('#spouse_detail').hide('swing');
+					$('#spouse_detail').find('input, select').val('').trigger('change');
+					calTotal();	
+				}
 	
 				$('#f3_spouse_mfi').on('change', function(){
 					if($(this).val() == 'yes'){
@@ -2858,6 +2878,16 @@
 					}
 					calTotal();
 				});
+				
+				
+				$('#f2_edudetail').on('change', function(){
+					calTotal();
+				});
+				
+				$('#f2_proficiency').on('change', function(){
+					calTotal();
+				});
+				
 				
 				$('#f5_phonetype').on('change', function(){
 					if($(this).val() == 'smartphone'){
@@ -3695,17 +3725,20 @@
 			function calTotal()
 			{
 				// START : f3
-				var f3_married	= '<?php echo $married_status; ?>';
+				//var f3_married	= '<?php //echo $married_status; ?>';
+				var f3_married	= $('#f3_married').val() || 10;
+				var married	= 0;
 				if(f3_married == 'yes')
 				{
-					$('#f3_married').val('yes');	
+					married 	= 10;
 				}
-				else
+				else if(f3_married == 'no')
 				{
-					$('#f3_married').val('no');
+					married 	= 2;
 				}
 				
-				var married	= parseInt($('option:selected','#f3_married').attr('point')) || 0;
+				
+				//var married	= parseInt($('option:selected','#f3_married').attr('point')) || 0;
 				
 				if(married === 10)
 				{
@@ -3735,25 +3768,42 @@
 				{
 					spouse_g_total = married ;
 				}
-				document.getElementById('spouse_g_total').innerHTML = spouse_g_total;
-				var no_of_point	= 1;
-				if(married === 10)
+				
+				
+				
+				if(f3_married == 'yes')
 				{
-					no_of_point += 3;
+					document.getElementById('spouse_g_total').innerHTML = spouse_g_total;
+					var no_of_point	= 1;
 					
-					if(shg == 'yes')
+					if(married === 10)
 					{
-						no_of_point +=1;
+						no_of_point += 3;
+						
+						if(shg == 'yes')
+						{
+							no_of_point +=1;
+						}
+						if($('#f3_spouse_mfi').val() === 'yes')
+						{
+							no_of_point +=3;
+						}
 					}
-					if($('#f3_spouse_mfi').val() === 'yes')
-					{
-						no_of_point +=3;
-					}
+					
+					//alert(no_of_point);
+					
+					var f3_pt = spouse_g_total/no_of_point;
+					
+					f3_pt     = f3_pt.toFixed(2);
+					$('#f3_points').val(f3_pt);
+					$('#f3_pt').html(f3_pt);
 				}
-				var f3_pt = spouse_g_total/no_of_point;
-				f3_pt     = f3_pt.toFixed(2);
-				$('#f3_points').val(f3_pt);
-				$('#f3_pt').html(f3_pt);
+				else if(f3_married == 'no')
+				{
+					document.getElementById('spouse_g_total').innerHTML = 0;
+					$('#f3_points').val(0);
+					$('#f3_pt').html(0);	
+				}
 				// END : f3
 				
 				// START : f2
@@ -3780,7 +3830,7 @@
 				
 				document.getElementById('phone_details_g_total').innerHTML=phone_details_g_total;
 				
-				var f5_pt = phone_details_g_total/3;
+				var f5_pt = phone_details_g_total/4;
 				f5_pt     = f5_pt.toFixed(2);
 				$('#f5_points').val(f5_pt);
 				$('#f5_pt').html(f5_pt);
@@ -3802,7 +3852,7 @@
 				}
 				else
 				{
-					f6_pt = family_details_g_total/3;
+					f6_pt = family_details_g_total/2;
 				}
 	
 				f6_pt     = f6_pt.toFixed(2);
@@ -3836,7 +3886,7 @@
 				appliances_motors_g_total	= f7_television + f7_refrigerator + f7_wmachine + f7_mixer + f7_stove + f7_bicycle + f7_ccylinder + f7_fans + f7_motorcycle + f7_car;
 				
 				document.getElementById('appliances_motors_g_total').innerHTML=appliances_motors_g_total;
-				var f7_pt = appliances_motors_g_total/3;
+				var f7_pt = appliances_motors_g_total/10;
 				f7_pt     = f7_pt.toFixed(2);
 				$('#f7_points').val(f7_pt);
 				$('#f7_pt').html(f7_pt);
@@ -3879,7 +3929,9 @@
 				
 				farm_land_details_g_total	= f9_land_size_tpt + f9_soil_tested_pt + f9_soil_type_tpt + f9_owner_tpt + f9_source_of_water_tpt;
 				document.getElementById('farm_land_details_g_total').innerHTML = farm_land_details_g_total;
-				 
+				
+				//alert(no_of_points+'*'+contentCountLand);
+				
 				var f9_pt = farm_land_details_g_total/(no_of_points*contentCountLand) ;
 				f9_pt     = f9_pt.toFixed(2);
 				$('#f9_points').val(f9_pt);
@@ -4723,6 +4775,84 @@
 					$('#div_any_loan_waivers_display').hide('swing');
 				}
 			});
+			
+			
+			
+			
+			
+			$('#f7_television').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_refrigerator').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_wmachine').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			   
+			$('#f7_mixer').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_stove').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_bicycle').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			   
+			$('#f7_ccylinder').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_fans').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_motorcycle').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			$('#f7_car').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal();
+				}
+			});
+			
+			
+			
+			
 			
 			function numsonly(e)
 			{

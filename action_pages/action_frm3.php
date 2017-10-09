@@ -35,6 +35,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	$data['f3_bank_name']			= @$_POST['f3_bank_name'];
 	
 	$data['f3_points']    	  		= @$_POST['f3_points'];
+	$data['f3_married_reg_points']	= @$_POST['f3_married_reg_points'];
 	$data['f3_status']    	  		= 1;
 	$data['f3_section_id']	  		= '';
 	
@@ -118,6 +119,8 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	else
 	{
 		$id = $check_exist['id'];
+		
+		$data['f3_points']	= $data['f3_points'] + $data['f3_married_reg_points'];
 		
 		$data['f3_modified_by']= $_POST['fm_caid'];
         $data['f3_modified_date']=$datetime;

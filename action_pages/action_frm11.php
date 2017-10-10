@@ -31,7 +31,16 @@ if(isset($_POST['add_yield_detail']) && $_POST['add_yield_detail']==1)
 			{
 				$data['f11_achieved']      	= mysqli_real_escape_string($db_con,$_POST['f11_achieved'.$i]);
 				$data['f11_income']		   	= mysqli_real_escape_string($db_con,$_POST['f11_income'.$i]);
-				$data['f11_diseases ']	   	= mysqli_real_escape_string($db_con,$_POST['f11_diseases'.$i]);
+				
+				if(isset($_POST['f11_diseases'.$i]))
+				{
+					$data['f11_diseases']      	= mysqli_real_escape_string($db_con,$_POST['f11_diseases'.$i]);
+				}
+				else
+				{
+					$data['f11_diseases']      	= '';	
+				}
+				//$data['f11_diseases ']	   	= mysqli_real_escape_string($db_con,$_POST['f11_diseases'.$i]);
 				$data['f11_fertilizers']   	= mysqli_real_escape_string($db_con,$_POST['f11_fertilizers'.$i]);
 				$data['f11_cultivating']	= mysqli_real_escape_string($db_con,$_POST['f11_cultivating'.$i]);
 				$data['f11_consumption_fertilizer']	= mysqli_real_escape_string($db_con,$_POST['f11_consumption_fertilizer'.$i]);

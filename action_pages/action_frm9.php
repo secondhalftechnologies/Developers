@@ -101,11 +101,13 @@ if(isset($_POST['add_land_detail']) && $_POST['add_land_detail']==1)
 		else
 		{
 			//======Start : To Delete removed forms===================//
-		    $del_id=array_values(array_diff($id,array("null","")));// to remove blank values
+			$del_id=array_values(array_diff($id,array("null","")));// to remove blank values
+			
 			if(!empty($del_id))
 			{
 				$sql_delete_crops ="DELETE FROM `tbl_land_details` WHERE  fm_id ='".$data['fm_id']."' AND id NOT IN (".implode(',',$del_id).")";
-		    	$res_delete_crops = mysqli_query($db_con,$sql_delete_crops) or die(mysqli_error($db_con));
+		    	//quit($sql_delete_crops);
+				$res_delete_crops = mysqli_query($db_con,$sql_delete_crops) or die(mysqli_error($db_con));
 			}
 			
 			//======End : To Delete removed forms===================//
@@ -140,9 +142,36 @@ if(isset($_POST['add_land_detail']) && $_POST['add_land_detail']==1)
 					$data['f9_amount_on_rent']	= '';
 				}
 				$data['f9_survey_number']   = mysqli_real_escape_string($db_con,$_POST['f9_survey_number'.$i]);
-				$data['f9_vilage'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_vilage'.$i]);
-				$data['f9_taluka'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_taluka'.$i]);
-				$data['f9_district']		= mysqli_real_escape_string($db_con,$_POST['f9_district'.$i]);
+				
+				if(isset($_POST['f9_vilage'.$i]))
+				{
+					$data['f9_vilage']      	= mysqli_real_escape_string($db_con,$_POST['f9_vilage'.$i]);
+				}
+				else
+				{
+					$data['f9_vilage']      	= '';	
+				}
+				
+				//$data['f9_vilage'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_vilage'.$i]);
+				//$data['f9_taluka'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_taluka'.$i]);
+				if(isset($_POST['f9_taluka'.$i]))
+				{
+					$data['f9_taluka']      	= mysqli_real_escape_string($db_con,$_POST['f9_taluka'.$i]);
+				}
+				else
+				{
+					$data['f9_taluka']      	= '';	
+				}
+				//$data['f9_district']		= mysqli_real_escape_string($db_con,$_POST['f9_district'.$i]);
+				if(isset($_POST['f9_district'.$i]))
+				{
+					$data['f9_district']      	= mysqli_real_escape_string($db_con,$_POST['f9_district'.$i]);
+				}
+				else
+				{
+					$data['f9_district']      	= '';	
+				}
+				
 				$data['f9_state'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_state'.$i]);
 				$data['f9_pincode'] 		= mysqli_real_escape_string($db_con,$_POST['f9_pincode'.$i]);
 				

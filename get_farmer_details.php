@@ -420,7 +420,7 @@
                                                                 <a href="#div_appli_knowledge" data-toggle='tab'>
                                                                     <i class="fa fa-user"></i>Applicant's Knowledge
                                                                     <?php 
-																	if(isset($pt_row['pt_frm2']) && $pt_row['pt_frm2']!="") 
+																	if(isset($pt_row['pt_frm2']) && $pt_row['pt_frm2'] != '') 
 																	{
 																		?>
 																		<span class="badge " id="f2_pt" style="font-size:16px; font-weight:bold">
@@ -504,7 +504,7 @@
                                                     </div>	<!-- Side Menu [Form Name] -->
                                                     <div class="tab-content padding tab-content-inline">
                                                         <?php
-                                                        if($married_status == 'yes')
+														if($married_status == 'yes')
                                                         {
                                                             ?>
                                                             <div class="tab-pane active" id="div_spouse_details">
@@ -516,6 +516,7 @@
                                                                     <input type="hidden" id="f3_points" name="f3_points" value="">
                                                                     <input type="hidden" id="f3_married_reg_points" name="f3_married_reg_points" value="<?php echo $data['f3_married_reg_points']; ?>">
                                                                     <input type="hidden" id="f3_married" name="f3_married" value="<?php echo $married_status; ?>">
+                                                                    
                                                                     
                                                                     <div class="form-content">
                                                                     	<!--<div class="control-group">
@@ -591,7 +592,7 @@
                                                                             <div class="control-group" id="input_income" style="display: none;">
                                                                                 <label for="numberfield" class="control-label">Spouse Income per month<span style="color:#F00">*</span></label>
                                                                                 <div class="controls">
-                                                                                    <input type="text" placeholder="Spouse Income per month" name="f3_spouse_income" id="f3_spouse_income" data-rule-number="true"  class="input-xlarge" data-rule-maxlength="10" data-rule-required="true">
+                                                                                    <input type="text" placeholder="Spouse Income per month" name="f3_spouse_income" id="f3_spouse_income" value="<?php if((isset($data['f3_spouse_income'])) && $data['f3_spouse_income'] != ''){ echo $data['f3_spouse_income']; } ?>" data-rule-number="true"  class="input-xlarge" data-rule-maxlength="10" data-rule-required="true">
                                                                                 </div>
                                                                             </div>	<!-- Spouse's Income-->
                             
@@ -618,7 +619,7 @@
                                                                                 <div class="control-group">
                                                                                     <label for="numberfield" class="control-label">Amount taken from Microfinance<span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <input type="text" placeholder="Amount Taken" name="f3_spouse_mfiamount" id="f3_spouse_mfiamount" class="input-xlarge v_number" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="8">
+                                                                                        <input type="text" placeholder="Amount Taken" name="f3_spouse_mfiamount" id="f3_spouse_mfiamount" value="<?php if((isset($data['f3_spouse_mfiamount'])) && $data['f3_spouse_mfiamount'] != ''){ echo $data['f3_spouse_mfiamount']; } ?>" class="input-xlarge v_number" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="8">
                                                                                     </div>
                                                                                 </div>	<!-- Amount taken from Microfinance -->
                                                                             
@@ -739,7 +740,7 @@
                                                                                 What was the duration of the program?<span style="color:#F00">*</span>
                                                                             </label>
                                                                             <div class="controls">
-                                                                                <input type="text" placeholder="00" id="f2_durprog" name="f2_durprog" class="input-xlarge v_number" data-rule-required="true" data-rule-number="true"  data-rule-maxlength="3"> Days
+                                                                                <input type="text" placeholder="00" id="f2_durprog" name="f2_durprog" value="<?php if((isset($data['f2_durprog'])) && $data['f2_durprog'] != ''){ echo $data['f2_durprog']; } ?>" class="input-xlarge v_number" data-rule-required="true" data-rule-number="true"  data-rule-maxlength="3"> Days
                                                                             </div>
                                                                         </div>  <!-- What was the duration of the program [If Yes] -->
                                                                         
@@ -748,7 +749,7 @@
                                                                                 Who conducted the Program? <span style="color:#F00">*</span>
                                                                             </label>
                                                                             <div class="controls">
-                                                                                <input type="text" placeholder="Who conducted the Program" id="f2_condprog" name="f2_condprog" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4" data-rule-maxlength="100">
+                                                                                <input type="text" placeholder="Who conducted the Program" id="f2_condprog" name="f2_condprog" value="<?php if((isset($data['f2_condprog'])) && $data['f2_condprog'] != ''){ echo $data['f2_condprog']; } ?>" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4" data-rule-maxlength="100">
                                                                             </div>
                                                                         </div>  <!-- Who conducted the Program [If Yes] -->
                                                                         
@@ -757,7 +758,7 @@
                                                                                 For which crop was the program held? <span style="color:#F00">*</span>
                                                                             </label>
                                                                             <div class="controls">
-                                                                                <input type="text" placeholder="Name" id="f2_cropprog" name="f2_cropprog" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4" data-rule-maxlength="100">
+                                                                                <input type="text" placeholder="Name" id="f2_cropprog" name="f2_cropprog" class="input-xlarge v_name" value="<?php if((isset($data['f2_cropprog'])) && $data['f2_cropprog'] != ''){ echo $data['f2_cropprog']; } ?>" data-rule-required="true" data-rule-minlength="4" data-rule-maxlength="100">
                                                                             </div>
                                                                         </div>  <!-- For which crop was the program held [If Yes] -->
                                                                         
@@ -780,6 +781,7 @@
                                                                 <input type="hidden" id="add_applicant_detail" name="add_applicant_detail" value="1">
                                                                 <input type="hidden" id="fm_id" name="fm_id" value="<?php echo $fm_id ?>">
                                                                 <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
+                                                                <input type="hidden" id="f5_points" name="f5_points" value="">
                                                                 
                                                                 <div class="form-content">
                                                                 	
@@ -1228,6 +1230,25 @@
                                                                                         <div class="controls" id="div_p_dist<?php echo $id; ?>">
                                                                                             <select id="f9_district<?php echo $id; ?>" name="f9_district<?php echo $id; ?>" class="select2-me input-large" >
                                                                                             	<option value="" disabled selected>Select District</option>
+                                                                                                <?php
+																								if(isset($land_arr[$i]['f9_state']))
+																								{
+																									$result = lookup_value('tbl_district',array(),array("dt_stid"=>$land_arr[$i]['f9_state']),array(),array(),array());
+											
+																									if($result)
+																									{
+																										while ($row = mysqli_fetch_array($result))
+																										{
+																											//echo '<option value="'.$row['id'].'">'.strtoupper($row['dt_name']).'</option>';
+																											?>
+																											<option value="<?php echo $row['id']; ?>" <?php if((isset($land_arr[$i]['f9_district'])) && $land_arr[$i]['f9_district'] == $row['id']) { ?> selected <?php } ?>>
+                                                                                                            	<?php echo strtoupper($row['dt_name']); ?>
+                                                                                                           	</option>
+																											<?php
+																										}
+																									}
+																								}
+																								?>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- District -->
@@ -1237,6 +1258,24 @@
                                                                                         <div class="controls" id="div_p_tal<?php echo $id; ?>">
                                                                                             <select id="f9_taluka<?php echo $id; ?>" name="f9_taluka<?php echo $id; ?>" class="select2-me input-large" >
                                                                                             	<option value="" disabled selected>Select Taluka</option>
+                                                                                                <?php
+        																						if(isset($land_arr[$i]['f9_district']))
+																								{   
+																									$tal_result = lookup_value('tbl_taluka',array(),array("tk_dtid"=>$land_arr[$i]['f9_district']),array(),array(),array());
+											
+																									if($tal_result)
+																									{
+																										while ($tal_row = mysqli_fetch_array($tal_result) ) {
+																											echo '<option value="'.$tal_row['id'].'"';
+																											if($tal_row['id']==$land_arr[$i]['f9_taluka'])
+																											{
+																												echo ' selected ';
+																											}
+																											echo '>'.strtoupper($tal_row['tk_name']).'</option>';
+																										}
+																									}
+																								}
+																								?>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Taluka -->
@@ -1246,6 +1285,25 @@
                                                                                         <div class="controls" id="div_p_village<?php echo $id; ?>">
                                                                                             <select id="f9_vilage<?php echo $id; ?>" name="f9_vilage<?php echo $id; ?>" class="select2-me input-large" >
                                                                                             	<option value="" disabled selected>Select Village</option>
+                                                                                                <?php
+																								if(isset($land_arr[$i]['f9_taluka']))
+																								{   
+																									$result = lookup_value('tbl_village',array(),array("vl_tkid"=>$land_arr[$i]['f9_taluka']),array(),array(),array());
+											
+																									if($result)
+																									{
+																										while ($row = mysqli_fetch_array($result) ) 
+																										{
+																											//echo '<option value="'.$row['id'].'">'.strtoupper($row['vl_name']).'</option>';
+																											?>
+																											<option value="<?php echo $row['id'];?>" <?php if((isset($land_arr[$i]['f9_vilage'])) && $land_arr[$i]['f9_vilage'] == $row['id']) { ?> selected <?php } ?>>
+                                                                                                            	<?php echo strtoupper($row['vl_name']); ?>
+                                                                                                            </option>
+																											<?php
+																										}
+																									}
+																								}
+																								?>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Village -->
@@ -1337,14 +1395,20 @@
                                                                                     
                                                                                 </div>
                                                                             </div>
-																			<?php
+                                                                            
+                                                                            <script>
+																				<?php 
+																				echo 'contentCountLand='.$id.';';
+																				?>
+                                                                            </script>
+                                                                            <?php
 																		}
 																		?>
                                                                     </div>
 
                                                                     <div  style="padding:5px;border:1px solid #d6d6d6;margin:5px;"> 
                                                                         <input type="button" class="btn btn-warning " value="Add New" onClick="addMoreLand();" id="addLoanType"/>
-                                                                        <input type="button" style="display:none; float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box_land" data-backdrop="static" id="removeLandType"/>
+                                                                        <input type="button" style="<?php if($no_of_land != 1){ ?> display:none; <?php } ?>float:right" class="btn btn-danger " value="Remove" data-toggle="modal" data-target="#confirm_box_land" data-backdrop="static" id="removeLandType"/> <!--  -->
                                                                     </div>
 
                                                                     <div class="form-actions">
@@ -1496,30 +1560,30 @@
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Type of crop cultivating this year [DDL] -->
-                                                                                
+                                                                                	
                                                                                 	<div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">Current Stage Of Crop<span style="color:#F00">*</span>
                                                                                         </label>
                                                                                         <div class="controls">
                                                                                             <select id="f10_stage<?php echo $id; ?>" name="f10_stage<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f10()">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option point="5" value="Land Tilling" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Land Tilling') { ?> selected <?php } ?>>Land Tilling</option>
-                                                                                                <option point="7" value="Sowing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Sowing') { ?> selected <?php } ?>>Sowing</option>
-                                                                                                <option point="6" value="Manure Adding OR Fertilizer" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Manure Adding OR Fertilizer') { ?> selected <?php } ?>>Manure Adding / Fertilizer</option>
-                                                                                                <option point="7" value="Irrigation" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Irrigation') { ?> selected <?php } ?>>Irrigation</option>
-                                                                                                <option point="7" value="Weeding" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Weeding') { ?> selected <?php } ?>>Weeding</option>
-                                                                                                <option point="8" value="Growing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Growing') { ?> selected <?php } ?>>Growing</option>
-                                                                                                <option point="7" value="Harvesting" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Harvesting') { ?> selected <?php } ?>>Harvesting</option>
-                                                                                                <option point="5" value="Threshing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Threshing') { ?> selected <?php } ?>>Threshing</option>
-                                                                                                <option point="2" value="Storing" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Storing') { ?> selected <?php } ?>>Storing</option>
+                                                                                                <option point="5" value="Land Tilling" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Land Tilling') { ?> selected <?php } ?>>Land Tilling</option>
+                                                                                                <option point="7" value="Sowing" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Sowing') { ?> selected <?php } ?>>Sowing</option>
+                                                                                                <option point="6" value="Manure Adding OR Fertilizer" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Manure Adding OR Fertilizer') { ?> selected <?php } ?>>Manure Adding / Fertilizer</option>
+                                                                                                <option point="7" value="Irrigation" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Irrigation') { ?> selected <?php } ?>>Irrigation</option>
+                                                                                                <option point="7" value="Weeding" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Weeding') { ?> selected <?php } ?>>Weeding</option>
+                                                                                                <option point="8" value="Growing" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Growing') { ?> selected <?php } ?>>Growing</option>
+                                                                                                <option point="7" value="Harvesting" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Harvesting') { ?> selected <?php } ?>>Harvesting</option>
+                                                                                                <option point="5" value="Threshing" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Threshing') { ?> selected <?php } ?>>Threshing</option>
+                                                                                                <option point="2" value="Storing" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Storing') { ?> selected <?php } ?>>Storing</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Current stage of crop [DDL] -->
                                                                                     
                                                                                     <div class="control-group">
-                                                                                        <label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span></label>
+                                                                                        <label for="tasktitel" class="control-label">Total Yield Expected [Per Acre Per Crop] <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expected'])) && $crops_arr[$j]['f10_expected'] != '') { echo $crops_arr[$j]['f10_expected']; } ?>" id="f10_expected<?php echo $id; ?>" name="f10_expected<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected">
+                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expected'])) && $crops_arr[$j]['f10_expected'] != '') { echo $crops_arr[$j]['f10_expected']; } ?>" id="f10_expected<?php echo $id; ?>" name="f10_expected<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected"> Quintal
                                                                                         </div>
                                                                                     </div>  <!-- Total Yield Expected [In tonnes Per Acre] -->
                                                                                 
@@ -1552,16 +1616,16 @@
                                                                                     </div>  <!-- Crop Storage [DDL] --> 
                                                                                     
                                                                                     <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Expected Price This Year In Rs.<span style="color:#F00">*</span></label>
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Expected Price This Year [Per Quintal Per Acre]<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedprice'])) && $crops_arr[$j]['f10_expectedprice'] != '') { echo $crops_arr[$j]['f10_expectedprice']; } ?>" id="f10_expectedprice<?php echo $id; ?>" name="f10_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Expected Price">
+                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedprice'])) && $crops_arr[$j]['f10_expectedprice'] != '') { echo $crops_arr[$j]['f10_expectedprice']; } ?>" id="f10_expectedprice<?php echo $id; ?>" name="f10_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Expected Price"> In Rs.
                                                                                         </div>
                                                                                     </div>	<!--Expected price this year -->
                                                                                     
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedincome'])) && $crops_arr[$j]['f10_expectedincome'] != '') { echo $crops_arr[$j]['f10_expectedincome']; } ?>" id="f10_expectedincome<?php echo $id; ?>" name="f10_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected">
+                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedincome'])) && $crops_arr[$j]['f10_expectedincome'] != '') { echo $crops_arr[$j]['f10_expectedincome']; } ?>" id="f10_expectedincome<?php echo $id; ?>" name="f10_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected"> In Rs.
                                                                                         </div>
                                                                                     </div><!--Total Income Expected this year [ Per Acre Per Crop ] -->
                                                                                     
@@ -1584,8 +1648,8 @@
                                                                                         <div class="controls">
                                                                                             <select id="f10_pest<?php echo $id; ?>" name="f10_pest<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f10()">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option point="1" value="yes" <?php if((isset($crops_arr[$j]['f10_pest'])) && $crops_arr[$j]['f10_pest'] == 'yes') { ?> selected <?php } ?>> Yes</option>
-                                                                                                <option point="10" value="no" <?php if((isset($crops_arr[$j]['f10_pest'])) && $crops_arr[$j]['f10_pest'] == 'no') { ?> selected <?php } ?>> No</option>
+                                                                                                <option point="0" value="yes" <?php if((isset($crops_arr[$j]['f10_pest'])) && $crops_arr[$j]['f10_pest'] == 'yes') { ?> selected <?php } ?>> Yes</option>
+                                                                                                <option point="0" value="no" <?php if((isset($crops_arr[$j]['f10_pest'])) && $crops_arr[$j]['f10_pest'] == 'no') { ?> selected <?php } ?>> No</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>	<!--Potential pest control problems-->
@@ -1889,7 +1953,7 @@
                                                                                 <div class="control-group">
                                                                                     <label for="text" class="control-label" style="margin-top:10px">What type of seeds you plan to buy?<span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="f14_seed_type<?php echo $id; ?>" name="f14_seed_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                        <select id="f14_seed_type<?php echo $id; ?>" name="f14_seed_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f14();">
                                                                                             <option value="" disabled selected> Select here</option>
                                                                                             <option point="10" value="Hybrid" <?php if((isset($cur_crops_arr[$l]['f14_seed_type'])) && $cur_crops_arr[$l]['f14_seed_type'] == 'Hybrid'){ ?> selected <?php } ?>>Hybrid</option>
                                                                                             <option point="0" value="Non Hybrid" <?php if((isset($cur_crops_arr[$l]['f14_seed_type'])) && $cur_crops_arr[$l]['f14_seed_type'] == 'Non Hybrid'){ ?> selected <?php } ?>>Non-Hybrid</option>
@@ -1925,10 +1989,10 @@
                                                                                 <div class="control-group">
                                                                                     <label for="text" class="control-label" style="margin-top:10px">Did you take loan to buy seeds?<span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="f14_loan_taken<?php echo $id; ?>" name="f14_loan_taken<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                        <select id="f14_loan_taken<?php echo $id; ?>" name="f14_loan_taken<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f14();">
                                                                                             <option value="" disabled selected> Select here</option>
-                                                                                            <option value="yes" <?php if((isset($cur_crops_arr[$l]['f14_loan_taken'])) && $cur_crops_arr[$l]['f14_loan_taken'] == 'yes'){ ?> selected <?php } ?>>Yes</option>
-                                                                                            <option value="no" <?php if((isset($cur_crops_arr[$l]['f14_loan_taken'])) && $cur_crops_arr[$l]['f14_loan_taken'] == 'no'){ ?> selected <?php } ?>>No</option>
+                                                                                            <option point="0" value="yes" <?php if((isset($cur_crops_arr[$l]['f14_loan_taken'])) && $cur_crops_arr[$l]['f14_loan_taken'] == 'yes'){ ?> selected <?php } ?>>Yes</option>
+                                                                                            <option point="10" value="no" <?php if((isset($cur_crops_arr[$l]['f14_loan_taken'])) && $cur_crops_arr[$l]['f14_loan_taken'] == 'no'){ ?> selected <?php } ?>>No</option>
                                                                                         </select>
                                                                                     </div>
                                                                               	</div>	<!-- loan taken [DDL] -->
@@ -1938,21 +2002,20 @@
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">How much is the loan amount?<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($cur_crops_arr[$l]['f14_loan_amount'])) && $cur_crops_arr[$l]['f14_loan_amount'] != '') { echo $cur_crops_arr[$l]['f14_loan_amount']; } ?>" id="f14_loan_amount<?php echo $id; ?>" name="f14_loan_amount<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="How much is the loan amount">
+                                                                                            <input type="text" value="<?php if((isset($cur_crops_arr[$l]['f14_loan_amount'])) && $cur_crops_arr[$l]['f14_loan_amount'] != '') { echo $cur_crops_arr[$l]['f14_loan_amount']; } ?>" id="f14_loan_amount<?php echo $id; ?>" name="f14_loan_amount<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="How much is the loan amount" onBlur="calTotal_f14();">
                                                                                         </div>
                                                                                     </div>	<!-- loan amount -->
                                                                                     
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Where did you borrow the loan from?<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <select id="f14_borrow_loan_from<?php echo $id; ?>" name="f14_borrow_loan_from<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                            <select id="f14_borrow_loan_from<?php echo $id; ?>" name="f14_borrow_loan_from<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f14();">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option point="0" value="Cooprative Bank" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Cooprative Bank'){ ?> selected <?php } ?>>Cooprative Bank</option>
-                                                                                                <option point-"10" value="Bank" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Bank'){ ?> selected <?php } ?>>Bank</option>
-                                                                                                <option point-"8" value="MFI OR NBFC" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'MFI OR NBFC'){ ?> selected <?php } ?>>MFI/NBFC</option>
-                                                                                                <option point-"6" value="FPO" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'FPO'){ ?> selected <?php } ?>>FPO</option>
-                                                                                                <option point-"0" value="Money Lender" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Money Lender'){ ?> selected <?php } ?>>Money Lender (Private)</option>
-                                                                                                <option point-"2" value="Other Lending Institutions" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Other Lending Institutions'){ ?> selected <?php } ?>>Other Lending Institutions (Muthoot)</option>
+                                                                                                <option point="10" value="Bank" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Bank'){ ?> selected <?php } ?>>Bank</option>
+                                                                                                <option point="8" value="MFI OR NBFC" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'MFI OR NBFC'){ ?> selected <?php } ?>>MFI/NBFC</option>
+                                                                                                <option point="6" value="FPO" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'FPO'){ ?> selected <?php } ?>>FPO</option>
+                                                                                                <option point="0" value="Money Lender" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Money Lender'){ ?> selected <?php } ?>>Money Lender (Private)</option>
+                                                                                                <option point="2" value="Other Lending Institutions" <?php if((isset($cur_crops_arr[$l]['f14_borrow_loan_from'])) && $cur_crops_arr[$l]['f14_borrow_loan_from'] == 'Other Lending Institutions'){ ?> selected <?php } ?>>Other Lending Institutions (Muthoot)</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>	<!-- borrow loan from -->
@@ -1976,7 +2039,7 @@
                                                                                 <div class="control-group">
                                                                                     <label for="text" class="control-label" style="margin-top:10px">What type of water sources you are depending on?<span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="f14_water_source_type<?php echo $id; ?>" name="f14_water_source_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                        <select id="f14_water_source_type<?php echo $id; ?>" name="f14_water_source_type<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f14();">
                                                                                             <option value="" disabled selected> Select here</option>
                                                                                             <option point="2" value="Rainwater Only" <?php if((isset($cur_crops_arr[$l]['f14_water_source_type'])) && $cur_crops_arr[$l]['f14_water_source_type'] == 'Rainwater Only'){ ?> selected <?php } ?>>Rainwater Only</option>
                                                                                             <option point="8" value="Irrigation" <?php if((isset($cur_crops_arr[$l]['f14_water_source_type'])) && $cur_crops_arr[$l]['f14_water_source_type'] == 'Irrigation'){ ?> selected <?php } ?>>Irrigation</option>
@@ -2128,7 +2191,7 @@
                                                                     <div class="control-group">
                                                                         <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <select id="f12_vehicle" name="f12_vehicle" class="select2-me input-xlarge" data-rule-required="true">
+                                                                            <select id="f12_vehicle" name="f12_vehicle" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f12();">
                                                                                 <option value="" disabled selected>Select here</option>
                                                                                 <option value="1" point="5" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '1'){ ?> selected <?php }  ?>>1</option>
                                                                                 <option value="2" point="7" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '2'){ ?> selected <?php }  ?>>2</option>
@@ -2141,7 +2204,7 @@
                                                                      <div class="control-group">
                                                                         <label for="tasktitel" class="control-label">Total Value of the Vehical<span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="text" value="" id="f12_total_val_of_vehical" name="f12_total_val_of_vehical" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal_f12()" placeholder="Total Value of Vehical">
+                                                                            <input type="text" value="<?php if((isset($data['f12_total_val_of_vehical'])) && $data['f12_total_val_of_vehical'] != ''){ echo $data['f12_total_val_of_vehical']; } ?>" id="f12_total_val_of_vehical" name="f12_total_val_of_vehical" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal_f12()" placeholder="Total Value of Vehical" onBlur="calTotal_f12();">
                                                                         </div>
                                                                     </div>  <!-- Total Value of the Vehical -->
                                                                     
@@ -2149,12 +2212,12 @@
                                                                         <label for="tasktitel" class="control-label">Machinery Owned<span style="color:#F00">*</span>
                                                                         </label>
                                                                         <div class="controls">
-                                                                            <select id="f12_machinery" name="f12_machinery" class="select2-me input-xlarge" data-rule-required="true">
+                                                                            <select id="f12_machinery" name="f12_machinery" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f12();">
                                                                                 <option value="" disabled selected>Select here</option>
                                                                                 <option value="1" point="2" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '1'){ ?> selected <?php }  ?>>1</option>
                                                                                 <option value="2" point="4" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '2'){ ?> selected <?php }  ?>>2</option>
                                                                                 <option value="3" point="6" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '3'){ ?> selected <?php }  ?>>3</option>
-                                                                                <option value="4_or_more" point="0" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '4_or_more'){ ?> selected <?php }  ?>>4 OR More</option>
+                                                                                <option value="4_or_more" point="10" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '4_or_more'){ ?> selected <?php }  ?>>4 OR More</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>  <!-- Machinery Owned -->
@@ -2163,7 +2226,7 @@
                                                                         <label for="tasktitel" class="control-label">Total Value of the Machinery <span style="color:#F00">*</span>
                                                                         </label>
                                                                         <div class="controls">
-                                                                            <input type="text" id="f12_total_val_of_machinery" name="f12_total_val_of_machinery" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal_f12()" placeholder="Total Value of the Machinery">
+                                                                            <input type="text" value="<?php if((isset($data['f12_total_val_of_machinery'])) && $data['f12_total_val_of_machinery'] != ''){ echo $data['f12_total_val_of_machinery']; } ?>" id="f12_total_val_of_machinery" name="f12_total_val_of_machinery" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal_f12()" placeholder="Total Value of the Machinery" onBlur="calTotal_f12();">
                                                                         </div>
                                                                     </div>  <!-- Total Value of the Machinery -->
                                                                     
@@ -2197,7 +2260,7 @@
                                                                         <div class="control-group">
                                                                             <label for="tasktitel" class="control-label">Mention the value of the assets <span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="text" id="f12_mention_value_of_assets" name="f12_mention_value_of_assets" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal_f12()" placeholder="Total Value of Vehical">
+                                                                                <input type="text" id="f12_mention_value_of_assets" name="f12_mention_value_of_assets" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" placeholder="Total Value of Vehical" onBlur="calTotal_f12();">
                                                                             </div>
                                                                         </div>    <!-- Mention the value of the assets [If Yes] -->
                                                                     
@@ -2228,7 +2291,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Dairy Cattle
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                           <input type="number" name="f13_dairy_cattle" id="f13_dairy_cattle" placeholder="Dairy Cattle Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f13_dairy_cattle" id="f13_dairy_cattle" placeholder="Dairy Cattle Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_dairy_cattle'])) && $data['f13_dairy_cattle'] != ''){ echo $data['f13_dairy_cattle']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f3_dairy_cattle-->
                                                                     
@@ -2236,7 +2299,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Draft Cattle
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_draft_cattle" id="f13_draft_cattle" placeholder="Draft Cattle Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_draft_cattle" id="f13_draft_cattle" placeholder="Draft Cattle Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_draft_cattle'])) && $data['f13_draft_cattle'] != ''){ echo $data['f13_draft_cattle']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_draft_cattle-->
                                                                     
@@ -2244,7 +2307,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Buffalo
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_buffalo" id="f13_buffalo" placeholder="Buffalo Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_buffalo" id="f13_buffalo" placeholder="Buffalo Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_buffalo'])) && $data['f13_buffalo'] != ''){ echo $data['f13_buffalo']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_buffalo-->
                                                                     
@@ -2252,7 +2315,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Ox
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_ox" id="f13_ox" placeholder="Ox Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_ox" id="f13_ox" placeholder="Ox Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_ox'])) && $data['f13_ox'] != ''){ echo $data['f13_ox']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_ox-->
                                                                     
@@ -2260,7 +2323,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Sheep
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_sheep" id="f13_sheep" placeholder="Sheep Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_sheep" id="f13_sheep" placeholder="Sheep Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_sheep'])) && $data['f13_sheep'] != ''){ echo $data['f13_sheep']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_sheep-->
                                                                     
@@ -2268,7 +2331,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Goat
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_goat" id="f13_goat" placeholder="Goat Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_goat" id="f13_goat" placeholder="Goat Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_goat'])) && $data['f13_goat'] != ''){ echo $data['f13_goat']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_goat-->
                                                                     
@@ -2276,7 +2339,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Pig
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_pig" id="f13_pig" placeholder="Pig Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_pig" id="f13_pig" placeholder="Pig Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_pig'])) && $data['f13_pig'] != ''){ echo $data['f13_pig']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_pig-->
                                                                     
@@ -2284,7 +2347,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Poultry [ chicken, geese, turkey, duck]
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_poultry" id="f13_poultry" placeholder="Poultry Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_poultry" id="f13_poultry" placeholder="Poultry Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_poultry'])) && $data['f13_poultry'] != ''){ echo $data['f13_poultry']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_poultry-->
                                                                     
@@ -2292,7 +2355,7 @@
                                                                         <label for="text" class="control-label" style="margin-top:10px">Donkeys
                                                                         <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <input type="number" name="f13_donkeys" id="f13_donkeys" placeholder="Donkeys Count" class="input-xlarge v_number cal_tcount" value="0">
+                                                                            <input type="text" onKeyPress="return numsonly(event);" name="f13_donkeys" id="f13_donkeys" placeholder="Donkeys Count" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f13_donkeys'])) && $data['f13_donkeys'] != ''){ echo $data['f13_donkeys']; } ?>">
                                                                         </div>
                                                                     </div>	<!--f13_donkeys-->
                                                                     
@@ -2796,6 +2859,9 @@
 			
 			$(document).ready(function()
 			{
+				
+				
+				// START : f3
 				$('body').on('change','#f3_spouse_age, #f3_spouse_shg, #f3_spouse_occp, #f3_spouse_income', function(){
 					calTotal_f3();
 				});
@@ -2837,6 +2903,15 @@
 					calTotal_f3();
 				});
 	
+				if($('#f3_spouse_mfi').val() == 'yes')
+				{
+					$('#microfinance').show('swing');
+				}
+				else
+				{
+					$('#microfinance').find('input, select').val('');
+				}
+	
 				$('#f3_affliation_status').on('change', function(){
 					if($(this).val() == 'yes'){
 						$('#div_affliation_display').show('swing');
@@ -2844,10 +2919,19 @@
 					else
 					{
 						$('#div_affliation_display').hide('swing');
-						$('#div_affliation_display').val('');
+						$('#div_affliation_display').find('input, select').val('');
 					}
 					calTotal_f3();	
 				});
+				
+				if($('#f3_affliation_status').val() == 'yes')
+				{
+					$('#div_affliation_display').show('swing');	
+				}
+				else
+				{
+					$('#div_affliation_display').find('input, select').val('');
+				}
 	
 				$('#f3_spouse_shg').on('change', function(){
 					if($(this).val() == 'yes'){
@@ -2856,10 +2940,19 @@
 					else
 					{
 						$('#shg_name').hide('swing');
-						$('#shg_name').val('');
+						$('#shg_name').find('input, select').val('');
 					}
 					calTotal_f3();
 				});
+				
+				if($('#f3_spouse_shg').val() == 'yes')
+				{
+					$('#shg_name').show('swing');
+				}
+				else
+				{
+					$('#shg_name').find('input, select').val('');
+				}
 	
 	
 				$('#f3_spouse_occp').on('change', function(){
@@ -2874,7 +2967,40 @@
 					calTotal_f3();
 				});
 				
+				if($('#f3_spouse_occp').val() == 'other' || $('#f3_spouse_occp').val() == 'farmer')
+				{
+					$('#input_income').show('swing');	
+				}
+				else
+				{
+					$('#input_income').find('input, select').val('');
+				}
 				
+				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
+				$('#f3_spouse_age').val('<?= @$data['f3_spouse_age']; ?>');
+				$('#f3_spouse_mobno').val('<?= @$data['f3_spouse_mobno']; ?>');
+				$('#f3_spouse_adhno').val('<?= @$data['f3_spouse_adhno']; ?>');
+				$('#f3_spouse_shg').val('<?= @$data['f3_spouse_shg']; ?>');
+				$('#f3_spouse_shgname').val('<?= @$data['f3_spouse_shgname']; ?>');
+				$('#f3_spouse_occp').val('<?= @$data['f3_spouse_occp']; ?>');
+				$('#f3_spouse_mfi').val('<?= @$data['f3_spouse_mfi']; ?>');
+				$('#f3_spouse_mfiname').val('<?= @$data['f3_spouse_mfiname']; ?>');
+				$('#f3_spouse_mfiamount').val('<?= @$data['f3_spouse_mfiamount']; ?>');
+				$('#f3_fpo_name').val('<?= @$data['f3_fpo_name']; ?>');
+				$('#f3_bank_name').val('<?= @$data['f3_bank_name']; ?>');
+				$('#f3_points').val('<?= @$data['f3_points']; ?>');
+				
+				if($('#f3_married').val() == 'yes'){
+					$('#spouse_detail').show('swing');
+				}
+				
+				if($('#f3_spouse_occp').val() == 'other' || $('#f3_spouse_occp').val() == 'farmer')
+				{
+					$('#input_income').show('swing');	
+				}
+				// END : f3
+				
+				// START : f2
 				$('#f2_edudetail').on('change', function(){
 					calTotal_f2();
 				});
@@ -2882,8 +3008,11 @@
 				$('#f2_proficiency').on('change', function(){
 					calTotal_f2();
 				});
+				//$('#f2_participation').trigger('change');
+				//$('#f2_typeprog').trigger('change');
+				// END : f2
 				
-				
+				// START : f5
 				$('#f5_phonetype').on('change', function(){
 					if($(this).val() == 'smartphone'){
 						$('#div_smartphone_display').show('swing');
@@ -2918,7 +3047,9 @@
 						$('#div_app_name_display').find('input, select').val('').trigger('change');
 					}
 				});
+				// END : f5
 				
+				// START : f6
 				$('#f6_children').on('change', function(){
 					if($(this).val() == '0' || $(this).val() == '' || $(this).val() == null){
 						//$('#use_smartphone').show('swing');
@@ -2933,77 +3064,81 @@
 					}
 					calTotal_f6();
 				});
+				// END : f6
 				
+				// START : f7
 				$('#f7_television').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_refrigerator').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_wmachine').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				   
 				$('#f7_mixer').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_stove').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_bicycle').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				   
 				$('#f7_ccylinder').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_fans').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_motorcycle').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
 				
 				$('#f7_car').on('blur', function(){
-					if($(this).val() != '0' && $(this).val() != '' && $(this).val() != 'null')
+					if($(this).val() != '' && $(this).val() != 'null')
 					{
 						calTotal_f7();
 					}
 				});
+				// END : f7
 				
+				// START : f12
 				$('#f12_any_other_assets').on('change', function(){
 					if($(this).val() == 'yes'){
 						$('#div_any_other_assets_display').show('swing');
@@ -3013,34 +3148,74 @@
 						$('#div_any_other_assets_display').hide('swing');
 						$('#div_any_other_assets_display').find('input, select').val('').trigger('change');
 					}
+					calTotal_f12();
+				});
+				// END : f12
+				
+				// START : f13
+				$('#f13_dairy_cattle').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
 				});
 				
+				$('#f13_draft_cattle').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
 				
-				$('#f3_married').val('<?= @$data['f3_married']; ?>');
-				$('#f3_spouse_fname').val('<?= @$data['f3_spouse_fname']; ?>');
-				$('#f3_spouse_age').val('<?= @$data['f3_spouse_age']; ?>');
-				$('#f3_spouse_mobno').val('<?= @$data['f3_spouse_mobno']; ?>');
-				$('#f3_spouse_adhno').val('<?= @$data['f3_spouse_adhno']; ?>');
-				$('#f3_spouse_shg').val('<?= @$data['f3_spouse_shg']; ?>');
-				$('#f3_spouse_shgname').val('<?= @$data['f3_spouse_shgname']; ?>');
-				$('#f3_spouse_occp').val('<?= @$data['f3_spouse_occp']; ?>');
-				$('#f3_spouse_income').val('<?= @$data['f3_spouse_income']; ?>');
-				$('#f3_spouse_mfi').val('<?= @$data['f3_spouse_mfi']; ?>');
-				$('#f3_spouse_mfiname').val('<?= @$data['f3_spouse_mfiname']; ?>');
-				$('#f3_spouse_mfiamount').val('<?= @$data['f3_spouse_mfiamount']; ?>');
-				$('#f3_fpo_name').val('<?= @$data['f3_fpo_name']; ?>');
-				$('#f3_bank_name').val('<?= @$data['f3_bank_name']; ?>');
-				$('#f3_points').val('<?= @$data['f3_points']; ?>');
+				$('#f13_buffalo').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
+				   
+				$('#f13_ox').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
 				
-				$('#f2_edudetail').val('<?= @$data['f2_edudetail']; ?>');
-				$('#f2_proficiency').val('<?= @$data['f2_proficiency']; ?>');
-				$('#f2_participation').val('<?= @$data['f2_participation']; ?>');
-				$('#f2_typeprog').val('<?= @$data['f2_typeprog']; ?>');
-				$('#f2_condprog').val('<?= @$data['f2_condprog']; ?>');
-				$('#f2_cropprog').val('<?= @$data['f2_cropprog']; ?>');
-				$('#f2_durprog').val('<?= @$data['f2_durprog']; ?>');
-				$('#f2_participation').trigger('change');
-				$('#f2_typeprog').trigger('change');
+				$('#f13_sheep').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
+				
+				$('#f13_goat').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
+				   
+				$('#f13_pig').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
+				
+				$('#f13_poultry').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
+				
+				$('#f13_livestock_income').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f13();
+					}
+				});
+				// END : f13
 				
 				$('#f5_phonetype').val('<?= @$data['f5_phonetype']; ?>');
 				$('#f5_servpro').val('<?= @$data['f5_servpro']; ?>');
@@ -3051,24 +3226,13 @@
 				$('#f5_farmapp').val('<?= @$data['f5_farmapp']; ?>');
 				$('#f5_any_one_have_smart_phone').val('<?= @$data['f5_any_one_have_smart_phone']; ?>');
 				$('#f5_app_name').val('<?= @$data['f5_app_name']; ?>');
-				$('input, select').trigger('change');
+				//$('input, select').trigger('change');
 				
 				$('#f6_jointfamily').val('<?= @$data['f6_jointfamily']; ?>');
 				$('#f6_members').val('<?= @$data['f6_members']; ?>');
 				$('#f6_children').val('<?= @$data['f6_children']; ?>');
 				$('#f6_smartuse').val('<?=  @$data['f6_smartuse']; ?>');
-				$('#f6_children').trigger('change');
-				
-				$('#f7_television').val('<?= @$data['f7_television']; ?>');
-				$('#f7_refrigerator').val('<?= @$data['f7_refrigerator']; ?>');
-				$('#f7_wmachine').val('<?= @$data['f7_wmachine']; ?>');
-				$('#f7_mixer').val('<?= @$data['f7_mixer']; ?>');
-				$('#f7_stove').val('<?= @$data['f7_stove']; ?>');
-				$('#f7_bicycle').val('<?= @$data['f7_bicycle']; ?>');
-				$('#f7_ccylinder').val('<?= @$data['f7_ccylinder']; ?>');
-				$('#f7_fans').val('<?= @$data['f7_fans']; ?>');
-				$('#f7_motorcycle').val('<?= @$data['f7_motorcycle']; ?>');
-				$('#f7_car').val('<?= @$data['f7_car']; ?>');
+				//$('#f6_children').trigger('change');
 				
 				$('#f12_machinery').val('<?= @$data['f12_machinery']; ?>');
 				$('#f12_vehicle').val('<?= @$data['f12_vehicle']; ?>');	
@@ -3077,45 +3241,6 @@
 				$('#f12_any_other_assets').val('<?= @$data['f12_any_other_assets']; ?>');		
 				$('#f12_name_of_other_assets').val('<?= @$data['f12_name_of_other_assets']; ?>');
 				$('#f12_mention_value_of_assets').val('<?= @$data['f12_mention_value_of_assets']; ?>');
-				
-				$('#f13_dairy_cattle').val('<?= @$data['f13_dairy_cattle']; ?>');
-				$('#f13_draft_cattle').val('<?= @$data['f13_draft_cattle']; ?>');
-				$('#f13_buffalo').val('<?= @$data['f13_buffalo']; ?>');
-				$('#f13_ox').val('<?= @$data['f13_ox']; ?>');
-				$('#f13_sheep').val('<?= @$data['f13_sheep']; ?>');
-				$('#f13_goat').val('<?= @$data['f13_goat']; ?>');
-				$('#f13_pig').val('<?= @$data['f13_pig']; ?>');
-				$('#f13_poultry').val('<?= @$data['f13_poultry']; ?>');
-				$('#f13_donkeys').val('<?= @$data['f13_donkeys']; ?>');
-								
-				
-				if($('#f3_married').val() == 'yes'){
-					$('#spouse_detail').show('swing');
-				}
-	
-				if($('#f3_spouse_shg').val() == 'yes')
-				{
-					$('#shg_name').show('swing');
-				}
-	
-				if($('#f3_spouse_occp').val() == 'other' || $('#f3_spouse_occp').val() == 'farmer')
-				{
-					$('#input_income').show('swing');	
-				}
-				
-				if($('#f3_affliation_status').val() == 'yes')
-				{
-					$('#div_affliation_display').show('swing');	
-				}
-				
-				if($('#f3_spouse_mfi').val() == 'yes')
-				{
-					$('#microfinance').show('swing');
-				}
-				else
-				{
-					$('#microfinance').find('input, select').val('');
-				}
 				
 				if($('#f5_phonetype').val() == 'smartphone')
 				{
@@ -3287,8 +3412,18 @@
 						$('#div_any_loan_waivers_display').hide('swing');
 					}
 				});
-				
+				/*calTotal_f2();
+				calTotal_f3();
+				calTotal_f5();
+				calTotal_f6();
+				calTotal_f7();
 				calTotal_f8();
+				calTotal_f9();
+				calTotal_f10();
+				calTotal_f11();
+				calTotal_f12();
+				calTotal_f13();
+				calTotal_f14();*/
 			});
 			
 			function convertIncomeToPoint(x)
@@ -3433,41 +3568,41 @@
 				}	
 			}
 			
-			function convertLiveAssetsToPoints(x)
+			function convertLiveAssetsToPoints(x, val)
 			{
-				if(x == 'dairy_cattle')
+				if(val == 'dairy_cattle' && x != 0)
 				{
 					return 7;
 				}
-				else if(x == 'donkeys')
+				if(val == 'donkeys' && x != 0)
 				{
 					return 3;
 				}
-				else if(x == 'draft_cattle')
+				if(val == 'draft_cattle' && x != 0)
 				{
 					return 7;
 				}
-				else if(x == 'poultry')
+				if(val == 'poultry' && x != 0)
 				{
 					return 7;
 				}
-				else if(x == 'pig')
+				if(val == 'pig' && x != 0)
 				{
 					return 6;
 				}
-				else if(x == 'goat')
+				if(val == 'goat' && x != 0)
 				{
 					return 6;
 				}
-				else if(x == 'sheep')
+				if(val == 'sheep' && x != 0)
 				{
 					return 6;
 				}
-				else if(x == 'ox')
+				if(val == 'ox' && x != 0)
 				{
 					return 4;
 				}
-				else if(x == 'buffalo')
+				else if(val == 'buffalo' && x != 0)
 				{
 					return 7;	
 				}
@@ -3487,7 +3622,7 @@
 				{
 				  return 6;
 				}
-				else if(x >= 101 && x <= 150)
+				else if(x >= 101)
 				{
 				  return 10;
 				}
@@ -3523,7 +3658,7 @@
 			
 			function cal_land_size_pt(x)
 			{
-				if(x >= 0 && x <= 3)
+				if(x > 0 && x <= 3)
 				{
 				  return 5;
 				}
@@ -3631,7 +3766,7 @@
 			
 			function convertIncomeToPointF11(x)
 			{
-				if(x >= 0 && x <= 2500)
+				if(x > 0 && x <= 2500)
 				{
 				  return 4;
 				}
@@ -3639,7 +3774,7 @@
 				{
 				  return 6;
 				}
-				else if(x >= 50001 && x <= 10000)
+				else if(x >= 5001 && x <= 10000)
 				{
 				  return 7;
 				}
@@ -3723,11 +3858,14 @@
 				var c = parseInt($('option:selected','#f2_participation').attr('point')) || 0;
 				applicant_knowledge_g_total = a + b + c;
 				
+				//alert(applicant_knowledge_g_total +'='+ a +'<>'+ b +'<>'+ c);
+				
 				document.getElementById('applicant_knowledge_g_total').innerHTML=applicant_knowledge_g_total;
 				
 				var f2_pt = applicant_knowledge_g_total/3;
 				f2_pt     = f2_pt.toFixed(2);
 				$('#f2_points').val(f2_pt);
+				
 				$('#f2_pt').html(f2_pt);
 				// END : f2
 			}
@@ -3736,7 +3874,7 @@
 			{
 				// START : f3
 				//var f3_married	= '<?php //echo $married_status; ?>';
-				var f3_married	= $('#f3_married').val() || 10;
+				var f3_married	= $('#f3_married').val() || 'yes';
 				var married	= 0;
 				if(f3_married == 'yes')
 				{
@@ -3747,7 +3885,6 @@
 					married 	= 2;
 				}
 				
-				
 				//var married	= parseInt($('option:selected','#f3_married').attr('point')) || 0;
 				
 				if(married === 10)
@@ -3757,16 +3894,16 @@
 					var occp 		= parseInt($('option:selected','#f3_spouse_occp').attr('point')) || 0;
 					var affliation	= parseInt($('option:selected','#f3_affliation_status').attr('point')) || 0;
 					var income 		= parseInt($('#f3_spouse_income').val()) || 0;
-	
+					
 					//age 	= convertAgeToPoint(age);
 					income 	= convertIncomeToPoint(income);
-	
+					
 					if($('#f3_spouse_mfi').val() === 'yes')
 					{
+						var f3_spouse_mfi	= 10
 						var mfiamount	= parseInt($('#f3_spouse_mfiamount').val()) || 0;
-						
 						mfiamount	= convertMfiamountToPoint(mfiamount);
-						spouse_g_total = married + shg + occp + income + affliation + mfiamount;
+						spouse_g_total = married + shg + occp + income + affliation + mfiamount + f3_spouse_mfi;
 					}
 					else
 					{
@@ -3779,28 +3916,20 @@
 					spouse_g_total = married ;
 				}
 				
-				
-				
 				if(f3_married == 'yes')
 				{
 					document.getElementById('spouse_g_total').innerHTML = spouse_g_total;
-					var no_of_point	= 1;
+					var no_of_point	= 5;
 					
-					if(married === 10)
+					if($('#f3_spouse_occp').val() != 'housewife')
 					{
-						no_of_point += 3;
-						
-						if(shg == 'yes')
-						{
-							no_of_point +=1;
-						}
-						if($('#f3_spouse_mfi').val() === 'yes')
-						{
-							no_of_point +=3;
-						}
+						no_of_point	+= 1;
 					}
 					
-					//alert(no_of_point);
+					if($('#f3_spouse_mfi').val() == 'yes')
+					{
+						no_of_point	+= 1;
+					}
 					
 					var f3_pt = spouse_g_total/no_of_point;
 					
@@ -3826,7 +3955,7 @@
 				var farmApp			= parseInt($('option:selected','#f5_farmapp').attr('point')) || 0;
 				
 				phone_details_g_total	= phoneType + anyOtherSPUser + dataPack + farmApp;
-				
+				//alert(phone_details_g_total	+' = '+ phoneType +'<>'+ anyOtherSPUser +'<>'+ dataPack +'<>'+ farmApp);
 				document.getElementById('phone_details_g_total').innerHTML=phone_details_g_total;
 				
 				var f5_pt = phone_details_g_total/4;
@@ -3866,6 +3995,8 @@
 			function calTotal_f7()
 			{
 				// START : f7
+				var reg_resi_points	= "<?php echo $data['f7_reg_points']; ?>";
+				
 				var f7_television	= parseInt($('#f7_television').val()) || 0;
 				var f7_refrigerator	= parseInt($('#f7_refrigerator').val()) || 0;
 				var f7_wmachine 	= parseInt($('#f7_wmachine').val()) || 0;
@@ -3894,19 +4025,21 @@
 				var f7_pt = appliances_motors_g_total/10;
 				f7_pt     = f7_pt.toFixed(2);
 				$('#f7_points').val(f7_pt);
-				$('#f7_pt').html(f7_pt);
+				var display_f7_pts	= parseInt(reg_resi_points) + parseInt(f7_pt);
+				$('#f7_pt').html(display_f7_pts);
 				// END : f7
 			}
 			
 			function calTotal_f8()
 			{
 				// START : f8 [Loan Frm 1]
+				
 				f8_loan_taken	= parseInt($('option:selected','#f8_loan_taken').attr('point')) || 0;
 				
 				financial_details_g_total = f8_loan_taken;
 				
 				document.getElementById('financial_details_g_total').innerHTML=financial_details_g_total;
-				f8_pt     = financial_details_g_total/(contentCountLoanFrm1* 4)
+				f8_pt     = financial_details_g_total/(contentCountLoanFrm1*1)
 				f8_pt     = f8_pt.toFixed(2);
 				$('#f8_points').val(f8_pt);
 				$('#f8_pt').html(f8_pt);
@@ -3920,15 +4053,24 @@
 				// END : f8 [Loan Frm 1]
 				
 				// START : f8 [Loan frm 2]
+				var divided_by	= 2;
+				var f8_other_insurance	= 0;
 				var f8_loan_borrowed_from 	= parseInt($('option:selected','#f8_loan_borrowed_from').attr('point')) || 0;
 				var f8_any_insurance 		= parseInt($('option:selected','#f8_any_insurance').attr('point')) || 0;
-				var f8_other_insurance 		= parseInt($('option:selected','#f8_other_insurance').attr('point')) || 0;
+				
+				f8_any_insurance_val	= $('#f8_any_insurance').val();
+				
+				if(f8_any_insurance_val == 'yes')
+				{
+					f8_other_insurance 		= parseInt($('option:selected','#f8_other_insurance').attr('point')) || 0;		
+					divided_by	+= 1;
+				}
 				
 				financial_history_g_total	= f8_loan_borrowed_from + f8_any_insurance + f8_other_insurance;
 				
 				document.getElementById('financial_history_g_total').innerHTML = financial_history_g_total;
 				
-				var f8_pt_fh = financial_history_g_total/3;
+				var f8_pt_fh = financial_history_g_total/divided_by;
 				f8_pt_fh     = f8_pt_fh.toFixed(2);
 				$('#f8_financial_history_points').val(f8_pt_fh);
 				$('#f8_pt_fh').html(f8_pt_fh); 
@@ -3938,8 +4080,8 @@
 			function calTotal_f9()
 			{
 				// START : f9
-				var no_of_points        	= 2;
-				var f9_land_size_tpt    	= 0;
+				var no_of_points        	= 5;
+				var f9_land_size_tpt		= 0;
 				var f9_owner_tpt			= 0;
 				var f9_soil_tested_pt   	= 0;
 				var f9_soil_type_tpt    	= 0;
@@ -3955,24 +4097,19 @@
 					f9_owner_tpt	+= f9_owner;
 					
 					var f9_soil_tested  = $('#f9_soil_tested'+i).val() || 'no';
-					if(f9_soil_tested=='yes')
-					{
-						f9_soil_tested_pt 	+= 10;
-						no_of_points        = 3;
-					}
-					else
-					{
-						f9_soil_tested_pt += 0;
-					}
+					f9_soil_tested_pt 	+= parseInt($('option:selected','#f9_soil_tested'+i).attr('point')) || 0;
 					
-					var f9_soil_type = parseInt($('option:selected','#f9_soil_type'+i).attr('point')) || 0;
+					var f9_soil_type 	= parseInt($('option:selected','#f9_soil_type'+i).attr('point')) || 0;
 					f9_soil_type_tpt    += f9_soil_type ;
 					
 					var f9_source_of_water	= parseInt($('option:selected','#f9_source_of_water'+i).attr('point')) || 0;
 					f9_source_of_water_tpt	+= f9_source_of_water; 
 				}
 				
-				farm_land_details_g_total	= f9_land_size_tpt + f9_soil_tested_pt + f9_soil_type_tpt + f9_owner_tpt + f9_source_of_water_tpt;
+				farm_land_details_g_total	= parseInt(f9_land_size_tpt) + parseInt(f9_soil_tested_pt) + parseInt(f9_soil_type_tpt) + parseInt(f9_owner_tpt) + parseInt(f9_source_of_water_tpt);
+				
+				//alert(farm_land_details_g_total);
+				
 				document.getElementById('farm_land_details_g_total').innerHTML = farm_land_details_g_total;
 				
 				//alert(no_of_points+'*'+contentCountLand);
@@ -3983,10 +4120,20 @@
 				$('#f9_pt').html(f9_pt);
 				$('#no_of_land').val(contentCountLand);
 				
-				if(contentCountLand > 1)
+				/*if(contentCountLand > 1)
+				{
+					$('#removeLandType').show('swing');
+				}*/
+				
+				if(contentCountLand == 1)
+				{
+				   $('#removeLandType').hide('swing');
+				}
+				else
 				{
 					$('#removeLandType').show('swing');
 				}
+				
 				// END : f9
 			}
 			
@@ -4000,28 +4147,37 @@
 				var tonnes		= 0;
 				var price       = 0;
 				var income      = 0;
+				var f10_filt_type	= 0;
 				
 				for(var i=1; i<=contentCountCrop; i++)
 				{
 					pnts = 0;
-					cultivating += parseInt($('option:selected','#f10_cultivating'+i).attr('point')) || 0;
-					stage       += parseInt($('option:selected','#f10_stage'+i).attr('point')) || 0;
-					diseases    += parseInt($('option:selected','#f10_diseases'+i).attr('point')) || 0;
-					pest        += parseInt($('option:selected','#f10_pest'+i).attr('point')) || 0;
-					tonnes_pt  	= $('#f10_expected'+i).val() ? (parseInt($('#f10_expected'+i).val()) || 0) : undefined;
-					price_pt    = parseInt($('#f10_expectedprice'+i).val()) || 0;
-					income_pt   = parseInt($('#f10_expectedincome'+i).val()) || 0;
+					cultivating 		+= parseInt($('option:selected','#f10_cultivating'+i).attr('point')) || 0;
+					f10_filt_type 		+= parseInt($('option:selected','#f10_filt_type'+i).attr('point')) || 0;
+					
+					stage       		+= parseInt($('option:selected','#f10_stage'+i).attr('point')) || 0;
+					diseases    		+= parseInt($('option:selected','#f10_diseases'+i).attr('point')) || 0;
+					pest        		+= parseInt($('option:selected','#f10_pest'+i).attr('point')) || 0;
+					tonnes_pt  			= $('#f10_expected'+i).val() ? (parseInt($('#f10_expected'+i).val()) || 0) : undefined;
+					//price_pt    		= parseInt($('#f10_expectedprice'+i).val()) || 0;
+					//income_pt  		= parseInt($('#f10_expectedincome'+i).val()) || 0;
+					price_pt	= 0;
+					income_pt	= 0;
 	
 					tonnes	+= convertTonnesToPoint(tonnes_pt);
 					price 	+= convertPriceToPoint(price_pt);
 					income 	+= convertIncomeToPointF10(income_pt);
 				}
 				
-				crop_cultivation_g_total = cultivating + stage + diseases + pest + tonnes + price + income;
-				document.getElementById('crop_cultivation_g_total').innerHTML=crop_cultivation_g_total;
-				crop_cultivation_g_total =(crop_cultivation_g_total/(contentCountCrop*7));
+				crop_cultivation_g_total = cultivating + stage + diseases + pest + tonnes + price + income + f10_filt_type;
 				
-				f10_pt     =crop_cultivation_g_total.toFixed(2);
+				//alert(cultivating +'<>'+ stage +'<>'+ diseases +'<>'+ pest +'<>'+ tonnes +'<>'+ price +'<>'+ income +'<>'+ f10_filt_type);
+				
+				document.getElementById('crop_cultivation_g_total').innerHTML=crop_cultivation_g_total;
+				crop_cultivation_g_total =(crop_cultivation_g_total/(contentCountCrop*5));
+				
+				f10_pt     = crop_cultivation_g_total.toFixed(2);
+				
 				$('#f10_points').val(f10_pt);
 				$('#f10_pt').html(f10_pt);
 				$('#no_of_crops').val(contentCountCrop);
@@ -4040,35 +4196,46 @@
 			function calTotal_f11()
 			{
 				// START : f11
+				var income 		= 0;
 				var diseases    = 0;
 				var fertilizers = 0;
 				var achieved 	= 0;
-				var income 		= 0;
 				var f11_damaged_prev_crop	= 0;
 				
 				for(var i=1; i <= contentCountPrevCrop; i++)
 				{
+					income_pt 	= parseInt($('#f11_income'+i).val()) || 0;
 					diseases   	+= parseInt($('option:selected','#f11_diseases'+i).attr('point')) || 0;
 					fertilizers += parseInt($('option:selected','#f11_fertilizers'+i).attr('point')) || 0;
 					f11_damaged_prev_crop += parseInt($('option:selected','#f11_damaged_prev_crop'+i).attr('point')) || 0;
-					achieved_pt = parseInt($('#f11_achieved'+i).val()) || 0;
-					income_pt 	= parseInt($('#f11_income'+i).val()) || 0;
+					//achieved_pt = parseInt($('#f11_achieved'+i).val()) || 0;
 					
-					achieved 	+= convertAchievedToPoint(achieved_pt);
+					//achieved 	+= convertAchievedToPoint(achieved_pt);
 					income   	+= convertIncomeToPointF11(income_pt);
 				}
 					
 				prev_crop_cycle_g_total = diseases + fertilizers + achieved + income + f11_damaged_prev_crop;
+				
 				document.getElementById('prev_crop_cycle_g_total').innerHTML=prev_crop_cycle_g_total;
+				
 				f11_pt     = prev_crop_cycle_g_total/(contentCountPrevCrop * 4)
 				f11_pt     = f11_pt.toFixed(2);
 				$('#f11_points').val(f11_pt);
 				$('#f11_pt').html(f11_pt);
 				
 				$('#no_of_yield').val(contentCountPrevCrop);
-				if(contentCountPrevCrop == 1)
+				/*if(contentCountPrevCrop == 1)
 				{
 					$('.removePrevCrop').hide('swing');
+				}*/
+				
+				if(contentCountPrevCrop==1)
+				{
+				   $('.removePrevCrop').hide('swing');
+				}
+				else
+				{
+					$('.removePrevCrop').show('swing');
 				}
 				// END : f11
 			}
@@ -4076,19 +4243,31 @@
 			function calTotal_f12()
 			{
 				// START : f12
+				var divided_by	= 4;
+				var f12_mention_value_of_assets	= 0;
+				
 				var f12_vehicle					= parseInt($('option:selected','#f12_vehicle').attr('point')) || 0;
 				var f12_total_val_of_vehical	= $('#f12_total_val_of_vehical').val();
 				f12_total_val_of_vehical		= convertAssetsToPoint(f12_total_val_of_vehical);
 				var f12_machinery				= parseInt($('option:selected','#f12_machinery').attr('point')) || 0;
 				var f12_total_val_of_machinery	= $('#f12_total_val_of_machinery').val();
 				f12_total_val_of_machinery		= convertAssetsToPoint(f12_total_val_of_machinery);
-				var f12_mention_value_of_assets	= $('#f12_mention_value_of_assets').val();
-				f12_mention_value_of_assets		= convertAssetsToPoint(f12_mention_value_of_assets);
+				
+				var f12_any_other_assets	= $('#f12_any_other_assets').val();
+				//alert(f12_any_other_assets);
+				if(f12_any_other_assets == 'yes')
+				{
+					f12_mention_value_of_assets	= $('#f12_mention_value_of_assets').val();
+					f12_mention_value_of_assets		= convertAssetsToPoint(f12_mention_value_of_assets);	
+					divided_by	= 5;
+				}
 				
 				asset_details_g_total	= f12_vehicle + f12_total_val_of_vehical + f12_machinery + f12_total_val_of_machinery + f12_mention_value_of_assets;
 				
+				//alert(asset_details_g_total	+'='+ f12_vehicle +'<>'+ f12_total_val_of_vehical +'<>'+ f12_machinery +'<>'+ f12_total_val_of_machinery +'<>'+ f12_mention_value_of_assets);
+				
 				document.getElementById('asset_details_g_total').innerHTML = asset_details_g_total;
-				var f12_pt = asset_details_g_total/3;
+				var f12_pt = asset_details_g_total/divided_by;
 				f12_pt     = f12_pt.toFixed(2);
 				$('#f12_points').val(f12_pt);
 				$('#f12_pt').html(f12_pt);
@@ -4109,7 +4288,7 @@
 				f13_buffalo 	 = parseInt($('#f13_buffalo').val()|| '0');
 				
 				total_p          = f13_dairy_cattle + f13_donkeys + f13_draft_cattle + f13_poultry +f13_pig +f13_goat +f13_sheep + f13_ox +f13_buffalo;
-				
+				//alert(total_p +'='+ f13_dairy_cattle +'<>'+ f13_donkeys +'<>'+ f13_draft_cattle +'<>'+ f13_poultry +'<>'+ f13_pig +'<>'+ f13_goat +'<>'+ f13_sheep +'<>'+ f13_ox +'<>'+ f13_buffalo);
 				if(total_p == 0)
 				{
 					$('#livestock_count').hide('wing');
@@ -4122,15 +4301,15 @@
 					$('#f13_livestock_count').val(total_p);
 				}
 				
-				var f13_dairy_cattle_pt	= convertLiveAssetsToPoints('dairy_cattle');
-				var f13_donkeys_pt      = convertLiveAssetsToPoints('donkeys');
-				var f13_draft_cattle_pt = convertLiveAssetsToPoints('draft_cattle');
-				var f13_poultry_pt		= convertLiveAssetsToPoints('poultry');
-				var f13_pig_pt 		 	= convertLiveAssetsToPoints('pig');
-				var f13_goat_pt  		= convertLiveAssetsToPoints('goat');
-				var f13_sheep_pt		= convertLiveAssetsToPoints('sheep');
-				var f13_ox_pt			= convertLiveAssetsToPoints('ox');
-				var f13_buffalo_pt		= convertLiveAssetsToPoints('buffalo');
+				var f13_dairy_cattle_pt	= convertLiveAssetsToPoints(f13_dairy_cattle, 'dairy_cattle');
+				var f13_donkeys_pt      = convertLiveAssetsToPoints(f13_donkeys, 'donkeys');
+				var f13_draft_cattle_pt = convertLiveAssetsToPoints(f13_draft_cattle, 'draft_cattle');
+				var f13_poultry_pt		= convertLiveAssetsToPoints(f13_poultry, 'poultry');
+				var f13_pig_pt 		 	= convertLiveAssetsToPoints(f13_pig, 'pig');
+				var f13_goat_pt  		= convertLiveAssetsToPoints(f13_goat, 'goat');
+				var f13_sheep_pt		= convertLiveAssetsToPoints(f13_sheep, 'sheep');
+				var f13_ox_pt			= convertLiveAssetsToPoints(f13_ox, 'ox');
+				var f13_buffalo_pt		= convertLiveAssetsToPoints(f13_buffalo, 'buffalo');
 				
 				var f13_livestock_count	= $('#f13_livestock_count').val();
 				var f13_livestock_count_pt	= convertLiveStockCountToPoints(f13_livestock_count);
@@ -4139,6 +4318,8 @@
 				var f13_livestock_income_pt	= convertLiveStockIncomeToPoints(f13_livestock_income);
 				
 				live_stock_g_total	= f13_dairy_cattle_pt + f13_donkeys_pt + f13_draft_cattle_pt + f13_poultry_pt + f13_pig_pt + f13_goat_pt + f13_sheep_pt + f13_ox_pt + f13_buffalo_pt + f13_livestock_count_pt + f13_livestock_income_pt;
+				
+				//alert(live_stock_g_total +'='+ f13_dairy_cattle_pt +'<>'+ f13_donkeys_pt +'<>'+ f13_draft_cattle_pt +'<>'+ f13_poultry_pt +'<>'+ f13_pig_pt +'<>'+ f13_goat_pt +'<>'+ f13_sheep_pt +'<>'+ f13_ox_pt +'<>'+ f13_buffalo_pt +'<>'+ f13_livestock_count_pt +'<>'+ f13_livestock_income_pt);
 				
 				document.getElementById('live_stock_g_total').innerHTML = live_stock_g_total;
 				var f13_pt = live_stock_g_total/3;
@@ -4157,22 +4338,35 @@
 				var f14_loan_amount_pt		= 0;
 				var f14_borrow_loan_from	= 0;
 				var f14_water_source_type	= 0;
+				var divided_by	= 3;
 				
 				for(var i=1; i <= contentCountCurCrop; i++)
 				{
 					f14_seed_type   		+= parseInt($('option:selected','#f14_seed_type'+i).attr('point')) || 0;
 					f14_loan_taken   		+= parseInt($('option:selected','#f14_loan_taken'+i).attr('point')) || 0;
-					f14_borrow_loan_from	+= parseInt($('option:selected','#f14_borrow_loan_from'+i).attr('point')) || 0;
-					f14_water_source_type	+= parseInt($('option:selected','#f14_water_source_type'+i).attr('point')) || 0;
-					f14_loan_amount 		= parseInt($('#f14_loan_amount'+i).val()) || 0;
+					alert(f14_loan_taken);
+					f14_loan_taken_val	= $('#f14_loan_taken'+i).val();
 					
-					f14_loan_amount_pt   	+= convertLoanAmountToPointF14(f14_loan_amount);
+					if(f14_loan_taken_val == 'yes')
+					{
+						f14_loan_amount 		= parseInt($('#f14_loan_amount'+i).val()) || 0;
+						f14_loan_amount_pt   	+= convertLoanAmountToPointF14(f14_loan_amount);
+						
+						f14_borrow_loan_from	+= parseInt($('option:selected','#f14_borrow_loan_from'+i).attr('point')) || 0;	
+						
+						divided_by	= 5;
+					}
+					
+					f14_water_source_type	+= parseInt($('option:selected','#f14_water_source_type'+i).attr('point')) || 0;
+					
 				}
 					
 				cur_crop_cycle_g_total = f14_seed_type + f14_loan_taken + f14_borrow_loan_from + f14_water_source_type + f14_loan_amount_pt;
 				
+				//alert(cur_crop_cycle_g_total +'='+ f14_seed_type +'<>'+ f14_loan_taken +'<>'+ f14_borrow_loan_from +'<>'+ f14_water_source_type +'<>'+ f14_loan_amount_pt);
+				
 				document.getElementById('cur_crop_cycle_g_total').innerHTML=cur_crop_cycle_g_total;
-				f14_pt     = cur_crop_cycle_g_total/(contentCountCurCrop * 4)
+				f14_pt     = cur_crop_cycle_g_total/(contentCountCurCrop * divided_by)
 				f14_pt     = f14_pt.toFixed(2);
 				$('#f14_points').val(f14_pt);
 				$('#f14_pt').html(f14_pt);
@@ -4727,7 +4921,7 @@
 					$('#program_detail').hide('swing');
 					$('#program_detail').find('input, select').val('').trigger('change');
 				}
-				calTotal_2();
+				calTotal_f2();
 			});
 			
 			$('#f2_typeprog').on('change', function(){
@@ -4799,9 +4993,17 @@
 				}
 			});
 			
-			
-			
-			
+			$('#f12_any_other_assets').on('change', function(){
+				if($(this).val() == 'yes'){
+					$('#div_any_other_assets_display').show('swing');
+				}
+				else
+				{
+					$('#div_any_other_assets_display').hide('swing');
+					$('#div_any_other_assets_display').find('input, select').val('').trigger('change');
+				}
+				calTotal_f12();
+			});
 			
 			$('#f7_television').on('blur', function(){
 				if($(this).val() != '' && $(this).val() != 'null')
@@ -4873,6 +5075,77 @@
 				}
 			});
 			
+			// START : f13
+			$('#f13_dairy_cattle').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			
+			$('#f13_draft_cattle').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			
+			$('#f13_buffalo').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			   
+			$('#f13_ox').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			
+			$('#f13_sheep').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			
+			$('#f13_goat').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			   
+			$('#f13_pig').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			
+			$('#f13_poultry').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			
+			$('#f13_livestock_income').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f13();
+				}
+			});
+			// END : f13
+			
+			$('#f3_spouse_mfiamount').on('blur', function(){
+			
+				calTotal_f3();
+				
+			});
+			
 			function numsonly(e)
 			{
 				var unicode=e.charCode? e.charCode : e.keyCode
@@ -4913,6 +5186,28 @@
 					$('#f9_contract_year'+id).val('');
 					$('#f9_lease_year'+id).val('');
 				}
+				else if(value == 'Owned')
+				{
+					$('#div_rental_display'+id).hide('swing');
+					$('#div_contract_display'+id).hide('swing');
+					$('#div_lease_display'+id).hide('swing');
+					
+					$('#f9_contract_year'+id).val('');
+					$('#f9_amount_on_rent'+id).val('');
+					$('#f9_lease_year'+id).val('');
+				}
+				else if(value == 'Ancestral')
+				{
+					$('#div_rental_display'+id).hide('swing');
+					$('#div_contract_display'+id).hide('swing');
+					$('#div_lease_display'+id).hide('swing');
+					
+					$('#f9_contract_year'+id).val('');
+					$('#f9_amount_on_rent'+id).val('');
+					$('#f9_lease_year'+id).val('');	
+				}
+				
+				calTotal_f9();
 			}
 			
 			function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
@@ -5033,13 +5328,21 @@
 			{
 				if(remove==1)
 				{
-					$('#lands').find('#land'+contentCountLand).slideUp("slow");
+					if(contentCountLand > 1)
+					{
+						$('#lands').find('#land'+contentCountLand).slideUp("slow", function(){
+							$(this).remove();
+							contentCountLand--;
+							calTotal_f9();
+						});
+					}
+					/*$('#lands').find('#land'+contentCountLand).slideUp("slow");
 					contentCountLand    = contentCountLand - 1
 					if(contentCountLand==1)
 					{
 						$('#removeLandType').hide('swing');
 					}
-					calTotal_f9();
+					calTotal_f9();*/
 					return false;
 				}
 				
@@ -5323,9 +5626,9 @@
 						cropData	+= '</div>';
 										
 						cropData	+= '<div class="control-group">';
-							cropData	+= '<label for="tasktitel" class="control-label">Total Yield Expected [In tonnes Per Acre] <span style="color:#F00">*</span></label>';
+							cropData	+= '<label for="tasktitel" class="control-label">Total Yield Expected [Per Acre Per Crop] <span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
-								cropData	+= '<input type="text" id="f10_expected'+contentCountCrop+'" name="f10_expected'+contentCountCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected">';
+								cropData	+= '<input type="text" id="f10_expected'+contentCountCrop+'" name="f10_expected'+contentCountCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected"> Quintal';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 									
@@ -5357,16 +5660,16 @@
 						cropData	+= '</div>';
 										
 						cropData	+= '<div class="control-group">';
-							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Expected Price This Year In Rs.<span style="color:#F00">*</span></label>';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Expected Price This Year [Per Quintal Per Acre]<span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
-								cropData	+= '<input type="text" id="f10_expectedprice'+contentCountCrop+'" name="f10_expectedprice'+contentCountCrop+'" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Expected Price">';
+								cropData	+= '<input type="text" id="f10_expectedprice'+contentCountCrop+'" name="f10_expectedprice'+contentCountCrop+'" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Expected Price">  In Rs.';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 										
 						cropData	+= '<div class="control-group">';
-							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year  [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
-								cropData	+= '<input type="text" id="f10_expectedincome'+contentCountCrop+'" name="f10_expectedincome'+contentCountCrop+'" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected">';
+								cropData	+= '<input type="text" id="f10_expectedincome'+contentCountCrop+'" name="f10_expectedincome'+contentCountCrop+'" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected">  In Rs.';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 										
@@ -5647,7 +5950,7 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">What type of seeds you plan to buy?<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<select id="f14_seed_type'+contentCountCurCrop+'" name="f14_seed_type'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true">';
+							curCropData	+= '<select id="f14_seed_type'+contentCountCurCrop+'" name="f14_seed_type'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">';
 								curCropData	+= '<option value="" disabled selected> Select here</option>';
 								curCropData	+= '<option point="10" value="Hybrid">Hybrid</option>';
 								curCropData	+= '<option point="0" value="Non Hybrid">Non-Hybrid</option>';
@@ -5683,10 +5986,10 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Did you take loan to buy seeds?<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<select id="f14_loan_taken'+contentCountCurCrop+'" name="f14_loan_taken'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true">';
+							curCropData	+= '<select id="f14_loan_taken'+contentCountCurCrop+'" name="f14_loan_taken'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">';
 								curCropData	+= '<option value="" disabled selected> Select here</option>';
-								curCropData	+= '<option value="yes" >Yes</option>';
-								curCropData	+= '<option value="no">No</option>';
+								curCropData	+= '<option point="0" value="yes" >Yes</option>';
+								curCropData	+= '<option point="10" value="no">No</option>';
 							curCropData	+= '</select>';
 						curCropData	+= '</div>';
 					curCropData	+= '</div>';
@@ -5696,21 +5999,20 @@
 						curCropData	+= '<div class="control-group">';
 							curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">How much is the loan amount?<span style="color:#F00">*</span></label>';
 							curCropData	+= '<div class="controls">';
-								curCropData	+= '<input type="text" value="" id="f14_loan_amount'+contentCountCurCrop+'" name="f14_loan_amount'+contentCountCurCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="How much is the loan amount">';
+								curCropData	+= '<input type="text" value="" id="f14_loan_amount'+contentCountCurCrop+'" name="f14_loan_amount'+contentCountCurCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="How much is the loan amount" onblur="calTotal_f14();">';
 							curCropData	+= '</div>';
 						curCropData	+= '</div>';
 										
 						curCropData	+= '<div class="control-group">';
 							curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Where did you borrow the loan from?<span style="color:#F00">*</span></label>';
 							curCropData	+= '<div class="controls">';
-								curCropData	+= '<select id="f14_borrow_loan_from'+contentCountCurCrop+'" name="f14_borrow_loan_from'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true">';
+								curCropData	+= '<select id="f14_borrow_loan_from'+contentCountCurCrop+'" name="f14_borrow_loan_from'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">';
 									curCropData	+= '<option value="" disabled selected> Select here</option>';
-									curCropData	+= '<option point="0" value="Cooprative Bank" >Cooprative Bank</option>';
-									curCropData	+= '<option point-"10" value="Bank">Bank</option>';
-									curCropData	+= '<option point-"8" value="MFI OR NBFC" >MFI/NBFC</option>';
-									curCropData	+= '<option point-"6" value="FPO" >FPO</option>';
-									curCropData	+= '<option point-"0" value="Money Lender">Money Lender (Private)</option>';
-									curCropData	+= '<option point-"2" value="Other Lending Institutions">Other Lending Institutions (Muthoot)</option>';
+									curCropData	+= '<option point="10" value="Bank">Bank</option>';
+									curCropData	+= '<option point="8" value="MFI OR NBFC" >MFI/NBFC</option>';
+									curCropData	+= '<option point="6" value="FPO" >FPO</option>';
+									curCropData	+= '<option point="0" value="Money Lender">Money Lender (Private)</option>';
+									curCropData	+= '<option point="2" value="Other Lending Institutions">Other Lending Institutions (Muthoot)</option>';
 								curCropData	+= '</select>';
 							curCropData	+= '</div>';
 						curCropData	+= '</div>';
@@ -5734,7 +6036,7 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">What type of water sources you are depending on?<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<select id="f14_water_source_type'+contentCountCurCrop+'" name="f14_water_source_type'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true">';
+							curCropData	+= '<select id="f14_water_source_type'+contentCountCurCrop+'" name="f14_water_source_type'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">';
 								curCropData	+= '<option value="" disabled selected> Select here</option>';
 								curCropData	+= '<option point="2" value="Rainwater Only" >Rainwater Only</option>';
 								curCropData	+= '<option point="8" value="Irrigation">Irrigation</option>';

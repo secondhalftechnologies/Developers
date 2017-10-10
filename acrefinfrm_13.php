@@ -135,6 +135,7 @@ if($fm_id!="" && isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']!=
 			f13_sheep		 = parseInt($('#f13_sheep').val()|| '0');
 			f13_ox			 = parseInt($('#f13_ox').val()|| '0');
 			f13_buffalo 	 = parseInt($('#f13_buffalo').val()|| '0');
+			
 			total_p          = f13_dairy_cattle + f13_donkeys + f13_draft_cattle + f13_poultry +f13_pig +f13_goat +f13_sheep + f13_ox +f13_buffalo;
 
 			if(total_p == 0)

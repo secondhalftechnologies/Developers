@@ -30,8 +30,6 @@ if(isset($_POST['add_applicant_detail']) && $_POST['add_applicant_detail']==1)
 	$data['f5_status']    					= 1;
 	$data['f5_section_id']					= '';
 	
-	
-	
 	if($data['f5_phonetype']!="" && $data['fm_caid']!="" && $data['fm_id']!="")
 	{
 		

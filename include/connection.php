@@ -441,7 +441,7 @@ EOF;
         <!-- chosen -->
         <link rel="stylesheet" href="css/plugins/chosen/chosen.css">
         <!-- select2 -->
-        <link rel="stylesheet" href="css/plugins/select2/select2.css">
+        <link rel="stylesheet" href="css/plugins/select2/select2.min.css">
         <!-- icheck -->
         <link rel="stylesheet" href="css/plugins/icheck/all.css">
         <!-- Theme CSS -->

@@ -119,8 +119,9 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	else
 	{
 		$id = $check_exist['id'];
-		
-		$data['f3_points']	= $data['f3_points'] + $data['f3_married_reg_points'];
+		//quit($data['f3_points'].'<==>'.$data['f3_married_reg_points']);
+		//$data['f3_points']	= $data['f3_points'] + $data['f3_married_reg_points'];
+		$data['f3_points']	= $data['f3_points'];
 		
 		$data['f3_modified_by']= $_POST['fm_caid'];
         $data['f3_modified_date']=$datetime;

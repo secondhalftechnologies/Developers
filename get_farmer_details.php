@@ -28,6 +28,24 @@
 		}
 	}
 	
+	$sum_of_points	= $pt_row['pt_frm1'] + $pt_row['pt_frm2'] + $pt_row['pt_frm3'] + $pt_row['pt_frm4'] + $pt_row['pt_frm5'] + $pt_row['pt_frm6'] + $pt_row['pt_frm7'] + $pt_row['pt_frm8'] + $pt_row['pt_frm8_fh'] + $pt_row['pt_frm9'] + $pt_row['pt_frm10'] + $pt_row['pt_frm11'] + $pt_row['pt_frm12'] + $pt_row['pt_frm13'] + $pt_row['pt_frm14'];
+	
+	$avg_of_points	= $sum_of_points / 15;
+	//echo $avg_of_points;
+	
+	// Query For getting the Farmer Info
+	$res_get_farmer_info = lookup_value('tbl_farmers',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_get_farmer_info)
+	{
+		$num_get_farmer_info	= mysqli_num_rows($res_get_farmer_info);
+		if($num_get_farmer_info != 0)
+		{
+			$row_get_farmer_info	= mysqli_fetch_array($res_get_farmer_info);
+		}
+	}
+	
+	$farmer_name	= ucwords($row_get_farmer_info['fm_name']);
+	
     $res_spouse_details     = lookup_value('tbl_spouse_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
     if($res_spouse_details)
     {
@@ -318,7 +336,8 @@
 <html>
     <head>
     	<?php
-        	headerdata($feature_name);
+        	//headerdata($feature_name);
+			headerdata($farmer_name.'\'s Details');
 		?>
     </head>
     
@@ -338,7 +357,8 @@
             <div id="main" style="margin-left:0px !important">
                 <?php
 				/* this function used to add navigation menu to the page*/
-				breadcrumbs($home_url,$home_name,'Farmer Details',$filename,$feature_name);
+				//breadcrumbs($home_url,$home_name,'Farmer Details',$filename,$feature_name);
+				breadcrumbs($home_url,$home_name, $farmer_name.'\'s Details',$filename, $farmer_name.'\'s Details');
 				/* this function used to add navigation menu to the page*/
 				?>
                 <div class="container-fluid">
@@ -348,7 +368,7 @@
                                 <div class="box-title">
                                     <h3>
                                         <i class="icon-table"></i>
-                                        Have to show Name of the Farmer and his respective overall score here...!!!
+                                        <?php echo $farmer_name.'\' Details ('.round($avg_of_points, 2).')'; ?>
                                     </h3>
                                 </div>
                                 <div class="box-content nopadding tab-content-inline">
@@ -1135,6 +1155,7 @@
                                                                 <input type="hidden" id="fm_caid" name="fm_caid" value="<?php echo $_SESSION['fm_caid']; ?>">
                                                                 <input type="hidden" name="f9_points" value="" id="f9_points">
                                                                 <input type="hidden" name="no_of_land" value="" id="no_of_land">
+                                                                <input type="hidden" name="hid_incrementalID" value="" id="hid_incrementalID">
                                                                 
                                                                 <div class="form-content">
 
@@ -1323,6 +1344,15 @@
                                                                                     </div>  <!-- Pincode -->
                                                                                     
                                                                                     <div class="control-group" >
+                                                                                    	<label for="tasktitel" class="control-label" >Get Geo Location</label>
+                                                                                        <div class="controls">
+                                                                                        	<a href="javascript:void(0);" onClick="tryAPIGeolocation(<?php echo $id; ?>)">Get Location<a>
+                                                                                            <p id="xland"></p>
+                                                                                            <span id="span_error<?php echo $id; ?>"></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">latitude <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
                                                                                         	<input type="text" value="<?php if((isset($land_arr[$i]['f9_lat'])) && $land_arr[$i]['f9_lat'] != ''){ echo $land_arr[$i]['f9_lat']; } ?>" id="f9_lat<?php echo $id; ?>" name="f9_lat<?php echo $id; ?>" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>
@@ -1397,6 +1427,8 @@
                                                                             </div>
                                                                             
                                                                             <script>
+																				//var x = document.getElementById("demo");
+																			
 																				<?php 
 																				echo 'contentCountLand='.$id.';';
 																				?>
@@ -2114,6 +2146,7 @@
                                                                     </div>
                                                                     
                                                                	</div>
+                                                                
                                                             </form>
                                                             <h1 id="cur_crop_cycle_g_total">0</h1>
                                                         </div>	<!-- Current Crop Cycle Details -->
@@ -4369,9 +4402,10 @@
 				
 				document.getElementById('cur_crop_cycle_g_total').innerHTML=cur_crop_cycle_g_total;
 				
-				alert(f14_pt +' = '+ cur_crop_cycle_g_total +' / ( '+ contentCountCurCrop +' * '+ divided_by +' )');
+				//alert(f14_pt +' = '+ cur_crop_cycle_g_total +' / ( '+ contentCountCurCrop +' * '+ divided_by +' )');
 				
-				f14_pt     = cur_crop_cycle_g_total/(contentCountCurCrop * divided_by);
+				//f14_pt     = cur_crop_cycle_g_total/(contentCountCurCrop * divided_by);
+				f14_pt     = cur_crop_cycle_g_total/(divided_by);
 				f14_pt     = f14_pt.toFixed(2);
 				$('#f14_points').val(f14_pt);
 				$('#f14_pt').html(f14_pt);
@@ -5162,6 +5196,42 @@
 				}
 			}
 			
+			
+			/*var xland = document.getElementById("xland");
+			
+			function getLocation1()
+			{
+				alert("hello geo");
+				 if (navigator.geolocation) {
+        				navigator.geolocation.getCurrentPosition(showPosition, showError);
+   				 } else { 
+        			x.innerHTML = "Geolocation is not supported by this browser.";
+   				 }
+			}
+			
+			function showPosition(position) {
+				x.innerHTML = "Latitude: " + position.coords.latitude + 
+				"<br>Longitude: " + position.coords.longitude;
+			}
+			
+			function showError(error) {
+				switch(error.code) {
+					case error.PERMISSION_DENIED:
+						x.innerHTML = "User denied the request for Geolocation."
+						break;
+					case error.POSITION_UNAVAILABLE:
+						x.innerHTML = "Location information is unavailable."
+						break;
+					case error.TIMEOUT:
+						x.innerHTML = "The request to get user location timed out."
+						break;
+					case error.UNKNOWN_ERROR:
+						x.innerHTML = "An unknown error occurred."
+						break;
+				}
+			}
+			*/
+			
 			function ownership(id,value)
 			{
 				if(value == 'Leased')
@@ -5460,7 +5530,16 @@
 							landData	+= '<div class="controls">';
 								landData	+= '<input type="text" id="f9_pincode'+contentCountLand+'" name="f9_pincode'+contentCountLand+'" placeholder="Pin-Code" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" minlength="6" maxlength="6" size="6" />';
 							landData	+= '</div>';
-						landData	+= '</div>  ';
+						landData	+= '</div>';
+						
+						landData	+= '<div class="control-group" >';
+							landData	+= '<label for="tasktitel" class="control-label" >Get Geo Location</label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<a href="javascript:void(0);" onClick="tryAPIGeolocation('+contentCountLand+')">Get Location<a>';
+								landData	+= '<p id="xland"></p>';
+								landData	+= '<span id="span_error'+contentCountLand+'"></span>';
+							landData	+= '</div>';
+						landData	+= '</div>';
 										
 						landData	+= '<div class="control-group" >';
 							landData	+= '<label for="tasktitel" class="control-label">latitude <span style="color:#F00">*</span></label>';
@@ -5539,6 +5618,9 @@
 				/*alert(landData);
 				return false;*/
 				
+				$('#lands').append(landData).find('#land'+contentCountLand).slideDown("slow");
+				
+				//getSelect();
 				$('#f9_owner'+contentCountLand).select2();
 				$('#f9_state'+contentCountLand).select2();
 				$('#f9_district'+contentCountLand).select2();
@@ -5548,13 +5630,16 @@
 				$('#f9_soil_tested'+contentCountLand).select2();
 				$('#f9_source_of_water'+contentCountLand).select2();
 				
-				$('#lands').append(landData).find('#land'+contentCountLand).slideDown("slow");
-				
 				if(contentCountLand >= 2)
 				{
 					$('#removeLandType').show('swing');
 				}
 			}
+			
+			/*function getSelect()
+			{
+					
+			}*/
 			
 			function removeContent()
 			{
@@ -5591,7 +5676,7 @@
 								cropData	+= '</select>';
 							cropData	+= '</div>';
 						cropData	+= '</div>  ';
-										
+									
 						cropData	+= '<div class="control-group">';
 							cropData	+= '<label for="tasktitel" class="control-label">Type of crop cultivating this year <span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
@@ -5691,7 +5776,7 @@
 								cropData	+= '</select>';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
-										
+									
 						cropData	+= '<div class="control-group">';
 							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Potential Pest Control Problems <span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
@@ -5718,6 +5803,16 @@
 				cropData	+= '</div>';
 				
 				$('#formContent').append(cropData).find('#crop'+contentCountCrop).slideDown("slow");
+				
+				/*f10_crop_season 	 
+				f10_cultivating  
+				f10_stage  
+				f10_potential_market 
+				f10_crop_storage 
+				f10_diseases	 
+				f10_pest 
+				f10_filt_type*/
+				
 				calTotal_f10();
 			}
 			
@@ -6054,7 +6149,7 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="tasktitel" class="control-label">When is the harvest date? <span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<input type="text" value="" id="f14_harvest_date'+contentCountCurCrop+'" name="f14_harvest_date'+contentCountCurCrop+'" placeholder="When is the harvest date" class="datepicker input-large" data-rule-required="true" />';
+							curCropData	+= '<input type="text" value="" id="f14_harvest_date'+contentCountCurCrop+'" name="f14_harvest_date'+contentCountCurCrop+'" placeholder="When is the harvest date" class="datepicker'+contentCountCurCrop+' input-large" data-rule-required="true" />';
 						curCropData	+= '</div>';
 					curCropData	+= '</div>';
 									
@@ -6072,6 +6167,7 @@
 				}
 				
 				$('#cur_crop').append(curCropData).find('#curcrop'+contentCountCurCrop).slideDown("slow");
+				$('.datepicker'+contentCountCurCrop+'').datepicker({format:'yyyy-mm-dd'});
 				calTotal_f14();
 			}
 			
@@ -6160,6 +6256,9 @@
 				}
 				
 				$('#loans_type').append(loanData).find('#loan'+contentCountLoanFrm1).slideDown("slow");
+				
+				
+				
 				calTotal_f8();
 			}
 			
@@ -6218,7 +6317,67 @@
 					$('#'+DisplayDivID).find('input, select').val('').trigger('change');
 				}
 			}
-			
-        </script>
+		</script>
+        
+        
+
+<script type="text/javascript">
+
+
+var apiGeolocationSuccess = function(position) {
+    //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+	var IncrementedID	= $('#hid_incrementalID').val();
+	$('#f9_lat'+IncrementedID).val(position.coords.latitude);
+	$('#f9_long'+IncrementedID).val(position.coords.longitude);
+};
+
+var tryAPIGeolocation = function(IncrementedID) 
+{
+	$('#hid_incrementalID').val(IncrementedID);
+	
+    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDT6LXw4hG20ph_vnQNuG28nByhEoax_9M", function(success) {
+        apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+  })
+  .fail(function(err) {
+    alert("API Geolocation error! \n\n"+err);
+  });
+};
+
+var browserGeolocationSuccess = function(position) {
+    //alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+	
+};
+
+var browserGeolocationFail = function(error) {
+  switch (error.code) {
+    case error.TIMEOUT:
+      alert("Browser geolocation error !\n\nTimeout.");
+      break;
+    case error.PERMISSION_DENIED:
+      if(error.message.indexOf("Only secure origins are allowed") == 0) {
+        tryAPIGeolocation();
+      }
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Browser geolocation error !\n\nPosition unavailable.");
+      break;
+  }
+};
+
+var tryGeolocation = function() {
+	alert("hello geo");
+  if (navigator.geolocation) {
+	  alert("hello ge1");
+    navigator.geolocation.getCurrentPosition(
+        browserGeolocationSuccess,
+      browserGeolocationFail,
+      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+  }
+};
+
+//tryGeolocation();
+
+// JavaScript Document
+</script>
     </body>
 </html>

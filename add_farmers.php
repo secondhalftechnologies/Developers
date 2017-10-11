@@ -108,7 +108,7 @@
                                     </label>
                                 
                                     <div class="controls">
-                                        <input type="text" placeholder="Mobile no" name="fm_mobileno" id="fm_mobileno" data-rule-number="true" maxlength="10"  autocomplete="off" data-rule-required="true" onBlur="Mobile(this.value);"  data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
+                                        <input type="text" placeholder="Mobile no" name="fm_mobileno" id="fm_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" onBlur="Mobile(this.value);"  data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
                                         <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
                                     </div>
                                 </div> <!-- Mobile No -->
@@ -144,12 +144,64 @@
                                 </div>	<!-- Experience In Farming -->
                                 
                                 <div class="control-group">
+                                	<label for="tasktitel" class="control-label">Do you required a loan? <span style="color:#F00">*</span></label>
+                                    <div class="controls">
+                                    	<select id="f1_required_loan" name="f1_required_loan" class="select2-me input-xlarge" onChange="getDisplayDiv(this.value, 'div_required_loan_display')">
+                                            <option value="" disabled selected>Select here</option>
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                    </div>
+                                </div>	<!-- Do you required a loan [DDL] -->
+                                
+                                <!-- START : Display Div -->
+                                <div id="div_required_loan_display" style="display:none;">
+                                    
+                                    <div class="control-group">
+                                        <label for="tasktitel" class="control-label">How much amount of loan you required?<span style="color:#F00">*</span></label>
+                                        <div class="controls">
+                                            <input type="text" placeholder="How much amount of loan you required" onKeyPress="return numsonly(event);" name="f1_required_loan_amt" id="f1_required_loan_amt" class="v_number input-xlarge" data-rule-required="true" data-rule-maxlength="2">
+                                        </div>
+                                    </div>	<!-- How much amount [If yes] -->
+                                    
+                                    <div class="control-group">
+                                        <label for="tasktitel" class="control-label">Loan Purpose <span style="color:#F00">*</span></label>
+                                        <div class="controls">
+                                            <select id="f1_loan_purpose" name="f1_loan_purpose" class="select2-me input-xlarge" onChange="calTotal();">
+                                                <option value="" disabled selected>Select here</option>
+                                                <option point="5" value="Whole Crop Process">Whole Crop Process</option>
+                                                <option point="5" value="Buy Machinery">Buy Machinery</option>
+                                                <option point="5" value="Buy Seeds">Buy Seeds</option>
+                                                <option point="5" value="Buy Tools">Buy Tools</option>
+                                                <option point="5" value="Buy Irrigation">Buy Irrigation</option>
+                                                <option point="5" value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>	<!-- Loan Purpose -->
+                                    
+                                    <div class="control-group">
+                                        <label for="tasktitel" class="control-label">Crop Cycle for loan required <span style="color:#F00">*</span></label>
+                                        <div class="controls">
+                                            <select id="f1_crop_cycle" name="f1_crop_cycle" class="select2-me input-xlarge">
+                                                <option value="" disabled selected>Select here</option>
+                                                <option value="Kharif">Kharif</option>
+                                                <option value="Rabi">Rabi</option>
+                                                <option value="Summer">Summer</option>
+                                                <option value="All Year Round">All Year Round</option>
+                                            </select>
+                                        </div>
+                                    </div>	<!-- Crop Cycle for loan required -->
+                                
+                                </div>
+                                <!-- END : Display Div -->
+                                
+                                <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
                                     	Are You Married? <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
                                     	<select id="ddl_married_status" name="ddl_married_status" class="select2-me input-xlarge">
-                                            <option value="">Select here</option>
+                                            <option value="" disabled selected>Select here</option>
                                             <option point="10" value="yes">Yes</option>
                                             <option point="2" value="no">No</option>
                                         </select>
@@ -162,7 +214,7 @@
                                     </label>
                                     <div class="controls">
                                     	<select id="ddl_residence_status" name="ddl_residence_status" class="select2-me input-large">
-                                        	<option value="">Select Residence Status</option>
+                                        	<option value="" disabled selected>Select Residence Status</option>
                                             <option point="2" value="Rented">Rented</option>
                                             <option point="10" value="Owned">Owned</option>
                                             <option point="6" value="Ancestral">Ancestral</option>
@@ -498,6 +550,9 @@
 				}
 				var fm_aadhar		= 10;
 				var f1_expfarm		= convertFarmExpToPoints($('#txt_farm_experience').val());
+				
+				var f1_loan_purpose	= parseInt($('option:selected','#f1_loan_purpose').attr('point')) || 0;
+				
 				var f7_resistatus	= parseInt($('option:selected','#ddl_residence_status').attr('point')) || 0;
 				
 				var resiStatusVal	= $('#ddl_residence_status').val();
@@ -512,10 +567,10 @@
 				
 				//farmer_reg_g_total		= f1_dob + f1_age + f1_mobno + f1_altno + fm_aadhar + f1_expfarm + f7_resistatus + f7_rent_amount;
 				residence_points		= f7_resistatus + f7_rent_amount;
-				personal_details_points	= f1_dob + f1_age + f1_mobno + f1_altno + fm_aadhar + f1_expfarm;
+				personal_details_points	= f1_dob + f1_age + f1_mobno + f1_altno + fm_aadhar + f1_expfarm + f1_loan_purpose;
 				
 				var residence_pt 		= residence_points/divided_by;
-				var personal_details_pt	= personal_details_points/6;
+				var personal_details_pt	= personal_details_points/7;
 				
 				//farmReg_pt     = farmReg_pt.toFixed(2);
 				residence_pt     		= residence_pt.toFixed(2);
@@ -890,6 +945,28 @@
 				}
 			}		
 				
+			function getDisplayDiv(mainDivVal, DisplayDivID)
+			{
+				if(mainDivVal == 'yes')
+				{
+					$('#'+DisplayDivID).slideDown();	
+				}
+				else
+				{
+					$('#'+DisplayDivID).slideUp();	
+				}	
+			}
+			
+			function numsonly(e)
+			{
+				var unicode=e.charCode? e.charCode : e.keyCode
+				
+				if (unicode !=8 && unicode !=32 &&  unicode !=46)
+				{  // unicode<48||unicode>57 &&
+					if ( unicode<48||unicode>57)  //if not a number
+					return false //disable key press
+				}
+			}
 	    </script>
     </body>
 </html>

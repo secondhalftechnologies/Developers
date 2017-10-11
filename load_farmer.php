@@ -130,6 +130,12 @@
 			$fm_mobileno			= mysqli_real_escape_string($db_con,$_POST['fm_mobileno']);
 			$alt_mobileno			= mysqli_real_escape_string($db_con,$_POST['alt_mobileno']);
 			$txt_farm_experience	= mysqli_real_escape_string($db_con,$_POST['txt_farm_experience']);
+			
+			$f1_required_loan		= mysqli_real_escape_string($db_con,$_POST['f1_required_loan']);
+			$f1_required_loan_amt	= mysqli_real_escape_string($db_con,$_POST['f1_required_loan_amt']);
+			$f1_loan_purpose		= mysqli_real_escape_string($db_con,$_POST['f1_loan_purpose']);
+			$f1_crop_cycle			= mysqli_real_escape_string($db_con,$_POST['f1_crop_cycle']);
+			
 			$ddl_married_status		= mysqli_real_escape_string($db_con,$_POST['ddl_married_status']);
 			$ddl_residence_status	= mysqli_real_escape_string($db_con,$_POST['ddl_residence_status']);
 			$txt_rent				= mysqli_real_escape_string($db_con,$_POST['txt_rent']);
@@ -183,11 +189,13 @@
 					// Query for inserting the farmer personal details into tbl_personal_detail
 					$sql_insert_farmer_details	= " INSERT INTO `tbl_personal_detail`(`fm_caid`, `fm_id`, `f1_mfname`, ";
 					$sql_insert_farmer_details	.= " `f1_father`, `f1_age`, `f1_dob`, `f1_mobno`, `f1_altno`, ";
-					$sql_insert_farmer_details	.= " `f1_expfarm`, `f1_status`, `f1_created_date`, `f1_created_by`, `f1_points`) ";
+					$sql_insert_farmer_details	.= " `f1_expfarm`, `f1_status`, `f1_created_date`, `f1_created_by`, `f1_points`, ";
+					$sql_insert_farmer_details	.= " `f1_required_loan`, `f1_required_loan_amt`, `f1_loan_purpose`, `f1_crop_cycle`) ";
 					$sql_insert_farmer_details	.= " VALUES ('".$fm_caid."', '".$fm_id."', '".$txt_mother_name."', ";
 					$sql_insert_farmer_details	.= " '".$txt_father_name."', '".$txt_age."', '".$txt_dob."', '".$fm_mobileno."', ";
 					$sql_insert_farmer_details	.= " '".$alt_mobileno."', '".$txt_farm_experience."', '1', '".$datetime."', '".$fm_caname."', ";
-					$sql_insert_farmer_details	.= " '".$hid_personal_details_points."') ";
+					$sql_insert_farmer_details	.= " '".$hid_personal_details_points."', '".$f1_required_loan."', '".$f1_required_loan_amt."', ";
+					$sql_insert_farmer_details	.= " '".$f1_loan_purpose."', '".$f1_crop_cycle."') ";
 					$res_insert_farmer_details	= mysqli_query($db_con, $sql_insert_farmer_details) or die(mysqli_error($db_con));
 					
  					if($res_insert_farmer_details)

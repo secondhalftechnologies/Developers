@@ -1897,7 +1897,7 @@
                                                                                 <div class="control-group">
                                                                                     <label for="text" class="control-label" style="margin-top:10px">Type Of Crop Cultivating This Year<span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="f14_cultivating<?php echo $id; ?>" name="f14_cultivating<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();get_variety(this.value,<?php echo $id; ?>)">
+                                                                                        <select id="f14_cultivating<?php echo $id; ?>" name="f14_cultivating<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="get_variety(this.value,<?php echo $id; ?>)">
                                                                                             <option value=""  selected> Select here</option>
                                                                                             <?php
                                                                                             $crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
@@ -1913,7 +1913,7 @@
                                                                                 <div class="control-group">
                                                                                     <label for="text" class="control-label" style="margin-top:10px">Variety<span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
-                                                                                        <select id="f14_variety<?php echo $id; ?>" name="f14_variety<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">
+                                                                                        <select id="f14_variety<?php echo $id; ?>" name="f14_variety<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" >
                                                                                             <option value="" disabled selected> Select here</option>
                                                                                             <?php
                                                                                             if(isset($crops_arr[$i]['f14_cultivating']) && $crops_arr[$i]['f14_cultivating']!="")
@@ -2071,23 +2071,24 @@
                                                                             	$(document).ready(function(e) {
                                                                                 	$('#f14_loan_taken'+<?php echo $id; ?>).on('change', function(){
 																						if($(this).val() == 'yes'){
-																							$('#div_loan_taken_display<?php echo $id; ?>').show('swing');
+																							$('#div_loan_taken_display'+<?php echo $id; ?>).show('swing');
 																						}
 																						else
 																						{
-																							$('#div_loan_taken_display<?php echo $id; ?>').hide('swing');
-																							$('#div_loan_taken_display<?php echo $id; ?>').find('input, select').val('').trigger('change');
+																							$('#div_loan_taken_display'+<?php echo $id; ?>).hide('swing');
+																							$('#div_loan_taken_display'+<?php echo $id; ?>).find('input, select').val('').trigger('change');
 																						}
 																					});
 																					
 																					
-																					if($('#f14_loan_taken<?php echo $id; ?>').val() == 'yes')
+																					if($('#f14_loan_taken'+<?php echo $id; ?>).val() == 'yes')
 																					{
-																						$('#div_loan_taken_display<?php echo $id; ?>').show('swing');
+																						$('#div_loan_taken_display'+<?php echo $id; ?>).show('swing');
 																					}
 																					else
 																					{
-																						$('#div_loan_taken_display<?php echo $id; ?>').find('input, select').val('');
+																						$('#div_loan_taken_display'+<?php echo $id; ?>).hide('swing');
+																						$('#div_loan_taken_display'+<?php echo $id; ?>).find('input, select').val('');
 																					}    
                                                                                 });
 																				
@@ -4338,13 +4339,14 @@
 				var f14_loan_amount_pt		= 0;
 				var f14_borrow_loan_from	= 0;
 				var f14_water_source_type	= 0;
-				var divided_by	= 3;
+				var divided_by	= 0;
 				
 				for(var i=1; i <= contentCountCurCrop; i++)
 				{
+					divided_by	+= 3;
+					
 					f14_seed_type   		+= parseInt($('option:selected','#f14_seed_type'+i).attr('point')) || 0;
 					f14_loan_taken   		+= parseInt($('option:selected','#f14_loan_taken'+i).attr('point')) || 0;
-					alert(f14_loan_taken);
 					f14_loan_taken_val	= $('#f14_loan_taken'+i).val();
 					
 					if(f14_loan_taken_val == 'yes')
@@ -4354,7 +4356,7 @@
 						
 						f14_borrow_loan_from	+= parseInt($('option:selected','#f14_borrow_loan_from'+i).attr('point')) || 0;	
 						
-						divided_by	= 5;
+						divided_by	+= 2;
 					}
 					
 					f14_water_source_type	+= parseInt($('option:selected','#f14_water_source_type'+i).attr('point')) || 0;
@@ -4366,7 +4368,10 @@
 				//alert(cur_crop_cycle_g_total +'='+ f14_seed_type +'<>'+ f14_loan_taken +'<>'+ f14_borrow_loan_from +'<>'+ f14_water_source_type +'<>'+ f14_loan_amount_pt);
 				
 				document.getElementById('cur_crop_cycle_g_total').innerHTML=cur_crop_cycle_g_total;
-				f14_pt     = cur_crop_cycle_g_total/(contentCountCurCrop * divided_by)
+				
+				alert(f14_pt +' = '+ cur_crop_cycle_g_total +' / ( '+ contentCountCurCrop +' * '+ divided_by +' )');
+				
+				f14_pt     = cur_crop_cycle_g_total/(contentCountCurCrop * divided_by);
 				f14_pt     = f14_pt.toFixed(2);
 				$('#f14_points').val(f14_pt);
 				$('#f14_pt').html(f14_pt);
@@ -5808,7 +5813,7 @@
 					prevCropData	+= '<div class="control-group">';
 						prevCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Was your crop damaged / destroyed last year <span style="color:#F00">*</span></label>';
 						prevCropData	+= '<div class="controls">';
-							prevCropData	+= '<select id="f11_damaged_prev_crop'+contentCountPrevCrop+'" name="f11_damaged_prev_crop'+contentCountPrevCrop+'" class="input-xlarge" data-rule-required="true" onchange="calTotal_f11()">';
+							prevCropData	+= '<select id="f11_damaged_prev_crop'+contentCountPrevCrop+'" name="f11_damaged_prev_crop'+contentCountPrevCrop+'" class="input-xlarge" data-rule-required="true" onchange="calTotal_f11();divDisplayOpen(this.value, \'div_damaged_prev_crop_display'+contentCountPrevCrop+'\');">';
 								prevCropData	+= '<option value="" disabled selected> Select here</option>';
 								prevCropData	+= '<option point="0" value="yes"> Yes</option>';
 								prevCropData	+= '<option point="10" value="no"> No</option>';
@@ -5816,7 +5821,7 @@
 						prevCropData	+= '</div>';
 					prevCropData	+= '</div>';
 										
-					prevCropData	+= '<div id="div_damaged_prev_crop_display" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">';
+					prevCropData	+= '<div id="div_damaged_prev_crop_display'+contentCountPrevCrop+'" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">';
 						prevCropData	+= '<div class="control-group">';
 							prevCropData	+= '<label for="text" class="control-label" style="margin-top:10px">What was the reason?<span style="color:#F00">*</span></label>';
 							prevCropData	+= '<div class="controls">';
@@ -5884,7 +5889,7 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Type Of Crop Cultivating This Year<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<select id="f14_cultivating'+contentCountCurCrop+'" name="f14_cultivating'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();get_variety(this.value,'+contentCountCurCrop+')">';
+							curCropData	+= '<select id="f14_cultivating'+contentCountCurCrop+'" name="f14_cultivating'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="get_variety(this.value,'+contentCountCurCrop+')">';
 								curCropData	+= '<option value=""  selected> Select here</option>';
 												<?php
 												$crops = lookup_value('tbl_crops',array(),array("crop_status"=>1),array(),array(),array());
@@ -5904,7 +5909,7 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Variety<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<select id="f14_variety'+contentCountCurCrop+'" name="f14_variety'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">';
+							curCropData	+= '<select id="f14_variety'+contentCountCurCrop+'" name="f14_variety'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" >';
 								curCropData	+= '<option value="" disabled selected> Select here</option>';
 												<?php
 												if(isset($crops_arr[$i]['f14_cultivating']) && $crops_arr[$i]['f14_cultivating']!="")
@@ -5986,7 +5991,7 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Did you take loan to buy seeds?<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<select id="f14_loan_taken'+contentCountCurCrop+'" name="f14_loan_taken'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();">';
+							curCropData	+= '<select id="f14_loan_taken'+contentCountCurCrop+'" name="f14_loan_taken'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f14();divDisplayOpen(this.value, \'div_loan_taken_display'+contentCountCurCrop+'\');">';
 								curCropData	+= '<option value="" disabled selected> Select here</option>';
 								curCropData	+= '<option point="0" value="yes" >Yes</option>';
 								curCropData	+= '<option point="10" value="no">No</option>';
@@ -6198,6 +6203,20 @@
 							//$('#error_model').modal('toggle');
 						}
 					});			
+			}
+			
+			function divDisplayOpen(mainDivVal, DisplayDivID)
+			{
+				//alert(mainDivVal +' <> '+ DisplayDivID);
+				if(mainDivVal == 'yes')
+				{
+					$('#'+DisplayDivID).show('swing');
+				}
+				else
+				{
+					$('#'+DisplayDivID).hide('swing');
+					$('#'+DisplayDivID).find('input, select').val('').trigger('change');
+				}
 			}
 			
         </script>

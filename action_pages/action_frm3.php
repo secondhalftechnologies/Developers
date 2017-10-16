@@ -34,6 +34,12 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	$data['f3_fpo_name']			= @$_POST['f3_fpo_name'];
 	$data['f3_bank_name']			= @$_POST['f3_bank_name'];
 	
+	$data['f3_spouse_owned_prop']		= @$_POST['f3_spouse_owned_prop'];
+	$data['f3_spouse_prop_type']		= @$_POST['f3_spouse_prop_type'];
+	$data['f3_property_details']		= @$_POST['f3_property_details'];
+	$data['f3_spouse_get_any_income']	= @$_POST['f3_spouse_get_any_income'];
+	$data['f3_spouse_yearly_income']	= @$_POST['f3_spouse_yearly_income'];
+	
 	$data['f3_points']    	  		= @$_POST['f3_points'];
 	$data['f3_married_reg_points']	= @$_POST['f3_married_reg_points'];
 	$data['f3_status']    	  		= 1;

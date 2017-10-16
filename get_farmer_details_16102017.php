@@ -45,7 +45,6 @@
 	}
 	
 	$farmer_name	= ucwords($row_get_farmer_info['fm_name']);
-	$farmer_mobile_number	= $row_get_farmer_info['fm_mobileno'];
 	
     $res_spouse_details     = lookup_value('tbl_spouse_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
     if($res_spouse_details)
@@ -70,13 +69,6 @@
 			$data['f3_affliation_status']		= $row_spouse_details['f3_affliation_status'];
 			$data['f3_fpo_name']				= $row_spouse_details['f3_fpo_name'];
 			$data['f3_bank_name']				= $row_spouse_details['f3_bank_name'];
-			
-			$data['f3_spouse_owned_prop']		= $row_spouse_details['f3_spouse_owned_prop'];
-			$data['f3_spouse_prop_type']		= $row_spouse_details['f3_spouse_prop_type'];
-			$data['f3_property_details']		= $row_spouse_details['f3_property_details'];
-			$data['f3_spouse_get_any_income']	= $row_spouse_details['f3_spouse_get_any_income'];
-			$data['f3_spouse_yearly_income']	= $row_spouse_details['f3_spouse_yearly_income'];
-			
 			
 			$data['f3_married_reg_points']		= $row_spouse_details['f3_married_reg_points'];
         }
@@ -577,9 +569,6 @@
                                                                                 <label for="numberfield" class="control-label">Mobile no.<span style="color:#F00">*</span></label>
                                                                                 <div class="controls">
                                                                                     <input type="text" placeholder="Mobile no." name="f3_spouse_mobno" id="f3_spouse_mobno" class="input-xlarge v_number" data-rule-number="true"  data-rule-minlength="10"  data-rule-maxlength="10" data-rule-required="true" >
-                                                                                    <a href="javascript:void(0);" onClick="getHusbandMobileNumber(<?php echo $farmer_mobile_number; ?>);">
-                                                                                    	Same as Husband
-                                                                                    </a>
                                                                                 </div>
                                                                             </div>	<!--Mobile no-->
                             
@@ -619,74 +608,13 @@
                                                                                     </select>
                                                                                 </div>
                                                                             </div>	<!-- Spouse's Occupation -->
-                            												
-                                                                            <!-- START : Spouse Income -->
-                                                                            
-                                                                            <div class="control-group">
-                                                                                <label for="numberfield" class="control-label">Does spouse owned any property?<span style="color:#F00">*</span></label>
+                            
+                                                                            <div class="control-group" id="input_income" style="display: none;">
+                                                                                <label for="numberfield" class="control-label">Spouse Income per month<span style="color:#F00">*</span></label>
                                                                                 <div class="controls">
-                                                                                    <select id="f3_spouse_owned_prop" name="f3_spouse_owned_prop" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                        <option value="" disabled selected> Select here</option>
-                                                                                        <option value="yes" <?php if((isset($data['f3_spouse_owned_prop'])) && $data['f3_spouse_owned_prop'] == 'yes'){ ?> selected <?php }  ?>> Yes</option>
-                                                                                        <option value="no" <?php if((isset($data['f3_spouse_owned_prop'])) && $data['f3_spouse_owned_prop'] == 'no'){ ?> selected <?php }  ?>> No</option>
-                                                                                    </select>
+                                                                                    <input type="text" placeholder="Spouse Income per month" name="f3_spouse_income" id="f3_spouse_income" value="<?php if((isset($data['f3_spouse_income'])) && $data['f3_spouse_income'] != ''){ echo $data['f3_spouse_income']; } ?>" data-rule-number="true"  class="input-xlarge" data-rule-maxlength="10" data-rule-required="true">
                                                                                 </div>
-                                                                            </div>	<!-- Does spouse owned any property -->
-                                                                            
-                                                                            <div id="div_f3_spouse_owned_prop_display" style="display:none;">
-                                                                            	
-                                                                                <div class="control-group">
-                                                                                    <label for="numberfield" class="control-label">What kind of Property?<span style="color:#F00">*</span></label>
-                                                                                    <div class="controls">
-                                                                                        <select id="f3_spouse_prop_type" name="f3_spouse_prop_type" class="select2-me input-xlarge" data-rule-required="true" onChange="getOtherDivDisplay(this.value);">
-                                                                                            <option value="" disabled selected> Select here</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_prop_type'])) && $data['f3_spouse_prop_type'] == 'Farm'){ ?> selected <?php }  ?> value="Farm"> Farm</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_prop_type'])) && $data['f3_spouse_prop_type'] == 'House'){ ?> selected <?php }  ?> value="House"> House</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_prop_type'])) && $data['f3_spouse_prop_type'] == 'Godown'){ ?> selected <?php }  ?> value="Godown"> Godown</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_prop_type'])) && $data['f3_spouse_prop_type'] == 'Ancestral Property'){ ?> selected <?php }  ?> value="Ancestral Property"> Ancestral Property</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_prop_type'])) && $data['f3_spouse_prop_type'] == 'Other'){ ?> selected <?php }  ?> value="Other"> Other</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>	<!-- What kind of Property -->
-                                                                                
-                                                                                <div id="div_other_prop_display" style="display:none;">
-                                                                                
-                                                                            		<div class="control-group">
-                                                                                        <label for="numberfield" class="control-label">Property Details<span style="color:#F00">*</span></label>
-                                                                                        <div class="controls">
-                                                                                            <input type="text" placeholder="Property Details" name="f3_property_details" id="f3_property_details" value="<?php if((isset($data['f3_property_details'])) && $data['f3_property_details'] != ''){ echo $data['f3_property_details']; } ?>" class="input-xlarge" data-rule-required="true">
-                                                                                        </div>
-                                                                                    </div>	<!-- Property Details -->    	
-                                                                                
-                                                                                </div> <!-- div_other_prop_display -->
-                                                                                
-                                                                                <div class="control-group">
-                                                                                    <label for="numberfield" class="control-label">Does she get any Income from that?<span style="color:#F00">*</span></label>
-                                                                                    <div class="controls">
-                                                                                        <select id="f3_spouse_get_any_income" name="f3_spouse_get_any_income" class="select2-me input-xlarge" data-rule-required="true">
-                                                                                            <option value="" disabled selected> Select here</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_get_any_income'])) && $data['f3_spouse_get_any_income'] == 'yes'){ ?> selected <?php }  ?> value="yes"> Yes</option>
-                                                                                            <option <?php if((isset($data['f3_spouse_get_any_income'])) && $data['f3_spouse_get_any_income'] == 'no'){ ?> selected <?php }  ?> value="no"> No</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>	<!-- Does she get any Income from that -->
-                                                                                
-                                                                                <div id="div_income_display" style="display:none;">
-                                                                            		<div class="control-group">
-                                                                                        <label for="numberfield" class="control-label">Spouse Income per year<span style="color:#F00">*</span></label>
-                                                                                        <div class="controls">
-                                                                                            <input type="text" placeholder="Spouse Income per year" name="f3_spouse_yearly_income" id="f3_spouse_yearly_income" value="<?php if((isset($data['f3_spouse_yearly_income'])) && $data['f3_spouse_yearly_income'] != ''){ echo $data['f3_spouse_yearly_income']; } ?>" data-rule-number="true"  class="input-xlarge" data-rule-maxlength="10" onKeyPress="return numsonly(event);" onKeyUp="getMonthlyIncome(this.value);" data-rule-required="true" >
-                                                                                            &nbsp;&nbsp;&nbsp;<br>
-                                                                                            <input type="text" placeholder="Spouse Income per Month" readonly name="f3_spouse_income" id="f3_spouse_income" value="<?php if((isset($data['f3_spouse_income'])) && $data['f3_spouse_income'] != ''){ echo $data['f3_spouse_income']; } ?>" data-rule-number="true"  class="input-xlarge" > Per Month
-                                                                                        </div>
-                                                                                    </div>	<!-- Spouse's Income-->    	
-                                                                                </div>
-                                                                                
-                                                                            </div>	<!-- Div f3_spouse_owned_prop Display -->
-                                                                            
-                                                                            
-                                                                            
-                                                                            <!-- END : Spouse Income -->
+                                                                            </div>	<!-- Spouse's Income-->
                             
                                                                             <div class="control-group">
                                                                                 <label for="text" class="control-label" style="margin-top:10px">Any micro finance help taken by spouse?<span style="color:#F00">*</span></label>
@@ -743,10 +671,10 @@
         
                                                                             <div class="control-group">
                                                                                 <label for="text" class="control-label" style="margin-top:10px">
-                                                                                    Co-operative society / Bank Name 
+                                                                                    Co-operative society / Bank Name <span style="color:#F00">*</span>
                                                                                 </label>
                                                                                 <div class="controls">
-                                                                                    <input type="text" id="f3_bank_name" name="f3_bank_name" class="input-xlarge v_name" data-rule-minlength="4"  data-rule-maxlength="100" placeholder="Co-operative society / Bank Name">
+                                                                                    <input type="text" id="f3_bank_name" name="f3_bank_name" class="input-xlarge v_name" data-rule-required="true" data-rule-minlength="4"  data-rule-maxlength="100" placeholder="Co-operative society / Bank Name">
                                                                                 </div>
                                                                             </div>  <!-- Co-operative society / Bank Name -->
                                                                             
@@ -1468,7 +1396,7 @@
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input placeholder="Soil Depth" type="text" id="f9_soil_depth<?php echo $id; ?>" name="f9_soil_depth<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_soil_depth'])) && $land_arr[$i]['f9_soil_depth'] != ''){ echo $land_arr[$i]['f9_soil_depth']; } ?>" data-rule-required="true"> In Feets
+                                                                                            <input placeholder="Soil Depth" type="text" id="f9_soil_depth<?php echo $id; ?>" name="f9_soil_depth<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_soil_depth'])) && $land_arr[$i]['f9_soil_depth'] != ''){ echo $land_arr[$i]['f9_soil_depth']; } ?>" data-rule-required="true">
                                                                                         </div>
                                                                                     </div>  <!-- Soil Depth -->
                                                                                     
@@ -1639,7 +1567,7 @@
                                                                                                 <option value="" disabled selected>Select here</option>
                                                                                                 <option value="Kharif" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Kharif') { ?> selected <?php } ?>>Kharif</option>
                                                                                                 <option value="Rabi" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Rabi') { ?> selected <?php } ?>>Rabi</option>
-                                                                                                <option value="Annual" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Annual') { ?> selected <?php } ?>>Annual</option>
+                                                                                                <option value="Summer" <?php if((isset($crops_arr[$j]['f10_crop_season'])) && $crops_arr[$j]['f10_crop_season'] == 'Summer') { ?> selected <?php } ?>>Summer</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Current Crop Season [DDL] -->
@@ -1738,10 +1666,10 @@
                                                                                         <div class="controls">
                                                                                             <select id="f10_diseases<?php echo $id; ?>" name="f10_diseases<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f10()">
                                                                                                 <option value="" disabled selected> Select here</option>
-                                                                                                <option point="1" value="Fungal Treatable" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Fungal Treatable') { ?> selected <?php } ?>> Fungal Treatable</option>
-                                                                                                <option point="4" value="Non-fungal Treatable" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Non-fungal Treatable') { ?> selected <?php } ?>> Non-fungal Treatable</option>
+                                                                                                <option point="1" value="Fungal" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Fungal') { ?> selected <?php } ?>> Fungal</option>
+                                                                                                <option point="4" value="Non-fungal" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Non-fungal') { ?> selected <?php } ?>> Non-fungal</option>
                                                                                                 <option point="0" value="Severe" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Severe') { ?> selected <?php } ?>> Severe</option>
-                                                                                                <!-- <option point="8" value="Treatable" <?php //if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Treatable') { ?> selected <?php //} ?>> Treatable</option> -->
+                                                                                                <option point="8" value="Treatable" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'Treatable') { ?> selected <?php } ?>> Treatable</option>
                                                                                                 <option point="10" value="No potential of diseases" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'No potential of diseases') { ?> selected <?php } ?>> No potential of diseases</option>
                                                                                             </select>
                                                                                         </div>
@@ -1842,7 +1770,7 @@
                                                                                 </div>	<!-- Type of crop cultivating previous year [DDL] -->
                                                                                 
                                                                                 <div class="control-group">
-                                                                                    <label for="text" class="control-label" style="margin-top:10px">Yield Achieved Last Year In quintals <span style="color:#F00">*</span></label>
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">Yield Achieved Last Year In tonnes <span style="color:#F00">*</span></label>
                                                                                     <div class="controls">
                                                                                         <input type="text" value="<?php if((isset($prev_crops_arr[$k]['f11_achieved'])) && $prev_crops_arr[$k]['f11_achieved'] != '') { echo $prev_crops_arr[$k]['f11_achieved']; } ?>" id="f11_achieved<?php echo $id; ?>" name="f11_achieved<?php echo $id; ?>" class="input-xlarge"  onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" onchange="calTotal_f11()" placeholder="Yield Achieved">
                                                                                     </div>
@@ -1871,7 +1799,7 @@
                                                                                     <div class="controls">
                                                                                         <select id="f11_fertilizers<?php echo $id; ?>" name="f11_fertilizers<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f11()">
                                                                                             <option value="" disabled selected> Select here</option>
-                                                                                            <option point="5" value="inorganic" <?php if((isset($prev_crops_arr[$k]['f11_fertilizers'])) && $prev_crops_arr[$k]['f11_fertilizers'] == 'inorganic') { ?> selected <?php } ?>> Chemical</option>
+                                                                                            <option point="5" value="inorganic" <?php if((isset($prev_crops_arr[$k]['f11_fertilizers'])) && $prev_crops_arr[$k]['f11_fertilizers'] == 'inorganic') { ?> selected <?php } ?>> Inorganic</option>
                                                                                             <option point="10" value="organic" <?php if((isset($prev_crops_arr[$k]['f11_fertilizers'])) && $prev_crops_arr[$k]['f11_fertilizers'] == 'organic') { ?> selected <?php } ?>> Organic</option>
                                                                                         </select>
                                                                                     </div>
@@ -2104,7 +2032,7 @@
                                                                                 <div id="div_loan_taken_display<?php echo $id; ?>" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">
                                                                                 
                                                                                     <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">How much is the loan amount [per acre]?<span style="color:#F00">*</span></label>
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">How much is the loan amount?<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
                                                                                             <input type="text" value="<?php if((isset($cur_crops_arr[$l]['f14_loan_amount'])) && $cur_crops_arr[$l]['f14_loan_amount'] != '') { echo $cur_crops_arr[$l]['f14_loan_amount']; } ?>" id="f14_loan_amount<?php echo $id; ?>" name="f14_loan_amount<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="How much is the loan amount" onBlur="calTotal_f14();">
                                                                                         </div>
@@ -2356,6 +2284,7 @@
                                                                                 <select id="f12_name_of_other_assets" name="f12_name_of_other_assets" class="select2-me input-xlarge">
                                                                                     <option value="" disabled selected>Select here</option>
                                                                                     <option value="Other Buildings" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Other Buildings'){ ?> selected <?php }  ?>>Other Buildings</option>
+                                                                                    <option value="Land" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Land'){ ?> selected <?php }  ?>>Land</option>
                                                                                     <option value="Residential Building" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Residential Building'){ ?> selected <?php }  ?>>Residential Building</option>
                                                                                     <option value="Other" <?php if((isset($data['f12_name_of_other_assets'])) && $data['f12_name_of_other_assets'] == 'Other'){ ?> selected <?php }  ?>>Other</option>
                                                                                 </select>
@@ -2473,9 +2402,9 @@
                                                                         </div>
                                                                         
                                                                         <div class="control-group" >
-                                                                            <label for="text" class="control-label" style="margin-top:10px">Income Gained From Livestock [Per Month].<span style="color:#F00">*</span></label>
+                                                                            <label for="text" class="control-label" style="margin-top:10px">Income Gained From Livestock in Rs.<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <input type="text" value="<?php echo @$f13_livestock_income; ?>" onKeyPress="return numsonly(event);" id="f13_livestock_income" name="f13_livestock_income" class="input-xlarge"  data-rule-required="true" placeholder="Income Gained">in Rs
+                                                                                <input type="text" value="<?php echo @$f13_livestock_income; ?>" onKeyPress="return numsonly(event);" id="f13_livestock_income" name="f13_livestock_income" class="input-xlarge"  data-rule-required="true" placeholder="Income Gained">
                                                                             </div>
                                                                         </div>
                                                                     </div>	<!--livestock_count-->
@@ -2964,6 +2893,8 @@
 			
 			$(document).ready(function()
 			{
+				
+				
 				// START : f3
 				$('body').on('change','#f3_spouse_age, #f3_spouse_shg, #f3_spouse_occp, #f3_spouse_income', function(){
 					calTotal_f3();
@@ -2981,77 +2912,6 @@
 					}
 					calTotal_f3();
 				});*/
-				
-				 
-				$('#f3_spouse_owned_prop').on('change', function(){
-					
-					if($(this).val() == 'yes')
-					{
-						$('#div_f3_spouse_owned_prop_display').show('swing');
-					}
-					else
-					{
-						$('#div_f3_spouse_owned_prop_display').hide('swing');
-						$('#div_f3_spouse_owned_prop_display').find('input, select').val('').trigger('change');
-					}
-				});
-				
-				if($('#f3_spouse_owned_prop').val() == 'yes')
-				{
-					$('#div_f3_spouse_owned_prop_display').show('swing');
-				}
-				else
-				{
-					$('#div_f3_spouse_owned_prop_display').hide('swing');
-					$('#div_f3_spouse_owned_prop_display').find('input, select').val('').trigger('change');
-				}
-				
-				$('#f3_spouse_prop_type').on('change', function(){
-					
-					if($(this).val() == 'Other')
-					{
-						$('#div_other_prop_display').show('swing');
-					}
-					else
-					{
-						$('#div_other_prop_display').hide('swing');
-						$('#div_other_prop_display').find('input, select').val('').trigger('change');
-					}
-				});
-				
-				if($('#f3_spouse_prop_type').val() == 'Other')
-				{
-					$('#div_other_prop_display').show('swing');
-				}
-				else
-				{
-					$('#div_other_prop_display').hide('swing');
-					$('#div_other_prop_display').find('input, select').val('').trigger('change');
-				}
-				
-				  
-				$('#f3_spouse_get_any_income').on('change', function(){
-					
-					if($(this).val() == 'yes')
-					{
-						$('#div_income_display').show('swing');
-					}
-					else
-					{
-						$('#div_income_display').hide('swing');
-						$('#div_income_display').find('input, select').val('').trigger('change');
-					}
-				});
-				
-				if($('#f3_spouse_get_any_income').val() == 'yes')
-				{
-					$('#div_income_display').show('swing');
-				}
-				else
-				{
-					$('#div_income_display').hide('swing');
-					$('#div_income_display').find('input, select').val('').trigger('change');
-				}
 				
 				if($('#f3_married').val() == 'yes')
 				{
@@ -5325,32 +5185,6 @@
 				
 			});
 			
-			$('#f3_spouse_owned_prop').on('change', function()
-			{
-				if($(this).val() == 'yes')
-				{
-					$('#div_f3_spouse_owned_prop_display').show('swing');
-				}
-				else
-				{
-					$('#div_f3_spouse_owned_prop_display').hide('swing');
-					$('#div_f3_spouse_owned_prop_display').find('input, select').val('').trigger('change');
-				}
-			});
-			
-			$('#f3_spouse_get_any_income').on('change', function(){
-				
-				if($(this).val() == 'yes')
-				{
-					$('#div_income_display').show('swing');
-				}
-				else
-				{
-					$('#div_income_display').hide('swing');
-					$('#div_income_display').find('input, select').val('').trigger('change');
-				}
-			});
-			
 			function numsonly(e)
 			{
 				var unicode=e.charCode? e.charCode : e.keyCode
@@ -5653,7 +5487,6 @@
 								landData	+= '<select name="f9_state'+contentCountLand+'" id="f9_state'+contentCountLand+'" data-rule-required="true" onChange="getDist(\'p\', this.value, \'f9_district'+contentCountLand+'\', \'f9_taluka'+contentCountLand+'\', \'f9_vilage'+contentCountLand+'\', \'div_p_dist'+contentCountLand+'\', \'div_p_tal'+contentCountLand+'\', \'div_p_village'+contentCountLand+'\');" class="input-xlarge">';
 									landData	+= '<option value="">Select State</option>';
 									landData	+= '<option value="1">TELANGANA</option>';
-									landData	+= '<option value="2">MAHARASHTRA</option>';
 								landData	+= '</select>';
 							landData	+= '</div>';
 						landData	+= '</div>  ';
@@ -5752,7 +5585,7 @@
 						landData	+= '<div class="control-group">';
 							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Soil Depth<span style="color:#F00">*</span></label>';
 							landData	+= '<div class="controls">';
-								landData	+= '<input placeholder="Soil Depth" type="text" id="f9_soil_depth'+contentCountLand+'" name="f9_soil_depth'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true"> In Feets';
+								landData	+= '<input placeholder="Soil Depth" type="text" id="f9_soil_depth'+contentCountLand+'" name="f9_soil_depth'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true">';
 							landData	+= '</div>';
 						landData	+= '</div>  ';
 										
@@ -5803,6 +5636,11 @@
 				}
 			}
 			
+			/*function getSelect()
+			{
+					
+			}*/
+			
 			function removeContent()
 			{
 				if(contentCountCrop > 1){
@@ -5834,7 +5672,7 @@
 									cropData	+= '<option value="" disabled selected>Select here</option>';
 									cropData	+= '<option value="Kharif">Kharif</option>';
 									cropData	+= '<option value="Rabi" >Rabi</option>';
-									cropData	+= '<option value="Annual">Annual</option>';
+									cropData	+= '<option value="Summer">Summer</option>';
 								cropData	+= '</select>';
 							cropData	+= '</div>';
 						cropData	+= '</div>  ';
@@ -5930,10 +5768,10 @@
 							cropData	+= '<div class="controls">';
 								cropData	+= '<select id="f10_diseases'+contentCountCrop+'" name="f10_diseases'+contentCountCrop+'" class="select2-me input-xlarge" data-rule-required="true" onchange="calTotal_f10()">';
 									cropData	+= '<option value="" disabled selected> Select here</option>';
-									cropData	+= '<option point="1" value="Fungal Treatable" > Fungal Treatable</option>';
-									cropData	+= '<option point="4" value="Non-fungal Treatable" > Non-fungal Treatable</option>';
+									cropData	+= '<option point="1" value="Fungal" > Fungal</option>';
+									cropData	+= '<option point="4" value="Non-fungal" > Non-fungal</option>';
 									cropData	+= '<option point="0" value="Severe" > Severe</option>';
-									//cropData	+= '<option point="8" value="Treatable" > Treatable</option>';
+									cropData	+= '<option point="8" value="Treatable" > Treatable</option>';
 									cropData	+= '<option point="10" value="No potential of diseases"> No potential of diseases</option>';
 								cropData	+= '</select>';
 							cropData	+= '</div>';
@@ -6025,7 +5863,7 @@
 					prevCropData	+= '</div>';
 										
 					prevCropData	+= '<div class="control-group">';
-						prevCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Yield Achieved Last Year In quintals <span style="color:#F00">*</span></label>';
+						prevCropData	+= '<label for="text" class="control-label" style="margin-top:10px">Yield Achieved Last Year In tonnes <span style="color:#F00">*</span></label>';
 						prevCropData	+= '<div class="controls">';
 							prevCropData	+= '<input type="text" id="f11_achieved'+contentCountPrevCrop+'" name="f11_achieved'+contentCountPrevCrop+'" class="input-xlarge"  onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" onchange="calTotal_f11()" placeholder="Yield Achieved">';
 						prevCropData	+= '</div>';
@@ -6054,7 +5892,7 @@
 						prevCropData	+= '<div class="controls">';
 							prevCropData	+= '<select id="f11_fertilizers'+contentCountPrevCrop+'" name="f11_fertilizers'+contentCountPrevCrop+'" class="input-xlarge" data-rule-required="true" onchange="calTotal_f11()">';
 								prevCropData	+= '<option value="" disabled selected> Select here</option>';
-								prevCropData	+= '<option point="5" value="inorganic"> Chemical</option>';
+								prevCropData	+= '<option point="5" value="inorganic"> Inorganic</option>';
 								prevCropData	+= '<option point="10" value="organic"> Organic</option>';
 							prevCropData	+= '</select>';
 						prevCropData	+= '</div>';
@@ -6259,7 +6097,7 @@
 					curCropData	+= '<div id="div_loan_taken_display'+contentCountCurCrop+'" style="display:none;padding: 5px; border: 1px solid #d6d6d6; margin: 5px;">';
 									
 						curCropData	+= '<div class="control-group">';
-							curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">How much is the loan amount [per acre]?<span style="color:#F00">*</span></label>';
+							curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">How much is the loan amount?<span style="color:#F00">*</span></label>';
 							curCropData	+= '<div class="controls">';
 								curCropData	+= '<input type="text" value="" id="f14_loan_amount'+contentCountCurCrop+'" name="f14_loan_amount'+contentCountCurCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="How much is the loan amount" onblur="calTotal_f14();">';
 							curCropData	+= '</div>';
@@ -6286,10 +6124,10 @@
 						curCropData	+= '<div class="controls">';
 							curCropData	+= '<select id="f14_diseases'+contentCountCurCrop+'" name="f14_diseases'+contentCountCurCrop+'" class="select2-me input-xlarge" data-rule-required="true">';
 								curCropData	+= '<option value="" disabled selected> Select here</option>';
-								curCropData	+= '<option value="Fungal Treatable" > Fungal Treatable</option>';
-								curCropData	+= '<option value="Non-fungal Treatable"> Non-fungal Treatable</option>';
+								curCropData	+= '<option value="Fungal" > Fungal</option>';
+								curCropData	+= '<option value="Non-fungal"> Non-fungal</option>';
 								curCropData	+= '<option value="Severe"> Severe</option>';
-								//curCropData	+= '<option value="Treatable"> Treatable</option>';
+								curCropData	+= '<option value="Treatable"> Treatable</option>';
 								curCropData	+= '<option value="No potential of diseases"> No potential of diseases</option>';
 							curCropData	+= '</select>';
 						curCropData	+= '</div>';
@@ -6479,92 +6317,67 @@
 					$('#'+DisplayDivID).find('input, select').val('').trigger('change');
 				}
 			}
-			
-			function getHusbandMobileNumber(husbandMobileNumber)
-			{
-				$('#f3_spouse_mobno').val(husbandMobileNumber);	
-			}
-			
-			function getMonthlyIncome(yearIncomeVal)
-			{
-				//alert(yearIncomeVal);
-				var spouse_monthly_income	= yearIncomeVal / 12;
-				$('#f3_spouse_income').val(spouse_monthly_income);
-			}
-			
-			function getOtherDivDisplay(propType)
-			{
-				if(propType == 'Other')
-				{
-					$('#div_other_prop_display').show('swing');
-				}
-				else
-				{
-					$('#div_other_prop_display').hide('swing');
-					$('#div_other_prop_display').find('input, select').val('').trigger('change');
-				}
-			}
 		</script>
         
         
 
-		<script type="text/javascript">
-        
-        
-        var apiGeolocationSuccess = function(position) {
-            //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-            var IncrementedID	= $('#hid_incrementalID').val();
-            $('#f9_lat'+IncrementedID).val(position.coords.latitude);
-            $('#f9_long'+IncrementedID).val(position.coords.longitude);
-        };
-        
-        var tryAPIGeolocation = function(IncrementedID) 
-        {
-            $('#hid_incrementalID').val(IncrementedID);
-            
-            jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDT6LXw4hG20ph_vnQNuG28nByhEoax_9M", function(success) {
-                apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
-          })
-          .fail(function(err) {
-            alert("API Geolocation error! \n\n"+err);
-          });
-        };
-        
-        var browserGeolocationSuccess = function(position) {
-            //alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-            
-        };
-        
-        var browserGeolocationFail = function(error) {
-          switch (error.code) {
-            case error.TIMEOUT:
-              alert("Browser geolocation error !\n\nTimeout.");
-              break;
-            case error.PERMISSION_DENIED:
-              if(error.message.indexOf("Only secure origins are allowed") == 0) {
-                tryAPIGeolocation();
-              }
-              break;
-            case error.POSITION_UNAVAILABLE:
-              alert("Browser geolocation error !\n\nPosition unavailable.");
-              break;
-          }
-        };
-        
-        var tryGeolocation = function() {
-            alert("hello geo");
-          if (navigator.geolocation) {
-              alert("hello ge1");
-            navigator.geolocation.getCurrentPosition(
-                browserGeolocationSuccess,
-              browserGeolocationFail,
-              {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-          }
-        };
-        
-        //tryGeolocation();
-        
-        // JavaScript Document
-        </script>
+<script type="text/javascript">
+
+
+var apiGeolocationSuccess = function(position) {
+    //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+	var IncrementedID	= $('#hid_incrementalID').val();
+	$('#f9_lat'+IncrementedID).val(position.coords.latitude);
+	$('#f9_long'+IncrementedID).val(position.coords.longitude);
+};
+
+var tryAPIGeolocation = function(IncrementedID) 
+{
+	$('#hid_incrementalID').val(IncrementedID);
+	
+    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDT6LXw4hG20ph_vnQNuG28nByhEoax_9M", function(success) {
+        apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+  })
+  .fail(function(err) {
+    alert("API Geolocation error! \n\n"+err);
+  });
+};
+
+var browserGeolocationSuccess = function(position) {
+    //alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+	
+};
+
+var browserGeolocationFail = function(error) {
+  switch (error.code) {
+    case error.TIMEOUT:
+      alert("Browser geolocation error !\n\nTimeout.");
+      break;
+    case error.PERMISSION_DENIED:
+      if(error.message.indexOf("Only secure origins are allowed") == 0) {
+        tryAPIGeolocation();
+      }
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Browser geolocation error !\n\nPosition unavailable.");
+      break;
+  }
+};
+
+var tryGeolocation = function() {
+	alert("hello geo");
+  if (navigator.geolocation) {
+	  alert("hello ge1");
+    navigator.geolocation.getCurrentPosition(
+        browserGeolocationSuccess,
+      browserGeolocationFail,
+      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+  }
+};
+
+//tryGeolocation();
+
+// JavaScript Document
+</script>
     </body>
 </html>

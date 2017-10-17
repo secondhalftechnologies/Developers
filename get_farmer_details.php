@@ -9,7 +9,7 @@
 	$filename      = 'view_farmers.php';
 	$fm_id         = (isset($_REQUEST['fm_id'])?$_REQUEST['fm_id']:"");
 	
-	if($fm_id == "" && (!isset($_SESSION['acrefin_user'])) && $_SESSION['acrefin_user']=="")
+	if($fm_id == "" && (!isset($_SESSION['sqyard_user'])) && $_SESSION['sqyard_user']=="")
     {
         ?>
         <script type="text/javascript">
@@ -1244,9 +1244,13 @@
                                                                                     <h2>Farm Land <?php echo $id; ?> Details</h2>
                                                                                     
                                                                                     <div class="control-group">
-                                                                                        <label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label> 
                                                                                         <div class="controls">
-                                                                                        	<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size<?php echo $id; ?>" name="f9_land_size<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_land_size'])) && $land_arr[$i]['f9_land_size'] != ''){ echo $land_arr[$i]['f9_land_size']; } ?>" data-rule-required="true" onChange="calTotal_f9()" maxlength="6">
+                                                                                        	<!-- f9_land_size -->
+                                                                                            <input placeholder="Size in Hector" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'hector', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_hector<?php echo $id; ?>" name="f9_land_size_hector<?php echo $id; ?>" class="input-large" value="<?php if((isset($land_arr[$i]['f9_land_size_hector'])) && $land_arr[$i]['f9_land_size_hector'] != ''){ echo $land_arr[$i]['f9_land_size_hector']; } ?>" data-rule-required="true" maxlength="6">
+                                                                                            <input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'acre', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_acre<?php echo $id; ?>" name="f9_land_size_acre<?php echo $id; ?>" class="input-large" value="<?php if((isset($land_arr[$i]['f9_land_size_acre'])) && $land_arr[$i]['f9_land_size_acre'] != ''){ echo $land_arr[$i]['f9_land_size_acre']; } ?>" data-rule-required="true" maxlength="6">
+                                                                                        	<input placeholder="Size in Guntha" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'guntha', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_guntha<?php echo $id; ?>" name="f9_land_size_guntha<?php echo $id; ?>" class="input-large" value="<?php if((isset($land_arr[$i]['f9_land_size_guntha'])) && $land_arr[$i]['f9_land_size_guntha'] != ''){ echo $land_arr[$i]['f9_land_size_guntha']; } ?>" data-rule-required="true" maxlength="6">
+                                                                                        	<input type="text" onKeyPress="return numsonly(event);" id="f9_land_size<?php echo $id; ?>" name="f9_land_size<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_land_size'])) && $land_arr[$i]['f9_land_size'] != ''){ echo $land_arr[$i]['f9_land_size']; } else { ?> 0 <?php } ?>" data-rule-required="true" maxlength="6" readonly>Acre
                                                                                         </div>
                                                                                     </div>	<!-- Size in Acres -->
                                                                                     
@@ -2041,9 +2045,13 @@
                                                                                 </div>	<!-- Variety [Depending on the selected crop] [DDL] -->
                                                                                 
                                                                                 <div class="control-group">
-                                                                                    <label for="text" class="control-label" style="margin-top:10px">What is the total acrage you are planning for crop <?php echo $id; ?><span style="color:#F00">*</span></label>
+                                                                                    <label for="text" class="control-label" style="margin-top:10px">What is the total acrage you are planning for crop <?php echo $id; ?><span style="color:#F00">*</span></label> 
                                                                                     <div class="controls">
-                                                                                        <input type="text" value="<?php if((isset($cur_crops_arr[$l]['f14_total_acrage'])) && $cur_crops_arr[$l]['f14_total_acrage'] != '') { echo $cur_crops_arr[$l]['f14_total_acrage']; } ?>" id="f14_total_acrage<?php echo $id; ?>" name="f14_total_acrage<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="What is the total acrage you are planning for crop <?php echo $id; ?>">
+                                                                                    	<!-- f14_total_acrage -->
+                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'hector', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_hector'])) && $cur_crops_arr[$l]['f14_total_hector'] != '') { echo $cur_crops_arr[$l]['f14_total_hector']; } ?>" id="f14_total_hector<?php echo $id; ?>" name="f14_total_hector<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Hector">
+                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'acre', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_acre'])) && $cur_crops_arr[$l]['f14_total_acre'] != '') { echo $cur_crops_arr[$l]['f14_total_acre']; } ?>" id="f14_total_acre<?php echo $id; ?>" name="f14_total_acre<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Acre">
+                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'guntha', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_guntha'])) && $cur_crops_arr[$l]['f14_total_guntha'] != '') { echo $cur_crops_arr[$l]['f14_total_guntha']; } ?>" id="f14_total_guntha<?php echo $id; ?>" name="f14_total_guntha<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Guntha">
+                                                                                        <input type="text" value="<?php if((isset($cur_crops_arr[$l]['f14_total_acrage'])) && $cur_crops_arr[$l]['f14_total_acrage'] != '') { echo $cur_crops_arr[$l]['f14_total_acrage']; } ?>" id="f14_total_acrage<?php echo $id; ?>" name="f14_total_acrage<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Total Acrage" readonly>Acre
                                                                                     </div>
                                                                                 </div>	<!-- Total Acrage -->
                                                                                 
@@ -4253,6 +4261,7 @@
 			
 			function calTotal_f9()
 			{
+				
 				// START : f9
 				var no_of_points        	= 5;
 				var f9_land_size_tpt		= 0;
@@ -4281,7 +4290,7 @@
 				}
 				
 				farm_land_details_g_total	= parseInt(f9_land_size_tpt) + parseInt(f9_soil_tested_pt) + parseInt(f9_soil_type_tpt) + parseInt(f9_owner_tpt) + parseInt(f9_source_of_water_tpt);
-				
+				//alert(farm_land_details_g_total);
 				//alert(farm_land_details_g_total);
 				
 				document.getElementById('farm_land_details_g_total').innerHTML = farm_land_details_g_total;
@@ -5600,7 +5609,11 @@
 						landData	+= '<div class="control-group">';
 						landData	+= '<label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>';
 							landData	+= '<div class="controls">';
-								landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size'+contentCountLand+'" name="f9_land_size'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" onChange="calTotal_f9()" maxlength="6">';
+								//landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size'+contentCountLand+'" name="f9_land_size'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" onChange="calTotal_f9()" maxlength="6">';
+								landData	+= '<input placeholder="Size in Hector" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'hector\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_hector'+contentCountLand+'" name="f9_land_size_hector'+contentCountLand+'" class="input-large" value="" data-rule-required="true" maxlength="6">';
+                                landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'acre\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_acre'+contentCountLand+'" name="f9_land_size_acre'+contentCountLand+'" class="input-large" value="" data-rule-required="true" maxlength="6">';
+                                landData	+= '<input placeholder="Size in Guntha" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'guntha\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_guntha'+contentCountLand+'" name="f9_land_size_guntha'+contentCountLand+'" class="input-large" value="" data-rule-required="true" maxlength="6">';
+                                landData	+= '<input type="text" onKeyPress="return numsonly(event);" id="f9_land_size'+contentCountLand+'" name="f9_land_size'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" maxlength="6" readonly>Acre';
 							landData	+= '</div>';
 						landData	+= '</div>';
 										
@@ -6198,7 +6211,11 @@
 					curCropData	+= '<div class="control-group">';
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">What is the total acrage you are planning for crop '+contentCountCurCrop+'<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
-							curCropData	+= '<input type="text" value="" id="f14_total_acrage'+contentCountCurCrop+'" name="f14_total_acrage'+contentCountCurCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="What is the total acrage you are planning for crop '+contentCountCurCrop+'">';
+							//curCropData	+= '<input type="text" value="" id="f14_total_acrage'+contentCountCurCrop+'" name="f14_total_acrage'+contentCountCurCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="What is the total acrage you are planning for crop '+contentCountCurCrop+'">';
+							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'hector\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_hector'+contentCountCurCrop+'" name="f14_total_hector'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Hector">';
+							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'acre\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_acre'+contentCountCurCrop+'" name="f14_total_acre'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Acre">';
+							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'guntha\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_guntha'+contentCountCurCrop+'" name="f14_total_guntha'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Guntha">';
+							curCropData	+= '<input type="text" value="" id="f14_total_acrage'+contentCountCurCrop+'" name="f14_total_acrage'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Total Acrage" readonly>Acre';
 						curCropData	+= '</div>';
 					curCropData	+= '</div>';
 									
@@ -6504,6 +6521,91 @@
 					$('#div_other_prop_display').find('input, select').val('').trigger('change');
 				}
 			}
+			
+			function getAcre(entredVal, parameter, displayID, incrementalID)
+			{
+				var acreVal		= 0;
+				var f9_land_size_hector = 0;
+				var f9_land_size_acre 	= 0;
+				var f9_land_size_guntha = 0;
+				
+				if(parameter == 'hector')
+				{
+					f9_land_size_hector	= entredVal * (5/2);
+					f9_land_size_acre	= parseInt($('#f9_land_size_acre'+incrementalID).val()) || 0;
+					f9_land_size_guntha	= parseInt($('#f9_land_size_guntha'+incrementalID).val()) || 0;
+					f9_land_size_guntha	= f9_land_size_guntha / 40;
+					acreVal	= f9_land_size_hector + f9_land_size_acre + f9_land_size_guntha;
+				}
+				
+				if(parameter == 'acre')
+				{
+					f9_land_size_hector	= parseInt($('#f9_land_size_hector'+incrementalID).val()) || 0;
+					f9_land_size_hector	= f9_land_size_hector * (5/2);
+					f9_land_size_guntha	= parseInt($('#f9_land_size_guntha'+incrementalID).val()) || 0;
+					f9_land_size_guntha	= f9_land_size_guntha / 40;
+					f9_land_size_acre	= parseInt(entredVal);
+
+					acreVal	= f9_land_size_hector + f9_land_size_acre + f9_land_size_guntha;
+					//alert(f9_land_size_hector +'<>'+ f9_land_size_acre +'<>'+ f9_land_size_guntha)
+
+				}
+				
+				if(parameter == 'guntha')
+				{
+					f9_land_size_hector	= parseInt($('#f9_land_size_hector'+incrementalID).val()) || 0;
+					f9_land_size_hector	= f9_land_size_hector * (5/2);
+					f9_land_size_acre	= parseInt($('#f9_land_size_acre'+incrementalID).val()) || 0;
+					f9_land_size_guntha	= entredVal / 40;
+
+					acreVal	= f9_land_size_hector + f9_land_size_acre + f9_land_size_guntha;
+				}
+				
+				$('#'+displayID).val(acreVal);
+				calTotal_f9();
+			}
+			
+			function getAcre_f14(entredVal, parameter, displayID, incrementalID)
+			{
+				var acreVal				= 0;
+				var f14_total_hector 	= 0; 
+				var f14_total_acre 		= 0;
+				var f14_total_guntha 	= 0;
+				
+				if(parameter == 'hector')
+				{
+					f14_total_hector	= entredVal * (5/2);
+					f14_total_acre		= parseInt($('#f14_total_acre'+incrementalID).val()) || 0;
+					f14_total_guntha	= parseInt($('#f14_total_guntha'+incrementalID).val()) || 0;
+					f14_total_guntha	= f14_total_guntha / 40;
+					acreVal	= f14_total_hector + f14_total_acre + f14_total_guntha;
+				}
+				
+				if(parameter == 'acre')
+				{
+					f14_total_hector	= parseInt($('#f14_total_hector'+incrementalID).val()) || 0;
+					f14_total_hector	= f14_total_hector * (5/2);
+					f14_total_guntha	= parseInt($('#f14_total_guntha'+incrementalID).val()) || 0;
+					f14_total_guntha	= f14_total_guntha / 40;
+					f14_total_acre	= parseInt(entredVal);
+
+					acreVal	= f14_total_hector + f14_total_acre + f14_total_guntha;
+					//alert(f14_total_hector +'<>'+ f14_total_acre +'<>'+ f14_total_guntha)
+
+				}
+				
+				if(parameter == 'guntha')
+				{
+					f14_total_hector	= parseInt($('#f14_total_hector'+incrementalID).val()) || 0;
+					f14_total_hector	= f14_total_hector * (5/2);
+					f14_total_acre	= parseInt($('#f14_total_acre'+incrementalID).val()) || 0;
+					f14_total_guntha	= entredVal / 40;
+
+					acreVal	= f14_total_hector + f14_total_acre + f14_total_guntha;
+				}
+				
+				$('#'+displayID).val(acreVal);
+			}
 		</script>
         
         
@@ -6511,60 +6613,60 @@
 		<script type="text/javascript">
         
         
-        var apiGeolocationSuccess = function(position) {
-            //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-            var IncrementedID	= $('#hid_incrementalID').val();
-            $('#f9_lat'+IncrementedID).val(position.coords.latitude);
-            $('#f9_long'+IncrementedID).val(position.coords.longitude);
-        };
+	        var apiGeolocationSuccess = function(position) {
+	            //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+	            var IncrementedID	= $('#hid_incrementalID').val();
+	            $('#f9_lat'+IncrementedID).val(position.coords.latitude);
+	            $('#f9_long'+IncrementedID).val(position.coords.longitude);
+	        };
+	        
+	        var tryAPIGeolocation = function(IncrementedID) 
+	        {
+	            $('#hid_incrementalID').val(IncrementedID);
+	            
+	            jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDT6LXw4hG20ph_vnQNuG28nByhEoax_9M", function(success) {
+	                apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+	          })
+	          .fail(function(err) {
+	            alert("API Geolocation error! \n\n"+err);
+	          });
+	        };
+	        
+	        var browserGeolocationSuccess = function(position) {
+	            //alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+	            
+	        };
+	        
+	        var browserGeolocationFail = function(error) {
+	          switch (error.code) {
+	            case error.TIMEOUT:
+	              alert("Browser geolocation error !\n\nTimeout.");
+	              break;
+	            case error.PERMISSION_DENIED:
+	              if(error.message.indexOf("Only secure origins are allowed") == 0) {
+	                tryAPIGeolocation();
+	              }
+	              break;
+	            case error.POSITION_UNAVAILABLE:
+	              alert("Browser geolocation error !\n\nPosition unavailable.");
+	              break;
+	          }
+	        };
+	        
+	        var tryGeolocation = function() {
+	            alert("hello geo");
+	          if (navigator.geolocation) {
+	              alert("hello ge1");
+	            navigator.geolocation.getCurrentPosition(
+	                browserGeolocationSuccess,
+	              browserGeolocationFail,
+	              {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+	          }
+	        };
         
-        var tryAPIGeolocation = function(IncrementedID) 
-        {
-            $('#hid_incrementalID').val(IncrementedID);
-            
-            jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDT6LXw4hG20ph_vnQNuG28nByhEoax_9M", function(success) {
-                apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
-          })
-          .fail(function(err) {
-            alert("API Geolocation error! \n\n"+err);
-          });
-        };
-        
-        var browserGeolocationSuccess = function(position) {
-            //alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-            
-        };
-        
-        var browserGeolocationFail = function(error) {
-          switch (error.code) {
-            case error.TIMEOUT:
-              alert("Browser geolocation error !\n\nTimeout.");
-              break;
-            case error.PERMISSION_DENIED:
-              if(error.message.indexOf("Only secure origins are allowed") == 0) {
-                tryAPIGeolocation();
-              }
-              break;
-            case error.POSITION_UNAVAILABLE:
-              alert("Browser geolocation error !\n\nPosition unavailable.");
-              break;
-          }
-        };
-        
-        var tryGeolocation = function() {
-            alert("hello geo");
-          if (navigator.geolocation) {
-              alert("hello ge1");
-            navigator.geolocation.getCurrentPosition(
-                browserGeolocationSuccess,
-              browserGeolocationFail,
-              {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-          }
-        };
-        
-        //tryGeolocation();
-        
-        // JavaScript Document
+	        //tryGeolocation();
+	        
+	        // JavaScript Document
         </script>
     </body>
 </html>

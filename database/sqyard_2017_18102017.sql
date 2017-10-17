@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 11, 2017 at 01:07 PM
--- Server version: 5.6.12-log
--- PHP Version: 5.4.16
+-- Generation Time: Oct 17, 2017 at 08:43 PM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `sqyard_2017`
 --
-CREATE DATABASE IF NOT EXISTS `sqyard_2017` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `sqyard_2017`;
 
 -- --------------------------------------------------------
 
@@ -157,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `tbl_bank_loan_detail` (
   `f8_loan_emi` varchar(100) NOT NULL,
   `f8_remaining_emi` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tbl_bank_loan_detail`
@@ -393,7 +391,7 @@ CREATE TABLE IF NOT EXISTS `tbl_cultivation_data` (
   `f10_modified_date` datetime NOT NULL,
   `f10_modified_by` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `tbl_cultivation_data`
@@ -417,6 +415,9 @@ CREATE TABLE IF NOT EXISTS `tbl_current_crop_forecast` (
   `f14_cultivating` varchar(100) DEFAULT NULL,
   `f14_variety` varchar(100) DEFAULT NULL,
   `f14_total_acrage` varchar(10) DEFAULT NULL,
+  `f14_total_hector` varchar(10) NOT NULL,
+  `f14_total_acre` varchar(10) NOT NULL,
+  `f14_total_guntha` varchar(10) NOT NULL,
   `f14_expected_yeild` varchar(255) DEFAULT NULL,
   `f14_seed_type` varchar(255) DEFAULT NULL,
   `f14_seed_quantity` varchar(255) DEFAULT NULL,
@@ -443,9 +444,9 @@ CREATE TABLE IF NOT EXISTS `tbl_current_crop_forecast` (
 -- Dumping data for table `tbl_current_crop_forecast`
 --
 
-INSERT INTO `tbl_current_crop_forecast` (`id`, `fm_caid`, `fm_id`, `f14_crop_type`, `f14_cultivating`, `f14_variety`, `f14_total_acrage`, `f14_expected_yeild`, `f14_seed_type`, `f14_seed_quantity`, `f14_spend_money`, `f14_use_self_grown_seeds`, `f14_loan_taken`, `f14_loan_amount`, `f14_borrow_loan_from`, `f14_diseases`, `f14_water_source_type`, `f14_harvest_date`, `f14_income`, `f14_status`, `f14_section_id`, `f14_points`, `f14_created_date`, `f14_created_by`, `f14_modified_date`, `f14_modified_by`) VALUES
-(1, 1, 100001, 'Commercial', '1', '1', '100', '100', 'Hybrid', '100', '100', 'yes', 'no', '', '', 'Fungal', 'Irrigation', '2017-10-09', '100', 1, 0, 8, '2017-10-11 10:51:58', '1', NULL, NULL),
-(2, 1, 100001, 'Commercial', '2', '12', '100', '100', 'Hybrid', '100', '100', 'yes', 'yes', '5000', 'Bank', 'Non-fungal', 'Rainwater Only', '2017-10-09', '100', 1, 0, 8, '2017-10-11 10:51:58', '1', NULL, NULL);
+INSERT INTO `tbl_current_crop_forecast` (`id`, `fm_caid`, `fm_id`, `f14_crop_type`, `f14_cultivating`, `f14_variety`, `f14_total_acrage`, `f14_total_hector`, `f14_total_acre`, `f14_total_guntha`, `f14_expected_yeild`, `f14_seed_type`, `f14_seed_quantity`, `f14_spend_money`, `f14_use_self_grown_seeds`, `f14_loan_taken`, `f14_loan_amount`, `f14_borrow_loan_from`, `f14_diseases`, `f14_water_source_type`, `f14_harvest_date`, `f14_income`, `f14_status`, `f14_section_id`, `f14_points`, `f14_created_date`, `f14_created_by`, `f14_modified_date`, `f14_modified_by`) VALUES
+(1, 1, 100001, 'Commercial', '1', '1', '100', '', '', '', '100', 'Hybrid', '100', '100', 'yes', 'no', '', '', 'Fungal', 'Irrigation', '2017-10-09', '100', 1, 0, 8, '2017-10-11 10:51:58', '1', NULL, NULL),
+(2, 1, 100001, 'Commercial', '2', '12', '100', '', '', '', '100', 'Hybrid', '100', '100', 'yes', 'yes', '5000', 'Bank', 'Non-fungal', 'Rainwater Only', '2017-10-09', '100', 1, 0, 8, '2017-10-11 10:51:58', '1', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -463,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `tbl_district` (
   `dt_modified_date` datetime NOT NULL,
   `dt_modified_by` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `tbl_district`
@@ -578,6 +579,9 @@ CREATE TABLE IF NOT EXISTS `tbl_land_details` (
   `fm_caid` int(11) NOT NULL,
   `fm_id` int(11) NOT NULL,
   `f9_land_size` varchar(100) NOT NULL,
+  `f9_land_size_hector` varchar(10) NOT NULL,
+  `f9_land_size_acre` varchar(10) NOT NULL,
+  `f9_land_size_guntha` varchar(10) NOT NULL,
   `f9_owner` varchar(100) NOT NULL,
   `f9_amount_on_rent` varchar(100) NOT NULL,
   `f9_lease_year` varchar(100) NOT NULL,
@@ -603,15 +607,15 @@ CREATE TABLE IF NOT EXISTS `tbl_land_details` (
   `f9_modified_date` int(11) NOT NULL,
   `f9_modified_by` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `tbl_land_details`
 --
 
-INSERT INTO `tbl_land_details` (`id`, `fm_caid`, `fm_id`, `f9_land_size`, `f9_owner`, `f9_amount_on_rent`, `f9_lease_year`, `f9_contract_year`, `f9_survey_number`, `f9_vilage`, `f9_taluka`, `f9_district`, `f9_state`, `f9_pincode`, `f9_lat`, `f9_long`, `f9_geo_tag`, `f9_soil_tested`, `f9_soil_type`, `f9_soil_depth`, `f9_source_of_water`, `f9_points`, `f9_status`, `f9_section_id`, `f9_created_date`, `f9_created_by`, `f9_modified_date`, `f9_modified_by`) VALUES
-(1, 1, 100000, '10', 'Rented', '3500', '', '', '35435345', '3423', '29', '3', '1', '435355', '43.544', '54.4545', '', 'yes', 'Red Soil', '54', 'Tank Water', 7, 1, 0, '2017-10-10 15:59:21', '1', 2017, '1'),
-(4, 1, 100001, '20', 'Ancestral', '', '', '', '324', '785', '16', '2', '1', '231231', '32112312313', '1231313123131', '', 'yes', 'Black Soil', '342', 'Tank Water', 8, 1, 0, '2017-10-10 16:11:36', '1', 2017, '1');
+INSERT INTO `tbl_land_details` (`id`, `fm_caid`, `fm_id`, `f9_land_size`, `f9_land_size_hector`, `f9_land_size_acre`, `f9_land_size_guntha`, `f9_owner`, `f9_amount_on_rent`, `f9_lease_year`, `f9_contract_year`, `f9_survey_number`, `f9_vilage`, `f9_taluka`, `f9_district`, `f9_state`, `f9_pincode`, `f9_lat`, `f9_long`, `f9_geo_tag`, `f9_soil_tested`, `f9_soil_type`, `f9_soil_depth`, `f9_source_of_water`, `f9_points`, `f9_status`, `f9_section_id`, `f9_created_date`, `f9_created_by`, `f9_modified_date`, `f9_modified_by`) VALUES
+(1, 1, 100000, '10', '', '', '', 'Rented', '3500', '', '', '35435345', '3423', '29', '3', '1', '435355', '43.544', '54.4545', '', 'yes', 'Red Soil', '54', 'Tank Water', 7, 1, 0, '2017-10-10 15:59:21', '1', 2017, '1'),
+(4, 1, 100001, '20', '', '', '', 'Ancestral', '', '', '', '324', '785', '16', '2', '1', '231231', '32112312313', '1231313123131', '', 'yes', 'Black Soil', '342', 'Tank Water', 8, 1, 0, '2017-10-10 16:11:36', '1', 2017, '1');
 
 -- --------------------------------------------------------
 
@@ -814,7 +818,7 @@ CREATE TABLE IF NOT EXISTS `tbl_points` (
 
 INSERT INTO `tbl_points` (`id`, `fm_id`, `pt_frm1`, `pt_frm2`, `pt_frm3`, `pt_frm4`, `pt_frm5`, `pt_frm6`, `pt_frm7`, `pt_frm8`, `pt_frm8_fh`, `pt_frm9`, `pt_frm10`, `pt_frm11`, `pt_frm12`, `pt_frm13`, `pt_frm14`) VALUES
 (1, 100000, '5.50', '6.67', '8.33', '', '10.00', '5.00', '15', '5.00', '10.00', '7.20', '6.40', '', '5.40', '21.00', ''),
-(2, 100001, '6.50', '', '9.71', '', '10.00', '10.00', '5.00', '', '', '7.80', '3.43', '6.00', '', '', '7.50'),
+(2, 100001, '6.50', '', '8.57', '', '10.00', '10.00', '5.00', '', '', '7.80', '3.43', '6.00', '', '', '7.50'),
 (3, 100002, '5.33', '', '4.00', '', '10.00', '', '15', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
@@ -897,6 +901,11 @@ CREATE TABLE IF NOT EXISTS `tbl_spouse_details` (
   `f3_spouse_shg` varchar(255) NOT NULL,
   `f3_spouse_shgname` varchar(255) NOT NULL,
   `f3_spouse_occp` varchar(255) NOT NULL,
+  `f3_spouse_owned_prop` varchar(15) NOT NULL,
+  `f3_spouse_prop_type` varchar(255) NOT NULL,
+  `f3_property_details` varchar(255) NOT NULL,
+  `f3_spouse_get_any_income` varchar(15) NOT NULL,
+  `f3_spouse_yearly_income` varchar(255) NOT NULL,
   `f3_spouse_income` varchar(255) NOT NULL,
   `f3_spouse_mfi` varchar(255) NOT NULL,
   `f3_spouse_mfiname` varchar(255) NOT NULL,
@@ -930,10 +939,10 @@ CREATE TABLE IF NOT EXISTS `tbl_spouse_details` (
 -- Dumping data for table `tbl_spouse_details`
 --
 
-INSERT INTO `tbl_spouse_details` (`id`, `fm_caid`, `fm_id`, `f3_married`, `f3_spouse_fname`, `f3_spouse_mname`, `f3_spouse_sname`, `f3_spouse_age`, `f3_spouse_mobno`, `f3_spouse_adhno`, `f3_spouse_shg`, `f3_spouse_shgname`, `f3_spouse_occp`, `f3_spouse_income`, `f3_spouse_mfi`, `f3_spouse_mfiname`, `f3_spouse_mfiamount`, `f3_spouse_purpose`, `f3_spouse_mfioutstanding`, `f3_spouse_mfioutstanding_principal`, `f3_spouse_mfiremain`, `f3_spouse_mfiemi`, `f3_spouse_mfimonth`, `f3_status`, `f3_section_id`, `f3_points`, `f3_married_reg_points`, `f3_created_date`, `f3_created_by`, `f3_modified_date`, `f3_modified_by`, `f3_spouse_mfirate`, `f3_spouse_mfitenure`, `f3_spouse_mfiinterest`, `f3_spouse_mfitotalamount`, `f3_spouse_mfiemipaid`, `f3_affliation_status`, `f3_fpo_name`, `f3_bank_name`) VALUES
-(1, 1, 100000, 'yes', 'priya', '', '', 27, '4345354353', '353453453535', 'yes', 'test', 'housewife', '', 'yes', 'test', '10000', '', '', '', '', '', '', 1, 0, 8, 10, '2017-10-10 12:36:49', 'sqyard', '2017-10-10 12:49:14', '1', '', '', '', '', '', 'yes', 'test', 'best'),
-(2, 1, 100001, 'yes', 'Rani', '', '', 27, '9405927773', '231512165133', 'yes', 'Test SHG', 'farmer', '7501', 'yes', 'Test mfi', '10000', '', '', '', '', '', '', 1, 0, 10, 10, '2017-10-10 12:37:30', 'sqyard', '2017-10-10 13:30:37', '1', '', '', '', '', '', 'yes', 'Test FPO', 'Test Bank Name'),
-(3, 1, 100002, 'yes', 'test', '', '', 12, '3453453434', '353453434535', 'yes', 'test', 'housewife', '', 'no', '', '', '', '', '', '', '', '', 1, 0, 4, 10, '2017-10-10 13:29:08', 'sqyard', '2017-10-10 13:37:16', '1', '', '', '', '', '', 'no', '', 'ertertert');
+INSERT INTO `tbl_spouse_details` (`id`, `fm_caid`, `fm_id`, `f3_married`, `f3_spouse_fname`, `f3_spouse_mname`, `f3_spouse_sname`, `f3_spouse_age`, `f3_spouse_mobno`, `f3_spouse_adhno`, `f3_spouse_shg`, `f3_spouse_shgname`, `f3_spouse_occp`, `f3_spouse_owned_prop`, `f3_spouse_prop_type`, `f3_property_details`, `f3_spouse_get_any_income`, `f3_spouse_yearly_income`, `f3_spouse_income`, `f3_spouse_mfi`, `f3_spouse_mfiname`, `f3_spouse_mfiamount`, `f3_spouse_purpose`, `f3_spouse_mfioutstanding`, `f3_spouse_mfioutstanding_principal`, `f3_spouse_mfiremain`, `f3_spouse_mfiemi`, `f3_spouse_mfimonth`, `f3_status`, `f3_section_id`, `f3_points`, `f3_married_reg_points`, `f3_created_date`, `f3_created_by`, `f3_modified_date`, `f3_modified_by`, `f3_spouse_mfirate`, `f3_spouse_mfitenure`, `f3_spouse_mfiinterest`, `f3_spouse_mfitotalamount`, `f3_spouse_mfiemipaid`, `f3_affliation_status`, `f3_fpo_name`, `f3_bank_name`) VALUES
+(1, 1, 100000, 'yes', 'priya', '', '', 27, '4345354353', '353453453535', 'yes', 'test', 'housewife', '', '', '', '', '', '', 'yes', 'test', '10000', '', '', '', '', '', '', 1, 0, 8, 10, '2017-10-10 12:36:49', 'sqyard', '2017-10-10 12:49:14', '1', '', '', '', '', '', 'yes', 'test', 'best'),
+(2, 1, 100001, 'yes', 'Rani', '', '', 27, '9405927773', '231512165133', 'yes', 'Test SHG', 'farmer', 'yes', 'Other', 'Test Property', 'yes', '600000', '50000', 'yes', 'Test mfi', '10000', '', '', '', '', '', '', 1, 0, 9, 10, '2017-10-10 12:37:30', 'sqyard', '2017-10-17 01:03:35', '1', '', '', '', '', '', 'yes', 'Test FPO', 'Test Bank Name'),
+(3, 1, 100002, 'yes', 'test', '', '', 12, '3453453434', '353453434535', 'yes', 'test', 'housewife', '', '', '', '', '', '', 'no', '', '', '', '', '', '', '', '', 1, 0, 4, 10, '2017-10-10 13:29:08', 'sqyard', '2017-10-10 13:37:16', '1', '', '', '', '', '', 'no', '', 'ertertert');
 
 -- --------------------------------------------------------
 
@@ -20987,7 +20996,7 @@ CREATE TABLE IF NOT EXISTS `tbl_yield_details` (
   `f11_modified_date` datetime NOT NULL,
   `f11_modified_by` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tbl_yield_details`

@@ -1,4 +1,5 @@
 <?php
+
 if($_SESSION['userType']=="changeagent")
 {
 ?>
@@ -27,60 +28,26 @@ elseif($_SESSION['userType']=="Admin")
 						<span>Dashboard</span>
 					</a>
 				</li>
-				<li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='banner'){?> class="active" <?php } ?>>
-					<a href="view_banners.php?pag=banner" >
-						<i class="icon-home"></i>
-						<span>Banners</span>
-					</a>
-				</li> <!-- banners -->
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='about'){?> class="active" <?php } ?>>
-					<a href="view_aboutus.php?pag=about">
+                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='farmers'){?> class="active" <?php } ?>>
+					<a href="view_farmers.php?pag=farmers">
 						<i class="icon-th-large"></i>
-						<span>About Us</span>
+						<span>Farmers</span>
 					</a>
-				</li> <!-- About -->
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='services'){?> class="active" <?php } ?>>
-					<a href="view_services.php?pag=services">
+				</li>
+				<li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='farmers'){?> class="active" <?php } ?>>
+					<a href="view_farmers.php?pag=farmers">
 						<i class="icon-th-large"></i>
-						<span>Services</span>
+						<span>Admin</span>
 					</a>
-				</li> <!-- Services -->
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='gifts'){?> class="active" <?php } ?>>
-					<a href="view_gifts.php?pag=gifts">
-						<i class="icon-th-large"></i>
-						<span>Gifts</span>
-					</a>
-				</li> <!-- gifts -->
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='membership'){?> class="active" <?php } ?>>
-					<a href="view_membership.php?pag=membership">
-						<i class="icon-th-large"></i>
-						<span>Membership</span>
-					</a>
-				</li> <!-- membership -->
-                
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='locations'){?> class="active" <?php } ?>>
-					<a href="view_locations.php?pag=locations">
-						<i class="icon-th-large"></i>
-						<span>Locations</span>
-					</a>
-				</li> <!-- Location -->
-                
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='contactus'){?> class="active" <?php } ?>>
-					<a href="view_contact.php?pag=contact">
-						<i class="icon-th-large"></i>
-						<span>Contact Us</span>
-					</a>
-				</li> <!-- Contact -->
-                
-				
-</ul>
+				</li>
+				 </ul>
 <?php
 }
 ?>
 <div class="user">
     <div class="dropdown asdf">
         <a href="#" class='dropdown-toggle' data-toggle="dropdown">
-            <?php echo $_SESSION['acrefin_user']; ?> <i class="icon-user"></i> <span class="caret"></span>
+            <?php echo $_SESSION['sqyard_user']; ?> <i class="icon-user"></i> <span class="caret"></span>
         </a>
         <ul class="dropdown-menu pull-right">
             <li>

@@ -33,6 +33,11 @@ if(isset($_POST['add_cur_crop_deatils']) && $_POST['add_cur_crop_deatils']==1)
 				$data['f14_cultivating']      		= mysqli_real_escape_string($db_con,$_POST['f14_cultivating'.$i]);
 				$data['f14_variety']      			= mysqli_real_escape_string($db_con,$_POST['f14_variety'.$i]);
 				$data['f14_total_acrage']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_acrage'.$i]);
+				
+				$data['f14_total_hector']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_hector'.$i]);
+				$data['f14_total_acre']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_acre'.$i]);
+				$data['f14_total_guntha']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_guntha'.$i]);
+				
 				$data['f14_expected_yeild']      	= mysqli_real_escape_string($db_con,$_POST['f14_expected_yeild'.$i]);
 				$data['f14_seed_type']      		= mysqli_real_escape_string($db_con,$_POST['f14_seed_type'.$i]);
 				$data['f14_seed_quantity']      	= mysqli_real_escape_string($db_con,$_POST['f14_seed_quantity'.$i]);
@@ -97,7 +102,12 @@ if(isset($_POST['add_cur_crop_deatils']) && $_POST['add_cur_crop_deatils']==1)
 				$data['f14_crop_type']      		= mysqli_real_escape_string($db_con,$_POST['f14_crop_type'.$i]);
 				$data['f14_cultivating']      		= mysqli_real_escape_string($db_con,$_POST['f14_cultivating'.$i]);
 				$data['f14_variety']      			= mysqli_real_escape_string($db_con,$_POST['f14_variety'.$i]);
+				
 				$data['f14_total_acrage']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_acrage'.$i]);
+				$data['f14_total_hector']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_hector'.$i]);
+				$data['f14_total_acre']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_acre'.$i]);
+				$data['f14_total_guntha']      		= mysqli_real_escape_string($db_con,$_POST['f14_total_guntha'.$i]);
+				
 				$data['f14_expected_yeild']      	= mysqli_real_escape_string($db_con,$_POST['f14_expected_yeild'.$i]);
 				$data['f14_seed_type']      		= mysqli_real_escape_string($db_con,$_POST['f14_seed_type'.$i]);
 				$data['f14_seed_quantity']      	= mysqli_real_escape_string($db_con,$_POST['f14_seed_quantity'.$i]);

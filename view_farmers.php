@@ -1,6 +1,7 @@
 <?php
 	include('access1.php');
 	include('include/connection.php');
+	include('include/query-helper.php');
 
 	$feature_name 	= 'Farmer';
 	$home_name    	= "Home";
@@ -8,7 +9,7 @@
 	$home_url 	  	= "home.php";
 	$filename		= 'view_farmers.php';
 	
-	if(!isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']=="")
+	if(!isset($_SESSION['sqyard_user']) && $_SESSION['sqyard_user']=="")
 	{
 		?>
 		<script type="text/javascript">
@@ -18,7 +19,14 @@
 	}
 	
 	$ca_id	= $_SESSION['ca_id'];
-	$sql	= "select * from tbl_farmers where fm_caid='".$ca_id."' order by id desc";
+    if($_SESSION['userType']=="Admin")
+    {
+        $sql   = "select * from tbl_farmers order by id desc";
+    }
+    else
+    {
+       $sql	= "select * from tbl_farmers where fm_caid='".$ca_id."' order by id desc";
+    }
 	$res	= mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
 	$r		= 1;	
 ?>	
@@ -30,6 +38,8 @@
         headerdata($feature_name);
         /* This function used to call all header data like css files and links */
     	?>
+
+    
     </head>
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
@@ -71,6 +81,7 @@
                                                     <tr>
                                                         <th>Sr no.</th>
                                                         <th>Forms</th>
+                                                        <th>Docs Upload</th>
                                                         <th>Farmer ID</th>
                                                         <th>Farmer Name</th>
                                                         <th>Aadhaar No</th>
@@ -78,24 +89,42 @@
                                                         <th>Total Points</th>
                                                         <th>Status</th>
                                                         <th class='hidden-350'>Created Date</th>
+                                                        <th>Edit</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
                                                     while($row = mysqli_fetch_array($res))
                                                     {
+														$result = lookup_value('tbl_points',array(),array("fm_id"=>$row['fm_id']),array(),array(),array());
+														if($result)
+														{
+															$num	= mysqli_num_rows($result);
+															if($num != 0)
+															{
+																$pt_row	= mysqli_fetch_array($result);
+															}
+														}
+														
+														$sum_of_points	= $pt_row['pt_frm1'] + $pt_row['pt_frm2'] + $pt_row['pt_frm3'] + $pt_row['pt_frm4'] + $pt_row['pt_frm5'] + $pt_row['pt_frm6'] + $pt_row['pt_frm7'] + $pt_row['pt_frm8'] + $pt_row['pt_frm8_fh'] + $pt_row['pt_frm9'] + $pt_row['pt_frm10'] + $pt_row['pt_frm11'] + $pt_row['pt_frm12'] + $pt_row['pt_frm13'] + $pt_row['pt_frm14'];
+														
+														$avg_of_points	= round($sum_of_points / 15, 2);
+														
                                                         ?>
                                                         <tr>
                                                             <td><?php echo $r; ?></td>	<!-- Sr. No. -->
                                                             <td style="text-align:center;">
-                                                            	<a href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">Click Here</a>
+                                                            	<a href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">View Forms</a>
                                                             </td>	<!-- Forms -->
+                                                            <td style="text-align:center;">
+                                                                <a href="get_farmerdoc.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">View Uploads</a>
+                                                            </td>	<!-- Docs Upload -->
                                                             <td><?php echo $row['fm_id']; ?></td>	<!-- Farmer ID -->
                                                             <td><?php echo ucwords($row['fm_name']); ?>
                                                             <?php
                                                             $sql_check_point  	= " SELECT * FROM tbl_points ";
 															$sql_check_point  	.= " WHERE pt_frm1 !='' AND pt_frm2 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm3 !='' AND pt_frm4 !='' ";
+															$sql_check_point  	.= " 	AND pt_frm3 !='' AND pt_frm8_fh !='' ";
 															$sql_check_point  	.= " 	AND pt_frm6 !='' AND pt_frm7 !='' ";
 															$sql_check_point  	.= " 	AND pt_frm8 !='' AND pt_frm9 !='' ";
 															$sql_check_point  	.= " 	AND pt_frm10 !='' AND pt_frm5 !='' ";
@@ -117,9 +146,12 @@
                                                             </td>	<!-- Farmer Name -->
                                                             <td><?php echo $row['fm_aadhar']; ?></td>	<!-- Aadhaar Number -->
                                                             <td><?php echo $row['fm_mobileno']; ?></td>	<!-- Mobile Number -->
-                                                            <td><?php echo $row['fm_amount']; ?></td>	<!-- Loan Required (Rs.) -->
+                                                            <td><?php echo $avg_of_points; ?></td>	<!-- Loan Required (Rs.) -->
                                                             <td><?php echo $row['fm_status']; ?></td>	<!-- Status -->
                                                             <td><?php echo $row['fm_createddt']; ?></td>	<!-- Created Date -->
+                                                            <td style="text-align:center;">
+                                                            	<a href="edit_farmer.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">Edit</a>
+                                                            </td>	<!-- Edit Farmers -->
                                                         </tr>
                                                         <?php
                                                         $r++;

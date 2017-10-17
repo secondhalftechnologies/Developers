@@ -29,6 +29,10 @@ if(isset($_POST['add_land_detail']) && $_POST['add_land_detail']==1)
 			
 			for($i=1; $i<=$no_of_land; $i++)
 			{
+				$data['f9_land_size_hector']    = mysqli_real_escape_string($db_con,$_POST['f9_land_size_hector'.$i]);
+				$data['f9_land_size_acre']    	= mysqli_real_escape_string($db_con,$_POST['f9_land_size_acre'.$i]);
+				$data['f9_land_size_guntha']    = mysqli_real_escape_string($db_con,$_POST['f9_land_size_guntha'.$i]);
+				
 				$data['f9_land_size']       = mysqli_real_escape_string($db_con,$_POST['f9_land_size'.$i]);
 				$data['f9_owner']			= mysqli_real_escape_string($db_con,$_POST['f9_owner'.$i]);
 				$data['f9_lease_year'] 	    = mysqli_real_escape_string($db_con,@$_POST['f9_lease_year'.$i]);
@@ -114,6 +118,10 @@ if(isset($_POST['add_land_detail']) && $_POST['add_land_detail']==1)
 			
 			for($i=1;$i<=$no_of_land;$i++)
 			{
+				$data['f9_land_size_hector']    = mysqli_real_escape_string($db_con,$_POST['f9_land_size_hector'.$i]);
+				$data['f9_land_size_acre']    	= mysqli_real_escape_string($db_con,$_POST['f9_land_size_acre'.$i]);
+				$data['f9_land_size_guntha']    = mysqli_real_escape_string($db_con,$_POST['f9_land_size_guntha'.$i]);
+				
 				$data['f9_land_size']       = mysqli_real_escape_string($db_con,$_POST['f9_land_size'.$i]);
 				$data['f9_owner']			= mysqli_real_escape_string($db_con,$_POST['f9_owner'.$i]);
 				$data['f9_lease_year'] 	    = mysqli_real_escape_string($db_con,@$_POST['f9_lease_year'.$i]);

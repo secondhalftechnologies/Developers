@@ -3,7 +3,7 @@
 	include('include/connection.php');
 	
 	$fm_caid   	= $_SESSION['ca_id'];
-	$fm_caname  = $_SESSION['acrefin_user'];
+	$fm_caname  = $_SESSION['sqyard_user'];
 
 	if($_POST)
 	{

@@ -3,12 +3,61 @@
 	include('include/connection.php');
 	include('include/query-helper.php');
 	
-    // echo $fm_caid        = $_SESSION['ca_id'];
-    
-
+    $fm_id         = (isset($_REQUEST['fm_id'])?$_REQUEST['fm_id']:"");
+	
+	if($fm_id == "" && (!isset($_SESSION['sqyard_user'])) && $_SESSION['sqyard_user']=="")
+    {
+        ?>
+        <script type="text/javascript">
+            history.go(-1);
+        </script>
+        <?php
+    }
+	
+	// Query For getting the Farmer Info
+	$res_get_farmer_info = lookup_value('tbl_farmers',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_get_farmer_info)
+	{
+		$num_get_farmer_info	= mysqli_num_rows($res_get_farmer_info);
+		if($num_get_farmer_info != 0)
+		{
+			$row_get_farmer_info	= mysqli_fetch_array($res_get_farmer_info);
+		}
+	}
+	
+	$res_get_farmer_personal_info = lookup_value('tbl_personal_detail',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_get_farmer_personal_info)
+	{
+		$num_get_farmer_personal_info	= mysqli_num_rows($res_get_farmer_personal_info);
+		if($num_get_farmer_personal_info != 0)
+		{
+			$row_get_farmer_personal_info	= mysqli_fetch_array($res_get_farmer_personal_info);
+		}
+	}
+	
+	$res_get_farmer_married_info = lookup_value('tbl_spouse_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_get_farmer_married_info)
+	{
+		$num_get_farmer_married_info	= mysqli_num_rows($res_get_farmer_married_info);
+		if($num_get_farmer_married_info != 0)
+		{
+			$row_get_farmer_married_info	= mysqli_fetch_array($res_get_farmer_married_info);
+		}
+	}
+	
+	$res_get_farmer_residence_info = lookup_value('tbl_residence_details',array(),array("fm_id"=>$fm_id),array(),array(),array());
+	if($res_get_farmer_residence_info)
+	{
+		$num_get_farmer_residence_info	= mysqli_num_rows($res_get_farmer_residence_info);
+		if($num_get_farmer_residence_info != 0)
+		{
+			$row_get_farmer_residence_info	= mysqli_fetch_array($res_get_farmer_residence_info);
+		}
+	}
+	
 	$feature_name 	= 'Farmer';
 	$home_name    	= "Home";
-	$title			= 'Add Farmer';
+	$title			= 'Edit Farmer';
 	$home_url 	  	= "home.php";
 	$filename		= 'view_farmers.php';
 ?>
@@ -52,17 +101,17 @@
                             <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_add_farmer" name="frm_add_farmer">
                             	
                                 <input type="hidden" id="hid_farmer_reg" name="hid_farmer_reg" value="1">
-                                <!--<input type="hidden" id="hid_frm_reg_points" name="hid_frm_reg_points" value="">-->
                                 <input type="hidden" id="hid_residence_points" name="hid_residence_points" value="">
                                 <input type="hidden" id="hid_personal_details_points" name="hid_personal_details_points" value="">
                                 <input type="hidden" id="f3_married_reg_points" name="f3_married_reg_points" value="">
+                                <input type="hidden" id="hid_fm_id" name="hid_fm_id" value="<?php echo $fm_id; ?>">
                                 
                                 <div class="control-group">
                                     <label for="text" class="control-label" style="margin-top:10px">
                                     	Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_name" name="txt_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Enter Your Name">
+                                    	<input type="text" value="<?php echo ucwords($row_get_farmer_info['fm_name']); ?>" id="txt_name" name="txt_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Enter Your Name">
                                     </div>
                                 </div>	<!-- Name -->
                                 
@@ -71,7 +120,7 @@
                                     	Father's / Spouse's Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" placeholder="Father's / Spouse's Name">
+                                    	<input type="text" value="<?php echo ucwords($row_get_farmer_personal_info['f1_father']); ?>" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" placeholder="Father's / Spouse's Name">
                                     </div>
                                 </div>	<!-- Father's / Spouse's Name -->
                                 
@@ -80,7 +129,7 @@
                                     	Mother's Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Mother Name" >
+                                    	<input type="text" value="<?php echo ucwords($row_get_farmer_personal_info['f1_mfname']); ?>" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Mother Name" >
                                     </div>
                                 </div>	<!-- Mother's Name -->
                                 
@@ -89,7 +138,7 @@
                                     	Date Of Birth <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_dob" name="txt_dob" placeholder="Date Of Birth" class="datepicker input-large" data-rule-required="true" />
+                                    	<input type="text" value="<?php echo $row_get_farmer_personal_info['f1_dob']; ?>" id="txt_dob" name="txt_dob" placeholder="Date Of Birth" class="datepicker input-large" data-rule-required="true" />
                                     </div>
                                 </div>	<!-- DOB -->
                                 
@@ -98,7 +147,7 @@
                                     	Age [In Year]<span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_age" name="txt_age" placeholder="Age" class="input-large" data-rule-required="true" data-rule-number="true" readonly />
+                                    	<input type="text" value="<?php echo $row_get_farmer_personal_info['f1_age']; ?>" id="txt_age" name="txt_age" placeholder="Age" class="input-large" data-rule-required="true" data-rule-number="true" readonly />
                                     </div>
                                 </div>	<!-- Age In-Between -->
                                 
@@ -106,9 +155,8 @@
                                 	<label for="numberfield" class="control-label">
                                     	Mobile No. <span style="color:#F00">*</span>
                                     </label>
-                                
-                                    <div class="controls">
-                                        <input type="text" placeholder="Mobile no" name="fm_mobileno" id="fm_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" onBlur="Mobile(this.value);"  data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
+                                	<div class="controls">
+                                        <input type="text" value="<?php echo $row_get_farmer_info['fm_mobileno']; ?>" placeholder="Mobile no" name="fm_mobileno" id="fm_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" onBlur="Mobile(this.value);"  data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
                                         <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
                                     </div>
                                 </div> <!-- Mobile No -->
@@ -119,7 +167,7 @@
                                     </label>
                                 
                                     <div class="controls">
-                                        <input type="text" placeholder="Alternative Mobile no" name="alt_mobileno" id="alt_mobileno" data-rule-number="true" maxlength="10" autocomplete="off" onBlur="Mobile(this.value);" data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
+                                        <input type="text" value="<?php if($row_get_farmer_info['f1_altno'] != ''){ echo $row_get_farmer_info['f1_altno']; } ?>" placeholder="Alternative Mobile no" name="alt_mobileno" id="alt_mobileno" data-rule-number="true" maxlength="10" autocomplete="off" onBlur="Mobile(this.value);" data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
                                         <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
                                     </div>
                                 </div> <!-- Alternative Mobile No -->
@@ -129,7 +177,7 @@
                                     	Aadhaar No. <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
+                                    	<input type="text" value="<?php echo $row_get_farmer_info['fm_aadhar']; ?>" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
                                     	<label id="comp_1" style="color:#FF0000;width:200px;margin-left:100px;"></label>
                                     </div>
                                 </div> <!-- Aadhar Number -->
@@ -139,7 +187,7 @@
                                     	Experience In Farming <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
+                                    	<input type="text" value="<?php echo $row_get_farmer_personal_info['f1_expfarm']; ?>" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
                                     </div>
                                 </div>	<!-- Experience In Farming -->
                                 
@@ -148,8 +196,8 @@
                                     <div class="controls">
                                     	<select id="f1_required_loan" name="f1_required_loan" class="select2-me input-xlarge" onChange="getDisplayDiv(this.value, 'div_required_loan_display')">
                                             <option value="" disabled selected>Select here</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
+                                            <option value="yes" <?php if($row_get_farmer_personal_info['f1_required_loan'] == 'yes'){ ?> selected <?php } ?>>Yes</option>
+                                            <option value="no" <?php if($row_get_farmer_personal_info['f1_required_loan'] == 'no'){ ?> selected <?php } ?>>No</option>
                                         </select>
                                     </div>
                                 </div>	<!-- Do you required a loan [DDL] -->
@@ -160,7 +208,7 @@
                                     <div class="control-group">
                                         <label for="tasktitel" class="control-label">How much amount of loan you required?<span style="color:#F00">*</span></label>
                                         <div class="controls">
-                                            <input type="text" placeholder="How much amount of loan you required" onKeyPress="return numsonly(event);" name="f1_required_loan_amt" id="f1_required_loan_amt" class="v_number input-xlarge" data-rule-required="true" data-rule-maxlength="12">
+                                            <input type="text" value="<?php if($row_get_farmer_personal_info['f1_required_loan_amt'] != '') { echo $row_get_farmer_personal_info['f1_required_loan_amt']; } ?>" placeholder="How much amount of loan you required" onKeyPress="return numsonly(event);" name="f1_required_loan_amt" id="f1_required_loan_amt" class="v_number input-xlarge" data-rule-required="true" data-rule-maxlength="12">
                                         </div>
                                     </div>	<!-- How much amount [If yes] -->
                                     
@@ -169,12 +217,12 @@
                                         <div class="controls">
                                             <select id="f1_loan_purpose" name="f1_loan_purpose" class="select2-me input-xlarge" onChange="calTotal();">
                                                 <option value="" disabled selected>Select here</option>
-                                                <option point="5" value="Whole Crop Process">Whole Crop Process</option>
-                                                <option point="5" value="Buy Machinery">Buy Machinery</option>
-                                                <option point="5" value="Buy Seeds">Buy Seeds</option>
-                                                <option point="5" value="Buy Tools">Buy Tools</option>
-                                                <option point="5" value="Buy Irrigation">Buy Irrigation</option>
-                                                <option point="5" value="Others">Others</option>
+                                                <option point="5" <?php if((isset($row_get_farmer_personal_info['f1_loan_purpose'])) && $row_get_farmer_personal_info['f1_loan_purpose'] == 'Whole Crop Process') { ?> selected <?php } ?> value="Whole Crop Process">Whole Crop Process</option>
+                                                <option point="5" <?php if((isset($row_get_farmer_personal_info['f1_loan_purpose'])) && $row_get_farmer_personal_info['f1_loan_purpose'] == 'Buy Machinery') { ?> selected <?php } ?> value="Buy Machinery">Buy Machinery</option>
+                                                <option point="5" <?php if((isset($row_get_farmer_personal_info['f1_loan_purpose'])) && $row_get_farmer_personal_info['f1_loan_purpose'] == 'Buy Seeds') { ?> selected <?php } ?> value="Buy Seeds">Buy Seeds</option>
+                                                <option point="5" <?php if((isset($row_get_farmer_personal_info['f1_loan_purpose'])) && $row_get_farmer_personal_info['f1_loan_purpose'] == 'Buy Tools') { ?> selected <?php } ?> value="Buy Tools">Buy Tools</option>
+                                                <option point="5" <?php if((isset($row_get_farmer_personal_info['f1_loan_purpose'])) && $row_get_farmer_personal_info['f1_loan_purpose'] == 'Buy Irrigation') { ?> selected <?php } ?> value="Buy Irrigation">Buy Irrigation</option>
+                                                <option point="5" <?php if((isset($row_get_farmer_personal_info['f1_loan_purpose'])) && $row_get_farmer_personal_info['f1_loan_purpose'] == 'Others') { ?> selected <?php } ?> value="Others">Others</option>
                                             </select>
                                         </div>
                                     </div>	<!-- Loan Purpose -->
@@ -184,10 +232,9 @@
                                         <div class="controls">
                                             <select id="f1_crop_cycle" name="f1_crop_cycle" class="select2-me input-xlarge">
                                                 <option value="" disabled selected>Select here</option>
-                                                <option value="Kharif">Kharif</option>
-                                                <option value="Rabi">Rabi</option>
-                                                <option value="Summer">Summer</option>
-                                                <option value="All Year Round">All Year Round</option>
+                                                <option value="Kharif" <?php if((isset($row_get_farmer_personal_info['f1_crop_cycle'])) && $row_get_farmer_personal_info['f1_crop_cycle'] == 'Kharif') { ?> selected <?php } ?>>Kharif</option>
+                                                <option value="Rabi" <?php if((isset($row_get_farmer_personal_info['f1_crop_cycle'])) && $row_get_farmer_personal_info['f1_crop_cycle'] == 'Rabi') { ?> selected <?php } ?>>Rabi</option>
+                                                <option value="Annual" <?php if((isset($row_get_farmer_personal_info['f1_crop_cycle'])) && $row_get_farmer_personal_info['f1_crop_cycle'] == 'Annual') { ?> selected <?php } ?>>Annual</option>
                                             </select>
                                         </div>
                                     </div>	<!-- Crop Cycle for loan required -->
@@ -202,8 +249,8 @@
                                     <div class="controls">
                                     	<select id="ddl_married_status" name="ddl_married_status" class="select2-me input-xlarge">
                                             <option value="" disabled selected>Select here</option>
-                                            <option point="10" value="yes">Yes</option>
-                                            <option point="2" value="no">No</option>
+                                            <option <?php if((isset($row_get_farmer_married_info['f3_married'])) && $row_get_farmer_married_info['f3_married'] == 'yes') { ?> selected <?php } ?> point="10" value="yes">Yes</option>
+                                            <option <?php if((isset($row_get_farmer_married_info['f3_married'])) && $row_get_farmer_married_info['f3_married'] == 'no') { ?> selected <?php } ?> point="2" value="no">No</option>
                                         </select>
                                     </div>
                                 </div>	<!-- Married Or Not -->
@@ -215,9 +262,9 @@
                                     <div class="controls">
                                     	<select id="ddl_residence_status" name="ddl_residence_status" class="select2-me input-large">
                                         	<option value="" disabled selected>Select Residence Status</option>
-                                            <option point="2" value="Rented">Rented</option>
-                                            <option point="10" value="Owned">Owned</option>
-                                            <option point="6" value="Ancestral">Ancestral</option>
+                                            <option point="2" <?php if((isset($row_get_farmer_residence_info['f7_resistatus'])) && $row_get_farmer_residence_info['f7_resistatus'] == 'Rented') { ?> selected <?php } ?> value="Rented">Rented</option>
+                                            <option point="10" <?php if((isset($row_get_farmer_residence_info['f7_resistatus'])) && $row_get_farmer_residence_info['f7_resistatus'] == 'Owned') { ?> selected <?php } ?> value="Owned">Owned</option>
+                                            <option point="6" <?php if((isset($row_get_farmer_residence_info['f7_resistatus'])) && $row_get_farmer_residence_info['f7_resistatus'] == 'Ancestral') { ?> selected <?php } ?> value="Ancestral">Ancestral</option>
                                         </select>
                                     </div>
                                 </div>	<!-- Residence Status -->
@@ -226,7 +273,7 @@
                                     <div class="control-group">
                                         <label for="tasktitel" class="control-label">Rent</label>
                                         <div class="controls">
-                                        	<input type="text" id="txt_rent" name="txt_rent" placeholder="Rent" data-rule-number="true" class="input-large" data-rule-maxlength="5" maxlength="5" size="5">
+                                        	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_rent_amount'])) && $row_get_farmer_residence_info['f7_rent_amount'] != ''){ echo $row_get_farmer_residence_info['f7_rent_amount']; } ?>" id="txt_rent" name="txt_rent" placeholder="Rent" data-rule-number="true" class="input-large" data-rule-maxlength="5" maxlength="5" size="5">
                                         </div>
                                     </div>	<!-- Rent [Only If Rental will select] -->
 								</div>	<!-- Rent [Only If Rental will select] -->
@@ -262,42 +309,42 @@
                                 <div class="control-group span6" style="clear:both;">
                                 	<label for="tasktitel" class="control-label">House No. / Address<span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_phouse'])) && $row_get_farmer_residence_info['f7_phouse'] != '') { echo $row_get_farmer_residence_info['f7_phouse']; } ?>" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
                                     </div>
                                 </div>	<!-- P House No. -->
                                 
                                 <div class="control-group span6">
                                 	<label for="tasktitel" class="control-label">House No.  / Address<span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_chouse'])) && $row_get_farmer_residence_info['f7_chouse'] != '') { echo $row_get_farmer_residence_info['f7_chouse']; } ?>" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
                                     </div>
                                 </div>	<!-- C House No. -->
                                 
                                 <div class="control-group span6" style="clear:both;">
                                 	<label for="tasktitel" class="control-label">Street Name <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_p_street_name" name="txt_p_street_name" placeholder="Street Name" class="input-large" data-rule-required="true" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_pstreet'])) && $row_get_farmer_residence_info['f7_pstreet'] != '') { echo $row_get_farmer_residence_info['f7_pstreet']; } ?>" id="txt_p_street_name" name="txt_p_street_name" placeholder="Street Name" class="input-large" data-rule-required="true" />
                                     </div>
                                 </div>	<!-- P Street Name -->
                                 
                                 <div class="control-group span6">
                                 	<label for="tasktitel" class="control-label">Street Name <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_c_street_name" name="txt_c_street_name" placeholder="Street Name" class="input-large" data-rule-required="true" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_cstreet'])) && $row_get_farmer_residence_info['f7_cstreet'] != '') { echo $row_get_farmer_residence_info['f7_cstreet']; } ?>" id="txt_c_street_name" name="txt_c_street_name" placeholder="Street Name" class="input-large" data-rule-required="true" />
                                     </div>
                                 </div>	<!-- C Street Name -->
                                 
                                 <div class="control-group span6" style="clear:both;">
                                 	<label for="tasktitel" class="control-label">Area Name <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_p_area_name" name="txt_p_area_name" placeholder="Area Name" class="input-large" data-rule-required="true" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_parea'])) && $row_get_farmer_residence_info['f7_parea'] != '') { echo $row_get_farmer_residence_info['f7_parea']; } ?>" id="txt_p_area_name" name="txt_p_area_name" placeholder="Area Name" class="input-large" data-rule-required="true" />
                                     </div>
                                 </div>	<!-- P Area Name -->
                                 
                                 <div class="control-group span6">
                                 	<label for="tasktitel" class="control-label">Area Name <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_c_area_name" name="txt_c_area_name" placeholder="Area Name" class="input-large" data-rule-required="true" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_carea'])) && $row_get_farmer_residence_info['f7_carea'] != '') { echo $row_get_farmer_residence_info['f7_carea']; } ?>" id="txt_c_area_name" name="txt_c_area_name" placeholder="Area Name" class="input-large" data-rule-required="true" />
                                     </div>
                                 </div>	<!-- C Area Name -->
                                 
@@ -520,6 +567,7 @@
 					return 4;
 				}
 				else if(x >= 501 && x <= 800)
+
 				{
 					return 6;
 				}

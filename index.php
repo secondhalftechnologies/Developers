@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('include/connection.php');
-if(isset($_SESSION['acrefin_user']))
+if(isset($_SESSION['sqyard_user']))
 	{
 		header('Location: '.$BaseFolder.'home.php'); 
 	}

@@ -1,7 +1,7 @@
 <?php session_start();
-if(isset($_SESSION['acrefin_user']))
+if(isset($_SESSION['sqyard_user']))
 {
-		$user 		= $_SESSION['acrefin_user'];
+		$user 		= $_SESSION['sqyard_user'];
 		$userType	= $_SESSION['userType'];
 		$ca_id		= $_SESSION['ca_id'];	 
 }

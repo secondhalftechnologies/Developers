@@ -1,10 +1,10 @@
-
-<!-- Note by Ejaz -->
-<!-- The link for the reference of this restfull api is "http://blog.aimanbaharum.com/2015/07/05/slim-framework-crud/" -->
-<!-- Just go throw All the code in the reference link and you will understand the core functionality easily -->
-<!-- End of Note by Ejaz -->
-
 <?php
+
+// Note by Ejaz ==============================================
+// The link for the reference of this restfull api is "http://blog.aimanbaharum.com/2015/07/05/slim-framework-crud/"
+// Just go throw All the code in the reference link and you will understand the core functionality easily
+// End of Note by Ejaz =======================================
+
 
 require_once '../include/DbHandler.php';
 require_once '../include/Utils.php';

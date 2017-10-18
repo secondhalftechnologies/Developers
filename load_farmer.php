@@ -210,12 +210,12 @@
 						if($res_insert_farmer_IsMarried)
 						{
 							// Query For inserting the recidencial data into tbl_residence_details
-							$sql_insert_farmer_address	= " INSERT INTO `tbl_residence_details`(`fm_caid`, `fm_id`, `f7_resistatus`, ";
+							$sql_insert_farmer_address	= " INSERT INTO `tbl_residence_details`(`fm_caid`, `fm_id`, `f7_resistatus`, `f7_rent_amount` ";
 							$sql_insert_farmer_address	.= " `f7_phouse`, `f7_pstreet`, `f7_parea`, `f7_pstate`, `f7_pdistrict`, ";
 							$sql_insert_farmer_address	.= " `f7_ptaluka`, `f7_pvillage`, `f7_ppin`, `f7_chouse`, `f7_cstreet`, ";
 							$sql_insert_farmer_address	.= " `f7_carea`, `f7_cstate`, `f7_cdistrict`, `f7_ctaluka`, `f7_cvillage`, ";
 							$sql_insert_farmer_address	.= " `f7_cpin`, `f7_created_date`, `f7_created_by`, `f7_reg_points`) ";
-							$sql_insert_farmer_address	.= " VALUES ('".$fm_caid."', '".$fm_id."', '".$ddl_residence_status."', ";
+							$sql_insert_farmer_address	.= " VALUES ('".$fm_caid."', '".$fm_id."', '".$ddl_residence_status."', '".$txt_rent."', ";
 							$sql_insert_farmer_address	.= " '".$txt_p_house_no."', '".$txt_p_street_name."', '".$txt_p_area_name."', ";
 							$sql_insert_farmer_address	.= " '".$ddl_p_state."', '".$ddl_p_dist."', '".$ddl_p_tal."', '".$ddl_p_village."', ";
 							$sql_insert_farmer_address	.= " '".$txt_p_pincode."', '".$txt_c_house_no."', '".$txt_c_street_name."', ";
@@ -269,5 +269,182 @@
 		{
 			quit('Aadhar no already in use!!!');	
 		}
+	}
+	
+	if(isset($_POST['hid_farmer_edit']) && $_POST['hid_farmer_edit'] == '1')
+	{
+		$hid_fm_id				= mysqli_real_escape_string($db_con,$_POST['hid_fm_id']);
+		
+		$fm_aadhar	= mysqli_real_escape_string($db_con,$_POST['fm_aadhar']);
+		$sql_adhnocheck		= " select * from tbl_farmers where fm_aadhar = '".$fm_aadhar."' AND fm_id != '".$hid_fm_id."' ";
+		$res_adhnocheck  	= mysqli_query($db_con,$sql_adhnocheck);
+		$tot_adhnocheck 	= mysqli_num_rows($res_adhnocheck);
+		
+		if($tot_adhnocheck == 0)
+		{
+			$txt_name				= mysqli_real_escape_string($db_con,$_POST['txt_name']);
+			$txt_father_name		= mysqli_real_escape_string($db_con,$_POST['txt_father_name']);
+			$txt_mother_name		= mysqli_real_escape_string($db_con,$_POST['txt_mother_name']);
+			$txt_dob				= mysqli_real_escape_string($db_con,$_POST['txt_dob']);
+			$txt_age				= mysqli_real_escape_string($db_con,$_POST['txt_age']);
+			$fm_mobileno			= mysqli_real_escape_string($db_con,$_POST['fm_mobileno']);
+			$alt_mobileno			= mysqli_real_escape_string($db_con,$_POST['alt_mobileno']);
+			$txt_farm_experience	= mysqli_real_escape_string($db_con,$_POST['txt_farm_experience']);
+			
+			$f1_required_loan		= mysqli_real_escape_string($db_con,$_POST['f1_required_loan']);
+			$f1_required_loan_amt	= mysqli_real_escape_string($db_con,$_POST['f1_required_loan_amt']);
+			$f1_loan_purpose		= mysqli_real_escape_string($db_con,$_POST['f1_loan_purpose']);
+			$f1_crop_cycle			= mysqli_real_escape_string($db_con,$_POST['f1_crop_cycle']);
+			
+			$ddl_married_status		= mysqli_real_escape_string($db_con,$_POST['ddl_married_status']);
+			$ddl_residence_status	= mysqli_real_escape_string($db_con,$_POST['ddl_residence_status']);
+			$txt_rent				= mysqli_real_escape_string($db_con,$_POST['txt_rent']);
+			$txt_p_house_no			= mysqli_real_escape_string($db_con,$_POST['txt_p_house_no']);
+			$txt_c_house_no			= mysqli_real_escape_string($db_con,$_POST['txt_c_house_no']);
+			$txt_p_street_name		= mysqli_real_escape_string($db_con,$_POST['txt_p_street_name']);
+			$txt_c_street_name		= mysqli_real_escape_string($db_con,$_POST['txt_c_street_name']);
+			$txt_p_area_name		= mysqli_real_escape_string($db_con,$_POST['txt_p_area_name']);
+			$txt_c_area_name		= mysqli_real_escape_string($db_con,$_POST['txt_c_area_name']);
+			$ddl_p_state			= mysqli_real_escape_string($db_con,$_POST['ddl_p_state']);
+			$ddl_c_state			= mysqli_real_escape_string($db_con,$_POST['ddl_c_state']);
+			$ddl_p_dist				= mysqli_real_escape_string($db_con,$_POST['ddl_p_dist']);
+			$ddl_c_dist				= mysqli_real_escape_string($db_con,$_POST['ddl_c_dist']);
+			$ddl_p_tal				= mysqli_real_escape_string($db_con,$_POST['ddl_p_tal']);
+			$ddl_c_tal				= mysqli_real_escape_string($db_con,$_POST['ddl_c_tal']);
+			$ddl_p_village			= mysqli_real_escape_string($db_con,$_POST['ddl_p_village']);
+			$ddl_c_village			= mysqli_real_escape_string($db_con,$_POST['ddl_c_village']);
+			$txt_p_pincode			= mysqli_real_escape_string($db_con,$_POST['txt_p_pincode']);
+			$txt_c_pincode			= mysqli_real_escape_string($db_con,$_POST['txt_c_pincode']);
+			
+			//$hid_frm_reg_points 			= mysqli_real_escape_string($db_con,$_POST['hid_frm_reg_points']);
+            $hid_residence_points 			= mysqli_real_escape_string($db_con,$_POST['hid_residence_points']);
+            $hid_personal_details_points 	= mysqli_real_escape_string($db_con,$_POST['hid_personal_details_points']);
+			$f3_married_reg_points			= mysqli_real_escape_string($db_con,$_POST['f3_married_reg_points']);
+			
+			
+			$ipaddress				= $_SERVER['REMOTE_ADDR'];
+			
+			if($txt_name != '' && $fm_mobileno != '' && $fm_aadhar != '')
+			{
+				// Query for Updating the farmer into tbl_farmers table
+				$sql_update_farmer	= " UPDATE `tbl_farmers` ";
+				$sql_update_farmer	.= " 	SET `fm_name`='".$txt_name."', ";
+				$sql_update_farmer	.= " 		`fm_aadhar`='".$fm_aadhar."', ";
+				$sql_update_farmer	.= " 		`fm_mobileno`='".$fm_mobileno."', ";
+				$sql_update_farmer	.= " 		`fm_status`='1', ";
+				$sql_update_farmer	.= " 		`fm_modifieddt`='".$datetime."', ";
+				$sql_update_farmer	.= " 		`fm_modifiedby`='".$fm_caname."' ";
+				$sql_update_farmer	.= " WHERE `fm_id`='".$hid_fm_id."' ";
+				$res_update_farmer	= mysqli_query($db_con, $sql_update_farmer) or die(mysqli_error($db_con));
+				
+				if($res_update_farmer)
+				{
+					// Query for updating the farmer personal details into tbl_personal_detail
+					$sql_update_farmer_details	= " UPDATE `tbl_personal_detail` ";
+					$sql_update_farmer_details	.= " 	SET `f1_mfname`='".$txt_mother_name."', ";
+					$sql_update_farmer_details	.= " 		`f1_father`='".$txt_father_name."', ";
+					$sql_update_farmer_details	.= " 		`f1_age`='".$txt_age."', ";
+					$sql_update_farmer_details	.= " 		`f1_dob`='".$txt_dob."', ";
+					$sql_update_farmer_details	.= " 		`f1_mobno`='".$fm_mobileno."', ";
+					$sql_update_farmer_details	.= " 		`f1_altno`='".$alt_mobileno."', ";
+					$sql_update_farmer_details	.= " 		`f1_expfarm`='".$txt_farm_experience."', ";
+					$sql_update_farmer_details	.= " 		`f1_required_loan`='".$f1_required_loan."', ";
+					$sql_update_farmer_details	.= " 		`f1_required_loan_amt`='".$f1_required_loan_amt."', ";
+					$sql_update_farmer_details	.= " 		`f1_loan_purpose`='".$f1_loan_purpose."', ";
+					$sql_update_farmer_details	.= " 		`f1_crop_cycle`='".$f1_crop_cycle."', ";
+					$sql_update_farmer_details	.= " 		`f1_status`='1', ";
+					$sql_update_farmer_details	.= " 		`f1_points`='".$hid_personal_details_points."', ";
+					$sql_update_farmer_details	.= " 		`f1_modified_date`='".$datetime."', ";
+					$sql_update_farmer_details	.= " 		`f1_modified_by`='".$fm_caname."' ";
+					$sql_update_farmer_details	.= " WHERE `fm_id`='".$hid_fm_id."' ";
+					$res_update_farmer_details	= mysqli_query($db_con, $sql_update_farmer_details) or die(mysqli_error($db_con));
+					
+ 					if($res_update_farmer_details)
+					{
+						// Query for inserting the married status in tbl_spouse_details
+						$sql_update_farmer_IsMarried	= " UPDATE `tbl_spouse_details` ";
+						$sql_update_farmer_IsMarried	.= " 	SET `f3_married`='".$ddl_married_status."', ";
+						$sql_update_farmer_IsMarried	.= " 		`f3_married_reg_points`='".$f3_married_reg_points."', ";
+						$sql_update_farmer_IsMarried	.= " 		`f3_modified_date`='".$datetime."', ";
+						$sql_update_farmer_IsMarried	.= " 		`f3_modified_by`='".$fm_caname."' ";
+						$sql_update_farmer_IsMarried	.= "  WHERE `fm_id`='".$hid_fm_id."' ";
+						$res_update_farmer_IsMarried	= mysqli_query($db_con, $sql_update_farmer_IsMarried) or die(mysqli_error($db_con));
+						
+						if($res_update_farmer_IsMarried)
+						{
+							// Query For updating the recidencial data into tbl_residence_details
+							$sql_update_farmer_address	= " UPDATE `tbl_residence_details` ";
+							$sql_update_farmer_address	.= " 	SET `f7_resistatus`='".$ddl_residence_status."', ";
+							$sql_update_farmer_address	.= " 		`f7_rent_amount`='".$txt_rent."', ";
+							$sql_update_farmer_address	.= " 		`f7_phouse`='".$txt_p_house_no."', ";
+							$sql_update_farmer_address	.= " 		`f7_pstreet`='".$txt_p_street_name."', ";
+							$sql_update_farmer_address	.= " 		`f7_parea`='".$txt_p_area_name."', ";
+							$sql_update_farmer_address	.= " 		`f7_pstate`='".$ddl_p_state."', ";
+							$sql_update_farmer_address	.= " 		`f7_pdistrict`='".$ddl_p_dist."', ";
+							$sql_update_farmer_address	.= " 		`f7_ptaluka`='".$ddl_p_tal."', ";
+							$sql_update_farmer_address	.= " 		`f7_pvillage`='".$ddl_p_village."', ";
+							$sql_update_farmer_address	.= " 		`f7_ppin`='".$txt_p_pincode."', ";
+							$sql_update_farmer_address	.= " 		`f7_chouse`='".$txt_c_house_no."', ";
+							$sql_update_farmer_address	.= " 		`f7_cstreet`='".$txt_c_street_name."', ";
+							$sql_update_farmer_address	.= " 		`f7_carea`='".$txt_c_area_name."', ";
+							$sql_update_farmer_address	.= " 		`f7_cstate`='".$ddl_c_state."', ";
+							$sql_update_farmer_address	.= " 		`f7_cdistrict`='".$ddl_c_dist."', ";
+							$sql_update_farmer_address	.= " 		`f7_ctaluka`='".$ddl_c_tal."', ";
+							$sql_update_farmer_address	.= " 		`f7_cvillage`='".$ddl_c_village."', ";
+							$sql_update_farmer_address	.= " 		`f7_cpin`='".$txt_c_pincode."', ";
+							$sql_update_farmer_address	.= " 		`f7_reg_points`='".$hid_residence_points."', ";
+							$sql_update_farmer_address	.= " 		`f7_modified_date`='".$datetime."', ";
+							$sql_update_farmer_address	.= " 		`f7_modified_by`='".$fm_caname."' ";
+							$sql_update_farmer_address	.= " WHERE `fm_id`='".$hid_fm_id."' ";
+							$res_update_farmer_address	= mysqli_query($db_con, $sql_update_farmer_address) or die(mysqli_error($db_con));
+							
+							if($res_update_farmer_address)
+							{
+								// Query for updating the record for Points of the f1 and f7
+								$sql_update_points	= " UPDATE `tbl_points` ";
+								$sql_update_points	.= " 	SET `pt_frm1`='".$hid_personal_details_points."', ";
+								$sql_update_points	.= " 		`pt_frm3`='".$f3_married_reg_points."', ";
+								$sql_update_points	.= " 		`pt_frm7`='".$hid_residence_points."' ";
+								$sql_update_points	.= " WHERE `fm_id`='".$hid_fm_id."' ";
+								$res_update_points	= mysqli_query($db_con, $sql_update_points) or die(mysqli_error($db_con));
+								
+								if($res_update_points)
+								{
+									quit('Success', 1);
+								}
+								else
+								{
+									quit('Insertion Error, Please try after sometime');		
+								}
+							}
+							else
+							{
+								quit('Insertion Error, Please try after sometime');			
+							}
+						}
+						else
+						{
+							quit('Insertion Error, Please try after sometime');	
+						}
+					}
+					else
+					{
+						quit('Insertion Error, Please try after sometime');	
+					}
+				}
+				else
+				{
+					quit('Insertion Error, Please try after sometime');	
+				}
+			}
+			else
+			{
+				quit('Name, Aadhar no, Mobile no cannot be blank!!!');	
+			}
+		}
+		else
+		{
+			quit('Aadhar no already in use!!!');	
+		}	
 	}
 ?>

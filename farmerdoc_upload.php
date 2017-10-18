@@ -1,10 +1,16 @@
 <?php
 include('access1.php');
 include('include/connection.php');
+date_default_timezone_set("Asia/Calcutta");
+$todaydt = date("Y-m-d H:i:s");
+
+
+
 
 if(isset($_POST["U_Submit"]))
 {
 
+	$ca_id = $_SESSION['ca_id'];
 
 	$farmer_id = mysqli_real_escape_string($db_con,$_REQUEST['fm_id']);
 
@@ -39,6 +45,8 @@ if(isset($_POST["U_Submit"]))
 					$file_size1 =$_FILES['files1']['size'][$key1];
 					$file_tmp1 =$_FILES['files1']['tmp_name'][$key1];
 					$file_type1=$_FILES['files1']['type'][$key1];
+					
+					$file_extention1 = pathinfo($file_name1, PATHINFO_EXTENSION);
 
 					if($file_size1 > 5242880) // file size
 					{
@@ -47,11 +55,9 @@ if(isset($_POST["U_Submit"]))
 					
 					if($file_size1 != 0)// files size less than 0
 					{
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
-
+						
 						//for insert
-						// $query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,applydate,document_type) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt','Aadhar'); ";
+						 $query1="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name1','$file_type1','$file_size1','$file_extention1','Aadhar','1','$todaydt'); ";
 										
 						$desired_dir1= "data/".$farmer_id;
 						
@@ -71,7 +77,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir1="$desired_dir1/".$file_name1.time();
 									rename($file_tmp1,$new_dir1) ;				
 							  }
-							//mysql_query($query);
+							mysqli_query($db_con,$query1);
 						 }
 						 else
 						 {
@@ -93,6 +99,8 @@ if(isset($_POST["U_Submit"]))
 					$file_tmp2  =$_FILES['files2']['tmp_name'][$key2];
 					$file_type2 =$_FILES['files2']['type'][$key2];
 
+					$file_extention2 = pathinfo($file_name2, PATHINFO_EXTENSION);
+
 					if($file_size2 > 5242880) // file size
 					{
 						$errors2[]='File size must be less than 5 MB';
@@ -102,11 +110,8 @@ if(isset($_POST["U_Submit"]))
 					{
 						
 						
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
-
-						//for insert
-						//$query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,up_applydate) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt'); ";
+						 $query2="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name2','$file_type2','$file_size2','$file_extention2','Pancard','1','$todaydt'); ";
+						
 										
 						$desired_dir2= "data/".$farmer_id;
 						
@@ -126,7 +131,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir2="$desired_dir2/".$file_name2.time();
 									rename($file_tmp2,$new_dir2) ;				
 							  }
-							// mysql_query($query);
+							mysqli_query($db_con,$query2);
 						 }
 						 else
 						 {
@@ -148,6 +153,8 @@ if(isset($_POST["U_Submit"]))
 					$file_tmp3 =$_FILES['files3']['tmp_name'][$key3];
 					$file_type3 =$_FILES['files3']['type'][$key3];
 
+					$file_extention3 = pathinfo($file_name3, PATHINFO_EXTENSION);
+
 					if($file_size3 > 5242880) // file size
 					{
 						$errors3[]='File size must be less than 5 MB';
@@ -155,13 +162,9 @@ if(isset($_POST["U_Submit"]))
 					
 					if($file_size3 != 0)// files size less than 0
 					{
-						echo "file3";
 						
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
-
-						//for insert
-						//$query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,up_applydate) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt'); ";
+						
+						$query3="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name3','$file_type3','$file_size3','$file_extention3','7/12','1','$todaydt'); ";
 										
 						$desired_dir3= "data/".$farmer_id;
 						
@@ -181,7 +184,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir3="$desired_dir3/".$file_name3.time();
 									rename($file_tmp3,$new_dir3) ;				
 							  }
-							// mysql_query($query);
+							mysqli_query($db_con,$query3);
 						 }
 						 else
 						 {
@@ -203,6 +206,8 @@ if(isset($_POST["U_Submit"]))
 					$file_tmp4 =$_FILES['files4']['tmp_name'][$key4];
 					$file_type4 =$_FILES['files4']['type'][$key4];
 
+					$file_extention4 = pathinfo($file_name4, PATHINFO_EXTENSION);
+
 					if($file_size4 > 5242880) // file size
 					{
 						$errors4[]='File size must be less than 5 MB';
@@ -211,12 +216,8 @@ if(isset($_POST["U_Submit"]))
 					if($file_size4 != 0)// files size less than 0
 					{
 						
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
+						$query4="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name4','$file_type4','$file_size4','$file_extention4','land Registration','1','$todaydt'); ";
 
-						//for insert
-						//$query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,up_applydate) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt'); ";
-										
 						$desired_dir4= "data/".$farmer_id;
 						
 						if(empty($errors4)==true)
@@ -235,7 +236,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir4="$desired_dir4/".$file_name4.time();
 									rename($file_tmp4,$new_dir4) ;				
 							  }
-							// mysql_query($query);
+							mysqli_query($db_con,$query4);
 						 }
 						 else
 						 {
@@ -257,6 +258,8 @@ if(isset($_POST["U_Submit"]))
 					$file_tmp5 =$_FILES['files5']['tmp_name'][$key5];
 					$file_type5 =$_FILES['files5']['type'][$key5];
 
+					$file_extention5 = pathinfo($file_name5, PATHINFO_EXTENSION);
+
 					if($file_size5 > 5242880) // file size
 					{
 						$errors5[]='File size must be less than 5 MB';
@@ -265,11 +268,7 @@ if(isset($_POST["U_Submit"]))
 					if($file_size5 != 0)// files size less than 0
 					{
 						
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
-
-						//for insert
-						//$query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,up_applydate) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt'); ";
+						$query5="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name5','$file_type5','$file_size5','$file_extention5','land Valuation','1','$todaydt'); ";
 										
 						$desired_dir5= "data/".$farmer_id;
 						
@@ -289,7 +288,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir5="$desired_dir5/".$file_name5.time();
 									rename($file_tmp5,$new_dir5) ;				
 							  }
-							// mysql_query($query);
+							mysqli_query($db_con,$query5);
 						 }
 						 else
 						 {
@@ -310,6 +309,8 @@ if(isset($_POST["U_Submit"]))
 					$file_tmp6 =$_FILES['files6']['tmp_name'][$key6];
 					$file_type6 =$_FILES['files6']['type'][$key6];
 
+					$file_extention6 = pathinfo($file_name6, PATHINFO_EXTENSION);
+
 					if($file_size6 > 5242880) // file size
 					{
 						$errors6[]='File size must be less than 5 MB';
@@ -318,11 +319,7 @@ if(isset($_POST["U_Submit"]))
 					if($file_size6 != 0)// files size less than 0
 					{
 						
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
-
-						//for insert
-						//$query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,up_applydate) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt'); ";
+						$query6="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name6','$file_type6','$file_size6','$file_extention6','Soil test document','1','$todaydt'); ";
 										
 						$desired_dir6= "data/".$farmer_id;
 						
@@ -342,7 +339,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir6="$desired_dir6/".$file_name6.time();
 									rename($file_tmp6,$new_dir6) ;				
 							  }
-							// mysql_query($query);
+							mysqli_query($db_con,$query6);
 						 }
 						 else
 						 {
@@ -364,6 +361,8 @@ if(isset($_POST["U_Submit"]))
 					$file_tmp7 =$_FILES['files7']['tmp_name'][$key7];
 					$file_type7 =$_FILES['files7']['type'][$key7];
 
+					$file_extention7 = pathinfo($file_name7, PATHINFO_EXTENSION);
+
 					if($file_size7 > 5242880) // file size
 					{
 						$errors7[]='File size must be less than 5 MB';
@@ -372,11 +371,7 @@ if(isset($_POST["U_Submit"]))
 					if($file_size7 != 0)// files size less than 0
 					{
 						
-						//for update		
-						//$query="update farmerdoc set file_name = '$file_name1',file_size = '$file_size1',file_type= 'file_type1' where farmer_id = '$farmer_id'";
-
-						//for insert
-						//$query="INSERT into farmerdoc (farmer_id,file_name,file_size,file_type,up_applydate) VALUES('$farmer_id','$file_name1','$file_size1','$file_type1','$register_dt'); ";
+						$query7="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name7','$file_type7','$file_size7','$file_extention7','Kisan Credit Card','1','$todaydt'); ";
 										
 						$desired_dir7= "data/".$farmer_id;
 						
@@ -396,7 +391,7 @@ if(isset($_POST["U_Submit"]))
 									$new_dir7="$desired_dir7/".$file_name7.time();
 									rename($file_tmp7,$new_dir7) ;				
 							  }
-							// mysql_query($query);
+							mysqli_query($db_con,$query7);
 						 }
 						 else
 						 {

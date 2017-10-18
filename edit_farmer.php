@@ -1,7 +1,7 @@
 <?php 
 	include('access1.php'); 
 	include('include/connection.php');
-	include('include/query-helper.php');
+	//include('include/query-helper.php');
 	
     $fm_id         = (isset($_REQUEST['fm_id'])?$_REQUEST['fm_id']:"");
 	
@@ -98,9 +98,9 @@
                             </button>
                         </div>
                         <div class="box-content nopadding">
-                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_add_farmer" name="frm_add_farmer">
+                            <form method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered form-validate' id="frm_edit_farmer" name="frm_edit_farmer">
                             	
-                                <input type="hidden" id="hid_farmer_reg" name="hid_farmer_reg" value="1">
+                                <input type="hidden" id="hid_farmer_edit" name="hid_farmer_edit" value="1">
                                 <input type="hidden" id="hid_residence_points" name="hid_residence_points" value="">
                                 <input type="hidden" id="hid_personal_details_points" name="hid_personal_details_points" value="">
                                 <input type="hidden" id="f3_married_reg_points" name="f3_married_reg_points" value="">
@@ -167,7 +167,7 @@
                                     </label>
                                 
                                     <div class="controls">
-                                        <input type="text" value="<?php if($row_get_farmer_info['f1_altno'] != ''){ echo $row_get_farmer_info['f1_altno']; } ?>" placeholder="Alternative Mobile no" name="alt_mobileno" id="alt_mobileno" data-rule-number="true" maxlength="10" autocomplete="off" onBlur="Mobile(this.value);" data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
+                                        <input type="text" value="<?php if((isset($row_get_farmer_info['f1_altno']))&& $row_get_farmer_info['f1_altno'] != ''){ echo $row_get_farmer_info['f1_altno']; } ?>" placeholder="Alternative Mobile no" name="alt_mobileno" id="alt_mobileno" data-rule-number="true" maxlength="10" autocomplete="off" onBlur="Mobile(this.value);" data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
                                         <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
                                     </div>
                                 </div> <!-- Alternative Mobile No -->
@@ -177,7 +177,7 @@
                                     	Aadhaar No. <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php echo $row_get_farmer_info['fm_aadhar']; ?>" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
+                                    	<input type="text" value="<?php echo $row_get_farmer_info['fm_aadhar']; ?>" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value, <?php echo $fm_id; ?>);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
                                     	<label id="comp_1" style="color:#FF0000;width:200px;margin-left:100px;"></label>
                                     </div>
                                 </div> <!-- Aadhar Number -->
@@ -360,7 +360,13 @@
 											{
 												while ($row = mysqli_fetch_array($res_get_state) ) 
 												{
-													echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
+													//echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
+
+                                                    ?>
+                                                    <option value="<?php echo $row['id'] ?>" <?php if((isset($row_get_farmer_residence_info['f7_pstate'])) && $row_get_farmer_residence_info['f7_pstate'] == $row['id']) { ?> selected <?php } ?>>
+                                                        <?php echo strtoupper($row['st_name']) ?>
+                                                    </option>
+                                                    <?php
 												}
 											}
 											?>
@@ -380,7 +386,12 @@
 											{
 												while ($row = mysqli_fetch_array($res_get_state) ) 
 												{
-													echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
+													//echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
+													?>
+													<option value="<?php echo $row['id'] ?>" <?php if((isset($row_get_farmer_residence_info['f7_cstate'])) && $row_get_farmer_residence_info['f7_cstate'] == $row['id']) { ?> selected <?php } ?>>
+                                                        <?php echo strtoupper($row['st_name']) ?>
+                                                    </option>
+													<?php
 												}
 											}
 											?>
@@ -393,6 +404,25 @@
                                     <div class="controls" id="div_p_dist">
                                     	<select id="ddl_p_dist" name="ddl_p_dist" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select District</option>
+                                            <?php
+											if(isset($row_get_farmer_residence_info['f7_pstate']))
+											{
+												$result = lookup_value('tbl_district',array(),array("dt_stid"=>$row_get_farmer_residence_info['f7_pstate']),array(),array(),array());
+			
+												if($result)
+												{
+													while ($row = mysqli_fetch_array($result))
+													{
+														//echo '<option value="'.$row['id'].'">'.strtoupper($row['dt_name']).'</option>';
+														?>
+														<option value="<?php echo $row['id']; ?>" <?php if((isset($row_get_farmer_residence_info['f7_pdistrict'])) && $row_get_farmer_residence_info['f7_pdistrict'] == $row['id']) { ?> selected <?php } ?>>
+															<?php echo strtoupper($row['dt_name']); ?>
+														</option>
+														<?php
+													}
+												}
+											}
+											?>
                                         </select>
                                     </div>
                                 </div>	<!-- P District -->
@@ -402,6 +432,25 @@
                                     <div class="controls" id="div_c_dist">
                                     	<select id="ddl_c_dist" name="ddl_c_dist" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select District</option>
+                                            <?php
+											if(isset($row_get_farmer_residence_info['f7_cstate']))
+											{
+												$result = lookup_value('tbl_district',array(),array("dt_stid"=>$row_get_farmer_residence_info['f7_cstate']),array(),array(),array());
+			
+												if($result)
+												{
+													while ($row = mysqli_fetch_array($result))
+													{
+														//echo '<option value="'.$row['id'].'">'.strtoupper($row['dt_name']).'</option>';
+														?>
+														<option value="<?php echo $row['id']; ?>" <?php if((isset($row_get_farmer_residence_info['f7_cdistrict'])) && $row_get_farmer_residence_info['f7_cdistrict'] == $row['id']) { ?> selected <?php } ?>>
+															<?php echo strtoupper($row['dt_name']); ?>
+														</option>
+														<?php
+													}
+												}
+											}
+											?>
                                         </select>
                                     </div>
                                 </div>	<!-- C District -->
@@ -411,6 +460,24 @@
                                     <div class="controls" id="div_p_tal">
                                     	<select id="ddl_p_tal" name="ddl_p_tal" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select Taluka</option>
+                                            <?php
+											if(isset($row_get_farmer_residence_info['f7_pdistrict']))
+											{   
+												$tal_result = lookup_value('tbl_taluka',array(),array("tk_dtid"=>$row_get_farmer_residence_info['f7_pdistrict']),array(),array(),array());
+
+												if($tal_result)
+												{
+													while ($tal_row = mysqli_fetch_array($tal_result) ) {
+														echo '<option value="'.$tal_row['id'].'"';
+														if($tal_row['id']==$row_get_farmer_residence_info['f7_ptaluka'])
+														{
+															echo ' selected ';
+														}
+														echo '>'.strtoupper($tal_row['tk_name']).'</option>';
+													}
+												}
+											}
+											?>
                                         </select>
                                     </div>
                                 </div>	<!-- P Taluka -->
@@ -420,6 +487,24 @@
                                     <div class="controls" id="div_c_tal">
                                     	<select id="ddl_c_tal" name="ddl_c_tal" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select Taluka</option>
+                                            <?php
+											if(isset($row_get_farmer_residence_info['f7_cdistrict']))
+											{   
+												$tal_result = lookup_value('tbl_taluka',array(),array("tk_dtid"=>$row_get_farmer_residence_info['f7_cdistrict']),array(),array(),array());
+
+												if($tal_result)
+												{
+													while ($tal_row = mysqli_fetch_array($tal_result) ) {
+														echo '<option value="'.$tal_row['id'].'"';
+														if($tal_row['id']==$row_get_farmer_residence_info['f7_ctaluka'])
+														{
+															echo ' selected ';
+														}
+														echo '>'.strtoupper($tal_row['tk_name']).'</option>';
+													}
+												}
+											}
+											?>
                                         </select>
                                     </div>
                                 </div>	<!-- C Taluka -->
@@ -429,6 +514,25 @@
                                     <div class="controls" id="div_p_village">
                                     	<select id="ddl_p_village" name="ddl_p_village" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select Village</option>
+                                            <?php
+											if(isset($row_get_farmer_residence_info['f7_ptaluka']))
+											{   
+												$result = lookup_value('tbl_village',array(),array("vl_tkid"=>$row_get_farmer_residence_info['f7_ptaluka']),array(),array(),array());
+
+												if($result)
+												{
+													while ($row = mysqli_fetch_array($result) ) 
+													{
+														//echo '<option value="'.$row['id'].'">'.strtoupper($row['vl_name']).'</option>';
+														?>
+														<option value="<?php echo $row['id'];?>" <?php if((isset($row_get_farmer_residence_info['f7_pvillage'])) && $row_get_farmer_residence_info['f7_pvillage'] == $row['id']) { ?> selected <?php } ?>>
+															<?php echo strtoupper($row['vl_name']); ?>
+														</option>
+														<?php
+													}
+												}
+											}
+											?>
                                         </select>
                                     </div>
                                 </div>	<!-- P Village Name -->
@@ -438,6 +542,25 @@
                                     <div class="controls" id="div_c_village">
                                     	<select id="ddl_c_village" name="ddl_c_village" class="select2-me input-large" >
                                         	<option value="" disabled selected>Select Village</option>
+                                            <?php
+											if(isset($row_get_farmer_residence_info['f7_ctaluka']))
+											{   
+												$result = lookup_value('tbl_village',array(),array("vl_tkid"=>$row_get_farmer_residence_info['f7_ctaluka']),array(),array(),array());
+
+												if($result)
+												{
+													while ($row = mysqli_fetch_array($result) ) 
+													{
+														//echo '<option value="'.$row['id'].'">'.strtoupper($row['vl_name']).'</option>';
+														?>
+														<option value="<?php echo $row['id'];?>" <?php if((isset($row_get_farmer_residence_info['f7_cvillage'])) && $row_get_farmer_residence_info['f7_cvillage'] == $row['id']) { ?> selected <?php } ?>>
+															<?php echo strtoupper($row['vl_name']); ?>
+														</option>
+														<?php
+													}
+												}
+											}
+											?>
                                         </select>
                                     </div>
                                 </div>	<!-- C Village Name -->
@@ -445,14 +568,14 @@
                                 <div class="control-group span6" style="clear:both;">
                                 	<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_p_pincode" name="txt_p_pincode" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_ppin'])) && $row_get_farmer_residence_info['f7_ppin'] != ''){ echo $row_get_farmer_residence_info['f7_ppin']; } ?>" id="txt_p_pincode" name="txt_p_pincode" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
                                     </div>
                                 </div>	<!-- P Pin-Code -->
                                 
                                 <div class="control-group span6">
                                 	<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_c_pincode" name="txt_c_pincode" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
+                                    	<input type="text" value="<?php if((isset($row_get_farmer_residence_info['f7_cpin'])) && $row_get_farmer_residence_info['f7_cpin'] != ''){ echo $row_get_farmer_residence_info['f7_cpin']; } ?>" id="txt_c_pincode" name="txt_c_pincode" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
                                     </div>
                                 </div>	<!-- C Pin-Code -->
 								<!-- END : Address Details -->
@@ -791,10 +914,10 @@
 				$('#txt_c_area_name').val($('#txt_p_area_name').val()).hide().show('swing');
 			});
 			
-			$('#frm_add_farmer').on('submit', function(e) 
+			$('#frm_edit_farmer').on('submit', function(e) 
 			{
 				e.preventDefault();
-				if ($('#frm_add_farmer').valid())
+				if ($('#frm_edit_farmer').valid())
 				{
 					calTotal();
 					
@@ -810,12 +933,12 @@
 							{   data = JSON.parse(response);
 								if(data.Success == "Success") 
 								{  
-									location.href	= baseurll + "/view_farmers.php?pag=farmers";
+									location.href	= baseurll + "view_farmers.php?pag=farmers";
 								} 
 								else 
 								{   
 									alert(data.resp);
-									location.href	= baseurll + "/error-404";
+									location.href	= baseurll + "error-404";
 								}
 							},
 							error: function (request, status, error) 
@@ -876,11 +999,11 @@
 			
 				}
 			
-			function Aadhaar(comp1) 
+			function Aadhaar(comp1, parameterVal) 
 			{		
 				if(!isNaN(comp1) && comp1 != '' && comp1 != 'undefined' && comp1.length === 12)
 				{
-					var strURL="viewaadhaar.php?comp1="+comp1;
+					var strURL="viewaadhaar.php?comp1="+comp1+"&isEdit="+parameterVal;
 					var req = getXMLHTTP();
 					if (req) {
 		

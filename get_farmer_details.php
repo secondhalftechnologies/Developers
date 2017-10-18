@@ -1412,6 +1412,13 @@
                                                                                         </div>
                                                                                     </div>  <!-- Survey Number -->
                                                                                     
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Gat Number<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                        	<input placeholder="Gat Number" type="text" id="f9_gat_number<?php echo $id; ?>" name="f9_gat_number<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_gat_number'])) && $land_arr[$i]['f9_gat_number'] != ''){ echo $land_arr[$i]['f9_gat_number']; } ?>" data-rule-required="true" maxlength="10">
+                                                                                        </div>
+                                                                                    </div>  <!-- Gat Number -->
+                                                                                    
                                                                                     <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
@@ -1422,7 +1429,7 @@
                                                                                     <div class="control-group" >
                                                                                     	<label for="tasktitel" class="control-label" >Get Geo Location</label>
                                                                                         <div class="controls">
-                                                                                        	<a href="javascript:void(0);" onClick="tryAPIGeolocation(<?php echo $id; ?>)">Get Location<a>
+                                                                                        	<a href="javascript:void(0);" onClick="tryAPIGeolocation(<?php echo $id; ?>)">Get Location</a>
                                                                                             <p id="xland"></p>
                                                                                             <span id="span_error<?php echo $id; ?>"></span>
                                                                                         </div>
@@ -1684,6 +1691,7 @@
                                                                                                 <option point="7" value="Harvesting" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Harvesting') { ?> selected <?php } ?>>Harvesting</option>
                                                                                                 <option point="5" value="Threshing" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Threshing') { ?> selected <?php } ?>>Threshing</option>
                                                                                                 <option point="2" value="Storing" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Storing') { ?> selected <?php } ?>>Storing</option>
+                                                                                                <option point="2" value="Annual" <?php if((isset($crops_arr[$j]['f10_stage'])) && $crops_arr[$j]['f10_stage'] == 'Annual') { ?> selected <?php } ?>>Annual</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>  <!-- Current stage of crop [DDL] -->
@@ -1735,7 +1743,7 @@
                                                                                         <div class="controls">
                                                                                             <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedincome'])) && $crops_arr[$j]['f10_expectedincome'] != '') { echo $crops_arr[$j]['f10_expectedincome']; } ?>" id="f10_expectedincome<?php echo $id; ?>" name="f10_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected"> In Rs.
                                                                                         </div>
-                                                                                    </div><!--Total Income Expected this year [ Per Acre Per Crop ] -->
+                                                                                    </div>	<!--Total Income Expected this year [ Per Acre Per Crop ] -->
                                                                                     
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Potential Crop Diseases<span style="color:#F00">*</span></label>
@@ -1749,7 +1757,7 @@
                                                                                                 <option point="10" value="No potential of diseases" <?php if((isset($crops_arr[$j]['f10_diseases'])) && $crops_arr[$j]['f10_diseases'] == 'No potential of diseases') { ?> selected <?php } ?>> No potential of diseases</option>
                                                                                             </select>
                                                                                         </div>
-                                                                                    </div><!--Potential crop diseases-->
+                                                                                    </div>	<!--Potential crop diseases-->
                                                                                     
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Potential Pest Control Problems <span style="color:#F00">*</span></label>
@@ -1761,6 +1769,13 @@
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>	<!--Potential pest control problems-->
+                                                                                    
+                                                                                    <div class="control-group">
+                                                                                        <label for="text" class="control-label" style="margin-top:10px">Percentage of damaged<span style="color:#F00">*</span></label>
+                                                                                        <div class="controls">
+                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_percentage_of_damaged'])) && $crops_arr[$j]['f10_percentage_of_damaged'] != '') { echo $crops_arr[$j]['f10_percentage_of_damaged']; } ?>" id="f10_percentage_of_damaged<?php echo $id; ?>" name="f10_percentage_of_damaged<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" placeholder="Percentage of damaged"> %
+                                                                                        </div>
+                                                                                    </div>	<!-- Percentage of damaged -->
                                                                                 
                                                                                 	<div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">What kind of Fertilizer and pesticides being used <span style="color:#F00">*</span></label>
@@ -2659,20 +2674,64 @@
                                                                                         </div>	<!-- Provider -->
                                                                                         
                                                                                         <div class="control-group">
-                                                                                            <label for="numberfield" class="control-label">Current Outstanding Loan Amount With Interest<span style="color:#F00">*</span></label>
+                                                                                            <label for="text" class="control-label" style="margin-top:10px">Has Loan Matured<span style="color:#F00">*</span></label>
                                                                                             <div class="controls">
-                                                                                                <input onchange="calTotal_f8();" data-rule-required="true" type="text" class="input-xlarge" onKeyPress="return numsonly(event);" placeholder="Outstanding Loan Amount With Interest" name="f8_outstanding_loan<?php echo $id; ?>" id="f8_outstanding_loan<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_outstanding_loan'])) && $loan_arr[$m]['f8_outstanding_loan'] != ''){ echo $loan_arr[$m]['f8_outstanding_loan']; } ?>" data-rule-number="true" data-rule-maxlength="10"> <!-- readyonly -->
+                                                                                                <select onchange="calTotal_f8();" id="f8_has_loan_matured<?php echo $id; ?>" name="f8_has_loan_matured<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
+                                                                                                    <option value="" disabled selected> Select here</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_has_loan_matured'])) && $loan_arr[$m]['f8_has_loan_matured'] == 'yes'){ ?> selected <?php } ?> value="yes" >Yes</option>
+                                                                                                    <option <?php if((isset($loan_arr[$m]['f8_has_loan_matured'])) && $loan_arr[$m]['f8_has_loan_matured'] == 'no'){ ?> selected <?php } ?> value="no">No</option>
+                                                                                                </select>
                                                                                             </div>
-                                                                                        </div>	<!-- Current Outstanding Loan Amount With Interest -->
+                                                                                        </div>	<!-- Has Loan Matured -->
                                                                                         
-                                                                                        <div class="control-group">
-                                                                                            <label for="numberfield" class="control-label">Therefore, No. of Months to clear Outstanding</label>
-                                                                                            <div class="controls">
-                                                                                                <input  type="text" class="input-xlarge" placeholder="No. Of EMI Remaining" name="f8_remaining_emi<?php echo $id; ?>" id="f8_remaining_emi<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_remaining_emi'])) && $loan_arr[$m]['f8_remaining_emi'] != ''){ echo $loan_arr[$m]['f8_remaining_emi']; } ?>" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="10"> <!-- readonly -->
-                                                                                            </div>
-	                                            										</div>	<!-- Therefore, No. of Months to clear Outstanding -->
+                                                                                        <div id="f8_has_loan_matured_display<?php echo $id; ?>" style="display:none;">
+                                                                                        
+                                                                                        	<div class="control-group">
+                                                                                                <label for="numberfield" class="control-label">Current Outstanding Loan Amount With Interest<span style="color:#F00">*</span></label>
+                                                                                                <div class="controls">
+                                                                                                    <input onchange="calTotal_f8();" data-rule-required="true" type="text" class="input-xlarge" onKeyPress="return numsonly(event);" placeholder="Outstanding Loan Amount With Interest" name="f8_outstanding_loan<?php echo $id; ?>" id="f8_outstanding_loan<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_outstanding_loan'])) && $loan_arr[$m]['f8_outstanding_loan'] != ''){ echo $loan_arr[$m]['f8_outstanding_loan']; } ?>" data-rule-number="true" data-rule-maxlength="10"> <!-- readyonly -->
+                                                                                                </div>
+                                                                                            </div>	<!-- Current Outstanding Loan Amount With Interest -->
+                                                                                            
+                                                                                            <div class="control-group">
+                                                                                                <label for="numberfield" class="control-label">Therefore, No. of Months to clear Outstanding</label>
+                                                                                                <div class="controls">
+                                                                                                    <input  type="text" class="input-xlarge" placeholder="No. Of EMI Remaining" name="f8_remaining_emi<?php echo $id; ?>" id="f8_remaining_emi<?php echo $id; ?>" value="<?php if((isset($loan_arr[$m]['f8_remaining_emi'])) && $loan_arr[$m]['f8_remaining_emi'] != ''){ echo $loan_arr[$m]['f8_remaining_emi']; } ?>" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="10"> <!-- readonly -->
+                                                                                                </div>
+                                                                                            </div>	<!-- Therefore, No. of Months to clear Outstanding -->
+                                                                                        	
+                                                                                        </div>
                                                                                         
                                                                                     </div>
+                                                                                    
+                                                                                    <script>
+																						$(document).ready(function(e) {
+																							$('#f8_has_loan_matured'+<?php echo $id; ?>).on('change', function(){
+																								if($(this).val() == 'yes'){
+																									$('#f8_has_loan_matured_display<?php echo $id; ?>').show('swing');
+																								}
+																								else
+																								{
+																									$('#f8_has_loan_matured_display<?php echo $id; ?>').hide('swing');
+																									$('#f8_has_loan_matured_display<?php echo $id; ?>').find('input, select').val('').trigger('change');
+																								}
+																							});
+																							
+																							
+																							if($('#f8_has_loan_matured<?php echo $id; ?>').val() == 'yes')
+																							{
+																								$('#f8_has_loan_matured_display<?php echo $id; ?>').show('swing');
+																							}
+																							else
+																							{
+																								$('#f8_has_loan_matured_display<?php echo $id; ?>').find('input, select').val('');
+																							}    
+																						});
+																						<?php 
+																							echo 'contentCountLoanFrm1='.$id.';';
+																						?>
+																					</script>
+                                                                                    
 																					<?php
 																				}
 																				?>
@@ -2841,7 +2900,7 @@
                                             </div>
                                         </div>	<!-- LOAN [COMPLETE] -->
                                         <!-- ============ -->
-                                        <!-- END : LOAN -->
+                                        <!-- END : LOAN   -->
                                         <!-- ============ -->
                                     </div>
                                 </div>
@@ -3594,6 +3653,7 @@
 						$('#div_any_loan_waivers_display').hide('swing');
 					}
 				});
+				 
 				/*calTotal_f2();
 				calTotal_f3();
 				calTotal_f5();
@@ -5703,7 +5763,14 @@
 							landData	+= '<div class="controls">';
 								landData	+= '<input placeholder="Survey Number" type="text" id="f9_survey_number'+contentCountLand+'" name="f9_survey_number'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" maxlength="10">';
 							landData	+= '</div>';
-						landData	+= '</div>  ';
+						landData	+= '</div>';
+						
+						landData	+= '<div class="control-group">';
+							landData	+= '<label for="text" class="control-label" style="margin-top:10px">Gat Number<span style="color:#F00">*</span></label>';
+							landData	+= '<div class="controls">';
+								landData	+= '<input placeholder="Gat Number" type="text" id="f9_gat_number'+contentCountLand+'" name="f9_gat_number'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" maxlength="10">';
+							landData	+= '</div>';
+						landData	+= '</div>';
 										
 						landData	+= '<div class="control-group" >';
 							landData	+= '<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span></label>';
@@ -5886,6 +5953,7 @@
 									cropData	+= '<option point="7" value="Harvesting" >Harvesting</option>';
 									cropData	+= '<option point="5" value="Threshing" >Threshing</option>';
 									cropData	+= '<option point="2" value="Storing" >Storing</option>';
+									cropData	+= '<option point="2" value="Annual" >Annual</option>';
 								cropData	+= '</select>';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
@@ -5960,6 +6028,13 @@
 									cropData	+= '<option point="1" value="yes" > Yes</option>';
 									cropData	+= '<option point="10" value="no"> No</option>';
 								cropData	+= '</select>';
+							cropData	+= '</div>';
+						cropData	+= '</div>';
+						
+						cropData	+= '<div class="control-group">';
+							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Percentage of damaged<span style="color:#F00">*</span></label>';
+							cropData	+= '<div class="controls">';
+								cropData	+= '<input type="text" value="" id="f10_percentage_of_damaged'+contentCountCrop+'" name="f10_percentage_of_damaged'+contentCountCrop+'" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" placeholder="Percentage of damaged"> %';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 									
@@ -6412,18 +6487,31 @@
 							loanData	+= '<label id="f8_loan_provider1_err" style="color:#FF0000;width:200px;margin-left:100px;"></label>';
 						loanData	+= '</div>';
 					loanData	+= '</div>';
-									
+					
 					loanData	+= '<div class="control-group">';
-						loanData	+= '<label for="numberfield" class="control-label">Current Outstanding Loan Amount With Interest<span style="color:#F00">*</span></label>';
-						loanData	+= '<div class="controls">';
-							loanData	+= '<input onchange="calTotal_f8();" data-rule-required="true" type="text" class="input-xlarge ui-wizard-content" onKeyPress="return numsonly(event);" placeholder="Outstanding Loan Amount With Interest" name="f8_outstanding_loan'+contentCountLoanFrm1+'" id="f8_outstanding_loan'+contentCountLoanFrm1+'" data-rule-number="true" data-rule-maxlength="10">';
+                      	loanData	+= '<label for="text" class="control-label" style="margin-top:10px">Has Loan Matured<span style="color:#F00">*</span></label>';
+                        loanData	+= '<div class="controls">';
+                        	loanData	+= '<select onchange="divDisplayOpen(this.value, \'f8_has_loan_matured_display'+contentCountLoanFrm1+'\');" id="f8_has_loan_matured'+contentCountLoanFrm1+'" name="f8_has_loan_matured'+contentCountLoanFrm1+'" class="select2-me input-xlarge" data-rule-required="true">';
+                             	loanData	+= '<option value="" disabled selected> Select here</option>';
+                                loanData	+= '<option value="yes" >Yes</option>';
+                                loanData	+= '<option value="no">No</option>';
+                            loanData	+= '</select>';
+                        loanData	+= '</div>';
+                    loanData	+= '</div>';
+                                                                                        
+                    loanData	+= '<div id="f8_has_loan_matured_display'+contentCountLoanFrm1+'" style="display:none;">';
+                        loanData	+= '<div class="control-group">';
+							loanData	+= '<label for="numberfield" class="control-label">Current Outstanding Loan Amount With Interest<span style="color:#F00">*</span></label>';
+							loanData	+= '<div class="controls">';
+								loanData	+= '<input onchange="calTotal_f8();" data-rule-required="true" type="text" class="input-xlarge ui-wizard-content" onKeyPress="return numsonly(event);" placeholder="Outstanding Loan Amount With Interest" name="f8_outstanding_loan'+contentCountLoanFrm1+'" id="f8_outstanding_loan'+contentCountLoanFrm1+'" data-rule-number="true" data-rule-maxlength="10">';
+							loanData	+= '</div>';
 						loanData	+= '</div>';
-					loanData	+= '</div>';
-									
-					loanData	+= '<div class="control-group">';
-						loanData	+= '<label for="numberfield" class="control-label">Therefore, No. of Months to clear Outstanding</label>';
-						loanData	+= '<div class="controls">';
-							loanData	+= '<input  type="text" class="input-xlarge ui-wizard-content" placeholder="No. Of EMI Remaining" name="f8_remaining_emi'+contentCountLoanFrm1+'" id="f8_remaining_emi'+contentCountLoanFrm1+'" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="10">';
+										
+						loanData	+= '<div class="control-group">';
+							loanData	+= '<label for="numberfield" class="control-label">Therefore, No. of Months to clear Outstanding</label>';
+							loanData	+= '<div class="controls">';
+								loanData	+= '<input  type="text" class="input-xlarge ui-wizard-content" placeholder="No. Of EMI Remaining" name="f8_remaining_emi'+contentCountLoanFrm1+'" id="f8_remaining_emi'+contentCountLoanFrm1+'" data-rule-number="true" data-rule-required="true"  data-rule-maxlength="10">';
+							loanData	+= '</div>';
 						loanData	+= '</div>';
 					loanData	+= '</div>';
 									

@@ -61,6 +61,8 @@ if(isset($_POST['add_land_detail']) && $_POST['add_land_detail']==1)
 					$data['f9_amount_on_rent']	= '';
 				}
 				$data['f9_survey_number']   = mysqli_real_escape_string($db_con,$_POST['f9_survey_number'.$i]);
+				$data['f9_gat_number']   	= mysqli_real_escape_string($db_con,$_POST['f9_gat_number'.$i]);
+				
 				$data['f9_vilage'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_vilage'.$i]);
 				$data['f9_taluka'] 		    = mysqli_real_escape_string($db_con,$_POST['f9_taluka'.$i]);
 				$data['f9_district']		= mysqli_real_escape_string($db_con,$_POST['f9_district'.$i]);
@@ -150,6 +152,7 @@ if(isset($_POST['add_land_detail']) && $_POST['add_land_detail']==1)
 					$data['f9_amount_on_rent']	= '';
 				}
 				$data['f9_survey_number']   = mysqli_real_escape_string($db_con,$_POST['f9_survey_number'.$i]);
+				$data['f9_gat_number']   	= mysqli_real_escape_string($db_con,$_POST['f9_gat_number'.$i]);
 				
 				if(isset($_POST['f9_vilage'.$i]))
 				{

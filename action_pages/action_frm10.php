@@ -41,6 +41,7 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 				$data['f10_expectedprice']    = mysqli_real_escape_string($db_con,$_POST['f10_expectedprice'.$i]);
 				$data['f10_diseases'] 		  = mysqli_real_escape_string($db_con,$_POST['f10_diseases'.$i]);
 				$data['f10_pest'] 		      = mysqli_real_escape_string($db_con,$_POST['f10_pest'.$i]);
+				$data['f10_percentage_of_damaged']	= mysqli_real_escape_string($db_con,$_POST['f10_percentage_of_damaged'.$i]);
 				
 				$data['f10_crop_season']		= mysqli_real_escape_string($db_con,$_POST['f10_crop_season'.$i]);
 				$data['f10_potential_market']	= mysqli_real_escape_string($db_con,$_POST['f10_potential_market'.$i]);
@@ -83,6 +84,7 @@ if(isset($_POST['add_crop_detail']) && $_POST['add_crop_detail']==1)
 				$data['f10_expectedprice']    = mysqli_real_escape_string($db_con,$_POST['f10_expectedprice'.$i]);
 				$data['f10_diseases'] 		  = mysqli_real_escape_string($db_con,$_POST['f10_diseases'.$i]);
 				$data['f10_pest'] 		      = mysqli_real_escape_string($db_con,$_POST['f10_pest'.$i]);
+				$data['f10_percentage_of_damaged']	= mysqli_real_escape_string($db_con,$_POST['f10_percentage_of_damaged'.$i]);
 				
 				$data['f10_crop_season']		= mysqli_real_escape_string($db_con,$_POST['f10_crop_season'.$i]);
 				$data['f10_potential_market']	= mysqli_real_escape_string($db_con,$_POST['f10_potential_market'.$i]);

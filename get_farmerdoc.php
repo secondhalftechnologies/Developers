@@ -18,6 +18,7 @@
         <?php	
 	}
 	$fm_id = $_REQUEST['fm_id'];
+
 	$ca_id = $_SESSION['ca_id'];
     if($_SESSION['userType']=="Admin")
     {
@@ -28,6 +29,13 @@
        $sql = "select * from tbl_farmers where fm_caid='".$ca_id."' order by id desc";
     }
 	$res	= mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+
+
+$sql_doc="SELECT * FROM tbl_doc_uploads where fm_caid='$ca_id' and fm_id='$fm_id'";
+$res_doc=mysqli_query($db_con,$sql_doc);
+
+
+
 	$r		= 1;	
 ?>	
 <!doctype html>
@@ -99,7 +107,8 @@
                             <div class="box-content nopadding">
                                 <form action="farmerdoc_upload.php?pag=farmers&fm_id=<?php echo $fm_id;  ?>" method="POST" class='form-horizontal form-validate' enctype="multipart/form-data" id="ssss12">
                                     
-                                     <input type="hidden" value="5048576" name="MAX_FILE_SIZE">
+                                    
+                                    <input type="hidden" value="5048576" name="MAX_FILE_SIZE">
                                      <div class="control-group">
                                          <label for="textfield" class="control-label">Upload Aadhar </label>
                                          <div class="controls">
@@ -151,13 +160,90 @@
                                      
                                     <div class="form-actions">
                                         <input type="reset" class="btn" value="Back" id="back">
-                                        <input type="submit" class="btn btn-primary" name="U_Submit" id="U_Submit" value="Submit" id="next">
+                                        <input type="submit" class="btn btn-primary" name="U_Submit" id="U_Submit" value="Submit">
                                     </div>
                                 </form>
                             </div>
                         </div>
                         
-                          
+                    <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="box box-color box-bordered green">
+                                <div class="box-title">
+                                    <h3>
+                                        <i class="icon-table"></i>
+                                        Uploaded Details Images, Document and Forms
+                                    </h3>
+                                </div>
+                                <div class="box-content nopadding">
+                                   
+                                    <form id="mainform1" action="deletefarmerdoc.php?pag=farmers&fm_id=<?php echo $fm_id; ?>" method="post">
+                                        <div id="comp_1">
+                                            <table class="table table-bordered dataTable dataTable-scroll-x">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr no.</th>
+                                                        <th>Farmer ID</th>
+                                                        <th>Docs Upload</th>
+                                                        <th>Document Type</th>
+                                                        <th>Status</th>
+                                                        <th class='hidden-350'>Created Date</th>
+                                                         <th style="text-align:center" class='hidden-480'><a href="#"><input type="checkbox" id="selectall" /></a>
+
+                        <input type="submit" name="main" value="Delete" style="margin-left:10px; width:80px;height:30px;font-size:16px" /></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <?php
+                                                     while($row_doc = mysqli_fetch_array($res_doc))
+                                                        {
+                                                    ?>
+                                                    
+                                                        <tr>
+                                                            <td><?php echo $r; ?></td>  <!-- Sr. No. -->
+                                                            <td><?php echo $row_doc['fm_id']; ?></td>   <!-- Farmer ID -->
+                                                            <td>
+                                                               <?php if($row_doc['file_extention'] === "pdf")
+                                                                {
+                                                                 ?>   
+                                                                    <a target="_blank" href="<?php echo "data/".$row_doc['fm_id']."/".$row_doc['file_name']; ?>"/><?php echo $row_doc['file_name']; ?></a>      
+                                                                 <?php
+                                                                }
+                                                                elseif($row_doc['file_extention'] === "jpg")
+                                                                {
+                                                                 ?>
+                                                                    <img src="<?php echo "data/".$row_doc['fm_id']."/".$row_doc['file_name']; ?>" width="150px" height="150px" />  
+                                                                 <?php
+                                                                }
+                                                                elseif($row_doc['file_extention'] === "jpg")
+                                                                {
+                                                                 ?>
+                                                                 <img src="<?php echo "data/".$row_doc['fm_id']."/".$row_doc['file_name']; ?>" width="150px" height="150px" />
+                                                                 <?php
+                                                                }
+                                                            ?>
+                                                            </td>   <!-- Farmer Name -->
+                                                            <td><?php echo $row_doc['doc_type']; ?></td>   <!-- document type -->
+                                                            <td><?php echo $row_doc['status']; ?></td>   <!-- Status -->
+                                                            <td><?php echo $row_doc['created_date']; ?></td>    <!-- Created Date -->
+                                                            
+                                                            <td><div align="center"><input type="checkbox" class="case" name="docs[]" value="<?php echo $row_doc['id']?>" /></div></td>
+                                                        </tr>
+                                                        <?php
+                                                        $r++;
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
                             
                             
                         </div>

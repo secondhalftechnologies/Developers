@@ -42,8 +42,24 @@ class DbHandler
     	//for now 
     	$userdata = [
     		'username' => 'Ejaz',
-    		'token' => 'ihbc2q8987e78d9p0udb bd986q752%%%#%^%2'
+    		'token' => 'ihbc2q8987e78d9p0udbbd986q752%%%#%^%2'
     	];
     	return $userdata;
+    }
+
+    public function createFarmer($data){
+        // insert query
+        $stmt = $this->conn->prepare("INSERT INTO farmers(name, aadhaar, gender, status) values(?, ?, ?, 1)");
+        $stmt->bind_param("sss", $data['name'], $data['aadhaar'], $data['gender']);
+        $result = $stmt->execute();
+        $stmt->close();
+        // Check for successful insertion
+        if ($result) {
+            // Farmer successfully inserted
+            return true;
+        } else {
+            // Failed to create Farmer
+            return false;
+        }
     }
 }

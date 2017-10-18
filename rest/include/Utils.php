@@ -34,7 +34,7 @@ function verifyRequiredParams($required_fields) {
     // echo error json and stop the app
     $response = array();
     $app = \Slim\Slim::getInstance();
-    $response['error'] = true;
+    $response['success'] = false;
     $response["message"] = 'Required field(s) ' . substr($error_fields, 0, -2) . ' is missing or empty';
     echoResponse(400, $response);
     $app->stop();
@@ -79,36 +79,48 @@ function echoResponse($status_code, $response) {
 *  Checking if the request has valid api key in the 'Authorization' header
  */
 function authenticate(\Slim\Route $route) {
-  // getting request header
-  $headers = apache_request_headers();
-  $response = array();
-  $app = \Slim\Slim::getInstance();
-  // verifying authorization header
-  if (isset($headers['Authorization'])) {
-    $db = new DbHandler();
-    // get the api key
-    $api_key = $headers['Authorization'];
-    // validating api key
-    if (!$db->isValidApikey($api_key)) {
-      //api key is not present in users table
-      $response['error'] = true;
-      $response['message'] = 'Access denied. Invalid api key';
-      echoResponse(401, $response);
-      $app->stop();
-    } else {
-      global $user_id;
-      // get user primary key id
-      $user = $db->getUserId($api_key);
-      if ($user != NULL) {
-        $user_id = $user['id'];
-      }
-    }
-  } else {
-    // api key is missing in header
-    $response['error'] = true;
-    $response['message'] = "Api key is missing";
-    echoResponse(400, $response);
-    $app->stop();
-  }
+
+  /**
+   * Comment by Ejaz
+   */
+  // uncomment the bellow code
+  // here we are taking token(api_key in this function) and varifying validation of token
+  // if token is valid save global user_id that can be used while inserting data in tables
+  // if token is invalid show the error here
+  /**
+   * End of Comment by Ejaz
+   */
+
+  // // getting request header
+  // $headers = apache_request_headers();
+  // $response = array();
+  // $app = \Slim\Slim::getInstance();
+  // // verifying authorization header
+  // if (isset($headers['Authorization'])) {
+  //   $db = new DbHandler();
+  //   // get the api key
+  //   $api_key = $headers['Authorization'];
+  //   // validating api key
+  //   if (!$db->isValidApikey($api_key)) {
+  //     //api key is not present in users table
+  //     $response['error'] = true;
+  //     $response['message'] = 'Access denied. Invalid api key';
+  //     echoResponse(401, $response);
+  //     $app->stop();
+  //   } else {
+  //     global $user_id;
+  //     // get user primary key id
+  //     $user = $db->getUserId($api_key);
+  //     if ($user != NULL) {
+  //       $user_id = $user['id'];
+  //     }
+  //   }
+  // } else {
+  //   // api key is missing in header
+  //   $response['error'] = true;
+  //   $response['message'] = "Api key is missing";
+  //   echoResponse(400, $response);
+  //   $app->stop();
+  // }
 }
 ?>

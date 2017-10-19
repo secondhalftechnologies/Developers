@@ -270,6 +270,7 @@
                 
         <!-- Favicon -->
         <link rel="shortcut icon" href="img/favicon.ico" />
+        
         <!-- Apple devices Homescreen icon -->
         <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
 		<?php

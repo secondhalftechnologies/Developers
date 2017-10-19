@@ -34,8 +34,8 @@ elseif($_SESSION['userType']=="Admin")
 						<span>Farmers</span>
 					</a>
 				</li>
-				<li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='adminusers'){?> class="active" <?php } ?>>
-					<a href="view_adminusers.php?pag=adminusers">
+				<li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='farmers'){?> class="active" <?php } ?>>
+					<a href="view_farmers.php?pag=farmers">
 						<i class="icon-th-large"></i>
 						<span>Admin</span>
 					</a>

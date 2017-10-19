@@ -111,7 +111,7 @@
                                     	Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_info['fm_name'])) && $row_get_farmer_info['fm_name'] != '') {echo ucwords($row_get_farmer_info['fm_name']);} ?>" id="txt_name" name="txt_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Enter Your Name">
+                                    	<input type="text" value="<?php echo ucwords($row_get_farmer_info['fm_name']); ?>" id="txt_name" name="txt_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Enter Your Name">
                                     </div>
                                 </div>	<!-- Name -->
                                 
@@ -120,7 +120,7 @@
                                     	Father's / Spouse's Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_personal_info['f1_father'])) && $row_get_farmer_personal_info['f1_father'] != '') { echo ucwords($row_get_farmer_personal_info['f1_father']); } ?>" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" placeholder="Father's / Spouse's Name">
+                                    	<input type="text" value="<?php echo ucwords($row_get_farmer_personal_info['f1_father']); ?>" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" placeholder="Father's / Spouse's Name">
                                     </div>
                                 </div>	<!-- Father's / Spouse's Name -->
                                 
@@ -129,7 +129,7 @@
                                     	Mother's Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_personal_info['f1_mfname'])) && $row_get_farmer_personal_info['f1_mfname'] != '') { echo ucwords($row_get_farmer_personal_info['f1_mfname']); } ?>" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Mother Name" >
+                                    	<input type="text" value="<?php echo ucwords($row_get_farmer_personal_info['f1_mfname']); ?>" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Mother Name" >
                                     </div>
                                 </div>	<!-- Mother's Name -->
                                 
@@ -138,7 +138,7 @@
                                     	Date Of Birth <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_personal_info['f1_dob'])) && $row_get_farmer_personal_info['f1_dob'] != '') { echo $row_get_farmer_personal_info['f1_dob']; } ?>" id="txt_dob" name="txt_dob" placeholder="Date Of Birth" class="datepicker input-large" data-rule-required="true" />
+                                    	<input type="text" value="<?php echo $row_get_farmer_personal_info['f1_dob']; ?>" id="txt_dob" name="txt_dob" placeholder="Date Of Birth" class="datepicker input-large" data-rule-required="true" />
                                     </div>
                                 </div>	<!-- DOB -->
                                 
@@ -147,7 +147,7 @@
                                     	Age [In Year]<span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_personal_info['f1_age'])) && $row_get_farmer_personal_info['f1_age'] != '') { echo $row_get_farmer_personal_info['f1_age']; } ?>" id="txt_age" name="txt_age" placeholder="Age" class="input-large" data-rule-required="true" data-rule-number="true" readonly />
+                                    	<input type="text" value="<?php echo $row_get_farmer_personal_info['f1_age']; ?>" id="txt_age" name="txt_age" placeholder="Age" class="input-large" data-rule-required="true" data-rule-number="true" readonly />
                                     </div>
                                 </div>	<!-- Age In-Between -->
                                 
@@ -156,7 +156,7 @@
                                     	Mobile No. <span style="color:#F00">*</span>
                                     </label>
                                 	<div class="controls">
-                                        <input type="text" value="<?php if((isset($row_get_farmer_info['fm_mobileno']))&& $row_get_farmer_info['fm_mobileno'] != ''){ echo $row_get_farmer_info['fm_mobileno']; } ?>" placeholder="Mobile no" name="fm_mobileno" id="fm_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" onBlur="Mobile(this.value);"  data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
+                                        <input type="text" value="<?php echo $row_get_farmer_info['fm_mobileno']; ?>" placeholder="Mobile no" name="fm_mobileno" id="fm_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" onBlur="Mobile(this.value);"  data-rule-minlength="10"  data-rule-maxlength="10" class="input-xlarge v_number">
                                         <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
                                     </div>
                                 </div> <!-- Mobile No -->
@@ -177,7 +177,7 @@
                                     	Aadhaar No. <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_info['fm_aadhar']))&& $row_get_farmer_info['fm_aadhar'] != ''){ echo $row_get_farmer_info['fm_aadhar']; } ?>" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value, <?php echo $fm_id; ?>);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
+                                    	<input type="text" value="<?php echo $row_get_farmer_info['fm_aadhar']; ?>" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value, <?php echo $fm_id; ?>);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
                                     	<label id="comp_1" style="color:#FF0000;width:200px;margin-left:100px;"></label>
                                     </div>
                                 </div> <!-- Aadhar Number -->
@@ -187,7 +187,7 @@
                                     	Experience In Farming <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" value="<?php if((isset($row_get_farmer_personal_info['f1_expfarm']))&& $row_get_farmer_personal_info['f1_expfarm'] != ''){ echo $row_get_farmer_personal_info['f1_expfarm']; } ?>" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
+                                    	<input type="text" value="<?php echo $row_get_farmer_personal_info['f1_expfarm']; ?>" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
                                     </div>
                                 </div>	<!-- Experience In Farming -->
                                 
@@ -620,16 +620,6 @@
 						e.preventDefault();
 					}
 				});
-
-                if($('#f1_required_loan').val() == 'yes')
-                {
-                  $('#div_required_loan_display').show('swing');
-                }
-                else
-                {
-                    $('#div_required_loan_display').hide('swing');
-                    $('#div_required_loan_display').find('input, select').val('').trigger('change');
-                }
 				
 			});
 			
@@ -955,12 +945,12 @@
 							{
 								$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
 								$('#error_model').modal('toggle');	
-								//loading_hide();
+								loading_hide();
 							},
 							complete: function()
 							{
 								//alert("complete");
-								//loading_hide();
+								loading_hide();
 							}
 						});
 				}

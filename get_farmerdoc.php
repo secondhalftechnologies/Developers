@@ -109,6 +109,14 @@ $res_doc=mysqli_query($db_con,$sql_doc);
                                     
                                     
                                     <input type="hidden" value="5048576" name="MAX_FILE_SIZE">
+
+                                    <div class="control-group">
+                                         <label for="textfield" class="control-label">Farmer's Photo </label>
+                                         <div class="controls">
+                                            <input type="file" class="filesize" name="files8[]" multiple data-rule-extension="true"  accept="application/pdf,image/jpeg,image/png"/><span class="help-block" style="font-weight:bold;color:#7ebd28">max size 5MB (jpg,png,pdf)</span>
+                                         </div>
+                                     </div> <!-- Profile Photo -->
+
                                      <div class="control-group">
                                          <label for="textfield" class="control-label">Upload Aadhar </label>
                                          <div class="controls">

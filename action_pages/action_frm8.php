@@ -40,7 +40,10 @@ if(isset($_POST['add_loan_detail']) && $_POST['add_loan_detail']==1)
 					$bank_data['fk_loan_detailsid']  = $last_insert_id;
 					$bank_data['f8_loan_type']       = mysqli_real_escape_string($db_con,$_POST['f8_loan_type'.$i]);
 					$bank_data['f8_loan_amount']	 = mysqli_real_escape_string($db_con,$_POST['f8_loan_amount'.$i]);
+					
 					$bank_data['f8_loan_provider']   = mysqli_real_escape_string($db_con,$_POST['f8_loan_provider'.$i]);
+					$bank_data['f8_has_loan_matured']   = mysqli_real_escape_string($db_con,$_POST['f8_has_loan_matured'.$i]);
+					
 					$bank_data['f8_outstanding_loan']= mysqli_real_escape_string($db_con,$_POST['f8_outstanding_loan'.$i]);
 					$bank_data['f8_remaining_emi']   = mysqli_real_escape_string($db_con,$_POST['f8_remaining_emi'.$i]);
 					
@@ -96,7 +99,10 @@ if(isset($_POST['add_loan_detail']) && $_POST['add_loan_detail']==1)
 				{
 					$bank_data['fk_loan_detailsid']  = $id;
 					$bank_data['f8_loan_type']       = mysqli_real_escape_string($db_con,$_POST['f8_loan_type'.$i]);
+					
 					$bank_data['f8_loan_provider']   = mysqli_real_escape_string($db_con,$_POST['f8_loan_provider'.$i]);
+					$bank_data['f8_has_loan_matured']   = mysqli_real_escape_string($db_con,$_POST['f8_has_loan_matured'.$i]);
+					
 					$bank_data['f8_loan_amount']	 = mysqli_real_escape_string($db_con,$_POST['f8_loan_amount'.$i]);
 					$bank_data['f8_outstanding_loan']= mysqli_real_escape_string($db_con,$_POST['f8_outstanding_loan'.$i]);
 					$bank_data['f8_remaining_emi']   = mysqli_real_escape_string($db_con,$_POST['f8_remaining_emi'.$i]);
@@ -109,7 +115,10 @@ if(isset($_POST['add_loan_detail']) && $_POST['add_loan_detail']==1)
 				{
 					$bank_data['fk_loan_detailsid']  = $id;
 					$bank_data['f8_loan_type']       = mysqli_real_escape_string($db_con,$_POST['f8_loan_type'.$i]);
+					
 					$bank_data['f8_loan_provider']   = mysqli_real_escape_string($db_con,$_POST['f8_loan_provider'.$i]);
+					$bank_data['f8_has_loan_matured']   = mysqli_real_escape_string($db_con,$_POST['f8_has_loan_matured'.$i]);
+					
 					$bank_data['f8_loan_amount']	 = mysqli_real_escape_string($db_con,$_POST['f8_loan_amount'.$i]);
 					$bank_data['f8_outstanding_loan']= mysqli_real_escape_string($db_con,$_POST['f8_outstanding_loan'.$i]);
 					$bank_data['f8_remaining_emi']   = mysqli_real_escape_string($db_con,$_POST['f8_remaining_emi'.$i]);

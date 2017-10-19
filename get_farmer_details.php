@@ -18,6 +18,7 @@
         <?php
     }
 	
+	$avg_of_points	= '';
 	$result = lookup_value('tbl_points',array(),array("fm_id"=>$fm_id),array(),array(),array());
 	if($result)
 	{
@@ -25,12 +26,14 @@
 		if($num != 0)
 		{
 			$pt_row	= mysqli_fetch_array($result);
+
+			$sum_of_points	= $pt_row['pt_frm1'] + $pt_row['pt_frm2'] + $pt_row['pt_frm3'] + $pt_row['pt_frm4'] + $pt_row['pt_frm5'] + $pt_row['pt_frm6'] + $pt_row['pt_frm7'] + $pt_row['pt_frm8'] + $pt_row['pt_frm8_fh'] + $pt_row['pt_frm9'] + $pt_row['pt_frm10'] + $pt_row['pt_frm11'] + $pt_row['pt_frm12'] + $pt_row['pt_frm13'] + $pt_row['pt_frm14'];
+	
+			$avg_of_points	= $sum_of_points / 15;
 		}
 	}
 	
-	$sum_of_points	= $pt_row['pt_frm1'] + $pt_row['pt_frm2'] + $pt_row['pt_frm3'] + $pt_row['pt_frm4'] + $pt_row['pt_frm5'] + $pt_row['pt_frm6'] + $pt_row['pt_frm7'] + $pt_row['pt_frm8'] + $pt_row['pt_frm8_fh'] + $pt_row['pt_frm9'] + $pt_row['pt_frm10'] + $pt_row['pt_frm11'] + $pt_row['pt_frm12'] + $pt_row['pt_frm13'] + $pt_row['pt_frm14'];
 	
-	$avg_of_points	= $sum_of_points / 15;
 	//echo $avg_of_points;
 	
 	// Query For getting the Farmer Info
@@ -238,6 +241,36 @@
 		if($num_asset_details != 0)
 		{
 			$row_asset_details					= mysqli_fetch_array($res_asset_details);
+
+			$data['f12_TRACTOR']				= $row_asset_details['f12_TRACTOR'];
+			$data['f12_COMBINE_HARVESTER']		= $row_asset_details['f12_COMBINE_HARVESTER'];
+			$data['f12_PLOW']					= $row_asset_details['f12_PLOW'];
+			$data['f12_PLANTER']				= $row_asset_details['f12_PLANTER'];
+			$data['f12_LOADER']					= $row_asset_details['f12_LOADER'];
+			$data['f12_BAILER']					= $row_asset_details['f12_BAILER'];
+			$data['f12_SKID_STEER_LOADER']		= $row_asset_details['f12_SKID_STEER_LOADER'];
+			$data['f12_MOWER']					= $row_asset_details['f12_MOWER'];
+			$data['f12_REAPER']					= $row_asset_details['f12_REAPER'];
+			$data['f12_THRESHING_MACHINE']		= $row_asset_details['f12_THRESHING_MACHINE'];
+			$data['f12_SEED_DRILL']				= $row_asset_details['f12_SEED_DRILL'];
+			$data['f12_DISC_HARROW']			= $row_asset_details['f12_DISC_HARROW'];
+			$data['f12_TRANSPLANTER']			= $row_asset_details['f12_TRANSPLANTER'];
+			$data['f12_ROLLER']					= $row_asset_details['f12_ROLLER'];
+			$data['f12_SUBSPOILER']				= $row_asset_details['f12_SUBSPOILER'];
+			$data['f12_STONE_PICKER']			= $row_asset_details['f12_STONE_PICKER'];
+			$data['f12_DRILL']					= $row_asset_details['f12_DRILL'];
+			$data['f12_CONDITIONER']			= $row_asset_details['f12_CONDITIONER'];
+			$data['f12_CHASER_BIN']				= $row_asset_details['f12_CHASER_BIN'];
+			$data['f12_STEAM_TRACTOR']			= $row_asset_details['f12_STEAM_TRACTOR'];
+			$data['f12_HAY_RAKE']				= $row_asset_details['f12_HAY_RAKE'];
+			$data['f12_Sprayer']				= $row_asset_details['f12_Sprayer'];
+			$data['f12_Rice_Huller']			= $row_asset_details['f12_Rice_Huller'];
+			$data['f12_Pumps']					= $row_asset_details['f12_Pumps'];
+			$data['f12_Protavator']				= $row_asset_details['f12_Protavator'];
+			$data['f12_Blower']					= $row_asset_details['f12_Blower'];
+			$data['f12_Cutters']				= $row_asset_details['f12_Cutters'];
+			$data['f12_Cultivators']			= $row_asset_details['f12_Cultivators'];
+
 			$data['f12_machinery']				= $row_asset_details['f12_machinery'];
 			$data['f12_vehicle']				= $row_asset_details['f12_vehicle'];
 			$data['f12_total_val_of_vehical']	= $row_asset_details['f12_total_val_of_vehical'];
@@ -248,6 +281,35 @@
 		}
 		else
 		{
+			$data['f12_TRACTOR']				= '';
+			$data['f12_COMBINE_HARVESTER']		= '';
+			$data['f12_PLOW']					= '';
+			$data['f12_PLANTER']				= '';
+			$data['f12_LOADER']					= '';
+			$data['f12_BAILER']					= '';
+			$data['f12_SKID_STEER_LOADER']		= '';
+			$data['f12_MOWER']					= '';
+			$data['f12_REAPER']					= '';
+			$data['f12_THRESHING_MACHINE']		= '';
+			$data['f12_SEED_DRILL']				= '';
+			$data['f12_DISC_HARROW']			= '';
+			$data['f12_TRANSPLANTER']			= '';
+			$data['f12_ROLLER']					= '';
+			$data['f12_SUBSPOILER']				= '';
+			$data['f12_STONE_PICKER']			= '';
+			$data['f12_DRILL']					= '';
+			$data['f12_CONDITIONER']			= '';
+			$data['f12_CHASER_BIN']				= '';
+			$data['f12_STEAM_TRACTOR']			= '';
+			$data['f12_HAY_RAKE']				= '';
+			$data['f12_Sprayer']				= '';
+			$data['f12_Rice_Huller']			= '';
+			$data['f12_Pumps']					= '';
+			$data['f12_Protavator']				= '';
+			$data['f12_Blower']					= '';
+			$data['f12_Cutters']				= '';
+			$data['f12_Cultivators']			= '';
+
 			$data['f12_machinery']				= '';
 			$data['f12_vehicle']				= '';
 			$data['f12_total_val_of_vehical']	= '';
@@ -387,7 +449,7 @@
                                             </a>
                                         </li>	<!-- KYC -->
                                         <li>
-                                            <a href="#land" data-toggle='tab'>
+                                        	<a href="#land" data-toggle='tab'>
                                                 <i class="fa fa-share"></i>LAND
                                             </a>
                                         </li>	<!-- LAND -->
@@ -906,6 +968,7 @@
                                                                                 <option value="" disabled selected > Select here</option>
                                                                                 <option value="aircel" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'aircel') { ?> selected <?php } ?>>Aircel</option>
                                                                                 <option value="airtel" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'airtel') { ?> selected <?php } ?>>Airtel</option>
+                                                                                <option value="idea" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'idea') { ?> selected <?php } ?>>idea</option>
                                                                                 <option value="jio" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'jio') { ?> selected <?php } ?>>Jio</option>
                                                                                 <option value="relience" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'relience') { ?> selected <?php } ?>>Relience</option>
                                                                                 <option value="tata docomo" <?php if((isset($data['f5_servpro'])) && $data['f5_servpro'] == 'tata docomo') { ?> selected <?php } ?>>Tata Docomo</option>
@@ -1247,9 +1310,10 @@
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label> 
                                                                                         <div class="controls">
                                                                                         	<!-- f9_land_size -->
-                                                                                            <input placeholder="Size in Hector" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'hector', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_hector<?php echo $id; ?>" name="f9_land_size_hector<?php echo $id; ?>" class="input-large" value="<?php if((isset($land_arr[$i]['f9_land_size_hector'])) && $land_arr[$i]['f9_land_size_hector'] != ''){ echo $land_arr[$i]['f9_land_size_hector']; } ?>" data-rule-required="true" maxlength="6">
-                                                                                            <input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'acre', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_acre<?php echo $id; ?>" name="f9_land_size_acre<?php echo $id; ?>" class="input-large" value="<?php if((isset($land_arr[$i]['f9_land_size_acre'])) && $land_arr[$i]['f9_land_size_acre'] != ''){ echo $land_arr[$i]['f9_land_size_acre']; } ?>" data-rule-required="true" maxlength="6">
-                                                                                        	<input placeholder="Size in Guntha" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'guntha', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_guntha<?php echo $id; ?>" name="f9_land_size_guntha<?php echo $id; ?>" class="input-large" value="<?php if((isset($land_arr[$i]['f9_land_size_guntha'])) && $land_arr[$i]['f9_land_size_guntha'] != ''){ echo $land_arr[$i]['f9_land_size_guntha']; } ?>" data-rule-required="true" maxlength="6">
+                                                                                            <input placeholder="Size in Hector" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'hector', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_hector<?php echo $id; ?>" name="f9_land_size_hector<?php echo $id; ?>" class="input-small" value="<?php if((isset($land_arr[$i]['f9_land_size_hector'])) && $land_arr[$i]['f9_land_size_hector'] != ''){ echo $land_arr[$i]['f9_land_size_hector']; } ?>" data-rule-required="true" maxlength="6">
+                                                                                            <input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'acre', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_acre<?php echo $id; ?>" name="f9_land_size_acre<?php echo $id; ?>" class="input-small" value="<?php if((isset($land_arr[$i]['f9_land_size_acre'])) && $land_arr[$i]['f9_land_size_acre'] != ''){ echo $land_arr[$i]['f9_land_size_acre']; } ?>" maxlength="6">
+                                                                                        	<input placeholder="Size in Guntha" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, 'guntha', 'f9_land_size<?php echo $id; ?>', <?php echo $id; ?>);" id="f9_land_size_guntha<?php echo $id; ?>" name="f9_land_size_guntha<?php echo $id; ?>" class="input-small" value="<?php if((isset($land_arr[$i]['f9_land_size_guntha'])) && $land_arr[$i]['f9_land_size_guntha'] != ''){ echo $land_arr[$i]['f9_land_size_guntha']; } ?>" maxlength="6">
+                                                                                        	<br>
                                                                                         	<input type="text" onKeyPress="return numsonly(event);" id="f9_land_size<?php echo $id; ?>" name="f9_land_size<?php echo $id; ?>" class="input-xlarge" value="<?php if((isset($land_arr[$i]['f9_land_size'])) && $land_arr[$i]['f9_land_size'] != ''){ echo $land_arr[$i]['f9_land_size']; } else { ?> 0 <?php } ?>" data-rule-required="true" maxlength="6" readonly>Acre
                                                                                         </div>
                                                                                     </div>	<!-- Size in Acres -->
@@ -1438,14 +1502,14 @@
                                                                                     <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">latitude <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_lat'])) && $land_arr[$i]['f9_lat'] != ''){ echo $land_arr[$i]['f9_lat']; } ?>" id="f9_lat<?php echo $id; ?>" name="f9_lat<?php echo $id; ?>" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>
+                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_lat'])) && $land_arr[$i]['f9_lat'] != ''){ echo $land_arr[$i]['f9_lat']; } ?>" id="f9_lat<?php echo $id; ?>" name="f9_lat<?php echo $id; ?>" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="100"/>
                                                                                         </div>
                                                                                     </div>  <!-- latitude -->
                                                                                     
                                                                                     <div class="control-group" >
                                                                                         <label for="tasktitel" class="control-label">longitude <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_long'])) && $land_arr[$i]['f9_long'] != ''){ echo $land_arr[$i]['f9_long']; } ?>" id="f9_long<?php echo $id; ?>" name="f9_long<?php echo $id; ?>" placeholder="Longitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>
+                                                                                        	<input type="text" value="<?php if((isset($land_arr[$i]['f9_long'])) && $land_arr[$i]['f9_long'] != ''){ echo $land_arr[$i]['f9_long']; } ?>" id="f9_long<?php echo $id; ?>" name="f9_long<?php echo $id; ?>" placeholder="Longitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="100"/>
                                                                                         </div>
                                                                                     </div>  <!-- longitude -->
                                                                                     
@@ -1699,7 +1763,7 @@
                                                                                     <div class="control-group">
                                                                                         <label for="tasktitel" class="control-label">Total Yield Expected [Per Acre Per Crop] <span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expected'])) && $crops_arr[$j]['f10_expected'] != '') { echo $crops_arr[$j]['f10_expected']; } ?>" id="f10_expected<?php echo $id; ?>" name="f10_expected<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected"> Quintal
+                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expected'])) && $crops_arr[$j]['f10_expected'] != '') { echo $crops_arr[$j]['f10_expected']; } ?>" id="f10_expected<?php echo $id; ?>" name="f10_expected<?php echo $id; ?>" class="input-xlarge" onKeyPress="return numsonly(event);" onBlur="getTotalExpectedIncome(<?php echo $id; ?>);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected"> Quintal
                                                                                         </div>
                                                                                     </div>  <!-- Total Yield Expected [In tonnes Per Acre] -->
                                                                                 
@@ -1734,14 +1798,14 @@
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Expected Price This Year [Per Quintal Per Acre]<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedprice'])) && $crops_arr[$j]['f10_expectedprice'] != '') { echo $crops_arr[$j]['f10_expectedprice']; } ?>" id="f10_expectedprice<?php echo $id; ?>" name="f10_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Expected Price"> In Rs.
+                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedprice'])) && $crops_arr[$j]['f10_expectedprice'] != '') { echo $crops_arr[$j]['f10_expectedprice']; } ?>" id="f10_expectedprice<?php echo $id; ?>" name="f10_expectedprice<?php echo $id; ?>" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10();" onBlur="getTotalExpectedIncome(<?php echo $id; ?>);" placeholder="Expected Price"> In Rs.
                                                                                         </div>
                                                                                     </div>	<!--Expected price this year -->
                                                                                     
                                                                                     <div class="control-group">
                                                                                         <label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedincome'])) && $crops_arr[$j]['f10_expectedincome'] != '') { echo $crops_arr[$j]['f10_expectedincome']; } ?>" id="f10_expectedincome<?php echo $id; ?>" name="f10_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected"> In Rs.
+                                                                                            <input readonly type="text" value="<?php if((isset($crops_arr[$j]['f10_expectedincome'])) && $crops_arr[$j]['f10_expectedincome'] != '') { echo $crops_arr[$j]['f10_expectedincome']; } ?>" id="f10_expectedincome<?php echo $id; ?>" name="f10_expectedincome<?php echo $id; ?>" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected"> In Rs.
                                                                                         </div>
                                                                                     </div>	<!--Total Income Expected this year [ Per Acre Per Crop ] -->
                                                                                     
@@ -2063,9 +2127,9 @@
                                                                                     <label for="text" class="control-label" style="margin-top:10px">What is the total acrage you are planning for crop <?php echo $id; ?><span style="color:#F00">*</span></label> 
                                                                                     <div class="controls">
                                                                                     	<!-- f14_total_acrage -->
-                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'hector', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_hector'])) && $cur_crops_arr[$l]['f14_total_hector'] != '') { echo $cur_crops_arr[$l]['f14_total_hector']; } ?>" id="f14_total_hector<?php echo $id; ?>" name="f14_total_hector<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Hector">
-                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'acre', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_acre'])) && $cur_crops_arr[$l]['f14_total_acre'] != '') { echo $cur_crops_arr[$l]['f14_total_acre']; } ?>" id="f14_total_acre<?php echo $id; ?>" name="f14_total_acre<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Acre">
-                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'guntha', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_guntha'])) && $cur_crops_arr[$l]['f14_total_guntha'] != '') { echo $cur_crops_arr[$l]['f14_total_guntha']; } ?>" id="f14_total_guntha<?php echo $id; ?>" name="f14_total_guntha<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Guntha">
+                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'hector', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_hector'])) && $cur_crops_arr[$l]['f14_total_hector'] != '') { echo $cur_crops_arr[$l]['f14_total_hector']; } ?>" id="f14_total_hector<?php echo $id; ?>" name="f14_total_hector<?php echo $id; ?>" class="input-small" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Hector">
+                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'acre', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_acre'])) && $cur_crops_arr[$l]['f14_total_acre'] != '') { echo $cur_crops_arr[$l]['f14_total_acre']; } ?>" id="f14_total_acre<?php echo $id; ?>" name="f14_total_acre<?php echo $id; ?>" class="input-small" onKeyPress="return numsonly(event);" maxlength="10" placeholder="Acre">
+                                                                                        <input type="text" onKeyUp="getAcre_f14(this.value, 'guntha', 'f14_total_acrage<?php echo $id; ?>', <?php echo $id; ?>);" value="<?php if((isset($cur_crops_arr[$l]['f14_total_guntha'])) && $cur_crops_arr[$l]['f14_total_guntha'] != '') { echo $cur_crops_arr[$l]['f14_total_guntha']; } ?>" id="f14_total_guntha<?php echo $id; ?>" name="f14_total_guntha<?php echo $id; ?>" class="input-small" onKeyPress="return numsonly(event);" maxlength="10" placeholder="Guntha">
                                                                                         <input type="text" value="<?php if((isset($cur_crops_arr[$l]['f14_total_acrage'])) && $cur_crops_arr[$l]['f14_total_acrage'] != '') { echo $cur_crops_arr[$l]['f14_total_acrage']; } ?>" id="f14_total_acrage<?php echo $id; ?>" name="f14_total_acrage<?php echo $id; ?>" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Total Acrage" readonly>Acre
                                                                                     </div>
                                                                                 </div>	<!-- Total Acrage -->
@@ -2318,36 +2382,224 @@
                                                                 <div class="form-content">
                                                                 	
                                                                     <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">TRACTOR<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_TRACTOR" id="f12_TRACTOR" placeholder="Number Of TRACTOR" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_TRACTOR'])) && $data['f12_TRACTOR'] != ''){ echo $data['f12_TRACTOR']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- TRACTOR -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">COMBINE HARVESTER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_COMBINE_HARVESTER" id="f12_COMBINE_HARVESTER" placeholder="Number Of COMBINE HARVESTER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_COMBINE_HARVESTER'])) && $data['f12_COMBINE_HARVESTER'] != ''){ echo $data['f12_COMBINE_HARVESTER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- COMBINE HARVESTER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">PLOW<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_PLOW" id="f12_PLOW" placeholder="Number Of PLOW" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_PLOW'])) && $data['f12_PLOW'] != ''){ echo $data['f12_PLOW']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- PLOW -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">PLANTER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_PLANTER" id="f12_PLANTER" placeholder="Number Of PLANTER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_PLANTER'])) && $data['f12_PLANTER'] != ''){ echo $data['f12_PLANTER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- PLANTER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">LOADER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_LOADER" id="f12_LOADER" placeholder="Number Of LOADER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_LOADER'])) && $data['f12_LOADER'] != ''){ echo $data['f12_LOADER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- LOADER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">BAILER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_BAILER" id="f12_BAILER" placeholder="Number Of BAILER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_BAILER'])) && $data['f12_BAILER'] != ''){ echo $data['f12_BAILER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- BAILER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">SKID-STEER LOADER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_SKID_STEER_LOADER" id="f12_SKID_STEER_LOADER" placeholder="Number Of SKID-STEER LOADER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_SKID_STEER_LOADER'])) && $data['f12_SKID_STEER_LOADER'] != ''){ echo $data['f12_SKID_STEER_LOADER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- SKID-STEER LOADER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">MOWER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_MOWER" id="f12_MOWER" placeholder="Number Of MOWER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_MOWER'])) && $data['f12_MOWER'] != ''){ echo $data['f12_MOWER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- MOWER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">REAPER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_REAPER" id="f12_REAPER" placeholder="Number Of REAPER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_REAPER'])) && $data['f12_REAPER'] != ''){ echo $data['f12_REAPER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- REAPER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">THRESHING MACHINE<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_THRESHING_MACHINE" id="f12_THRESHING_MACHINE" placeholder="Number Of THRESHING MACHINE" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_THRESHING_MACHINE'])) && $data['f12_THRESHING_MACHINE'] != ''){ echo $data['f12_THRESHING_MACHINE']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- THRESHING MACHINE -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">SEED DRILL<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_SEED_DRILL" id="f12_SEED_DRILL" placeholder="Number Of SEED DRILL" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_SEED_DRILL'])) && $data['f12_SEED_DRILL'] != ''){ echo $data['f12_SEED_DRILL']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- SEED DRILL -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">DISC HARROW<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_DISC_HARROW" id="f12_DISC_HARROW" placeholder="Number Of DISC HARROW" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_DISC_HARROW'])) && $data['f12_DISC_HARROW'] != ''){ echo $data['f12_DISC_HARROW']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- DISC HARROW -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">TRANSPLANTER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_TRANSPLANTER" id="f12_TRANSPLANTER" placeholder="Number Of TRANSPLANTER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_TRANSPLANTER'])) && $data['f12_TRANSPLANTER'] != ''){ echo $data['f12_TRANSPLANTER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- TRANSPLANTER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">ROLLER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_ROLLER" id="f12_ROLLER" placeholder="Number Of ROLLER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_ROLLER'])) && $data['f12_ROLLER'] != ''){ echo $data['f12_ROLLER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- ROLLER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">SUBSPOILER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_SUBSPOILER" id="f12_SUBSPOILER" placeholder="Number Of SUBSPOILER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_SUBSPOILER'])) && $data['f12_SUBSPOILER'] != ''){ echo $data['f12_SUBSPOILER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- SUBSPOILER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">STONE PICKER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_STONE_PICKER" id="f12_STONE_PICKER" placeholder="Number Of STONE PICKER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_STONE_PICKER'])) && $data['f12_STONE_PICKER'] != ''){ echo $data['f12_STONE_PICKER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- STONE PICKER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">DRILL<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_DRILL" id="f12_DRILL" placeholder="Number Of DRILL" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_DRILL'])) && $data['f12_DRILL'] != ''){ echo $data['f12_DRILL']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- DRILL -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">CONDITIONER<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_CONDITIONER" id="f12_CONDITIONER" placeholder="Number Of CONDITIONER" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_CONDITIONER'])) && $data['f12_CONDITIONER'] != ''){ echo $data['f12_CONDITIONER']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- CONDITIONER -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">CHASER BIN<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_CHASER_BIN" id="f12_CHASER_BIN" placeholder="Number Of CHASER BIN" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_CHASER_BIN'])) && $data['f12_CHASER_BIN'] != ''){ echo $data['f12_CHASER_BIN']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- CHASER BIN -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">STEAM TRACTOR<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_STEAM_TRACTOR" id="f12_STEAM_TRACTOR" placeholder="Number Of STEAM TRACTOR" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_STEAM_TRACTOR'])) && $data['f12_STEAM_TRACTOR'] != ''){ echo $data['f12_STEAM_TRACTOR']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- STEAM TRACTOR -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">HAY RAKE<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_HAY_RAKE" id="f12_HAY_RAKE" placeholder="Number Of HAY RAKE" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_HAY_RAKE'])) && $data['f12_HAY_RAKE'] != ''){ echo $data['f12_HAY_RAKE']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- HAY RAKE -->
+
+
+                                                                    
+                                                                    <div class="control-group">
                                                                         <label for="tasktitel" class="control-label">Vehical Owned <span style="color:#F00">*</span></label>
                                                                         <div class="controls">
-                                                                            <select id="f12_vehicle" name="f12_vehicle" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f12();">
-                                                                                <option value="" disabled selected>Select here</option>
-                                                                                <option value="1" point="5" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '1'){ ?> selected <?php }  ?>>1</option>
-                                                                                <option value="2" point="7" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '2'){ ?> selected <?php }  ?>>2</option>
-                                                                                <option value="3" point="8" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '3'){ ?> selected <?php }  ?>>3</option>
-                                                                                <option value="4_or_more" point="10" <?php if((isset($data['f12_vehicle'])) && $data['f12_vehicle'] == '4_or_more'){ ?> selected <?php }  ?>>4 OR More</option>
-                                                                            </select>
+                                                                        	<input readonly type="text" onKeyPress="return numsonly(event);" id="f12_vehicle" name="f12_vehicle" class="input-xlarge" value="<?php echo @$f12_vehicle; ?>"  data-rule-required="true" placeholder="Vehical Owned">
                                                                         </div>
                                                                     </div>  <!-- Vehical Owned [DDL] -->
                                                                     
-                                                                     <div class="control-group">
+                                                                    <div class="control-group">
                                                                         <label for="tasktitel" class="control-label">Total Value of the Vehical<span style="color:#F00">*</span></label>
                                                                         <div class="controls">
                                                                             <input type="text" value="<?php if((isset($data['f12_total_val_of_vehical'])) && $data['f12_total_val_of_vehical'] != ''){ echo $data['f12_total_val_of_vehical']; } ?>" id="f12_total_val_of_vehical" name="f12_total_val_of_vehical" class="input-xlarge" data-rule-required="true" data-rule-number="true" maxlength="10" onchange="calTotal_f12()" placeholder="Total Value of Vehical" onBlur="calTotal_f12();">
                                                                         </div>
                                                                     </div>  <!-- Total Value of the Vehical -->
                                                                     
+
+                                                                    <div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Sprayer<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Sprayer" id="f12_Sprayer" placeholder="Number Of Sprayer" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Sprayer'])) && $data['f12_Sprayer'] != ''){ echo $data['f12_Sprayer']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Sprayer -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Rice Huller<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Rice_Huller" id="f12_Rice_Huller" placeholder="Number Of Rice Huller" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Rice_Huller'])) && $data['f12_Rice_Huller'] != ''){ echo $data['f12_Rice_Huller']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Rice_Huller -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Pumps<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Pumps" id="f12_Pumps" placeholder="Number Of Pumps" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Pumps'])) && $data['f12_Pumps'] != ''){ echo $data['f12_Pumps']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Pumps -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Protavator<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Protavator" id="f12_Protavator" placeholder="Number Of Protavator" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Protavator'])) && $data['f12_Protavator'] != ''){ echo $data['f12_Protavator']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Protavator -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Blower<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Blower" id="f12_Blower" placeholder="Number Of Blower" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Blower'])) && $data['f12_Blower'] != ''){ echo $data['f12_Blower']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Blower -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Cutters<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Cutters" id="f12_Cutters" placeholder="Number Of Cutters" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Cutters'])) && $data['f12_Cutters'] != ''){ echo $data['f12_Cutters']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Cutters -->
+																	
+																	<div class="control-group">
+                                                                        <label for="text" class="control-label" style="margin-top:10px">Cultivators<span style="color:#F00">*</span></label>
+                                                                        <div class="controls">
+                                                                           <input type="text" onKeyPress="return numsonly(event);" name="f12_Cultivators" id="f12_Cultivators" placeholder="Number Of Cultivators" class="input-xlarge v_number cal_tcount" value="<?php if((isset($data['f12_Cultivators'])) && $data['f12_Cultivators'] != ''){ echo $data['f12_Cultivators']; } ?>">
+                                                                        </div>
+                                                                    </div>	<!-- f12_Cultivators -->
+
+
                                                                     <div class="control-group">
                                                                         <label for="tasktitel" class="control-label">Machinery Owned<span style="color:#F00">*</span>
                                                                         </label>
                                                                         <div class="controls">
-                                                                            <select id="f12_machinery" name="f12_machinery" class="select2-me input-xlarge" data-rule-required="true" onChange="calTotal_f12();">
-                                                                                <option value="" disabled selected>Select here</option>
-                                                                                <option value="1" point="2" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '1'){ ?> selected <?php }  ?>>1</option>
-                                                                                <option value="2" point="4" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '2'){ ?> selected <?php }  ?>>2</option>
-                                                                                <option value="3" point="6" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '3'){ ?> selected <?php }  ?>>3</option>
-                                                                                <option value="4_or_more" point="10" <?php if((isset($data['f12_machinery'])) && $data['f12_machinery'] == '4_or_more'){ ?> selected <?php }  ?>>4 OR More</option>
-                                                                            </select>
+                                                                            <input readonly type="text" onKeyPress="return numsonly(event);" id="f12_machinery" name="f12_machinery" class="input-xlarge" value="<?php echo @$f12_machinery; ?>"  data-rule-required="true" placeholder="Machinery Owned">
                                                                         </div>
                                                                     </div>  <!-- Machinery Owned -->
                                                                     
@@ -2592,17 +2844,37 @@
                                                                         <div class="control-group">
                                                                             <label for="text" class="control-label" style="margin-top:10px">How Much is your Avg or Fixed Monthly Income?<span style="color:#F00">*</span></label>
                                                                             <div class="controls">
-                                                                                <select   id="fx_monthly_income" name="fx_monthly_income" class="select2-me input-xlarge" data-rule-required="true">
+                                                                            	<?php
+                                                                                // Query for getting the Previous Crop Cycle Income for Crop1, Crop2, Crop3, etc...
+																				$sql_get_sum_prev_crop_income	= " SELECT SUM(`f11_income`) AS prev_crop_income FROM `tbl_yield_details` WHERE `fm_id`='".$fm_id."' ";
+																				$res_get_sum_prev_crop_income	= mysqli_query($db_con, $sql_get_sum_prev_crop_income) or die(mysqli_error($db_con));
+																				$row_get_sum_prev_crop_income	= mysqli_fetch_array($res_get_sum_prev_crop_income);
+																				
+																				$prev_crop_income	= $row_get_sum_prev_crop_income['prev_crop_income'].'<br>';
+																				
+																				// Query for getting the Live Stock Income
+																				$sql_get_sum_livestock_income	= " SELECT SUM(`f13_livestock_income`) AS livestock_income FROM `tbl_livestock_details` WHERE `fm_id`='".$fm_id."' ";
+																				$res_get_sum_livestock_income	= mysqli_query($db_con, $sql_get_sum_livestock_income) or die(mysqli_error($db_con));
+																				$row_get_sum_livestock_income	= mysqli_fetch_array($res_get_sum_livestock_income);
+																				
+																				$livestock_income	= $row_get_sum_livestock_income['livestock_income'].'<br>';
+																				
+																				$avg_monthly_income	= ($prev_crop_income + $livestock_income) / 12;
+																				//echo '<br>';
+																				?>
+                                                                            
+                                                                            	<input readonly type="text" value="<?php echo round($avg_monthly_income, 2); ?>" id="fx_monthly_income" name="fx_monthly_income" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" placeholder="Fixed Monthly Income"> In Rs.
+                                                                                <!--<select   id="fx_monthly_income" name="fx_monthly_income" class="select2-me input-xlarge" data-rule-required="true">
                                                                                     <option value="" selected disabled>Select Here</option>
-                                                                                    <option value="500-2500" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '500-2500'){ ?> selected <?php } ?>>500-2500</option>
-                                                                                    <option value="2501-5000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '2501-5000'){ ?> selected <?php } ?>>2501-5000</option>
-                                                                                    <option value="5001-10000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '5001-10000'){ ?> selected <?php } ?>>5001-10000</option>
-                                                                                    <option value="10001-25000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '10001-25000'){ ?> selected <?php } ?>>10001-25000</option>
-                                                                                    <option value="25001-50000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '25001-50000'){ ?> selected <?php } ?>>25001-50000</option>
-                                                                                    <option value="50001-100000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '50001-100000'){ ?> selected <?php } ?>>50001-100000</option>
-                                                                                    <option value="100001-200000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '100001-200000'){ ?> selected <?php } ?>>100001-200000</option>
-                                                                                    <option value="200001-300000" <?php if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '200001-300000'){ ?> selected <?php } ?>>200001-300000</option>
-                                                                                </select>
+                                                                                    <option value="500-2500" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '500-2500'){ ?> selected <?php //} ?>>500-2500</option>
+                                                                                    <option value="2501-5000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '2501-5000'){ ?> selected <?php //} ?>>2501-5000</option>
+                                                                                    <option value="5001-10000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '5001-10000'){ ?> selected <?php //} ?>>5001-10000</option>
+                                                                                    <option value="10001-25000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '10001-25000'){ ?> selected <?php //} ?>>10001-25000</option>
+                                                                                    <option value="25001-50000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '25001-50000'){ ?> selected <?php //} ?>>25001-50000</option>
+                                                                                    <option value="50001-100000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '50001-100000'){ ?> selected <?php //} ?>>50001-100000</option>
+                                                                                    <option value="100001-200000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '100001-200000'){ ?> selected <?php //} ?>>100001-200000</option>
+                                                                                    <option value="200001-300000" <?php //if((isset($data['fx_monthly_income'])) && $data['fx_monthly_income'] == '200001-300000'){ ?> selected <?php //} ?>>200001-300000</option>
+                                                                                </select>-->
                                                                             </div>
                                                                         </div>	<!--Fixed Monthly Income-->
                                                                         
@@ -3380,6 +3652,203 @@
 				// END : f7
 				
 				// START : f12
+				$('#f12_TRACTOR').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_COMBINE_HARVESTER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_PLOW').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_PLANTER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_LOADER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_BAILER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_SKID_STEER_LOADER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_MOWER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_REAPER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_THRESHING_MACHINE').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_SEED_DRILL').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_DISC_HARROW').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_TRANSPLANTER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_ROLLER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_SUBSPOILER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_STONE_PICKER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_DRILL').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_CONDITIONER').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_CHASER_BIN').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_STEAM_TRACTOR').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_HAY_RAKE').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Sprayer').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Rice_Huller').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Pumps').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Protavator').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Blower').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Cutters').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+				$('#f12_Cultivators').on('blur', function(){
+					if($(this).val() != '' && $(this).val() != 'null')
+					{
+						calTotal_f12();
+					}
+				});
+
+
 				$('#f12_any_other_assets').on('change', function(){
 					if($(this).val() == 'yes'){
 						$('#div_any_other_assets_display').show('swing');
@@ -3814,39 +4283,39 @@
 			{
 				if(val == 'dairy_cattle' && x != 0)
 				{
-					return 7;
+					return 1;
 				}
 				if(val == 'donkeys' && x != 0)
 				{
-					return 3;
+					return 1;
 				}
 				if(val == 'draft_cattle' && x != 0)
 				{
-					return 7;
+					return 1;
 				}
 				if(val == 'poultry' && x != 0)
 				{
-					return 7;
+					return 1;
 				}
 				if(val == 'pig' && x != 0)
 				{
-					return 6;
+					return 1;
 				}
 				if(val == 'goat' && x != 0)
 				{
-					return 6;
+					return 1;
 				}
 				if(val == 'sheep' && x != 0)
 				{
-					return 6;
+					return 1;
 				}
 				if(val == 'ox' && x != 0)
 				{
-					return 4;
+					return 1;
 				}
 				else if(val == 'buffalo' && x != 0)
 				{
-					return 7;	
+					return 1;	
 				}
 				else
 				{
@@ -4092,6 +4561,55 @@
 			
 			}
 			
+			function convertAssetsVehicalToPoints(x)
+			{
+				if(x == 1)
+				{
+				  return 5;
+				}
+				else if(x == 2)
+				{
+				  return 7;
+				}
+				else if(x == 3)
+				{
+				  return 8;
+				}
+				else if(x >= 4)
+				{
+				  return 10;
+				}
+				else
+				{
+				  return 0;
+				}
+			} 
+
+			function convertAssetsMachineryToPoints(x)
+			{
+				if(x == 1)
+				{
+				  return 2;
+				}
+				else if(x == 2)
+				{
+				  return 4;
+				}
+				else if(x == 3)
+				{
+				  return 6;
+				}
+				else if(x >= 4)
+				{
+				  return 8;
+				}
+				else
+				{
+				  return 0;
+				}
+			}
+
+
 			function calTotal_f2()
 			{
 				// START : f2
@@ -4489,10 +5007,51 @@
 				var divided_by	= 4;
 				var f12_mention_value_of_assets	= 0;
 				
-				var f12_vehicle					= parseInt($('option:selected','#f12_vehicle').attr('point')) || 0;
+				f12_TRACTOR  			 = parseInt($('#f12_TRACTOR').val() || 0);
+				f12_COMBINE_HARVESTER  	 = parseInt($('#f12_COMBINE_HARVESTER').val() || 0);
+				f12_PLOW  				 = parseInt($('#f12_PLOW').val() || 0);
+				f12_PLANTER  			 = parseInt($('#f12_PLANTER').val() || 0);
+				f12_LOADER  			 = parseInt($('#f12_LOADER').val() || 0);
+				f12_BAILER  			 = parseInt($('#f12_BAILER').val() || 0);
+				f12_SKID_STEER_LOADER  	 = parseInt($('#f12_SKID_STEER_LOADER').val() || 0);
+				f12_MOWER  				 = parseInt($('#f12_MOWER').val() || 0);
+				f12_REAPER  			 = parseInt($('#f12_REAPER').val() || 0);
+				f12_THRESHING_MACHINE  	 = parseInt($('#f12_THRESHING_MACHINE').val() || 0);
+				f12_SEED_DRILL 	 		 = parseInt($('#f12_SEED_DRILL').val() || 0);
+				f12_DISC_HARROW  		 = parseInt($('#f12_DISC_HARROW').val() || 0);
+				f12_TRANSPLANTER  		 = parseInt($('#f12_TRANSPLANTER').val() || 0);
+				f12_ROLLER  			 = parseInt($('#f12_ROLLER').val() || 0);
+				f12_SUBSPOILER  		 = parseInt($('#f12_SUBSPOILER').val() || 0);
+				f12_STONE_PICKER  		 = parseInt($('#f12_STONE_PICKER').val() || 0);
+				f12_DRILL  				 = parseInt($('#f12_DRILL').val() || 0);
+				f12_CONDITIONER  		 = parseInt($('#f12_CONDITIONER').val() || 0);
+				f12_CHASER_BIN  		 = parseInt($('#f12_CHASER_BIN').val() || 0);
+				f12_STEAM_TRACTOR  		 = parseInt($('#f12_STEAM_TRACTOR').val() || 0);
+				f12_HAY_RAKE  			 = parseInt($('#f12_HAY_RAKE').val() || 0);
+
+				total_vehical_count		= f12_TRACTOR + f12_COMBINE_HARVESTER + f12_PLOW + f12_PLANTER + f12_LOADER + f12_BAILER  +f12_SKID_STEER_LOADER + f12_MOWER + f12_REAPER + f12_THRESHING_MACHINE + f12_SEED_DRILL + f12_DISC_HARROW  +f12_TRANSPLANTER + f12_ROLLER + f12_SUBSPOILER + f12_STONE_PICKER + f12_DRILL + f12_CONDITIONER + f12_CHASER_BIN  + f12_STEAM_TRACTOR + f12_HAY_RAKE;
+
+				$('#f12_vehicle').val(total_vehical_count);
+
+
+				f12_Sprayer 			= parseInt($('#f12_Sprayer').val() || 0);		
+				f12_Rice_Huller 		= parseInt($('#f12_Rice_Huller').val() || 0);		
+				f12_Pumps 				= parseInt($('#f12_Pumps').val() || 0);		
+				f12_Protavator 			= parseInt($('#f12_Protavator').val() || 0);		
+				f12_Blower 				= parseInt($('#f12_Blower').val() || 0);		
+				f12_Cutters 			= parseInt($('#f12_Cutters').val() || 0);		
+				f12_Cultivators 		= parseInt($('#f12_Cultivators').val() || 0);
+
+				total_machinery_count 	= f12_Sprayer + f12_Rice_Huller + f12_Pumps + f12_Protavator + f12_Blower + f12_Cutters +  f12_Cultivators;
+
+				$('#f12_machinery').val(total_machinery_count);		
+
+				var f12_vehicle					= $('#f12_vehicle').val() || 0;
+				f12_vehicle						= convertAssetsVehicalToPoints(f12_vehicle);
 				var f12_total_val_of_vehical	= $('#f12_total_val_of_vehical').val();
 				f12_total_val_of_vehical		= convertAssetsToPoint(f12_total_val_of_vehical);
-				var f12_machinery				= parseInt($('option:selected','#f12_machinery').attr('point')) || 0;
+				var f12_machinery				= $('#f12_machinery').val() || 0;
+				f12_machinery            		= convertAssetsMachineryToPoints(f12_machinery);
 				var f12_total_val_of_machinery	= $('#f12_total_val_of_machinery').val();
 				f12_total_val_of_machinery		= convertAssetsToPoint(f12_total_val_of_machinery);
 				
@@ -5323,6 +5882,207 @@
 				}
 			});
 			
+
+			// START : f12
+
+			$('#f12_TRACTOR').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_COMBINE_HARVESTER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_PLOW').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_PLANTER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_LOADER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_BAILER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_SKID_STEER_LOADER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_MOWER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_REAPER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_THRESHING_MACHINE').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_SEED_DRILL').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_DISC_HARROW').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_TRANSPLANTER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_ROLLER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_SUBSPOILER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_STONE_PICKER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_DRILL').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_CONDITIONER').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_CHASER_BIN').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_STEAM_TRACTOR').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_HAY_RAKE').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Sprayer').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Rice_Huller').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Pumps').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Protavator').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Blower').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Cutters').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			$('#f12_Cultivators').on('blur', function(){
+				if($(this).val() != '' && $(this).val() != 'null')
+				{
+					calTotal_f12();
+				}
+			});
+
+			// END : f12
+
 			// START : f13
 			$('#f13_dairy_cattle').on('blur', function(){
 				if($(this).val() != '' && $(this).val() != 'null')
@@ -5670,9 +6430,14 @@
 						landData	+= '<label for="text" class="control-label" style="margin-top:10px">Size in Acres<span style="color:#F00">*</span></label>';
 							landData	+= '<div class="controls">';
 								//landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" id="f9_land_size'+contentCountLand+'" name="f9_land_size'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" onChange="calTotal_f9()" maxlength="6">';
-								landData	+= '<input placeholder="Size in Hector" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'hector\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_hector'+contentCountLand+'" name="f9_land_size_hector'+contentCountLand+'" class="input-large" value="" data-rule-required="true" maxlength="6">';
-                                landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'acre\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_acre'+contentCountLand+'" name="f9_land_size_acre'+contentCountLand+'" class="input-large" value="" data-rule-required="true" maxlength="6">';
-                                landData	+= '<input placeholder="Size in Guntha" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'guntha\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_guntha'+contentCountLand+'" name="f9_land_size_guntha'+contentCountLand+'" class="input-large" value="" data-rule-required="true" maxlength="6">';
+								landData	+= '<input placeholder="Size in Hector" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'hector\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_hector'+contentCountLand+'" name="f9_land_size_hector'+contentCountLand+'" class="input-small" value="" data-rule-required="true" maxlength="6">';
+                                
+                                landData	+= '<input placeholder="Size in Acres" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'acre\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_acre'+contentCountLand+'" name="f9_land_size_acre'+contentCountLand+'" class="input-small" value="" maxlength="6">';
+                                
+                                landData	+= '<input placeholder="Size in Guntha" type="text" onKeyPress="return numsonly(event);" onKeyUp="getAcre(this.value, \'guntha\', \'f9_land_size'+contentCountLand+'\', '+contentCountLand+');" id="f9_land_size_guntha'+contentCountLand+'" name="f9_land_size_guntha'+contentCountLand+'" class="input-small" value="" maxlength="6">';
+
+                                landData 	+= '<br>';
+
                                 landData	+= '<input type="text" onKeyPress="return numsonly(event);" id="f9_land_size'+contentCountLand+'" name="f9_land_size'+contentCountLand+'" class="input-xlarge" value="" data-rule-required="true" maxlength="6" readonly>Acre';
 							landData	+= '</div>';
 						landData	+= '</div>';
@@ -5791,14 +6556,14 @@
 						landData	+= '<div class="control-group" >';
 							landData	+= '<label for="tasktitel" class="control-label">latitude <span style="color:#F00">*</span></label>';
 							landData	+= '<div class="controls">';
-								landData	+= '<input type="text" id="f9_lat'+contentCountLand+'" name="f9_lat'+contentCountLand+'" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>';
+								landData	+= '<input type="text" id="f9_lat'+contentCountLand+'" name="f9_lat'+contentCountLand+'" placeholder="Latitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="100"/>';
 							landData	+= '</div>';
 						landData	+= '</div>  ';
 										
 						landData	+= '<div class="control-group" >';
 							landData	+= '<label for="tasktitel" class="control-label">longitude <span style="color:#F00">*</span></label>';
 							landData	+= '<div class="controls">';
-								landData	+= '<input type="text" id="f9_long'+contentCountLand+'" name="f9_long'+contentCountLand+'" placeholder="Longitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="15"/>';
+								landData	+= '<input type="text" id="f9_long'+contentCountLand+'" name="f9_long'+contentCountLand+'" placeholder="Longitude" class="input-large" data-rule-required="true" onKeyPress="return numsonly(event);" maxlength="100"/>';
 							landData	+= '</div>';
 						landData	+= '</div>  ';
 										
@@ -5961,7 +6726,7 @@
 						cropData	+= '<div class="control-group">';
 							cropData	+= '<label for="tasktitel" class="control-label">Total Yield Expected [Per Acre Per Crop] <span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
-								cropData	+= '<input type="text" id="f10_expected'+contentCountCrop+'" name="f10_expected'+contentCountCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" placeholder="Total Yield Expected"> Quintal';
+								cropData	+= '<input type="text" id="f10_expected'+contentCountCrop+'" name="f10_expected'+contentCountCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" data-rule-required="true" maxlength="10" onchange="calTotal_f10()" onBlur="getTotalExpectedIncome('+contentCountCrop+');" placeholder="Total Yield Expected"> Quintal';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 									
@@ -5995,14 +6760,14 @@
 						cropData	+= '<div class="control-group">';
 							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Expected Price This Year [Per Quintal Per Acre]<span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
-								cropData	+= '<input type="text" id="f10_expectedprice'+contentCountCrop+'" name="f10_expectedprice'+contentCountCrop+'" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Expected Price">  In Rs.';
+								cropData	+= '<input type="text" id="f10_expectedprice'+contentCountCrop+'" name="f10_expectedprice'+contentCountCrop+'" class="input-xlarge" data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" onBlur="getTotalExpectedIncome('+contentCountCrop+');" placeholder="Expected Price">  In Rs.';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 										
 						cropData	+= '<div class="control-group">';
 							cropData	+= '<label for="text" class="control-label" style="margin-top:10px">Total Income Expected This Year  [ Per Acre Per Crop ]<span style="color:#F00">*</span></label>';
 							cropData	+= '<div class="controls">';
-								cropData	+= '<input type="text" id="f10_expectedincome'+contentCountCrop+'" name="f10_expectedincome'+contentCountCrop+'" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected">  In Rs.';
+								cropData	+= '<input readonly type="text" id="f10_expectedincome'+contentCountCrop+'" name="f10_expectedincome'+contentCountCrop+'" class="input-xlarge"  data-rule-required="true"  onKeyPress="return numsonly(event);" maxlength="10" onchange="calTotal_f10()" placeholder="Total Income Expected">  In Rs.';
 							cropData	+= '</div>';
 						cropData	+= '</div>';
 										
@@ -6054,14 +6819,14 @@
 				
 				$('#formContent').append(cropData).find('#crop'+contentCountCrop).slideDown("slow");
 				
-				/*f10_crop_season 	 
-				f10_cultivating  
-				f10_stage  
-				f10_potential_market 
-				f10_crop_storage 
-				f10_diseases	 
-				f10_pest 
-				f10_filt_type*/
+				$('#f10_crop_season'+contentCountCrop).select2();
+				$('#f10_cultivating'+contentCountCrop).select2();
+				$('#f10_stage'+contentCountCrop).select2();
+				$('#f10_potential_market'+contentCountCrop).select2();
+				$('#f10_crop_storage'+contentCountCrop).select2();
+				$('#f10_diseases'+contentCountCrop).select2();
+				$('#f10_pest'+contentCountCrop).select2();
+				$('#f10_filt_type'+contentCountCrop).select2();
 				
 				calTotal_f10();
 			}
@@ -6191,6 +6956,14 @@
 				}
 				
 				$('#prev_crop').append(prevCropData).find('#prevcrop'+contentCountPrevCrop).slideDown("slow");
+
+				$('#f11_cultivating'+contentCountPrevCrop).select2();
+				$('#f11_diseases'+contentCountPrevCrop).select2();
+				$('#f11_fertilizers'+contentCountPrevCrop).select2();
+				$('#f11_damaged_prev_crop'+contentCountPrevCrop).select2();
+				$('#f11_what_was_the_reason'+contentCountPrevCrop).select2();
+
+
 				calTotal_f11();
 			}
 			
@@ -6287,9 +7060,9 @@
 						curCropData	+= '<label for="text" class="control-label" style="margin-top:10px">What is the total acrage you are planning for crop '+contentCountCurCrop+'<span style="color:#F00">*</span></label>';
 						curCropData	+= '<div class="controls">';
 							//curCropData	+= '<input type="text" value="" id="f14_total_acrage'+contentCountCurCrop+'" name="f14_total_acrage'+contentCountCurCrop+'" class="input-xlarge" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="What is the total acrage you are planning for crop '+contentCountCurCrop+'">';
-							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'hector\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_hector'+contentCountCurCrop+'" name="f14_total_hector'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Hector">';
-							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'acre\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_acre'+contentCountCurCrop+'" name="f14_total_acre'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Acre">';
-							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'guntha\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_guntha'+contentCountCurCrop+'" name="f14_total_guntha'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Guntha">';
+							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'hector\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_hector'+contentCountCurCrop+'" name="f14_total_hector'+contentCountCurCrop+'" class="input-small" onKeyPress="return numsonly(event);" maxlength="10" placeholder="Hector">';
+							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'acre\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_acre'+contentCountCurCrop+'" name="f14_total_acre'+contentCountCurCrop+'" class="input-small" onKeyPress="return numsonly(event);" maxlength="10" placeholder="Acre">';
+							curCropData	+= '<input type="text" onKeyUp="getAcre_f14(this.value, \'guntha\', \'f14_total_acrage'+contentCountCurCrop+'\', '+contentCountCurCrop+');" value="" id="f14_total_guntha'+contentCountCurCrop+'" name="f14_total_guntha'+contentCountCurCrop+'" class="input-small" onKeyPress="return numsonly(event);" maxlength="10" placeholder="Guntha">';
 							curCropData	+= '<input type="text" value="" id="f14_total_acrage'+contentCountCurCrop+'" name="f14_total_acrage'+contentCountCurCrop+'" class="input-large" onKeyPress="return numsonly(event);" maxlength="10" data-rule-required="true" placeholder="Total Acrage" readonly>Acre';
 						curCropData	+= '</div>';
 					curCropData	+= '</div>';
@@ -6422,6 +7195,18 @@
 				
 				$('#cur_crop').append(curCropData).find('#curcrop'+contentCountCurCrop).slideDown("slow");
 				$('.datepicker'+contentCountCurCrop+'').datepicker({format:'yyyy-mm-dd'});
+
+				$('#f14_crop_type'+contentCountCurCrop).select2();
+				$('#f14_cultivating'+contentCountCurCrop).select2();
+				$('#f14_variety'+contentCountCurCrop).select2();
+				$('#f14_seed_type'+contentCountCurCrop).select2();
+				$('#f14_use_self_grown_seeds'+contentCountCurCrop).select2();
+				$('#f14_loan_taken'+contentCountCurCrop).select2();
+				$('#f14_borrow_loan_from'+contentCountCurCrop).select2();
+				$('#f14_diseases'+contentCountCurCrop).select2();
+				$('#f14_water_source_type'+contentCountCurCrop).select2();
+
+
 				calTotal_f14();
 			}
 			
@@ -6524,7 +7309,8 @@
 				
 				$('#loans_type').append(loanData).find('#loan'+contentCountLoanFrm1).slideDown("slow");
 				
-				
+				$('#f8_loan_type'+contentCountLoanFrm1).select2();
+				$('#f8_has_loan_matured'+contentCountLoanFrm1).select2();
 				
 				calTotal_f8();
 			}
@@ -6617,13 +7403,33 @@
 				var f9_land_size_acre 	= 0;
 				var f9_land_size_guntha = 0;
 				
+				//alert(parameter);
+
 				if(parameter == 'hector')
 				{
 					f9_land_size_hector	= entredVal * (5/2);
 					f9_land_size_acre	= parseInt($('#f9_land_size_acre'+incrementalID).val()) || 0;
 					f9_land_size_guntha	= parseInt($('#f9_land_size_guntha'+incrementalID).val()) || 0;
 					f9_land_size_guntha	= f9_land_size_guntha / 40;
-					acreVal	= f9_land_size_hector + f9_land_size_acre + f9_land_size_guntha;
+
+					if(isNaN(f9_land_size_acre) == true)
+					{
+						f9_land_size_acre = 0;	
+					}	
+
+					if(isNaN(f9_land_size_hector) == true)
+					{
+						f9_land_size_hector = 0;	
+					}
+
+					if(isNaN(f9_land_size_guntha) == true)
+					{
+						f9_land_size_guntha = 0;	
+					}
+
+					//alert(acreVal	+' = '+ parseInt(f9_land_size_hector) +'<>'+ f9_land_size_acre +'<>'+ f9_land_size_guntha);
+					acreVal	= parseInt(f9_land_size_hector) + f9_land_size_acre + f9_land_size_guntha;
+					//alert(acreVal	+' = '+ parseInt(f9_land_size_hector) +'<>'+ f9_land_size_acre +'<>'+ f9_land_size_guntha);
 				}
 				
 				if(parameter == 'acre')
@@ -6634,7 +7440,25 @@
 					f9_land_size_guntha	= f9_land_size_guntha / 40;
 					f9_land_size_acre	= parseInt(entredVal);
 
-					acreVal	= f9_land_size_hector + f9_land_size_acre + f9_land_size_guntha;
+					if(isNaN(f9_land_size_acre) == true)
+					{
+						f9_land_size_acre = 0;	
+					}	
+
+					if(isNaN(f9_land_size_hector) == true)
+					{
+						f9_land_size_hector = 0;	
+					}
+
+					if(isNaN(f9_land_size_guntha) == true)
+					{
+						f9_land_size_guntha = 0;	
+					}
+
+
+					//alert(acreVal	+' = '+ f9_land_size_hector +'<>'+ parseInt(f9_land_size_acre) +'<>'+ f9_land_size_guntha);
+					acreVal	= f9_land_size_hector + parseInt(f9_land_size_acre) + f9_land_size_guntha;
+					//alert(acreVal	+' = '+ f9_land_size_hector +'<>'+ parseInt(f9_land_size_acre) +'<>'+ f9_land_size_guntha);
 					//alert(f9_land_size_hector +'<>'+ f9_land_size_acre +'<>'+ f9_land_size_guntha)
 
 				}
@@ -6646,7 +7470,24 @@
 					f9_land_size_acre	= parseInt($('#f9_land_size_acre'+incrementalID).val()) || 0;
 					f9_land_size_guntha	= entredVal / 40;
 
-					acreVal	= f9_land_size_hector + f9_land_size_acre + f9_land_size_guntha;
+					if(isNaN(f9_land_size_acre) == true)
+					{
+						f9_land_size_acre = 0;	
+					}	
+
+					if(isNaN(f9_land_size_hector) == true)
+					{
+						f9_land_size_hector = 0;	
+					}
+
+					if(isNaN(f9_land_size_guntha) == true)
+					{
+						f9_land_size_guntha = 0;	
+					}
+
+					//alert(acreVal	+' = '+ f9_land_size_hector +'<>'+ f9_land_size_acre +'<>'+ parseInt(f9_land_size_guntha));
+					acreVal	= f9_land_size_hector + f9_land_size_acre + parseInt(f9_land_size_guntha);
+					//alert(acreVal	+' = '+ f9_land_size_hector +'<>'+ f9_land_size_acre +'<>'+ parseInt(f9_land_size_guntha));
 				}
 				
 				$('#'+displayID).val(acreVal);
@@ -6666,6 +7507,22 @@
 					f14_total_acre		= parseInt($('#f14_total_acre'+incrementalID).val()) || 0;
 					f14_total_guntha	= parseInt($('#f14_total_guntha'+incrementalID).val()) || 0;
 					f14_total_guntha	= f14_total_guntha / 40;
+
+					if(isNaN(f14_total_acre) == true)
+					{
+						f14_total_acre = 0;	
+					}	
+
+					if(isNaN(f14_total_guntha) == true)
+					{
+						f14_total_guntha = 0;	
+					}
+
+					if(isNaN(f14_total_hector) == true)
+					{
+						f14_total_hector = 0;	
+					}
+
 					acreVal	= f14_total_hector + f14_total_acre + f14_total_guntha;
 				}
 				
@@ -6676,6 +7533,21 @@
 					f14_total_guntha	= parseInt($('#f14_total_guntha'+incrementalID).val()) || 0;
 					f14_total_guntha	= f14_total_guntha / 40;
 					f14_total_acre	= parseInt(entredVal);
+
+					if(isNaN(f14_total_acre) == true)
+					{
+						f14_total_acre = 0;	
+					}	
+
+					if(isNaN(f14_total_guntha) == true)
+					{
+						f14_total_guntha = 0;	
+					}
+
+					if(isNaN(f14_total_hector) == true)
+					{
+						f14_total_hector = 0;	
+					}
 
 					acreVal	= f14_total_hector + f14_total_acre + f14_total_guntha;
 					//alert(f14_total_hector +'<>'+ f14_total_acre +'<>'+ f14_total_guntha)
@@ -6689,15 +7561,37 @@
 					f14_total_acre	= parseInt($('#f14_total_acre'+incrementalID).val()) || 0;
 					f14_total_guntha	= entredVal / 40;
 
+					if(isNaN(f14_total_acre) == true)
+					{
+						f14_total_acre = 0;	
+					}	
+
+					if(isNaN(f14_total_guntha) == true)
+					{
+						f14_total_guntha = 0;	
+					}
+
+					if(isNaN(f14_total_hector) == true)
+					{
+						f14_total_hector = 0;	
+					}
+
 					acreVal	= f14_total_hector + f14_total_acre + f14_total_guntha;
 				}
 				
 				$('#'+displayID).val(acreVal);
 			}
+			
+			function getTotalExpectedIncome(incrementalID)
+			{
+				var f10_expected 		= parseInt($('#f10_expected'+incrementalID).val()) || 0;
+				var f10_expectedprice	= parseInt($('#f10_expectedprice'+incrementalID).val()) || 0;
+				var f10_expectedincome	= f10_expected * f10_expectedprice;
+
+				$('#f10_expectedincome'+incrementalID).val(f10_expectedincome);
+			}
 		</script>
         
-        
-
 		<script type="text/javascript">
         
         

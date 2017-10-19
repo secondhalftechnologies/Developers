@@ -2,7 +2,6 @@
 	include('access1.php');
 	include('include/connection.php');
 	include('include/query-helper.php');
-	include('include/pagination-helper.php');
 
 	$feature_name 	= 'Farmer';
 	$home_name    	= "Home";
@@ -40,53 +39,7 @@
         /* This function used to call all header data like css files and links */
     	?>
 		<!--<link type="text/css" href="css/main.css">-->
-    <style type="text/css">
-    	/* pagination css */
-    	#container1 .pagination{
-    		width: 100%;
-			height: 25px;
-			margin: 0 15px;
-			clear: both;
-    	}
-
-    	#container1 .pagination ul {
-		    float: right;
-		}
-
-		.total {
-		    margin: 10px;
-		    font-family: arial;
-		    color: #999;
-		    float: left;
-		}
-
-		#container1 .pagination ul li.inactive, #container1 .pagination ul li.inactive:hover {
-		    background-color: #ededed;
-		    color: #bababa;
-		    border: 1px solid #bababa;
-		    cursor: default;
-		}
-		#container1 .pagination ul li:hover {
-		    background-color: #DDDDDD !important;
-		    color: #000;
-		    cursor: pointer;
-		}
-		#container1 .pagination ul li {
-		    list-style: none;
-		    float: left;
-		    border: 1px solid #329ea9;
-		    padding: 2px 6px 2px 6px;
-		    margin: 0 3px 0 3px;
-		    font-family: arial;
-		    font-size: 14px;
-		    color: #329ea9;
-		    font-weight: bold;
-		    background-color: #f2f2f2;
-		}
-
-		/* pagination css */
-    </style>
-
+    
     </head>
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
@@ -126,12 +79,12 @@
                                     	<input type="hidden" name="hid_ca_id" id="hid_ca_id" value="<?php echo $ca_id; ?>">
                                         <input type="hidden" name="hid_page" id="hid_page" value="1">
                                         <input type="hidden" name="cat_parent" id="cat_parent" value="parent">
-                                        <select name="rowlimit" id="rowlimit" onChange="loadFarmerData();"  class = "select2-me">
+                                        <select name="rowlimit" id="rowlimit" onChange="loadCategoryData();"  class = "select2-me">
                                             <option value="10" selected>10</option>
                                             <option value="25">25</option>
                                             <option value="50">50</option>
                                             <option value="100">100</option>
-                                        </select> entries per pages
+                                        </select> entries per page
                                         <input type="text" class="input-medium" id = "srch" name="srch" placeholder="Search here..."  style="float:right;margin-right:10px;margin-top:10px;" >
                                     </div>
                                     <div id="req_resp"></div>
@@ -177,9 +130,8 @@
 			
 			loadFarmerData();
 			
-			$('#container1').on('click', '.pagination li.active',function()
+			$('#container1 .pagination li.active').live('click',function()
 			{
-				//alert('Hi');
 				var page = $(this).attr('p');
 				$("#hid_page").val(page);
 				loadFarmerData();						

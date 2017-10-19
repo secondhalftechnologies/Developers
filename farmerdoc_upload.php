@@ -401,6 +401,58 @@ if(isset($_POST["U_Submit"]))
 				 }//end of foreach
 	} // supporting document
 
+	if(isset($_FILES['files8'])) // for Declaration Documents
+		{
+			$errors8= array();
+				foreach($_FILES['files8']['tmp_name'] as $key8 => $tmp_name8 )
+				{
+					
+					$file_name8 =$_FILES['files8']['name'][$key8];
+					$file_size8 =$_FILES['files8']['size'][$key8];
+					$file_tmp8 =$_FILES['files8']['tmp_name'][$key8];
+					$file_type8=$_FILES['files8']['type'][$key8];
+					
+					$file_extention8 = pathinfo($file_name8, PATHINFO_EXTENSION);
+
+					if($file_size8 > 5242880) // file size
+					{
+						$errors8[]='File size must be less than 5 MB';
+					}
+					
+					if($file_size8 != 0)// files size less than 0
+					{
+						
+						//for insert
+						 $query8="INSERT into tbl_doc_uploads (fm_caid,fm_id,file_name,file_type,file_size,file_extention,doc_type,status,created_date) VALUES('$ca_id','$farmer_id','$file_name8','$file_type8','$file_size8','$file_extention8','Profile Photo','1','$todaydt'); ";
+										
+						$desired_dir8= "data/".$farmer_id;
+						
+						if(empty($errors8)==true)
+						{
+							  if(is_dir($desired_dir8)==false)
+							  {
+									mkdir("$desired_dir8", 0777);// Create directory if it does not exist
+							  }
+							  
+							  if(is_dir("$desired_dir8/".$file_name8)==false)
+							  {
+									move_uploaded_file($file_tmp8,"$desired_dir8/".$file_name8);
+							  }
+							  else
+							  {		// rename the file if another one exist
+									$new_dir8="$desired_dir8/".$file_name8.time();
+									rename($file_tmp8,$new_dir8) ;				
+							  }
+							mysqli_query($db_con,$query8);
+						 }
+						 else
+						 {
+							 print_r($errors8);
+						 }
+						}
+				 }//end of foreach
+	} // supporting document
+
 		?>
 		<script type="text/javascript">
 			alert ("Upload Complete!!!");	

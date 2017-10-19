@@ -211,7 +211,7 @@
 						if($res_insert_farmer_IsMarried)
 						{
 							// Query For inserting the recidencial data into tbl_residence_details
-							$sql_insert_farmer_address	= " INSERT INTO `tbl_residence_details`(`fm_caid`, `fm_id`, `f7_resistatus`, `f7_rent_amount`, ";
+							$sql_insert_farmer_address	= " INSERT INTO `tbl_residence_details`(`fm_caid`, `fm_id`, `f7_resistatus`, `f7_rent_amount` ";
 							$sql_insert_farmer_address	.= " `f7_phouse`, `f7_pstreet`, `f7_parea`, `f7_pstate`, `f7_pdistrict`, ";
 							$sql_insert_farmer_address	.= " `f7_ptaluka`, `f7_pvillage`, `f7_ppin`, `f7_chouse`, `f7_cstreet`, ";
 							$sql_insert_farmer_address	.= " `f7_carea`, `f7_cstate`, `f7_cdistrict`, `f7_ctaluka`, `f7_cvillage`, ";
@@ -294,24 +294,8 @@
 			
 			$f1_required_loan		= mysqli_real_escape_string($db_con,$_POST['f1_required_loan']);
 			$f1_required_loan_amt	= mysqli_real_escape_string($db_con,$_POST['f1_required_loan_amt']);
-			if(isset($_POST['f1_loan_purpose']))
-			{
-				$f1_loan_purpose		= mysqli_real_escape_string($db_con,$_POST['f1_loan_purpose']);	
-			}
-			else
-			{
-				$f1_loan_purpose		= '';
-			}
-			
-			if(isset($_POST['f1_crop_cycle']))
-			{
-				$f1_crop_cycle			= mysqli_real_escape_string($db_con,$_POST['f1_crop_cycle']);
-			}
-			else
-			{
-				$f1_crop_cycle	= '';		
-			}
-
+			$f1_loan_purpose		= mysqli_real_escape_string($db_con,$_POST['f1_loan_purpose']);
+			$f1_crop_cycle			= mysqli_real_escape_string($db_con,$_POST['f1_crop_cycle']);
 			
 			$ddl_married_status		= mysqli_real_escape_string($db_con,$_POST['ddl_married_status']);
 			$ddl_residence_status	= mysqli_real_escape_string($db_con,$_POST['ddl_residence_status']);
@@ -469,7 +453,7 @@
 	{
 		$response_array = array();	
 		$start_offset   = 0;
-		$avg_of_points 	= 0;
+		$pt_row			= '';
 		
 		$page 			= mysqli_real_escape_string($db_con,$obj->page);	
 		$per_page		= mysqli_real_escape_string($db_con,$obj->row_limit);
@@ -524,20 +508,19 @@
 				while($row_load_data = mysqli_fetch_array($result_load_data))
 				{
 					$result = lookup_value('tbl_points',array(),array("fm_id"=>$row_load_data['fm_id']),array(),array(),array());
+					
 					if($result)
 					{
 						$num	= mysqli_num_rows($result);
 						if($num != 0)
 						{
 							$pt_row	= mysqli_fetch_array($result);
-
-							$sum_of_points	= $pt_row['pt_frm1'] + $pt_row['pt_frm2'] + $pt_row['pt_frm3'] + $pt_row['pt_frm4'] + $pt_row['pt_frm5'] + $pt_row['pt_frm6'] + $pt_row['pt_frm7'] + $pt_row['pt_frm8'] + $pt_row['pt_frm8_fh'] + $pt_row['pt_frm9'] + $pt_row['pt_frm10'] + $pt_row['pt_frm11'] + $pt_row['pt_frm12'] + $pt_row['pt_frm13'] + $pt_row['pt_frm14'];
-					
-							$avg_of_points	= round($sum_of_points / 15, 2);
 						}
 					}
 					
+					$sum_of_points	= $pt_row['pt_frm1'] + $pt_row['pt_frm2'] + $pt_row['pt_frm3'] + $pt_row['pt_frm4'] + $pt_row['pt_frm5'] + $pt_row['pt_frm6'] + $pt_row['pt_frm7'] + $pt_row['pt_frm8'] + $pt_row['pt_frm8_fh'] + $pt_row['pt_frm9'] + $pt_row['pt_frm10'] + $pt_row['pt_frm11'] + $pt_row['pt_frm12'] + $pt_row['pt_frm13'] + $pt_row['pt_frm14'];
 					
+					$avg_of_points	= round($sum_of_points / 15, 2);
 					
 					$cat_data .= '<tr>';				
 						$cat_data .= '<td class="center-text">'.++$start_offset.'</td>';				

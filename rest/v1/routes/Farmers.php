@@ -43,7 +43,7 @@
 			//will have to fetch data from database
 			//eg. select * from farmes where farmer_id = [id]
 			$farmers = [
-				[ "name" => "Ejaz" ],
+				['id' => '1', 'image' => 'images.jpg', 'name' => 'Ejaz Ansari', 'address' => '203 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '20.50' ],
 			];
 
 		}
@@ -52,10 +52,19 @@
 			//will have to fetch data from database
 			//eg. select * from farmes
 			$farmers = [
-				[ "name" => "Ejaz" ],
-				[ "name" => "Prathamesh" ],
-				[ "name" => "Punit" ],
-				[ "name" => "Sathish" ],
+				['id' => '1', 'image' => 'images.jpg', 'name' => 'Ejaz Ansari', 'address' => '203 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '20.50' ],
+				['id' => '2', 'image' => 'images.jpg', 'name' => 'Prathamesh Acharekar', 'address' => 'heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '2.90' ],
+				['id' => '3', 'image' => 'images.jpg', 'name' => 'Punit Panchal', 'address' => 'Molvi compound, Reti bandar rd. kalyan west', 'points' => '30.87' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
+				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
 			];
 		}
 

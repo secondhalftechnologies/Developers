@@ -15,11 +15,6 @@ if(SLIM_DEBUG){
   $app->config('debug',true);
 }
 
-$app->status(500);
-  // setting response content type to json
-  $app->contentType('application/json');
-  echo json_encode($response);
-
 // $corsOptions = array(
 //     "origin" => "*",
 //     "maxAge" => 1728000,

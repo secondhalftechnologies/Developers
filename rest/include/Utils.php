@@ -2,8 +2,8 @@
 require '../vendor/autoload.php';
 require_once 'Config.php';
 if(PHP_DEBUG_MODE){
-  error_reporting(-1);
-  ini_set('display_errors', 'On');
+    error_reporting(-1);
+    ini_set('display_errors', 'On');
 }
 // authorized user id from db - global var
 $user_id = NULL;
@@ -14,31 +14,31 @@ $user_id = NULL;
 * Verifying required params posted or not
 */
 function verifyRequiredParams($required_fields) {
-  $error = false;
-  $error_fields = "";
-  $request_params = array();
-  $request_params = $_REQUEST;
-  // handling PUT request params
-  if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    $app = \Slim\Slim::getInstance();
-    parse_str($app->request()->getBody(), $request_params);
-  }
-  foreach ($required_fields as $field) {
-    if (!isset($request_params[$field]) || !is_array($request_params)) {
-      $error = true;
-      $error_fields .= $field . ', ';
+    $error = false;
+    $error_fields = "";
+    $request_params = array();
+    $request_params = $_REQUEST;
+    // handling PUT request params
+    if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+        $app = \Slim\Slim::getInstance();
+        parse_str($app->request()->getBody(), $request_params);
     }
-  }
-  if ($error) {
-    // required fields are missing or empty
-    // echo error json and stop the app
-    $response = array();
-    $app = \Slim\Slim::getInstance();
-    $response['success'] = false;
-    $response["message"] = 'Required field(s) ' . substr($error_fields, 0, -2) . ' is missing or empty';
-    echoResponse(400, $response);
-    $app->stop();
-  }
+    foreach ($required_fields as $field) {
+        if (!isset($request_params[$field]) || !is_array($request_params)) {
+            $error = true;
+            $error_fields .= $field . ', ';
+        }
+    }
+    if ($error) {
+        // required fields are missing or empty
+        // echo error json and stop the app
+        $response = array();
+        $app = \Slim\Slim::getInstance();
+        $response['success'] = false;
+        $response["message"] = 'Required field(s) ' . substr($error_fields, 0, -2) . ' is missing or empty';
+        echoResponse(400, $response);
+        $app->stop();
+    }
 }
 
 
@@ -47,13 +47,13 @@ function verifyRequiredParams($required_fields) {
 * Valiedating email address
 */
 function validateEmail($email){
-  $app = \Slim\Slim::getInstance();
-  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $response['error'] = true;
-    $response['message'] = 'Email is not valid';
-    echoResponse(400, $response);
-    $app->stop();
-  }
+    $app = \Slim\Slim::getInstance();
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $response['error'] = true;
+        $response['message'] = 'Email is not valid';
+        echoResponse(400, $response);
+        $app->stop();
+    }
 }
 
 
@@ -64,63 +64,55 @@ function validateEmail($email){
 * @param Int $response Json response
 */
 function echoResponse($status_code, $response) {
-  $app = \Slim\Slim::getInstance();
-  // Http response code
-  $app->status($status_code);
-  // setting response content type to json
-  $app->contentType('application/json');
-  echo json_encode($response);
+    $app = \Slim\Slim::getInstance();
+    // Http response code
+    $app->status($status_code);
+    // setting response content type to json
+    $app->contentType('application/json');
+    echo json_encode($response);
 }
 
 
 
 /**
-*  Adding Middle Layer to authenticate every request
-*  Checking if the request has valid api key in the 'Authorization' header
+*   Adding Middle Layer to authenticate every request
+*   Checking if the request has valid api key in the 'Authorization' header
  */
 function authenticate(\Slim\Route $route) {
 
-  /**
-   * Comment by Ejaz
-   */
-  // uncomment the bellow code
-  // here we are taking token(api_key in this function) and varifying validation of token
-  // if token is valid save global user_id that can be used while inserting data in tables
-  // if token is invalid show the error here
-  /**
-   * End of Comment by Ejaz
-   */
+    // getting request header
+    $headers = apache_request_headers();
+    $response = array();
+    $app = \Slim\Slim::getInstance();
+    // verifying authorization header
+    if (isset($headers['Authorization'])) {
+        $db = new DbHandler();
+        // get the api key
+        $token = $headers['Authorization'];
+        // validating api key
+        if (!$db->isValidToken($token)) {
+            //api key is not present in users table
+            $response['success'] = false;
+            $response['message'] = 'Access denied. Invalid api token';
+            echoResponse(401, $response);
+            $app->stop();
+        } else {
+            global $user_id;
+            // get user primary key id
+            $user = $db->getUserId($token);
+            if ($user != NULL) {
+                $user_id = $user['id'];
+            }
+        }
+    } else {
+        // api key is missing in header
+        $response['success'] = false;
+        $response['message'] = "API Token is missing";
+        echoResponse(400, $response);
+        $app->stop();
+    }
 
-  // // getting request header
-  // $headers = apache_request_headers();
-  // $response = array();
-  // $app = \Slim\Slim::getInstance();
-  // // verifying authorization header
-  // if (isset($headers['Authorization'])) {
-  //   $db = new DbHandler();
-  //   // get the api key
-  //   $api_key = $headers['Authorization'];
-  //   // validating api key
-  //   if (!$db->isValidApikey($api_key)) {
-  //     //api key is not present in users table
-  //     $response['error'] = true;
-  //     $response['message'] = 'Access denied. Invalid api key';
-  //     echoResponse(401, $response);
-  //     $app->stop();
-  //   } else {
-  //     global $user_id;
-  //     // get user primary key id
-  //     $user = $db->getUserId($api_key);
-  //     if ($user != NULL) {
-  //       $user_id = $user['id'];
-  //     }
-  //   }
-  // } else {
-  //   // api key is missing in header
-  //   $response['error'] = true;
-  //   $response['message'] = "Api key is missing";
-  //   echoResponse(400, $response);
-  //   $app->stop();
-  // }
+
+
 }
 ?>

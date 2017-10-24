@@ -47,36 +47,7 @@ $res_doc=mysqli_query($db_con,$sql_doc);
         /* This function used to call all header data like css files and links */
     	?>
 
-        <script>
-        $(document).ready(function(){
-            $.validator.addMethod(
-                "filesize",
-                function(value, element) {
-                    if (window.File && window.FileList) {
-                        if ($(element).attr('type') == "file"
-                            && ($(element).hasClass('required')
-                                || element.files.length > 0)) {
-                            var size  = 0;
-                        var $form = $(element).parents('form').first();
-                        var $fel = $form.find('input[type=file]');
-                        var $max = $form.find('input[name=MAX_FILE_SIZE]').first();
-                        if ($max) {
-                            for (var j=0, fo; fo=$fel[j]; j++) {
-                                files  = fo.files;
-                                for (var i=0, f; f=files[i]; i++) {
-                                    size += f.size;
-                                }
-                            }
-                            return size <= $max.val();
-                        }
-                    }
-                }
-                return true;
-            },
-            "The file(s) selected exceed the file size limit. Please choose another file."
-            );
-        });
-    </script>
+        
     </head>
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
@@ -259,7 +230,36 @@ $res_doc=mysqli_query($db_con,$sql_doc);
             </section>
             <!-- Page Content / End -->
 
-
+		<script>
+        $(document).ready(function(){
+            $.validator.addMethod(
+                "filesize",
+                function(value, element) {
+                    if (window.File && window.FileList) {
+                        if ($(element).attr('type') == "file"
+                            && ($(element).hasClass('required')
+                                || element.files.length > 0)) {
+                            var size  = 0;
+                        var $form = $(element).parents('form').first();
+                        var $fel = $form.find('input[type=file]');
+                        var $max = $form.find('input[name=MAX_FILE_SIZE]').first();
+                        if ($max) {
+                            for (var j=0, fo; fo=$fel[j]; j++) {
+                                files  = fo.files;
+                                for (var i=0, f; f=files[i]; i++) {
+                                    size += f.size;
+                                }
+                            }
+                            return size <= $max.val();
+                        }
+                    }
+                }
+                return true;
+            },
+            "The file(s) selected exceed the file size limit. Please choose another file."
+            );
+        });
+    </script>
 
 	</body>
 </html>

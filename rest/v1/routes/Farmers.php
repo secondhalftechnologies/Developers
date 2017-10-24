@@ -33,40 +33,17 @@
 	 * It is just an example you will have to get the current agent_id then list his farmer list
 	 * 'authenticate' parameter is a function in Utils.php file where we are checking authorization 
 	 */
-	$app->get('/farmers(/:id)', 'authenticate', function($id = null) use ($app) {
+	$app->get('/farmers/:id', 'authenticate', function($id = null) use ($app) {
 
 		$response = [];
 
+		global $user_id;
+		$db = new DbHandler();
 
-		if (isset($id)) {
+		//will have to fetch data from database
+		//eg. select * from farmes where farmer_id = [id]
+		$farmers = $db->getFarmers($user_id, 0, 1, $id);
 
-			//will have to fetch data from database
-			//eg. select * from farmes where farmer_id = [id]
-			$farmers = [
-				['id' => '1', 'image' => 'images.jpg', 'name' => 'Ejaz Ansari', 'address' => '203 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '20.50' ],
-			];
-
-		}
-		else{
-			
-			//will have to fetch data from database
-			//eg. select * from farmes
-			$farmers = [
-				['id' => '1', 'image' => 'images.jpg', 'name' => 'Ejaz Ansari', 'address' => '203 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '20.50' ],
-				['id' => '2', 'image' => 'images.jpg', 'name' => 'Prathamesh Acharekar', 'address' => 'heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '2.90' ],
-				['id' => '3', 'image' => 'images.jpg', 'name' => 'Punit Panchal', 'address' => 'Molvi compound, Reti bandar rd. kalyan west', 'points' => '30.87' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-				['id' => '4', 'image' => 'images.jpg', 'name' => 'Satish Dhere', 'address' => '06 isa heights, Molvi compound, Reti bandar rd. kalyan west', 'points' => '40.33' ],
-			];
-		}
 
 		$response["success"] = true;
 		$response["data"] = $farmers;
@@ -74,5 +51,29 @@
 		echoResponse(200, $response);
 	});
 
+
+	/**
+	 * Get one or All farmers
+	 * It is just an example you will have to get the current agent_id then list his farmer list
+	 * 'authenticate' parameter is a function in Utils.php file where we are checking authorization 
+	 */
+	$app->get('/farmers(/:limit/:offset)', 'authenticate', function($limit = 0, $offset = 10) use ($app) {
+
+		$response = [];
+
+		global $user_id;
+		$db = new DbHandler();
+
+		
+		//will have to fetch data from database
+		//eg. select * from farmes
+		$farmers = $db->getFarmers($user_id, $limit, $offset);
+
+
+		$response["success"] = true;
+		$response["data"] = $farmers;
+
+		echoResponse(200, $response);
+	});
 
  ?>

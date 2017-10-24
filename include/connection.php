@@ -20,11 +20,11 @@
         $dbname = "sqyard_2017"; // Database Name
 		if ($_SERVER['HTTP_HOST'] == "localhost")
 		{
-			$BaseFolder = "http://localhost/pay/sqoreyard/";	
+			$BaseFolder = "http://localhost/pay/sqyardpanel/";	
 		}
 		else
 		{
-			$BaseFolder = "http://192.168.0.13/sqoreyard/";
+			$BaseFolder = "http://192.168.0.13/sqyardpanel/";
 		}
 	}
 	else

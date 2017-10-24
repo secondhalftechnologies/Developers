@@ -15,6 +15,7 @@ if(SLIM_DEBUG){
   $app->config('debug',true);
 }
 
+
 // $corsOptions = array(
 //     "origin" => "*",
 //     "maxAge" => 1728000,

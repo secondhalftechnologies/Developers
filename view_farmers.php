@@ -118,7 +118,7 @@
                                 <div class="box-content nopadding">
                                     <div style="padding:20px">
                                         <a href="add_farmers.php?pag=farmers" class="btn btn-primary">
-                                            Add Farmer
+                                            Add Farmer Prathamesh
                                         </a>
                                     </div>
                                     <div style="padding:10px 15px 10px 15px !important">

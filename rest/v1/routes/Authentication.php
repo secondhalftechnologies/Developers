@@ -4,19 +4,20 @@
 * User Login
 * url - /login
 * method - POST
-* params - username, password
+* params - email, password
 */
 $app->post('/login', function() use ($app) {
-	verifyRequiredParams(array('username', 'password'));
+	verifyRequiredParams(array('email', 'password'));
 	// reading post params
-	$username = $app->request()->post('username');
+	$email = $app->request()->post('email');
 	$password = $app->request()->post('password');
+
 	$response = array();
 	$db = new DbHandler();
-	// check for correct username and password
-	if ($db->checkLogin($username, $password)) {
-		// get the user by username
-		$user = $db->getUserByUsername($username);
+	// check for correct email and password
+	if ($db->checkLogin($email, $password)) {
+		// get the user by email
+		$user = $db->getUserByEmail($email);
 		if ($user != NULL) {
 			$response["success"] = true;
 			$response["data"] = $user;

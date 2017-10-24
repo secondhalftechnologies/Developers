@@ -12,3 +12,4 @@ define('DB_NAME', 'sqyard_2017');
 define('PHP_DEBUG_MODE', true);  
 define('SLIM_DEBUG', true);
 
+

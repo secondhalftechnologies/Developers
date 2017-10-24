@@ -196,8 +196,8 @@
                                     <div class="controls">
                                     	<select id="f1_required_loan" name="f1_required_loan" class="select2-me input-xlarge" onChange="getDisplayDiv(this.value, 'div_required_loan_display')">
                                             <option value="" disabled selected>Select here</option>
-                                            <option value="yes" <?php if($row_get_farmer_personal_info['f1_required_loan'] == 'yes'){ ?> selected <?php } ?>>Yes</option>
-                                            <option value="no" <?php if($row_get_farmer_personal_info['f1_required_loan'] == 'no'){ ?> selected <?php } ?>>No</option>
+                                            <option value="yes" <?php if((isset($row_get_farmer_personal_info['f1_required_loan'])) && $row_get_farmer_personal_info['f1_required_loan'] == 'yes'){ ?> selected <?php } ?>>Yes</option>
+                                            <option value="no" <?php if((isset($row_get_farmer_personal_info['f1_required_loan'])) && $row_get_farmer_personal_info['f1_required_loan'] == 'no'){ ?> selected <?php } ?>>No</option>
                                         </select>
                                     </div>
                                 </div>	<!-- Do you required a loan [DDL] -->

@@ -197,4 +197,28 @@ class DbHandler
                 return  NULL;
             }
     }
+
+    public function getKycKnowladge($_user_id, $farmer_id)
+    {
+        $stmt = $this->conn->prepare("SELECT f2_edudetail, f2_participation, f2_points, f2_proficiency FROM tbl_applicant_knowledge WHERE fm_caid = ? AND fm_id = ?");
+
+        $stmt->bind_param("ii", $_user_id, $farmer_id);
+        if ($stmt->execute()) 
+        {
+            $result = $stmt->get_result();
+            $KycKnowladge = [];
+
+            while ($row = $result->fetch_assoc()) 
+            {
+                $KycKnowladge[] = $row;
+            }
+
+            $stmt->close();
+            return $KycKnowladge;
+        } 
+        else 
+        {
+            return  NULL;
+        }
+    }
 }

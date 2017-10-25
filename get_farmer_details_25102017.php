@@ -409,7 +409,6 @@
         	//headerdata($feature_name);
 			headerdata($farmer_name.'\'s Details');
 		?>
-		
     </head>
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
@@ -640,7 +639,7 @@
                                                                                 <label for="numberfield" class="control-label">Mobile no.<span style="color:#F00">*</span></label>
                                                                                 <div class="controls">
                                                                                     <input type="text" placeholder="Mobile no." name="f3_spouse_mobno" id="f3_spouse_mobno" class="input-xlarge v_number" data-rule-number="true"  data-rule-minlength="10"  data-rule-maxlength="10" data-rule-required="true" >
-                                                                                                                 <a href="javascript:void(0);" onClick="getHusbandMobileNumber('<?php echo $farmer_mobile_number; ?>');">
+                                                                                    <a href="javascript:void(0);" onClick="getHusbandMobileNumber(<?php echo $farmer_mobile_number; ?>);">
                                                                                     	Same as Husband
                                                                                     </a>
                                                                                 </div>
@@ -844,14 +843,8 @@
                                                                                 <option value="illiterate" point="2" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'illiterate'){ ?> selected <?php } ?>>Illiterate</option>
                                                                                 <option value="primary education" point="4" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'primary education'){ ?> selected <?php } ?>>Primary Education</option>
                                                                                 <option value="matriculate" point="6" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'matriculate'){ ?> selected <?php } ?>>Matriculate</option>
-                                                                                
-                                                                                <option value="12th Standard" point="8" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == '12th Standard'){ ?> selected <?php } ?>>12th Standard</option>
-
                                                                                 <option value="graduate" point="8" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'graduate'){ ?> selected <?php } ?>>Graduate</option>
-
                                                                                 <option value="post graduate" point="10" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'post graduate'){ ?> selected <?php } ?>>Post Graduate</option>
-
-																				<option value="phd" point="10" <?php if((isset($data['f2_edudetail'])) && $data['f2_edudetail'] == 'phd'){ ?> selected <?php } ?>>Ph. D.</option>                                                                                
                                                                             </select>
                                                                         </div>
                                                                     </div>	<!-- Educational Qualification Details [DDL] -->
@@ -1580,7 +1573,9 @@
                                                                                 </div>
                                                                             </div>
                                                                             
-                                                                            <script type="text/javascript">
+                                                                            <script>
+																				//var x = document.getElementById("demo");
+																			
 																				<?php 
 																				echo 'contentCountLand='.$id.';';
 																				?>
@@ -2223,9 +2218,10 @@
                                                                                     <div class="controls">
                                                                                         <select id="f14_diseases<?php echo $id; ?>" name="f14_diseases<?php echo $id; ?>" class="select2-me input-xlarge" data-rule-required="true">
                                                                                             <option value="" disabled selected> Select here</option>
-                                                                                            <option value="Fungal Treatable" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'Fungal Treatable') { ?> selected <?php } ?>> Fungal Treatable</option>
-                                                                                            <option value="Non-fungal Treatable" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'Non-fungal Treatable') { ?> selected <?php } ?>> Non-fungal Treatable</option>
+                                                                                            <option value="Fungal" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'Fungal') { ?> selected <?php } ?>> Fungal</option>
+                                                                                            <option value="Non-fungal" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'Non-fungal') { ?> selected <?php } ?>> Non-fungal</option>
                                                                                             <option value="Severe" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'Severe') { ?> selected <?php } ?>> Severe</option>
+                                                                                            <option value="Treatable" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'Treatable') { ?> selected <?php } ?>> Treatable</option>
                                                                                             <option value="No potential of diseases" <?php if((isset($cur_crops_arr[$l]['f14_diseases'])) && $cur_crops_arr[$l]['f14_diseases'] == 'No potential of diseases') { ?> selected <?php } ?>> No potential of diseases</option>
                                                                                         </select>
                                                                                     </div>
@@ -3283,7 +3279,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>	<!-- confirm_box_loan_frm1 -->
-		
+
         <script type="text/javascript">
 			var spouse_g_total 				= 0;
 			var applicant_knowledge_g_total	= 0;
@@ -3303,7 +3299,7 @@
 			var contentCountCrop 			= <?php echo $no_of_crops; ?>;
 			var contentCountPrevCrop 		= <?php echo $no_of_prev_crops; ?>;
 			var contentCountCurCrop			= <?php echo $no_of_cur_crops; ?>;
-			var contentCountLoanFrm1		= <?php echo $no_of_loan || 1; ?> ;
+			var contentCountLoanFrm1		= <?php echo $no_of_loan; ?>;
 			
 			$(document).ready(function()
 			{
@@ -4165,8 +4161,6 @@
 				}
 			}
 			
-			
-			
 			function convertMfiamountToPoint(x)
 			{
 				if(x >= 100 && x <= 2500)
@@ -4372,8 +4366,6 @@
 				  return 0;
 				}	
 			}
-			
-			
 			
 			function cal_land_size_pt(x)
 			{
@@ -4617,8 +4609,6 @@
 				}
 			}
 
-
-			
 
 			function calTotal_f2()
 			{
@@ -5198,16 +5188,10 @@
 			
 			$('#frm_knowledge_detail').on('submit', function(e) 
 			{
-				//alert('1');
 				e.preventDefault();
-				//alert('2');
 				if ($('#frm_knowledge_detail').valid())
 				{
-					//alert('3');
-					
 					loading_show();	
-					//alert('4')
-					
 					$.ajax({
 							type: "POST",
 							url: "action_pages/action_frm3.php",
@@ -5218,8 +5202,7 @@
 							success: function(msg)
 							{
 								data = JSON.parse(msg);
-								//alert(data.Success);
-								//return false;
+								
 								if(data.Success == "Success")
 								{
 									alert(data.resp);
@@ -5735,7 +5718,6 @@
 						});
 				}
 			});
-			
 			
 			$('#f2_participation').on('change', function(){
 				if($(this).val() == 'yes'){
@@ -7668,6 +7650,5 @@
 	        
 	        // JavaScript Document
         </script>
-        
     </body>
 </html>

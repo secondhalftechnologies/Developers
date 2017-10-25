@@ -9,55 +9,62 @@
 	$home_url 	  	= "home.php";
 	$filename		= 'home.php';
 	
-    $num_get_farmer_count                 = isExist('tbl_farmers', array(), array(), array(), array());
-    // Total Amount Of loan
-    $num_total_loan_amt = 0;
-    $res_total_loan_amt = lookup_value('tbl_personal_detail',array(),array(),array(),array(),array());
-    if($res_total_loan_amt)
-    {
-        while($row_total_loan_amt = mysqli_fetch_array($res_total_loan_amt))
-        {
-            $num_total_loan_amt += $row_total_loan_amt['f1_required_loan_amt'];
-        }
-    }
-
-    // setlocale(LC_MONETARY,"en_IN");
-    // $num_total_loan_amt = money_format("%i", $num_total_loan_amt);
-
-    $num_loan_required_count              = isExist('tbl_personal_detail', array('f1_required_loan'=>'yes'), array(), array(), array());
-    $num_smartphone                       = isExist('tbl_applicant_phone', array('f5_phonetype'=>'smartphone'), array(), array(), array());
-    $num_featuredphone                    = isExist('tbl_applicant_phone', array('f5_phonetype'=>'featurephone'), array(), array(), array());
-    $num_illiterate_count                 = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'illiterate'), array(), array(), array());
-    $num_primary_education_count          = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'primary education'), array(), array(), array());
-    $num_matriculate_count                = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'matriculate'), array(), array(), array());
-
-    $num_12th_count                       = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'12th Standard'), array(), array(), array());
-
-    $num_phd_count                        = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'phd'), array(), array(), array());
-
-    $num_graduate_count                   = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'graduate'), array(), array(), array());
-    $num_post_graduate_count              = isExist('tbl_applicant_knowledge', array('f2_edudetail'=>'post graduate'), array(), array(), array());
-    $num_Education_count                  = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Education'), array(), array(), array());
-    $num_Land_count                       = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Land'), array(), array(), array());
-    $num_Agriculture_count                = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Agriculture'), array(), array(), array());
-    $num_Two_Wheeler_count                = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Two Wheeler'), array(), array(), array());
-    $num_Equipment_count                  = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Equipment'), array(), array(), array());
-    $num_Irrigation_count                 = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Irrigation'), array(), array(), array());
-    $num_Fencing_count                    = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Fencing'), array(), array(), array());
-    $num_Housing_count                    = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Housing'), array(), array(), array());
-    $num_Construction_OR_Renovation_count = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Construction OR Renovation'), array(), array(), array());
-    $num_Four_Wheeler_count               = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Four Wheeler'), array(), array(), array());
-    $num_Electronics_count                = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Electronics'), array(), array(), array());
-    $num_NA_count                         = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'NA'), array(), array(), array());
-    $num_Others_count                     = isExist('tbl_bank_loan_detail', array('f8_loan_type'=>'Others'), array(), array(), array());
-
-    // Count for Complete and Incomplete Farmers
-    // 1] Count For Complete Farmers
-    $num_get_complete_farmers_count = isExist('tbl_points', array(), array('pt_frm1'=>'', 'pt_frm2'=>'', 'pt_frm3'=>'', 'pt_frm5'=>'', 'pt_frm6'=>'', 'pt_frm7'=>'', 'pt_frm8'=>'', 'pt_frm9'=>'', 'pt_frm10'=>'', 'pt_frm11'=>'', 'pt_frm12'=>'', 'pt_frm13'=>'', 'pt_frm8_fh'=>''), array(), array());
-
-    // 2] Count For Incomlete Farmers
-    $num_get_incomplete_farmers_count   = $num_get_farmer_count - $num_get_complete_farmers_count;
-
+	function getCount($table_name, $key, $value)
+	{
+		$num_	= 0;
+		$res_ = lookup_value($table_name ,array(), array($key=>$value),array(),array(),array());
+		if($res_)
+		{
+			$num_	= mysqli_num_rows($res_);
+		}
+		
+		return $num_;
+	}
+	
+	$num_get_farmer_count					= 0;
+	$num_total_loan_amt						= 0;
+	
+	
+	$num_loan_required_count				= getCount('tbl_personal_detail', 'f1_required_loan', 'yes');
+	$num_smartphone							= getCount('tbl_applicant_phone', 'f5_phonetype', 'smartphone');
+	$num_featuredphone						= getCount('tbl_applicant_phone', 'f5_phonetype', 'featurephone');
+	
+	$num_illiterate_count					= getCount('tbl_applicant_knowledge', 'f2_edudetail', 'illiterate');
+	$num_primary_education_count			= getCount('tbl_applicant_knowledge', 'f2_edudetail', 'primary education');
+	$num_matriculate_count					= getCount('tbl_applicant_knowledge', 'f2_edudetail', 'matriculate');
+	$num_graduate_count						= getCount('tbl_applicant_knowledge', 'f2_edudetail', 'graduate');
+	$num_post_graduate_count				= getCount('tbl_applicant_knowledge', 'f2_edudetail', 'post graduate');
+	
+	$num_Education_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Education');
+	$num_Land_count							= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Land');
+	$num_Agriculture_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Agriculture');
+	$num_Two_Wheeler_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Two Wheeler');
+	$num_Equipment_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Equipment');
+	$num_Irrigation_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Irrigation');
+	$num_Fencing_count						= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Fencing');
+	$num_Housing_count						= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Housing');
+	$num_Construction_OR_Renovation_count	= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Construction OR Renovation');
+	$num_Four_Wheeler_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Four Wheeler');
+	$num_Electronics_count					= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Electronics');
+	$num_NA_count							= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'NA');
+	$num_Others_count						= getCount('tbl_bank_loan_detail', 'f8_loan_type', 'Others');
+	
+	// Registration Count
+	$res_get_farmer_count = lookup_value('tbl_farmers',array(),array(),array(),array(),array());
+	if($res_get_farmer_count)
+	{
+		$num_get_farmer_count	= mysqli_num_rows($res_get_farmer_count);
+	}
+	
+	// Total Amount Of loan
+	$res_total_loan_amt = lookup_value('tbl_personal_detail',array(),array(),array(),array(),array());
+	if($res_total_loan_amt)
+	{
+		while($row_total_loan_amt = mysqli_fetch_array($res_total_loan_amt))
+		{
+			$num_total_loan_amt	+= $row_total_loan_amt['f1_required_loan_amt'];
+		}
+	}
 ?>
 <!doctype html>
 <html>
@@ -116,75 +123,42 @@
                                     </div>	<!-- Registration Count -->
                                     
                                     <div class="span4" >
-                                        <div class="panel panel-green">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
+                                    	<div class="panel panel-cadetblue">
+                                        	<div class="panel-heading">
+                                            	<div class="row" style="padding-left: 30px;">
+                                                	<div class="col-xs-3">
                                                         <i class="fa fa-users fa-5x"></i>
                                                     </div>
                                                     <div class="col-xs-9 text-right">
-                                                        <div class="huge"><?php echo $num_get_complete_farmers_count; ?></div><br>
-                                                        <div>Complete Farmers!</div>
+                                                    	<div class="huge"><?php echo $num_total_loan_amt; ?></div><br>
+                                                    	<div>Total Amount Of loan!</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>  <!-- Complete Farmers -->
-
+                                    </div>	<!-- Total Amount Of loan -->
+                                    
                                     <div class="span4" >
-                                        <div class="panel panel-red">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
+                                    	<div class="panel panel-cadetblue">
+                                        	<div class="panel-heading">
+                                            	<div class="row" style="padding-left: 30px;">
+                                                	<div class="col-xs-3">
                                                         <i class="fa fa-users fa-5x"></i>
                                                     </div>
                                                     <div class="col-xs-9 text-right">
-                                                        <div class="huge"><?php echo $num_get_incomplete_farmers_count; ?></div><br>
-                                                        <div>Incomplete Farmers!</div>
+                                                    	<div class="huge"><?php echo $num_loan_required_count; ?></div><br>
+                                                    	<div>Farmer Count Who wants Loan!</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>  <!-- Incomplete Farmers -->
+                                    </div>	<!-- Farmer Count Who wants Loan -->
+                                    
                                 </div>
                                 
-                                <div class="row">
-                                    <div class="span6" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <i class="fa fa-users fa-5x"></i>
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"><?php echo $num_total_loan_amt; ?></div><br>
-                                                        <div>Total Amount Of loan!</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- Total Amount Of loan -->
-                                    
-                                    <div class="span6" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <i class="fa fa-users fa-5x"></i>
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"><?php echo $num_loan_required_count; ?></div><br>
-                                                        <div>Farmer Count Who wants Loan!</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- Farmer Count Who wants Loan -->
-                                </div>
-
                                	<div class="row">
                                 	
-                                    <div class="span6" >
+                                    <div class="span4" >
                                     	<div class="panel panel-cadetblue">
                                         	<div class="panel-heading">
                                             	<div class="row" style="padding-left: 30px;">
@@ -200,7 +174,7 @@
                                         </div>
                                     </div>	<!-- Smart Phone Count -->
                                     
-                                    <div class="span6" >
+                                    <div class="span4" >
                                     	<div class="panel panel-cadetblue">
                                         	<div class="panel-heading">
                                             	<div class="row" style="padding-left: 30px;">
@@ -281,27 +255,10 @@
                                             </div>
                                         </div>
                                     </div>	<!-- Matriculate -->
+                                    
                                 </div>
                                 
-
-
                                	<div class="row">
-
-                                    <div class="span4" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <i class="fa fa-users fa-5x"></i>
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"><?php echo $num_12th_count; ?></div><br>
-                                                        <div>12th Standard!</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- 12th Standard -->
 
                                     <div class="span4" >
                                     	<div class="panel panel-cadetblue">
@@ -335,26 +292,6 @@
                                         </div>
                                     </div>	<!-- Post Graduate -->
                                     
-                                </div>
-
-                                <div class="row">
-                                    
-                                    <div class="span4" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <i class="fa fa-users fa-5x"></i>
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"><?php echo $num_phd_count; ?></div><br>
-                                                        <div>Ph. D.!</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- Ph. D. -->
-
                                 </div>
                                 
                             </div>

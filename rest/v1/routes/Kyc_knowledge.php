@@ -8,16 +8,23 @@
 	 */
 	$app->get('/kyc_knowledge/:id', 'authenticate', function($id) use ($app) {
 
+		$response = [];
+
+		global $user_id;
+		$db = new DbHandler();
+
 		if (isset($id)) {
 
 			//will have to fetch data from database
 			//eg. select * from kyc_knowledge where farmer_id = [id]
-			$kyc_knowledge = [
-				"f2_edudetail" => 'illiterate',
-				"f2_participation" => 'no',
-				"f2_points" => '2.33',
-				"f2_proficiency" => 'read only',
-			];
+			$kyc_knowledge	= $db->getKycKnowladge($user_id, $id);
+
+			// $kyc_knowledge = [
+			// 	"f2_edudetail" => 'illiterate',
+			// 	"f2_participation" => 'no',
+			// 	"f2_points" => '2.33',
+			// 	"f2_proficiency" => 'read only',
+			// ];
 
 			$response["success"] = true;
 			$response["data"] = $kyc_knowledge;

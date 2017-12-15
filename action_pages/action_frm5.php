@@ -1,39 +1,52 @@
 <?php 
 
-include('../connection.php');
+include('../include/connection.php');
+include('../include/validate-helper.php');
 
-if($_POST){
-	foreach ($_POST as $k => $value) {
-		mysqli_real_escape_string($db_con,@$_POST[$k]);
-	}
-}
+// if($_POST){
+// 	foreach ($_POST as $k => $value) {
+// 		mysqli_real_escape_string($db_con,@$_POST[$k]);
+// 	}
+// }
 
 $table ='tbl_applicant_phone';
 if(isset($_POST['add_applicant_detail']) && $_POST['add_applicant_detail']==1)
 {
 	
-	$data['fm_id']            = @$_POST['fm_id'];
-	$data['fm_caid']          = @$_POST['fm_caid'];
+	$data['fm_id']            				= @$_POST['fm_id'];
+	$data['fm_caid']          				= @$_POST['fm_caid'];
 	
-	$data['f5_phonetype']     = @$_POST['f5_phonetype'];
-	$data['f5_servpro']       = @$_POST['f5_servpro'];
-	$data['f5_network']       = @$_POST['f5_network'];
-	$data['f5_datapack']      = @$_POST['f5_datapack'];
-	$data['f5_datapackname']  = @$_POST['f5_datapackname'];
-	$data['f5_appuse']        = @$_POST['f5_appuse'];
-	$data['f5_farmapp']       = @$_POST['f5_farmapp'];
+	$data['f5_phonetype']     				= @$_POST['f5_phonetype'];
+	//$data['f5_servpro']       			= @$_POST['f5_servpro'];
+	//$servProvIds							= $_POST['f5_servpro'];
+
+	$data['f5_network']       				= @$_POST['f5_network'];
+	$data['f5_datapack']      				= @$_POST['f5_datapack'];
+	$data['f5_datapackname']  				= @$_POST['f5_datapackname'];
+	$data['f5_appuse']        				= @$_POST['f5_appuse'];
+	$data['f5_farmapp']       				= @$_POST['f5_farmapp'];
+	$data['f5_any_one_have_smart_phone']	= @$_POST['f5_any_one_have_smart_phone'];
+	$data['f5_app_name']					= @$_POST['f5_app_name'];
 	
-	
-	$data['f5_points']        = 'NA';
-	$data['f5_status']    =1;
-	$data['f5_section_id']='';
-	
-	
+	$data['f5_points']        				= @$_POST['f5_points'];;
+	$data['f5_status']    					= 1;
+	$data['f5_section_id']					= '';
 	
 	if($data['f5_phonetype']!="" && $data['fm_caid']!="" && $data['fm_id']!="")
 	{
 		
-		$check_exist = check_exist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
+		// foreach($servProvIds as $servProvId)
+		// {
+		// 	$data1['fm_id']			= $data['fm_id'];
+		// 	$data1['serv_pro_name']	= $servProvId;
+		// 	$data1['status']		= '1';
+		// 	$data1['created_date']	= $datetime;
+		// 	$data1['created_by']	= $data['fm_caid'];
+
+		// 	insert('tbl_farmer_servpro',$data1);
+		// }
+
+		$check_exist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
 		
 		if(!$check_exist)
 		{
@@ -43,7 +56,7 @@ if(isset($_POST['add_applicant_detail']) && $_POST['add_applicant_detail']==1)
 			$res=insert($table,$data);
 			
 			
-		    $check_pt_exist = check_exist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
+		    $check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
 			if(!$check_pt_exist)
 			{
 				$pt_data['fm_id']=$data['fm_id'];
@@ -60,7 +73,7 @@ if(isset($_POST['add_applicant_detail']) && $_POST['add_applicant_detail']==1)
 		}
 		else
 		{
-			$id =$check_exist;
+			$id =$check_exist['id'];
 			
 			$data['f5_modified_by']= $_POST['fm_caid'];
 	        $data['f5_modified_date']=$datetime;

@@ -144,7 +144,8 @@
 		}
 		else
 		{
-			return false;
+			//return false;
+			return $num;
 		}
 	}
 	
@@ -284,7 +285,8 @@
 				$sql  .= " AND ".$field4 ." like '".$value4."' ";
 			}
 		}
-		//return $sql;
+		/*return $sql;
+		exit();*/
 		$result	   = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
 		$nums      = mysqli_num_rows($result);
 		if($nums !=0)

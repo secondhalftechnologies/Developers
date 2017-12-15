@@ -1,6 +1,8 @@
 <?php
 	include('access1.php');
 	include('include/connection.php');
+	include('include/query-helper.php');
+	include('include/pagination-helper.php');
 
 	$feature_name 	= 'Farmer';
 	$home_name    	= "Home";
@@ -8,7 +10,7 @@
 	$home_url 	  	= "home.php";
 	$filename		= 'view_farmers.php';
 	
-	if(!isset($_SESSION['acrefin_user']) && $_SESSION['acrefin_user']=="")
+	if(!isset($_SESSION['sqyard_user']) && $_SESSION['sqyard_user']=="")
 	{
 		?>
 		<script type="text/javascript">
@@ -18,7 +20,14 @@
 	}
 	
 	$ca_id	= $_SESSION['ca_id'];
-	$sql	= "select * from tbl_farmers where fm_caid='".$ca_id."' order by id desc";
+    if($_SESSION['userType']=="Admin")
+    {
+        $sql   = "select * from tbl_farmers order by id desc";
+    }
+    else
+    {
+       $sql	= "select * from tbl_farmers where fm_caid='".$ca_id."' order by id desc";
+    }
 	$res	= mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
 	$r		= 1;	
 ?>	
@@ -30,6 +39,54 @@
         headerdata($feature_name);
         /* This function used to call all header data like css files and links */
     	?>
+		<!--<link type="text/css" href="css/main.css">-->
+    <style type="text/css">
+    	/* pagination css */
+    	#container1 .pagination{
+    		width: 100%;
+			height: 25px;
+			margin: 0 15px;
+			clear: both;
+    	}
+
+    	#container1 .pagination ul {
+		    float: right;
+		}
+
+		.total {
+		    margin: 10px;
+		    font-family: arial;
+		    color: #999;
+		    float: left;
+		}
+
+		#container1 .pagination ul li.inactive, #container1 .pagination ul li.inactive:hover {
+		    background-color: #ededed;
+		    color: #bababa;
+		    border: 1px solid #bababa;
+		    cursor: default;
+		}
+		#container1 .pagination ul li:hover {
+		    background-color: #DDDDDD !important;
+		    color: #000;
+		    cursor: pointer;
+		}
+		#container1 .pagination ul li {
+		    list-style: none;
+		    float: left;
+		    border: 1px solid #329ea9;
+		    padding: 2px 6px 2px 6px;
+		    margin: 0 3px 0 3px;
+		    font-family: arial;
+		    font-size: 14px;
+		    color: #329ea9;
+		    font-weight: bold;
+		    background-color: #f2f2f2;
+		}
+
+		/* pagination css */
+    </style>
+
     </head>
     
     <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
@@ -64,71 +121,28 @@
                                             Add Farmer
                                         </a>
                                     </div>
-                                    <form id="mainform" action="deletefarmers.php" method="post">
-                                        <div id="comp_1">
-                                            <table class="table table-bordered dataTable dataTable-scroll-x">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Sr no.</th>
-                                                        <th>Forms</th>
-                                                        <th>Farmer ID</th>
-                                                        <th>Farmer Name</th>
-                                                        <th>Aadhaar No</th>
-                                                        <th>Mobile No</th>
-                                                        <th>Loan Require ( Rs.)</th>
-                                                        <th>Status</th>
-                                                        <th class='hidden-350'>Created Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    while($row = mysqli_fetch_array($res))
-                                                    {
-                                                        ?>
-                                                        <tr>
-                                                            <td><?php echo $r; ?></td>	<!-- Sr. No. -->
-                                                            <td style="text-align:center;">
-                                                            	<a href="get_farmer_details.php?pag=farmers&fm_id=<?php echo $row['fm_id']; ?>" class="btn btn-primary">Click Here</a>
-                                                            </td>	<!-- Forms -->
-                                                            <td><?php echo $row['fm_id']; ?></td>	<!-- Farmer ID -->
-                                                            <td><?php echo ucwords($row['fm_name']); ?>
-                                                            <?php
-                                                            $sql_check_point  	= " SELECT * FROM tbl_points ";
-															$sql_check_point  	.= " WHERE pt_frm1 !='' AND pt_frm2 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm3 !='' AND pt_frm4 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm6 !='' AND pt_frm7 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm8 !='' AND pt_frm9 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm10 !='' AND pt_frm5 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm12 !='' AND pt_frm13 !='' ";
-															$sql_check_point  	.= " 	AND pt_frm11 !='' ";
-															$sql_check_point  	.= " 	AND fm_id='".$row['fm_id']."' ";
-                                                            $res_check_point  = mysqli_query($db_con,$sql_check_point) or die(mysqli_error($db_con));
-                                                            $num_check_point  = mysqli_num_rows($res_check_point);
-                                                            if($num_check_point==0)
-                                                            {
-                                                                echo '<small style="color:red">Incomplete</small>';
-                                                            }
-                                                            else
-                                                            {
-                                                                echo '<small style="color:green">Complete</small>';
-                                                            }
-                                                            ?>
-                                                            
-                                                            </td>	<!-- Farmer Name -->
-                                                            <td><?php echo $row['fm_aadhar']; ?></td>	<!-- Aadhaar Number -->
-                                                            <td><?php echo $row['fm_mobileno']; ?></td>	<!-- Mobile Number -->
-                                                            <td><?php echo $row['fm_amount']; ?></td>	<!-- Loan Required (Rs.) -->
-                                                            <td><?php echo $row['fm_status']; ?></td>	<!-- Status -->
-                                                            <td><?php echo $row['fm_createddt']; ?></td>	<!-- Created Date -->
-                                                        </tr>
-                                                        <?php
-                                                        $r++;
-                                                    }
-                                                    ?>
-                                                </tbody>
-                                            </table>
+                                    <div style="padding:10px 15px 10px 15px !important">
+                                    	<input type="hidden" name="hid_user_type" id="hid_user_type" value="<?php echo $_SESSION['userType'] ?>">
+                                    	<input type="hidden" name="hid_ca_id" id="hid_ca_id" value="<?php echo $ca_id; ?>">
+                                        <input type="hidden" name="hid_page" id="hid_page" value="1">
+                                        <input type="hidden" name="cat_parent" id="cat_parent" value="parent">
+                                        <select name="rowlimit" id="rowlimit" onChange="loadFarmerData();"  class = "select2-me">
+                                            <option value="10" selected>10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries per pages
+                                        <input type="text" class="input-medium" id = "srch" name="srch" placeholder="Search here..."  style="float:right;margin-right:10px;margin-top:10px;" >
+                                    </div>
+                                    <div id="req_resp"></div>
+                                    <div class="profileGallery">
+                                        <div style="width:99%;" align="center">
+                                            <div id="loading"></div>                                            
+                                            <div id="container1" class="data_container">
+                                                <div class="data"></div>
+                                            </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -136,61 +150,130 @@
                 </div>
             </div>
        	</div>
-    	<script>
-        $(document).ready(function(e) {
-            
-            $("#selectall").click(function(){
-                $(".case").attr("checked",this.checked);
-            });
-            
-            $(".case").click(function(){
-                if($(".case").length==$(".case:checked").length){
-                    $("#selectall").attr("checked","checked");
-                }
-                else{
-                    $("#selectall").removeAttr("checked");
-                }
-            });
-            
-        });
-        </script>	<!-- Nice Scroll -->
-        <script type="text/javascript">
-    function confirmAction(id)
-    {
-            var r = confirm("Do you want to delete?");
-            if(r==true)
+    	<script type="text/javascript">
+	        $(document).ready(function(e) {
+	            
+	            $("#selectall").click(function(){
+	                $(".case").attr("checked",this.checked);
+	            });
+	            
+	            $(".case").click(function(){
+	                if($(".case").length==$(".case:checked").length){
+	                    $("#selectall").attr("checked","checked");
+	                }
+	                else{
+	                    $("#selectall").removeAttr("checked");
+	                }
+	            });
+				
+				$('#srch').keypress(function(e) 
+				{
+					if(e.which == 13) 
+					{	
+						$("#hid_page").val("1");					
+	       			   	loadFarmerData();	
+					}
+				});
+				
+				loadFarmerData();
+				
+				$('#container1').on('click', '.pagination li.active',function()
+				{
+					//alert('Hi');
+					var page = $(this).attr('p');
+					$("#hid_page").val(page);
+					loadFarmerData();						
+				});
+	        });
+			
+			function loadFarmerData()
+			{
+				//loading_show();
+				hid_user_type	= $('#hid_user_type').val();   
+				hid_ca_id		= $('#hid_ca_id').val();
+				row_limit 	= $.trim($('select[name="rowlimit"]').val());
+				search_text = $.trim($('#srch').val());
+				page 		= $.trim($("#hid_page").val());
+				load_farmer	= "1";			
+				if(row_limit == "" && page == "")
+				{
+					alert('Can not Get Row Limit and Page number');
+					//loading_hide();
+				}
+				else
+				{
+					var sendInfo 	= {"row_limit":row_limit, "search_text":search_text, "load_farmer":load_farmer, "page":page, "hid_user_type":hid_user_type, "hid_ca_id":hid_ca_id};
+					var farmer_load = JSON.stringify(sendInfo);				
+					$.ajax({
+						url: "load_farmer.php?",
+						type: "POST",
+						data: farmer_load,
+						contentType: "application/json; charset=utf-8",						
+						success: function(response) 
+						{
+							data = JSON.parse(response);
+							//alert(data.resp);
+							if(data.Success == "Success") 
+							{
+								$("#container1").html(data.resp);
+								//loading_hide();
+							} 
+							else if(data.Success == "fail") 
+							{
+								$("#container1").html('<span style="style="color:#F00;">'+data.resp+'</span>');														
+								//loading_hide();
+							}
+						},
+						error: function (request, status, error) 
+						{
+							//loading_hide();
+						},
+						complete: function()
+						{
+							//loading_hide();
+							//alert("complete");
+						}
+				    });
+				}
+			}
+
+			function confirmAction(id)
+			{
+				var r = confirm("Do you want to delete?");
+				if(r==true)
+				{
+					window.open('deletevideos.php?id='+id,'_self');
+				}
+				else
+				{
+				}
+			}
+
+			function getXMLHTTP() 
+			{ //fuction to return the xml http object
+					var xmlhttp=false;	
+					try{
+						xmlhttp=new XMLHttpRequest();
+					}
+					catch(e)	{		
+						try{			
+							xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+						}
+						catch(e){
+							try{
+							xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+							}
+							catch(e1){
+								xmlhttp=false;
+							}
+						}
+					}
+						
+					return xmlhttp;
+			}
+
+            function sord(c_value,c_id,c_type) 
             {
-                window.open('deletevideos.php?id='+id,'_self');
-            }
-            else
-            {
-            }
-    }
-    </script>
-		<script language="javascript">
-        function getXMLHTTP() { //fuction to return the xml http object
-                var xmlhttp=false;	
-                try{
-                    xmlhttp=new XMLHttpRequest();
-                }
-                catch(e)	{		
-                    try{			
-                        xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-                    catch(e){
-                        try{
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                        }
-                        catch(e1){
-                            xmlhttp=false;
-                        }
-                    }
-                }
-                    
-                return xmlhttp;
-            }
-            
-            function sord(c_value,c_id,c_type) {
                 
                 
                 var strURL="findspasorder.php?c_value="+c_value+"&c_id="+c_id+"&c_type="+c_type;
@@ -212,11 +295,6 @@
                     req.send(null);
                 }		
             }
-            
-            
-            
-        
-            
-        </script>    
-	</body>
+        </script>	<!-- Nice Scroll -->
+    </body>
 </html>

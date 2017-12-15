@@ -1,6 +1,8 @@
 <?php 
 
-include('../connection.php');
+include('../include/connection.php');
+//include('../include/query-helper.php');
+include('../include/validate-helper.php');
 
 $table ='tbl_residence_details';
 if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
@@ -8,7 +10,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	
 	$data['fm_id']            = mysqli_real_escape_string($db_con,@$_POST['fm_id']);
 	$data['fm_caid']          = mysqli_real_escape_string($db_con,@$_POST['fm_caid']);
-	$data['f7_resistatus']    = mysqli_real_escape_string($db_con,@$_POST['f7_resistatus']);
+	/*$data['f7_resistatus']    = mysqli_real_escape_string($db_con,@$_POST['f7_resistatus']);
 	$data['f7_phouse']        = mysqli_real_escape_string($db_con,@$_POST['f7_phouse']);
 	$data['f7_pstreet']       = mysqli_real_escape_string($db_con,@$_POST['f7_pstreet']);
 	$data['f7_parea']     	  = mysqli_real_escape_string($db_con,@$_POST['f7_parea']);
@@ -25,7 +27,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	$data['f7_cdistrict']     = mysqli_real_escape_string($db_con,@$_POST['f7_cdistrict']);
 	$data['f7_ctaluka']       = mysqli_real_escape_string($db_con,@$_POST['f7_ctaluka']);
 	$data['f7_cvillage']      = mysqli_real_escape_string($db_con,@$_POST['f7_cvillage']);
-	$data['f7_cpin']          = mysqli_real_escape_string($db_con,@$_POST['f7_cpin']);
+	$data['f7_cpin']          = mysqli_real_escape_string($db_con,@$_POST['f7_cpin']);*/
 	// $data['f7_clatlon']       = mysqli_real_escape_string($db_con,@$_POST['f7_clatlon']);
 
 
@@ -42,15 +44,16 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 	$data['f7_car']           = mysqli_real_escape_string($db_con,@$_POST['f7_car']);
 	
 	$data['f7_points']        = mysqli_real_escape_string($db_con,@$_POST['f7_points']);
+	$data['f7_reg_points']	  = mysqli_real_escape_string($db_con,@$_POST['f7_reg_points']);
 	
-	$data['f7_status']    =1;
-	$data['f7_section_id']='';
+	$data['f7_status']        = 1;
+	$data['f7_section_id']	  = '';
 	
 	
 //================================================
 // Start Validation
 //================================================
-	$validateData = [
+	/*$validateData = [
 		'required' => [
 			$data['f7_parea'],
 			$data['f7_pstate'],
@@ -82,7 +85,7 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 				quit('all fields are mandatory');
 			}
 		}
-	}
+	}*/
 
 
 //================================================
@@ -91,17 +94,17 @@ if(isset($_POST['add_knowledge_detail']) && $_POST['add_knowledge_detail']==1)
 
 
 		
-$check_exist = check_exist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
+$check_exist = checkExist($table,array('fm_id'=>$data['fm_id']),array(),array(),array());
 
 if(!$check_exist)
 {
-	$data['f7_created_by']= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
-    $data['f7_created_date']=$datetime;
+	$data['f7_created_by']		= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
+    $data['f7_created_date']	=$datetime;
 	
-	$res=insert($table,$data);
+	$res = insert($table,$data);
 	
 	
-    $check_pt_exist = check_exist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
+    $check_pt_exist = checkExist('tbl_points',array('fm_id'=>$data['fm_id']),array(),array(),array());
 	if(!$check_pt_exist)
 	{
 		$pt_data['fm_id']=$data['fm_id'];
@@ -118,14 +121,18 @@ if(!$check_exist)
 }
 else
 {
-	$id =$check_exist;
+	$id = $check_exist['id'];
 	
-	$data['f7_modified_by']= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
-    $data['f7_modified_date']=$datetime;
-	$res =update($table,$data,array('id'=>$id),array(),array(),array());
+	$reg_time_points	= $check_exist['f7_points'];
 	
-	$pt_data['pt_frm7']=$data['f7_points'];
-	$res=update('tbl_points',$pt_data,array('fm_id'=>$data['fm_id']),array(),array(),array());
+	$data['f7_points']	= $data['f7_points'] + $data['f7_reg_points'];
+	
+	$data['f7_modified_by']		= mysqli_real_escape_string($db_con,$_POST['fm_caid']);
+    $data['f7_modified_date']	= $datetime;
+	$res	= update($table,$data,array('id'=>$id),array(),array(),array());
+	
+	$pt_data['pt_frm7']	= $data['f7_points'];
+	$res				= update('tbl_points',$pt_data,array('fm_id'=>$data['fm_id']),array(),array(),array());
 	quit('Record Updated Successfully..!',1);
 	
 }
